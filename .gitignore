@@ -2,4 +2,8 @@
 /.pytest_cache/
 /.vscode/
 
+/build/
+/dist/
+/dicognito.egg-info/
+
 *.pyc
