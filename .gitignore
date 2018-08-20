@@ -1,0 +1,5 @@
+/.gitattributes
+/.pytest_cache/
+/.vscode/
+
+*.pyc
