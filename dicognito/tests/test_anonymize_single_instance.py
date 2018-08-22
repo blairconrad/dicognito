@@ -18,6 +18,12 @@ def load_test_instance():
     source_image_dataset.ReferencedSOPInstanceUID = ['1.2.3.1.1']
     dataset.SourceImageSequence = pydicom.sequence.Sequence(
         [source_image_dataset])
+
+    dataset.OperatorsName = "OPERATOR^FIRST^MIDDLE"
+    dataset.NameOfPhysiciansReadingStudy = "READING^FIRST^MIDDLE"
+    dataset.PerformingPhysicianName = "PERFORMING^FIRST^MIDDLE"
+    dataset.ReferringPhysicianName = "REFERRING^FIRST^MIDDLE"
+    dataset.RequestingPhysician = "REQUESTING^FIRST^MIDDLE"
     return dataset
 
 
@@ -138,6 +144,25 @@ def test_sex_other_patient_name_gets_anonymized():
                 in PNAnonymizer._all_first_names)
         assert (new_patient_name.split('^')[MIDDLE]
                 in PNAnonymizer._all_first_names)
+
+
+@pytest.mark.parametrize('element_path', [
+    'NameOfPhysiciansReadingStudy',
+    'OperatorsName',
+    'PerformingPhysicianName',
+    'ReferringPhysicianName',
+    'RequestingPhysician',
+])
+def test_non_patient_names_get_anonymized(element_path):
+    with load_test_instance() as dataset:
+        original_name = eval('dataset.' + element_path)
+        assert original_name
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        new_name = eval('dataset.' + element_path)
+        assert new_name != original_name
 
 
 def load_dcm(filename):
