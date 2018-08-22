@@ -1,9 +1,10 @@
 /.gitattributes
-/.pytest_cache/
 /.vscode/
 
 /build/
 /dist/
 /dicognito.egg-info/
+
+.pytest_cache/
 
 *.pyc
