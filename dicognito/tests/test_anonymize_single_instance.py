@@ -24,6 +24,26 @@ def load_test_instance():
     dataset.PerformingPhysicianName = "PERFORMING^FIRST^MIDDLE"
     dataset.ReferringPhysicianName = "REFERRING^FIRST^MIDDLE"
     dataset.RequestingPhysician = "REQUESTING^FIRST^MIDDLE"
+
+    dataset.OtherPatientIDs = 'OTHERPATIENTID'
+    dataset.PerformedProcedureStepID = 'PERFORMEDID'
+    dataset.ScheduledProcedureStepID = 'SCHEDULEDID'
+
+    other_patient_id_item0 = pydicom.dataset.Dataset()
+    other_patient_id_item0.PatientID = "opi-0-ID"
+    other_patient_id_item1 = pydicom.dataset.Dataset()
+    other_patient_id_item1.PatientID = "opi-1-ID"
+    dataset.OtherPatientIDsSequence = pydicom.sequence.Sequence(
+        [other_patient_id_item0, other_patient_id_item1]
+    )
+
+    request_attribute_item = pydicom.dataset.Dataset()
+    request_attribute_item.RequestedProcedureID = "rai-0-REQUESTEDID"
+    request_attribute_item.ScheduledProcedureStepID = "rai-0-SCHEDULEDID"
+    dataset.RequestAttributesSequence = pydicom.sequence.Sequence(
+        [request_attribute_item]
+    )
+
     return dataset
 
 
@@ -81,6 +101,47 @@ def test_repeated_identifying_uis_get_same_values(one_element_path, another_elem
         another_uid = eval('dataset.' + another_element_path)
 
         assert one_uid == another_uid
+
+
+@pytest.mark.parametrize('element_path', [
+    'AccessionNumber',
+    'OtherPatientIDs',
+    'OtherPatientIDsSequence[0].PatientID',
+    'OtherPatientIDsSequence[1].PatientID',
+    'PatientID',
+    'PerformedProcedureStepID',
+    'RequestAttributesSequence[0].RequestedProcedureID',
+    'RequestAttributesSequence[0].ScheduledProcedureStepID',
+    'ScheduledProcedureStepID',
+    'StudyID',
+])
+def test_ids_are_anonymized(element_path):
+    with load_test_instance() as dataset:
+
+        original = eval('dataset.' + element_path)
+        print 'original', original
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        actual = eval('dataset.' + element_path)
+
+        assert actual != original
+
+
+@pytest.mark.parametrize('number_of_ids', [1, 2, 3])
+def test_other_patient_ids_anonymized_to_same_number_of_ids(number_of_ids):
+    with load_test_instance() as dataset:
+
+        original = ['ID' + str(i) for i in range(1, number_of_ids + 1)]
+        dataset.OtherPatientIDs = original
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        actual = dataset.OtherPatientIDs
+
+        assert actual != original
+        assert len(set(actual)) == number_of_ids
 
 
 def test_female_patient_name_gets_anonymized():

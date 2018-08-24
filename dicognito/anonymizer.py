@@ -1,10 +1,25 @@
 from pnanonymizer import PNAnonymizer
+from idanonymizer import IDAnonymizer
 from uianonymizer import UIAnonymizer
 
 
 class Anonymizer:
     def __init__(self):
-        self._element_handlers = [UIAnonymizer(), PNAnonymizer()]
+        self._element_handlers = [
+            UIAnonymizer(),
+            PNAnonymizer(),
+            IDAnonymizer(
+                [
+                    'AccessionNumber',
+                    'OtherPatientIDs',
+                    'PatientID',
+                    'PerformedProcedureStepID',
+                    'RequestedProcedureID',
+                    'ScheduledProcedureStepID',
+                    'StudyID',
+                ]
+            )
+        ]
 
     def anonymize(self, dataset):
         dataset.file_meta.walk(self._anonymize_element)
