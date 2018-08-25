@@ -24,6 +24,8 @@ def load_test_instance():
     dataset.PerformingPhysicianName = "PERFORMING^FIRST^MIDDLE"
     dataset.ReferringPhysicianName = "REFERRING^FIRST^MIDDLE"
     dataset.RequestingPhysician = "REQUESTING^FIRST^MIDDLE"
+    dataset.PatientBirthName = "PBN",
+    dataset.PatientMotherBirthName = "PMBN",
 
     dataset.OtherPatientIDs = 'OTHERPATIENTID'
     dataset.PerformedProcedureStepID = 'PERFORMEDID'
@@ -226,6 +228,8 @@ def test_other_patient_names_anonymized_to_same_number_of_names(number_of_names)
 @pytest.mark.parametrize('element_path', [
     'NameOfPhysiciansReadingStudy',
     'OperatorsName',
+    'PatientBirthName',
+    'PatientMotherBirthName',
     'PerformingPhysicianName',
     'ReferringPhysicianName',
     'RequestingPhysician',
