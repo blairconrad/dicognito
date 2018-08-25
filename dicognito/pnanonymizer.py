@@ -1,4 +1,5 @@
 import random
+import pydicom
 
 
 class PNAnonymizer:
@@ -6,15 +7,20 @@ class PNAnonymizer:
         pass
 
     def __call__(self, dataset, data_element):
-        if (data_element.VR != 'PN'
-                or not data_element.value):
+        if data_element.VR != 'PN':
             return False
+        if not data_element.value:
+            return True
 
-        data_element.value = self._new_pn(
-            data_element.value, dataset.PatientSex)
+        if isinstance(data_element.value, pydicom.multival.MultiValue):
+            data_element.value = [
+                self._new_pn(dataset.PatientSex) for name in data_element.value
+            ]
+        else:
+            data_element.value = self._new_pn(dataset.PatientSex)
         return True
 
-    def _new_pn(self, old_name, sex):
+    def _new_pn(self, sex):
         if sex == 'F':
             first_names = self._female_first_names
         elif sex == 'M':

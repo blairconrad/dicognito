@@ -207,6 +207,22 @@ def test_sex_other_patient_name_gets_anonymized():
                 in PNAnonymizer._all_first_names)
 
 
+@pytest.mark.parametrize('number_of_names', [1, 2, 3])
+def test_other_patient_names_anonymized_to_same_number_of_names(number_of_names):
+    with load_test_instance() as dataset:
+
+        original = ['NAME' + str(i) for i in range(1, number_of_names + 1)]
+        dataset.OtherPatientNames = original
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        actual = dataset.OtherPatientNames
+
+        assert actual != original
+        assert len(set(actual)) == number_of_names
+
+
 @pytest.mark.parametrize('element_path', [
     'NameOfPhysiciansReadingStudy',
     'OperatorsName',
