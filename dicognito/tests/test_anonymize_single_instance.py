@@ -27,6 +27,10 @@ def load_test_instance():
     dataset.PatientBirthName = "PBN",
     dataset.PatientMotherBirthName = "PMBN",
 
+    dataset.PatientAddress = '10 REAL STREET'
+    dataset.RegionOfResidence = 'BROAD COVE'
+    dataset.CountryOfResidence = 'GERMANY'
+
     dataset.OtherPatientIDs = 'OTHERPATIENTID'
     dataset.PerformedProcedureStepID = 'PERFORMEDID'
     dataset.ScheduledProcedureStepID = 'SCHEDULEDID'
@@ -244,6 +248,24 @@ def test_non_patient_names_get_anonymized(element_path):
 
         new_name = eval('dataset.' + element_path)
         assert new_name != original_name
+
+
+def test_patient_address_gets_anonymized():
+    with load_test_instance() as dataset:
+        original_address = dataset.PatientAddress
+        original_region = dataset.RegionOfResidence
+        original_country = dataset.CountryOfResidence
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        new_address = dataset.PatientAddress
+        new_region = dataset.RegionOfResidence
+        new_country = dataset.CountryOfResidence
+
+        assert new_address != original_address
+        assert new_region != original_region
+        assert new_country != original_country
 
 
 def load_dcm(filename):

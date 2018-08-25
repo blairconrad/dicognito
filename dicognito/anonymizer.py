@@ -1,5 +1,6 @@
-from pnanonymizer import PNAnonymizer
+from addressanonymizer import AddressAnonymizer
 from idanonymizer import IDAnonymizer
+from pnanonymizer import PNAnonymizer
 from uianonymizer import UIAnonymizer
 
 
@@ -18,7 +19,8 @@ class Anonymizer:
                     'ScheduledProcedureStepID',
                     'StudyID',
                 ]
-            )
+            ),
+            AddressAnonymizer(),
         ]
 
     def anonymize(self, dataset):
