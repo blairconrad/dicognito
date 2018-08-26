@@ -35,6 +35,18 @@ def load_test_instance():
     dataset.PerformedProcedureStepID = 'PERFORMEDID'
     dataset.ScheduledProcedureStepID = 'SCHEDULEDID'
 
+    dataset.Occupation = "VIGILANTE"
+    dataset.PatientInsurancePlanCodeSequence = [
+        code("VALUE", "DESIGNATOR", "MEANING")]
+    dataset.MilitaryRank = "YEOMAN"
+    dataset.BranchOfService = "COAST GUARD"
+    dataset.PatientTelephoneNumbers = "123-456-7890"
+    dataset.PatientTelecomInformation = "123-456-7890"
+    dataset.PatientReligiousPreference = "PRIVATE"
+    dataset.MedicalRecordLocator = "FILING CABINET 1"
+    dataset.ReferencedPatientPhotoSequence = [
+        referenced_photo_item()]
+
     other_patient_id_item0 = pydicom.dataset.Dataset()
     other_patient_id_item0.PatientID = "opi-0-ID"
     other_patient_id_item1 = pydicom.dataset.Dataset()
@@ -51,6 +63,28 @@ def load_test_instance():
     )
 
     return dataset
+
+
+def code(value, designator, meaning):
+    code_ds = pydicom.dataset.Dataset()
+    code_ds.CodeValue = value
+    code_ds.CodingSchemeDesignator = designator
+    code_ds.CodeMeaning = meaning
+    return code_ds
+
+
+def referenced_photo_item():
+    referenced_sop_item = pydicom.dataset.Dataset()
+    referenced_sop_item.ReferencedSOPClassUID = "2.3.4.5.6.7"
+    referenced_sop_item.ReferencedSOPInstanceUID = "2.3.4.5.6.7.1.2.3"
+
+    item = pydicom.dataset.Dataset()
+    item.TypeOfInstances = "DICOM"
+    item.StudyInstanceUID = "1.2.3.4.5.6"
+    item.SeriesInstanceUID = "1.2.3.4.5.6.1"
+    item.ReferencedSOPSequence = [referenced_sop_item]
+
+    return item
 
 
 @pytest.mark.parametrize('element_path', [
@@ -266,6 +300,28 @@ def test_patient_address_gets_anonymized():
         assert new_address != original_address
         assert new_region != original_region
         assert new_country != original_country
+
+
+@pytest.mark.parametrize('element_name',
+                         [
+                             "Occupation",
+                             "PatientInsurancePlanCodeSequence",
+                             "MilitaryRank",
+                             "BranchOfService",
+                             "PatientTelephoneNumbers",
+                             "PatientTelecomInformation",
+                             "PatientReligiousPreference",
+                             "MedicalRecordLocator",
+                             "ReferencedPatientPhotoSequence",
+                         ])
+def test_extra_patient_attributes_are_removed(element_name):
+    with load_test_instance() as dataset:
+        assert element_name in dataset
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        assert element_name not in dataset
 
 
 def load_dcm(filename):

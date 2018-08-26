@@ -2,23 +2,33 @@ from addressanonymizer import AddressAnonymizer
 from idanonymizer import IDAnonymizer
 from pnanonymizer import PNAnonymizer
 from uianonymizer import UIAnonymizer
+from unwantedelements import UnwantedElementsStripper
 
 
 class Anonymizer:
     def __init__(self):
         self._element_handlers = [
+            UnwantedElementsStripper(
+                "BranchOfService",
+                "Occupation",
+                "MedicalRecordLocator",
+                "MilitaryRank",
+                "PatientInsurancePlanCodeSequence",
+                "PatientReligiousPreference",
+                "PatientTelecomInformation",
+                "PatientTelephoneNumbers",
+                "ReferencedPatientPhotoSequence",
+            ),
             UIAnonymizer(),
             PNAnonymizer(),
             IDAnonymizer(
-                [
-                    'AccessionNumber',
-                    'OtherPatientIDs',
-                    'PatientID',
-                    'PerformedProcedureStepID',
-                    'RequestedProcedureID',
-                    'ScheduledProcedureStepID',
-                    'StudyID',
-                ]
+                'AccessionNumber',
+                'OtherPatientIDs',
+                'PatientID',
+                'PerformedProcedureStepID',
+                'RequestedProcedureID',
+                'ScheduledProcedureStepID',
+                'StudyID',
             ),
             AddressAnonymizer(),
         ]

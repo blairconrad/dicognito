@@ -5,7 +5,7 @@ import random
 class IDAnonymizer:
     _alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 
-    def __init__(self, tag_names):
+    def __init__(self, *tag_names):
         self.tags = [
             pydicom.datadict.tag_for_keyword(tag_name) for tag_name in tag_names
         ]
