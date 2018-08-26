@@ -24,6 +24,7 @@ def load_test_instance():
     dataset.PerformingPhysicianName = "PERFORMING^FIRST^MIDDLE"
     dataset.ReferringPhysicianName = "REFERRING^FIRST^MIDDLE"
     dataset.RequestingPhysician = "REQUESTING^FIRST^MIDDLE"
+    dataset.ResponsiblePerson = "RESPONSIBLE^FIRST^MIDDLE"
     dataset.PatientBirthName = "PBN",
     dataset.PatientMotherBirthName = "PMBN",
 
@@ -44,8 +45,8 @@ def load_test_instance():
     dataset.PatientTelecomInformation = "123-456-7890"
     dataset.PatientReligiousPreference = "PRIVATE"
     dataset.MedicalRecordLocator = "FILING CABINET 1"
-    dataset.ReferencedPatientPhotoSequence = [
-        referenced_photo_item()]
+    dataset.ReferencedPatientPhotoSequence = [referenced_photo_item()]
+    dataset.ResponsibleOrganization = "RESPONSIBLE ORGANIZATION"
 
     other_patient_id_item0 = pydicom.dataset.Dataset()
     other_patient_id_item0.PatientID = "opi-0-ID"
@@ -271,6 +272,7 @@ def test_other_patient_names_anonymized_to_same_number_of_names(number_of_names)
     'PerformingPhysicianName',
     'ReferringPhysicianName',
     'RequestingPhysician',
+    'ResponsiblePerson',
 ])
 def test_non_patient_names_get_anonymized(element_path):
     with load_test_instance() as dataset:
@@ -313,6 +315,7 @@ def test_patient_address_gets_anonymized():
                              "PatientReligiousPreference",
                              "MedicalRecordLocator",
                              "ReferencedPatientPhotoSequence",
+                             "ResponsibleOrganization",
                          ])
 def test_extra_patient_attributes_are_removed(element_name):
     with load_test_instance() as dataset:

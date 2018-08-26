@@ -18,6 +18,7 @@ class Anonymizer:
                 "PatientTelecomInformation",
                 "PatientTelephoneNumbers",
                 "ReferencedPatientPhotoSequence",
+                "ResponsibleOrganization",
             ),
             UIAnonymizer(),
             PNAnonymizer(),
