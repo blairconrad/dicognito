@@ -1,4 +1,5 @@
 from addressanonymizer import AddressAnonymizer
+from equipmentanonymizer import EquipmentAnonymizer
 from idanonymizer import IDAnonymizer
 from pnanonymizer import PNAnonymizer
 from uianonymizer import UIAnonymizer
@@ -7,6 +8,7 @@ from unwantedelements import UnwantedElementsStripper
 
 class Anonymizer:
     def __init__(self):
+        address_anonymizer = AddressAnonymizer()
         self._element_handlers = [
             UnwantedElementsStripper(
                 "BranchOfService",
@@ -31,7 +33,8 @@ class Anonymizer:
                 'ScheduledProcedureStepID',
                 'StudyID',
             ),
-            AddressAnonymizer(),
+            address_anonymizer,
+            EquipmentAnonymizer(address_anonymizer),
         ]
 
     def anonymize(self, dataset):

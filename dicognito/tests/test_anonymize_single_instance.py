@@ -63,6 +63,11 @@ def load_test_instance():
         [request_attribute_item]
     )
 
+    dataset.InstitutionName = "INSTITUTIONNAME"
+    dataset.InstitutionAddress = "INSTITUTIONADDRESS"
+    dataset.InstitutionalDepartmentName = "INSTITUTIONALDEPARTMENTNAME"
+    dataset.StationName = "STATIONNAME"
+
     return dataset
 
 
@@ -325,6 +330,27 @@ def test_extra_patient_attributes_are_removed(element_name):
         anonymizer.anonymize(dataset)
 
         assert element_name not in dataset
+
+
+def test_equipment_gets_anonymized():
+    with load_test_instance() as dataset:
+        original_institution_name = dataset.InstitutionName
+        original_institution_address = dataset.InstitutionAddress
+        original_institutional_department_name = dataset.InstitutionalDepartmentName
+        original_station_name = dataset.StationName
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        new_institution_name = dataset.InstitutionName
+        new_institution_address = dataset.InstitutionAddress
+        new_institutional_department_name = dataset.InstitutionalDepartmentName
+        new_station_name = dataset.StationName
+
+        assert new_institution_name != original_institution_name
+        assert new_institution_address != original_institution_address
+        assert new_institutional_department_name != original_institutional_department_name
+        assert new_station_name != original_station_name
 
 
 def load_dcm(filename):

@@ -10,8 +10,8 @@ class AddressAnonymizer:
 
         self._value_factories = {
             address_tag: self.get_street_address,
-            region_tag: lambda: random.choice(self._cities),
-            country_tag: lambda: random.choice(self._countries),
+            region_tag: self.get_region,
+            country_tag: self.get_country,
         }
 
     def __call__(self, dataset, data_element):
@@ -26,6 +26,12 @@ class AddressAnonymizer:
 
     def get_street_address(self):
         return str(random.randint(1, 1000)) + ' ' + random.choice(self._streets)
+
+    def get_region(self):
+        return random.choice(self._cities)
+
+    def get_country(self):
+        return random.choice(self._countries)
 
     # from https://www.randomlists.com/random-street-names?qty=100&dup=false, mostly
     _streets = [
