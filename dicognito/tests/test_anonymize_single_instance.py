@@ -32,6 +32,7 @@ def load_test_instance():
     dataset.RegionOfResidence = 'BROAD COVE'
     dataset.CountryOfResidence = 'GERMANY'
 
+    dataset.IssuerOfPatientID = "ISSUEROFPATIENTID"
     dataset.OtherPatientIDs = 'OTHERPATIENTID'
     dataset.PerformedProcedureStepID = 'PERFORMEDID'
     dataset.ScheduledProcedureStepID = 'SCHEDULEDID'
@@ -50,8 +51,10 @@ def load_test_instance():
 
     other_patient_id_item0 = pydicom.dataset.Dataset()
     other_patient_id_item0.PatientID = "opi-0-ID"
+    other_patient_id_item0.IssuerOfPatientID = "ISSUER"
     other_patient_id_item1 = pydicom.dataset.Dataset()
     other_patient_id_item1.PatientID = "opi-1-ID"
+    other_patient_id_item1.IssuerOfPatientID = "ISSUER"
     dataset.OtherPatientIDsSequence = pydicom.sequence.Sequence(
         [other_patient_id_item0, other_patient_id_item1]
     )
@@ -151,9 +154,12 @@ def test_repeated_identifying_uis_get_same_values(one_element_path, another_elem
 
 @pytest.mark.parametrize('element_path', [
     'AccessionNumber',
+    'IssuerOfPatientID',
     'OtherPatientIDs',
     'OtherPatientIDsSequence[0].PatientID',
+    'OtherPatientIDsSequence[0].IssuerOfPatientID',
     'OtherPatientIDsSequence[1].PatientID',
+    'OtherPatientIDsSequence[1].IssuerOfPatientID',
     'PatientID',
     'PerformedProcedureStepID',
     'RequestAttributesSequence[0].RequestedProcedureID',
