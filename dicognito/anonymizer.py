@@ -1,5 +1,6 @@
 from addressanonymizer import AddressAnonymizer
 from equipmentanonymizer import EquipmentAnonymizer
+from fixedvalueanonymizer import FixedValueAnonymizer
 from idanonymizer import IDAnonymizer
 from pnanonymizer import PNAnonymizer
 from uianonymizer import UIAnonymizer
@@ -35,6 +36,7 @@ class Anonymizer:
             ),
             address_anonymizer,
             EquipmentAnonymizer(address_anonymizer),
+            FixedValueAnonymizer('RequestingService', ''),
         ]
 
     def anonymize(self, dataset):

@@ -71,6 +71,8 @@ def load_test_instance():
     dataset.InstitutionalDepartmentName = "INSTITUTIONALDEPARTMENTNAME"
     dataset.StationName = "STATIONNAME"
 
+    dataset.RequestingService = "REQESTINGSERVICE"
+
     return dataset
 
 
@@ -357,6 +359,18 @@ def test_equipment_gets_anonymized():
         assert new_institution_address != original_institution_address
         assert new_institutional_department_name != original_institutional_department_name
         assert new_station_name != original_station_name
+
+
+def test_requesting_service_gets_anonymized():
+    with load_test_instance() as dataset:
+        original = dataset.RequestingService
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        actual = dataset.RequestingService
+
+        assert actual != original
 
 
 def load_dcm(filename):
