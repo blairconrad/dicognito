@@ -37,6 +37,7 @@ class Anonymizer:
             address_anonymizer,
             EquipmentAnonymizer(address_anonymizer),
             FixedValueAnonymizer('RequestingService', ''),
+            FixedValueAnonymizer('CurrentPatientLocation', ''),
         ]
 
     def anonymize(self, dataset):

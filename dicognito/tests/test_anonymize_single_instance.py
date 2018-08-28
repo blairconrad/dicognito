@@ -72,6 +72,7 @@ def load_test_instance():
     dataset.StationName = "STATIONNAME"
 
     dataset.RequestingService = "REQESTINGSERVICE"
+    dataset.CurrentPatientLocation = "PATIENTLOCATION"
 
     return dataset
 
@@ -369,6 +370,18 @@ def test_requesting_service_gets_anonymized():
         anonymizer.anonymize(dataset)
 
         actual = dataset.RequestingService
+
+        assert actual != original
+
+
+def test_current_patient_location_gets_anonymized():
+    with load_test_instance() as dataset:
+        original = dataset.CurrentPatientLocation
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        actual = dataset.CurrentPatientLocation
 
         assert actual != original
 
