@@ -12,8 +12,12 @@ FIRST = 1
 MIDDLE = 2
 
 
+def load_minimal_instance():
+    return load_dcm(get_testdata_files('MR_small.dcm')[0])
+
+
 def load_test_instance():
-    dataset = load_dcm(get_testdata_files('MR_small.dcm')[0])
+    dataset = load_minimal_instance()
     source_image_dataset = pydicom.dataset.Dataset()
     source_image_dataset.ReferencedSOPClassUID = ['1.2.3.0.1']
     source_image_dataset.ReferencedSOPInstanceUID = ['1.2.3.1.1']
@@ -98,6 +102,12 @@ def referenced_photo_item():
     item.ReferencedSOPSequence = [referenced_sop_item]
 
     return item
+
+
+def test_minimal_instance_anonymizes_safely():
+    with load_minimal_instance() as dataset:
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
 
 
 @pytest.mark.parametrize('element_path', [
