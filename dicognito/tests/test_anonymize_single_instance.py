@@ -1,4 +1,5 @@
 import os
+import datetime
 import pydicom
 import pytest
 from pydicom.data import get_testdata_files
@@ -384,6 +385,157 @@ def test_current_patient_location_gets_anonymized():
         actual = dataset.CurrentPatientLocation
 
         assert actual != original
+
+
+@pytest.mark.parametrize("date_name",
+                         [
+                             "AcquisitionDate",
+                             "ContentDate",
+                             "InstanceCreationTime",
+                             "PatientBirthDate",
+                             "PerformedProcedureStepStartDate",
+                             "SeriesDate",
+                             "StudyDate",
+                         ])
+def test_dates_and_times_get_anonymized_when_both_are_present(date_name):
+    time_name = date_name[:-4] + "Time"
+
+    original_datetime = datetime.datetime(1974, 11, 3, 12, 15, 58)
+    original_date_string = original_datetime.strftime("%Y%m%d")
+    original_time_string = original_datetime.strftime("%H%M%S")
+
+    with load_test_instance() as dataset:
+        setattr(dataset, date_name, original_date_string)
+        setattr(dataset, time_name, original_time_string)
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        new_date_string = getattr(dataset, date_name)
+        new_time_string = getattr(dataset, time_name)
+
+    assert ((new_date_string, new_time_string) !=
+            (original_date_string, original_time_string))
+
+
+def test_date_gets_anonymized_when_there_is_no_time():
+    with load_test_instance() as dataset:
+        dataset.PatientBirthDate = original_birth_date = "20010401"
+        assert 'PatientBirthTime' not in dataset
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        new_date_string = dataset.PatientBirthDate
+
+    assert new_date_string != original_birth_date
+    assert 'PatientBirthTime' not in dataset
+
+
+@pytest.mark.parametrize("birth_date",
+                         [
+                             "20180202",
+                             "199901",
+                             "1983",
+                         ])
+def test_date_gets_anonymized_when_date_has_various_lengths(birth_date):
+    with load_test_instance() as dataset:
+        dataset.PatientBirthDate = birth_date
+        dataset.PatientBirthTime = original_birth_time = "123456"
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        new_date_string = dataset.PatientBirthDate
+        new_time_string = dataset.PatientBirthTime
+
+    assert new_date_string != birth_date
+    assert len(new_date_string) == len(birth_date)
+    assert new_time_string[2:] == original_birth_time[2:]
+    assert len(new_time_string) == len(original_birth_time)
+
+
+@pytest.mark.parametrize("birth_time",
+                         [
+                             "",
+                             "07",
+                             "0911",
+                             "131517",
+                             "192123.1",
+                             "192123.12",
+                             "192123.123",
+                             "192123.1234",
+                             "192123.12345",
+                             "192123.123456",
+                         ])
+def test_date_gets_anonymized_when_time_has_various_lengths(birth_time):
+    with load_test_instance() as dataset:
+        dataset.PatientBirthDate = original_birth_date = "20010401"
+        dataset.PatientBirthTime = birth_time
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        new_date_string = dataset.PatientBirthDate
+        new_time_string = dataset.PatientBirthTime
+
+    assert new_date_string != original_birth_date
+    assert len(new_date_string) == len(original_birth_date)
+    assert new_time_string[2:] == birth_time[2:]
+    assert len(new_time_string) == len(birth_time)
+
+
+@pytest.mark.parametrize("datetime_name",
+                         [
+                             "AcquisitionDateTime",
+                             "FrameReferenceDateTime",
+                             "FrameAcquisitionDateTime",
+                             "StartAcquisitionDateTime",
+                             "EndAcquisitionDateTime",
+                             "PerformedProcedureStepStartDateTime",
+                             "PerformedProcedureStepEndDateTime",
+                         ])
+def test_datetime_gets_anonymized(datetime_name):
+    original_datetime = datetime.datetime(1974, 11, 3, 12, 15, 58)
+    original_datetime_string = original_datetime.strftime("%Y%m%d%H%M%S")
+
+    with load_test_instance() as dataset:
+        setattr(dataset, datetime_name, original_datetime_string)
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        new_datetime_string = getattr(dataset, datetime_name)
+
+    assert new_datetime_string != original_datetime_string
+
+
+@pytest.mark.parametrize("acquisition_datetime",
+                         [
+                             "1947",
+                             "194711",
+                             "19471103",
+                             "1947110307",
+                             "194711030911",
+                             "19471103131517",
+                             "19471103192123.1",
+                             "19471103192123.12",
+                             "19471103192123.123",
+                             "19471103192123.1234",
+                             "19471103192123.12345",
+                             "19471103192123.123456",
+                         ])
+def test_datetime_of_various_lengths_gets_anonymized(acquisition_datetime):
+    with load_test_instance() as dataset:
+        dataset.AcquisitionDateTime = acquisition_datetime
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        new_datetime_string = dataset.AcquisitionDateTime
+
+    assert new_datetime_string != acquisition_datetime
+    assert len(new_datetime_string) == len(acquisition_datetime)
 
 
 def load_dcm(filename):

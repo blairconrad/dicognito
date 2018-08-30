@@ -3,12 +3,17 @@ from equipmentanonymizer import EquipmentAnonymizer
 from fixedvalueanonymizer import FixedValueAnonymizer
 from idanonymizer import IDAnonymizer
 from pnanonymizer import PNAnonymizer
+from datetimeanonymizer import DateTimeAnonymizer
 from uianonymizer import UIAnonymizer
 from unwantedelements import UnwantedElementsStripper
+
+import random
 
 
 class Anonymizer:
     def __init__(self):
+        minimum_offset_hours = 62 * 24
+        maximum_offset_hours = 730 * 24
         address_anonymizer = AddressAnonymizer()
         self._element_handlers = [
             UnwantedElementsStripper(
@@ -38,6 +43,8 @@ class Anonymizer:
             EquipmentAnonymizer(address_anonymizer),
             FixedValueAnonymizer('RequestingService', ''),
             FixedValueAnonymizer('CurrentPatientLocation', ''),
+            DateTimeAnonymizer(-random.randint(minimum_offset_hours,
+                                               maximum_offset_hours))
         ]
 
     def anonymize(self, dataset):
