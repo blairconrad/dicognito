@@ -4,6 +4,9 @@
 /build/
 /dist/
 /dicognito.egg-info/
+/smoketest/*.dcm
+/smoketest/*.txt
+
 
 .pytest_cache/
 
