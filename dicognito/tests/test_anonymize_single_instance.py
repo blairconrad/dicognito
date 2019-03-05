@@ -309,7 +309,7 @@ def test_current_patient_location_gets_anonymized():
                          [
                              "AcquisitionDate",
                              "ContentDate",
-                             "InstanceCreationTime",
+                             "InstanceCreationDate",
                              "PatientBirthDate",
                              "PerformedProcedureStepStartDate",
                              "SeriesDate",
@@ -338,15 +338,15 @@ def test_dates_and_times_get_anonymized_when_both_are_present(date_name):
 
 def test_date_gets_anonymized_when_there_is_no_time():
     with load_test_instance() as dataset:
-        dataset.PatientBirthDate = original_birth_date = "20010401"
+        original_birth_date = dataset.PatientBirthDate = '19830213'
         assert 'PatientBirthTime' not in dataset
 
         anonymizer = Anonymizer()
         anonymizer.anonymize(dataset)
 
-        new_date_string = dataset.PatientBirthDate
+        new_birth_date = dataset.PatientBirthDate
 
-    assert new_date_string != original_birth_date
+    assert new_birth_date != original_birth_date
     assert 'PatientBirthTime' not in dataset
 
 
