@@ -3,7 +3,9 @@ import random
 
 
 class AddressAnonymizer:
-    def __init__(self):
+    def __init__(self, randomizer):
+        self.randomizer = randomizer
+
         address_tag = pydicom.datadict.tag_for_keyword('PatientAddress')
         region_tag = pydicom.datadict.tag_for_keyword('RegionOfResidence')
         country_tag = pydicom.datadict.tag_for_keyword('CountryOfResidence')
@@ -21,16 +23,19 @@ class AddressAnonymizer:
         if not data_element.value:
             return True
 
-        data_element.value = value_factory()
+        data_element.value = value_factory(data_element.value)
         return True
 
-    def get_street_address(self):
-        return str(random.randint(1, 1000)) + ' ' + random.choice(self._streets)
+    def get_street_address(self, original_value):
+        index = self.randomizer.to_int(original_value)
+        street_number = index % 1000 + 1
+        street_index = (index/1000) % len(self._streets)
+        return str(street_number) + ' ' + self._streets[street_index]
 
-    def get_region(self):
+    def get_region(self, original_value):
         return random.choice(self._cities)
 
-    def get_country(self):
+    def get_country(self, original_value):
         return random.choice(self._countries)
 
     # from https://www.randomlists.com/random-street-names?qty=100&dup=false, mostly

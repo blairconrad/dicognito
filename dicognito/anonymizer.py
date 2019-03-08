@@ -6,6 +6,7 @@ from pnanonymizer import PNAnonymizer
 from datetimeanonymizer import DateTimeAnonymizer
 from uianonymizer import UIAnonymizer
 from unwantedelements import UnwantedElementsStripper
+from randomizer import Randomizer
 
 import random
 
@@ -14,7 +15,8 @@ class Anonymizer:
     def __init__(self):
         minimum_offset_hours = 62 * 24
         maximum_offset_hours = 730 * 24
-        address_anonymizer = AddressAnonymizer()
+        randomizer = Randomizer()
+        address_anonymizer = AddressAnonymizer(randomizer)
         self._element_handlers = [
             UnwantedElementsStripper(
                 "BranchOfService",
@@ -29,8 +31,9 @@ class Anonymizer:
                 "ResponsibleOrganization",
             ),
             UIAnonymizer(),
-            PNAnonymizer(),
+            PNAnonymizer(randomizer),
             IDAnonymizer(
+                randomizer,
                 'AccessionNumber',
                 'OtherPatientIDs',
                 'PatientID',

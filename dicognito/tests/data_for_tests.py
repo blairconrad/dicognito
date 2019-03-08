@@ -1,39 +1,17 @@
 import os
+import datetime
 import pydicom
 from pydicom.data import get_testdata_files
 
 
-def load_patient1_study1_series1_instance1():
+def load_instance(patient_number=1, study_number=1, series_number=1, instance_number=1):
     dataset = load_minimal_instance()
-    dataset.PatientAddress = "123 Fake Street"
-    dataset.PatientBirthDate = "19830213"
-    dataset.PatientBirthTime = "12:00:00"
-
-    dataset.RequestingPhysician = "REQUESTING^FIRST^MIDDLE"
-    dataset.RequestingService = "REQESTINGSERVICE"
-    dataset.PerformingPhysicianName = "PERFORMING^FIRST^MIDDLE"
-    dataset.ReferringPhysicianName = "REFERRING^FIRST^MIDDLE"
-
-    dataset.InstitutionalDepartmentName = "INSTITUTIONALDEPARTMENTNAME"
-
-    dataset.RequestedProcedureID = "rai-0-REQUESTEDID"
-    request_attribute_item = pydicom.dataset.Dataset()
-    request_attribute_item.RequestedProcedureID = dataset.RequestedProcedureID
-    request_attribute_item.ScheduledProcedureStepID = "rai-0-SCHEDULEDID"
-    dataset.RequestAttributesSequence = pydicom.sequence.Sequence(
-        [request_attribute_item]
-    )
-    dataset.PerformedProcedureStepID = 'PERFORMEDID'
-    dataset.ScheduledProcedureStepID = 'SCHEDULEDID'
-    dataset.StationName = "STATIONNAME1"
-
-    _align_secondary_patient_attributes(dataset)
-    return dataset
-
-
-def load_patient2_study1_series1_instance1():
-    dataset = load_patient1_study1_series1_instance1()
-    _set_patient2_attributes(dataset)
+    _set_patient_attributes(dataset, patient_number)
+    _set_study_attributes(dataset, patient_number, study_number)
+    _set_series_attributes(dataset, patient_number,
+                           study_number, series_number)
+    _set_instance_attributes(dataset, patient_number,
+                             study_number, series_number, instance_number)
     return dataset
 
 
@@ -134,17 +112,12 @@ def load_dcm(filename):
     return pydicom.dcmread(os.path.join(script_dir, filename))
 
 
-def _set_patient2_attributes(dataset):
-    dataset.PatientAddress = "124 Fake Street"
-    dataset.PatientBirthDate = "19830214"
-    dataset.PatientBirthTime = "13:14:00"
-    dataset.PatientID = "4MR2"
-    dataset.PatientName = "CompressedSamples^MR2"
-    _align_secondary_patient_attributes(dataset)
-    _set_study2_attributes(dataset)
-
-
-def _align_secondary_patient_attributes(dataset):
+def _set_patient_attributes(dataset, patient_number):
+    dataset.PatientAddress = str(123 + patient_number) + " Fake Street"
+    dataset.PatientBirthDate = str(19830213 + patient_number)
+    dataset.PatientBirthTime = "13:14:0" + str(patient_number)
+    dataset.PatientID = "4MR" + str(patient_number)
+    dataset.PatientName = "CompressedSamples^MR" + str(patient_number)
     dataset.OtherPatientIDs = "OTH" + dataset.PatientID
     dataset.OtherPatientIDsSequence = [pydicom.dataset.Dataset()]
     dataset.OtherPatientIDsSequence[0].PatientID = "OTHSEQ" + dataset.PatientID
@@ -155,25 +128,53 @@ def _align_secondary_patient_attributes(dataset):
     dataset.ResponsiblePerson = "Responsible" + dataset.PatientName
 
 
-def _set_study2_attributes(dataset):
-    dataset.StudyId = "4MR2"
-    dataset.StudyDate = "20040827"
-    dataset.StudyTime = "145012"
-    dataset.StudyInstanceUID = "1.3.6.1.4.1.5962.1.2.4.20040827145012.5458"
-    _set_series2_attributes(dataset)
+def _set_study_attributes(dataset, patient_number, study_number):
+    dataset.StudyID = ("STUDYFOR4MR" +
+                       str(patient_number) + "." + str(study_number))
+    dataset.AccessionNumber = "ACC" + dataset.StudyID
+    dataset.StudyDate = (datetime.date(2004, patient_number, study_number)
+                         .strftime("%Y%m%d"))
+    dataset.StudyTime = (datetime.time(
+        patient_number * 5 + study_number, 0, 0).strftime("%H%M%S"))
+    dataset.StudyInstanceUID = ("1.3.6.1.4.1.5962.20040827145012.5458." +
+                                str(patient_number) + "." + str(study_number))
+    dataset.NameOfPhysiciansReadingStudy = "READING^FIRST^" + dataset.StudyID
+    dataset.RequestingPhysician = "REQUESTING1^FIRST^" + dataset.StudyID
+    dataset.PerformingPhysicianName = "PERFORMING1^FIRST^" + dataset.StudyID
+    dataset.ReferringPhysicianName = "REFERRING1^FIRST^" + dataset.StudyID
+    dataset.OperatorsName = "OPERATOR^FIRST^" + dataset.StudyID
 
 
-def _set_series2_attributes(dataset):
-    dataset.SeriesInstanceUID = "1.3.6.1.4.1.5962.1.3.4.1.20040827145012.5458"
-    dataset.FrameOfReferenceUID = "1.3.6.1.4.1.5962.1.4.4.1.20040827145012.5458"
-    dataset.SeriesDate = "20040827"
-    dataset.SeriesTime = "145012"
-    dataset.StationName = "STATIONNAME2"
-    _set_instance2_attributes(dataset)
+def _set_series_attributes(dataset, patient_number, study_number, series_number):
+    series_suffix = "%(patient_number)-d%(study_number)-d%(series_number)d" % vars()
+    dataset.SeriesInstanceUID = (dataset.StudyInstanceUID +
+                                 "." + str(series_number))
+    dataset.FrameOfReferenceUID = (dataset.SeriesInstanceUID +
+                                   ".0." + str(series_number))
+    dataset.PerformedProcedureStepID = "PERFSTEP" + series_suffix
+    dataset.RequestedProcedureID = "REQSTEP" + series_suffix
+    dataset.ScheduledProcedureStepID = "SCHEDSTEP" + series_suffix
+
+    dataset.SeriesDate = dataset.StudyDate
+    dataset.SeriesTime = datetime.time(
+        patient_number, study_number, series_number
+    ).strftime("%H%M%S")
+    dataset.StationName = ("STATIONNAME" + str(patient_number) +
+                           "." + str(study_number) + "." + str(series_number))
+
+    request_attribute_item = pydicom.dataset.Dataset()
+    request_attribute_item.RequestedProcedureID = dataset.RequestedProcedureID
+    request_attribute_item.ScheduledProcedureStepID = dataset.ScheduledProcedureStepID
+    dataset.RequestAttributesSequence = pydicom.sequence.Sequence(
+        [request_attribute_item]
+    )
 
 
-def _set_instance2_attributes(dataset):
-    dataset.file_meta.MediaStorageSOPInstanceUID = "1.3.6.1.4.1.5962.1.1.4.1.1.20040826185059.5458"
-    dataset.InstanceCreationDate = "20040827"
-    dataset.InstanceCreationTime = "185521"
-    dataset.SOPInstanceUID = "1.3.6.1.4.1.5962.1.1.4.1.1.20040826185059.5458"
+def _set_instance_attributes(dataset, patient_number, study_number, series_number, instance_number):
+    dataset.SOPInstanceUID = (dataset.SeriesInstanceUID +
+                              "." + str(instance_number))
+    dataset.file_meta.MediaStorageSOPInstanceUID = dataset.SOPInstanceUID
+    dataset.InstanceCreationDate = dataset.SeriesDate
+    dataset.InstanceCreationTime = datetime.time(
+        patient_number, study_number, 7*series_number + instance_number
+    ).strftime("%H%M%S")

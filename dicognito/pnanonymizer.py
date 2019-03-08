@@ -1,10 +1,9 @@
-import random
 import pydicom
 
 
 class PNAnonymizer:
-    def __init__(self):
-        pass
+    def __init__(self, randomizer):
+        self.randomizer = randomizer
 
     def __call__(self, dataset, data_element):
         if data_element.VR != 'PN':
@@ -14,13 +13,13 @@ class PNAnonymizer:
 
         if isinstance(data_element.value, pydicom.multival.MultiValue):
             data_element.value = [
-                self._new_pn(dataset.PatientSex) for name in data_element.value
+                self._new_pn(dataset.PatientSex, original_name) for original_name in data_element.value
             ]
         else:
-            data_element.value = self._new_pn(dataset.PatientSex)
+            data_element.value = self._new_pn(dataset.PatientSex, data_element.value)
         return True
 
-    def _new_pn(self, sex):
+    def _new_pn(self, sex, original_value):
         if sex == 'F':
             first_names = self._female_first_names
         elif sex == 'M':
@@ -28,9 +27,17 @@ class PNAnonymizer:
         else:
             first_names = self._all_first_names
 
-        return (random.choice(self._last_names) + '^' +
-                random.choice(first_names) + '^' +
-                random.choice(self._all_first_names))
+        indices = self.randomizer.get_ints_from_ranges(
+            original_value,
+            len(self._last_names),
+            len(first_names),
+            len(self._all_first_names))
+
+        return (
+            self._last_names[indices[0]] + '^' +
+            first_names[indices[1]] + '^' +
+            self._all_first_names[indices[2]]
+        )
 
     _female_first_names = [
         'MARY',
