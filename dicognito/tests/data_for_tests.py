@@ -140,9 +140,7 @@ def _set_study_attributes(dataset, patient_number, study_number):
                                 str(patient_number) + "." + str(study_number))
     dataset.NameOfPhysiciansReadingStudy = "READING^FIRST^" + dataset.StudyID
     dataset.RequestingPhysician = "REQUESTING1^FIRST^" + dataset.StudyID
-    dataset.PerformingPhysicianName = "PERFORMING1^FIRST^" + dataset.StudyID
     dataset.ReferringPhysicianName = "REFERRING1^FIRST^" + dataset.StudyID
-    dataset.OperatorsName = "OPERATOR^FIRST^" + dataset.StudyID
 
 
 def _set_series_attributes(dataset, patient_number, study_number, series_number):
@@ -161,6 +159,8 @@ def _set_series_attributes(dataset, patient_number, study_number, series_number)
     ).strftime("%H%M%S")
     dataset.StationName = ("STATIONNAME" + str(patient_number) +
                            "." + str(study_number) + "." + str(series_number))
+    dataset.OperatorsName = "OPERATOR^FIRST^" + series_suffix
+    dataset.PerformingPhysicianName = "PERFORMING1^FIRST^" + series_suffix
 
     request_attribute_item = pydicom.dataset.Dataset()
     request_attribute_item.RequestedProcedureID = dataset.RequestedProcedureID
