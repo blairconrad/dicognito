@@ -1,5 +1,4 @@
 import pydicom
-import random
 
 
 class AddressAnonymizer:
@@ -27,16 +26,20 @@ class AddressAnonymizer:
         return True
 
     def get_street_address(self, original_value):
-        index = self.randomizer.to_int(original_value)
-        street_number = index % 1000 + 1
-        street_index = (index/1000) % len(self._streets)
+        (street_number_index, street_index) = self.randomizer.get_ints_from_ranges(
+            original_value, 1000, len(self._streets))
+        street_number = street_number_index + 1
         return str(street_number) + ' ' + self._streets[street_index]
 
     def get_region(self, original_value):
-        return random.choice(self._cities)
+        (city_index,) = self.randomizer.get_ints_from_ranges(
+            original_value, len(self._cities))
+        return self._cities[city_index]
 
     def get_country(self, original_value):
-        return random.choice(self._countries)
+        (country_index,) = self.randomizer.get_ints_from_ranges(
+            original_value, len(self._countries))
+        return self._countries[country_index]
 
     # from https://www.randomlists.com/random-street-names?qty=100&dup=false, mostly
     _streets = [

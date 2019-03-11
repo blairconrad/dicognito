@@ -169,6 +169,11 @@ def _set_series_attributes(dataset, patient_number, study_number, series_number)
         [request_attribute_item]
     )
 
+    dataset.InstitutionName = "INSTITUTIONNAME" + series_suffix
+    dataset.InstitutionAddress = "INSTITUTIONADDRESS" + series_suffix
+    dataset.InstitutionalDepartmentName = "INSTITUTIONALDEPARTMENTNAME" + series_suffix
+    dataset.StationName = "STATIONNAME" + series_suffix
+
 
 def _set_instance_attributes(dataset, patient_number, study_number, series_number, instance_number):
     dataset.SOPInstanceUID = (dataset.SeriesInstanceUID +
