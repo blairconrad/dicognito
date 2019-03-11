@@ -5,14 +5,14 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="dicognito",
-    version="0.1.3",
+    version="0.1.4",
     author="Blair Conrad",
     author_email="blair@blairconrad.com",
     description="A tool for anonymizing DICOM files",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/blairconrad/dicognito",
-    packages=setuptools.find_packages(exclude="*.tests"),
+    packages=["dicognito"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
