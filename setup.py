@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="dicognito",
-    version="0.1.0",
+    version="0.1.3",
     author="Blair Conrad",
     author_email="blair@blairconrad.com",
     description="A tool for anonymizing DICOM files",
