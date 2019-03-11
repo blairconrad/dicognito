@@ -21,4 +21,7 @@ setuptools.setup(
         "Environment :: Console",
         "Intended Audience :: Healthcare Industry",
     ],
+    install_requires=[
+        'pydicom',
+    ],
 )
