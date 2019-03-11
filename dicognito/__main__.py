@@ -4,6 +4,7 @@ from __future__ import print_function
 
 import argparse
 import glob
+import os.path
 import pydicom
 
 from anonymizer import Anonymizer
@@ -19,4 +20,6 @@ for pattern in args.patterns:
     for file in glob.glob(pattern):
         with pydicom.dcmread(file, force=True) as dataset:
             anonymizer.anonymize(dataset)
-            dataset.save_as('out-' + file, write_like_original=False)
+            (filedir, filename) = os.path.split(file)
+            new_filename = os.path.join(filedir, "anon-" + filename)
+            dataset.save_as(new_filename, write_like_original=False)
