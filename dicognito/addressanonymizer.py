@@ -237,7 +237,7 @@ class AddressAnonymizer:
         "CANADA",
         "FALKLAND ISLANDS (MALVINAS)",
         "WALLIS AND FUTUNA",
-        "AGHANISTAN",
+        "AFGHANISTAN",
         "CHAD",
         "SRI LANKA",
         "LATVIA",
