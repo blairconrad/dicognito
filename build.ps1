@@ -15,7 +15,7 @@ $actions = @{
     'testforever' = { python -m pytest -f dicognito }
     'smoketest'   = { python smoketest\smoketest.py; code --diff smoketest\original.txt smoketest\anonymized.txt }
     'pack'        = { python setup.py sdist bdist_wheel }
-    'publish'     = { twine upload --repository-url https://test.pypi.org/legacy/ dist/* }
+    'publish'     = { python -m twine upload --repository-url https://test.pypi.org/legacy/ dist/* }
     'help'        = { Write-Output "Usage: `r`n  build command [command...]`r`n`r`nwhere commands are:`r`n  $(($actions.Keys | Sort-Object) -join "`r`n  ")`r`n" }
 }
 
