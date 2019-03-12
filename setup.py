@@ -24,4 +24,7 @@ setuptools.setup(
     install_requires=[
         'pydicom',
     ],
+    entry_points={
+        'console_scripts': ['dicognito=dicognito.__main__:main'],
+    }
 )
