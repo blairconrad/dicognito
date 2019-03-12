@@ -12,7 +12,11 @@ import random
 
 
 class Anonymizer:
-    def __init__(self):
+    def __init__(
+        self,
+        id_prefix="",
+        id_suffix="",
+    ):
         minimum_offset_hours = 62 * 24
         maximum_offset_hours = 730 * 24
         randomizer = Randomizer()
@@ -34,6 +38,8 @@ class Anonymizer:
             PNAnonymizer(randomizer),
             IDAnonymizer(
                 randomizer,
+                id_prefix,
+                id_suffix,
                 'AccessionNumber',
                 'OtherPatientIDs',
                 'PatientID',
