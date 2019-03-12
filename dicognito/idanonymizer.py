@@ -2,7 +2,7 @@ import pydicom
 
 
 class IDAnonymizer:
-    _alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+    _alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
     def __init__(self, randomizer, id_prefix, id_suffix, *tag_names):
         self.randomizer = randomizer
@@ -30,6 +30,6 @@ class IDAnonymizer:
         return False
 
     def _new_id(self, original_value):
-        id_root = ''.join([self._alphabet[i] for i in
+        id_root = "".join([self._alphabet[i] for i in
                            self.randomizer.get_ints_from_ranges(original_value, *self._indices_for_randomizer)])
         return self.id_prefix + id_root + self.id_suffix
