@@ -118,6 +118,32 @@ def test_other_patient_ids_anonymized_to_same_number_of_ids(number_of_ids):
         assert len(set(actual)) == number_of_ids
 
 
+def test_issuer_of_patient_id_changed_if_not_empty():
+    with load_test_instance() as dataset:
+
+        dataset.IssuerOfPatientID = "NOTEMPTY"
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        actual = dataset.IssuerOfPatientID
+
+        assert actual == "DICOGNITO"
+
+
+def test_issuer_of_patient_id_not_added_if_empty():
+    with load_test_instance() as dataset:
+
+        dataset.IssuerOfPatientID = ""
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        actual = dataset.IssuerOfPatientID
+
+        assert actual == ""
+
+
 def test_female_patient_name_gets_anonymized():
     with load_test_instance() as dataset:
         dataset.PatientSex = 'F'

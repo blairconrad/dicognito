@@ -22,7 +22,7 @@ class IDAnonymizer:
             else:
                 data_element.value = self._new_id(data_element.value)
             return True
-        if data_element.tag == self.issuer_tag:
+        if data_element.tag == self.issuer_tag and data_element.value:
             data_element.value = "DICOGNITO"
         return False
 
