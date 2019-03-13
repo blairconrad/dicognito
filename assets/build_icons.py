@@ -1,10 +1,8 @@
 try:
     import Image
-    import ImageDraw
 except:
     try:
         from PIL import Image
-        from PIL import ImageDraw
     except:
         raise Exception("Can't import PIL or PILLOW. Install one.")
 

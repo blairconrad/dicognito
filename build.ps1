@@ -11,7 +11,7 @@ $env:PYTHONPATH = "${env:PYTHONPATH};$PWD"
 
 $actions = @{
     'clean'        = { 'build', 'dicognito.egg-info', 'dist' | Where-Object { Test-Path $_ } | Remove-Item -Force -Recurse  }
-    'test'         = { python -m pytest dicognito }
+    'test'         = { python -m pytest tests }
     'testforever'  = { python -m pytest -f dicognito }
     'smoketest'    = { python smoketest\smoketest.py; code --diff smoketest\original.txt smoketest\anonymized.txt }
     'pack'         = { python setup.py sdist bdist_wheel }

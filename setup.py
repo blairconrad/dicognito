@@ -18,7 +18,9 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url=url,
     download_url="%(url)s/archive/%(version)s.tar.gz" % vars(),
-    packages=[package_name],
+    package_dir={"": "src"},
+    packages=setuptools.find_packages("src"),
+    include_package_data=True,
     classifiers=[
         "Programming Language :: Python :: 2.7",
         "License :: OSI Approved :: MIT License",
@@ -27,10 +29,6 @@ setuptools.setup(
         "Environment :: Console",
         "Intended Audience :: Healthcare Industry",
     ],
-    install_requires=[
-        "pydicom",
-    ],
-    entry_points={
-        "console_scripts": ["dicognito=dicognito.__main__:main"],
-    }
+    install_requires=["pydicom"],
+    entry_points={"console_scripts": ["dicognito=dicognito.__main__:main"]},
 )
