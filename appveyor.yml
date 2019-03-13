@@ -1,0 +1,30 @@
+branches:
+    only:
+        - /^(master|[1-9][0-9]*\.[1-9][0-9]*\.[1-9][0-9]*(-.+)?)$/
+        
+environment:
+  matrix:
+    - PYTHON: "C:\\Python27-x64"
+
+install:
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PYTHON%\\Library\\bin;%PATH%"
+
+  # Check that we have the expected version and architecture for Python
+  - "python --version"
+  - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
+
+  # Install dependencies
+  - "python -m pip install --upgrade pip setuptools"
+  - "pip install -q setuptools wheel pytest pydicom flake8"
+
+build_script:
+  # Build and install the generated wheel package before testing it
+  - "python setup.py sdist bdist_wheel"
+  - "pip install --pre --no-index --find-links dist/ dicognito"
+
+test_script:
+  - powershell ./tools/test.ps1
+
+artifacts:
+  # Archive the generated packages in the ci.appveyor.com build report.
+  - path: dist/*
