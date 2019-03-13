@@ -12,7 +12,11 @@ import random
 
 
 class Anonymizer:
-    def __init__(self):
+    def __init__(
+        self,
+        id_prefix="",
+        id_suffix="",
+    ):
         minimum_offset_hours = 62 * 24
         maximum_offset_hours = 730 * 24
         randomizer = Randomizer()
@@ -34,18 +38,20 @@ class Anonymizer:
             PNAnonymizer(randomizer),
             IDAnonymizer(
                 randomizer,
-                'AccessionNumber',
-                'OtherPatientIDs',
-                'PatientID',
-                'PerformedProcedureStepID',
-                'RequestedProcedureID',
-                'ScheduledProcedureStepID',
-                'StudyID',
+                id_prefix,
+                id_suffix,
+                "AccessionNumber",
+                "OtherPatientIDs",
+                "PatientID",
+                "PerformedProcedureStepID",
+                "RequestedProcedureID",
+                "ScheduledProcedureStepID",
+                "StudyID",
             ),
             address_anonymizer,
             EquipmentAnonymizer(address_anonymizer),
-            FixedValueAnonymizer('RequestingService', ''),
-            FixedValueAnonymizer('CurrentPatientLocation', ''),
+            FixedValueAnonymizer("RequestingService", ""),
+            FixedValueAnonymizer("CurrentPatientLocation", ""),
             DateTimeAnonymizer(-random.randint(minimum_offset_hours,
                                                maximum_offset_hours))
         ]

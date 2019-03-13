@@ -2,16 +2,19 @@ import pydicom
 
 
 class IDAnonymizer:
-    _alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-    _id_length = 12
-    _indices_for_randomizer = [len(_alphabet)] * _id_length
+    _alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
-    def __init__(self, randomizer, *tag_names):
+    def __init__(self, randomizer, id_prefix, id_suffix, *tag_names):
         self.randomizer = randomizer
+        self.id_prefix = id_prefix
+        self.id_suffix = id_suffix
         self.issuer_tag = pydicom.datadict.tag_for_keyword("IssuerOfPatientID")
         self.id_tags = [
             pydicom.datadict.tag_for_keyword(tag_name) for tag_name in tag_names
         ]
+
+        total_affixes_length = len(self.id_prefix) + len(self.id_suffix)
+        self._indices_for_randomizer = [len(self._alphabet)] * (12 - total_affixes_length)
 
     def __call__(self, dataset, data_element):
         if data_element.tag in self.id_tags:
@@ -27,5 +30,6 @@ class IDAnonymizer:
         return False
 
     def _new_id(self, original_value):
-        return ''.join([self._alphabet[i]
-                        for i in self.randomizer.get_ints_from_ranges(original_value, *self._indices_for_randomizer)])
+        id_root = "".join([self._alphabet[i] for i in
+                           self.randomizer.get_ints_from_ranges(original_value, *self._indices_for_randomizer)])
+        return self.id_prefix + id_root + self.id_suffix
