@@ -1,6 +1,6 @@
 import setuptools
 
-version = "0.2.1"
+version = "0.3.0"
 package_name = "dicognito"
 url = "https://github.com/blairconrad/dicognito"
 
