@@ -1,0 +1,18 @@
+### Additional Items
+
+- Test on a CI environment ([#11](https://github.com/blairconrad/dicognito/issues/11))
+- Add tools for preparing release branch and auto-deploying ([#17](https://github.com/blairconrad/dicognito/issues/17))
+
+## 0.3.0
+
+### New
+- Add option to add a prefix or suffix for some IDs ([#1](https://github.com/blairconrad/dicognito/issues/1))
+
+
+## 0.2.1
+
+### New
+- Initial release, with minimal functionality
+
+### With special thanks for contributions to this release from:
+- [Paul Duncan](https://github.com/paulsbduncan)

@@ -3,6 +3,12 @@ branches:
         - /^(master|[1-9][0-9]*\.[1-9][0-9]*\.[1-9][0-9]*(-.+)?)$/
         
 environment:
+  global:
+    TWINE_USERNAME: blairconrad
+    TWINE_PASSWORD:
+      secure: aWfXrMGuHhiVY6rGk8pVM4sAWVCqEzeix9ZyOyJiM9k=
+    GITHUB_TOKEN:
+      secure: u86M99mB306NL1s9hug3LwNRNM6PbVLsgsJMzV4oshIgbLw4nSGMN1OPWw/6zJAm
   matrix:
     - PYTHON: "C:\\Python27-x64"
 
@@ -15,7 +21,7 @@ install:
 
   # Install dependencies
   - "python -m pip install --upgrade pip setuptools"
-  - "pip install -q setuptools wheel pytest pydicom flake8"
+  - "pip install -q wheel pytest pydicom flake8"
 
 build_script:
   # Build and install the generated wheel package before testing it
@@ -23,7 +29,10 @@ build_script:
   - "pip install --pre --no-index --find-links dist/ dicognito"
 
 test_script:
-  - powershell ./tools/test.ps1
+  - ps: ./tools/test.ps1
+
+deploy_script:
+  - ps: ./tools/deploy.ps1
 
 artifacts:
   # Archive the generated packages in the ci.appveyor.com build report.
