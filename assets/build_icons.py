@@ -1,11 +1,9 @@
 try:
     import Image
-    import ImageDraw
-except:
+except: # NOQA - fallback, no matter the cause
     try:
         from PIL import Image
-        from PIL import ImageDraw
-    except:
+    except: # NOQA - we'll raise a better exception
         raise Exception("Can't import PIL or PILLOW. Install one.")
 
 incognito = Image.open('noun_Incognito_7572.png')

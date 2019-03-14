@@ -1,1 +1,0 @@
-'''dicognito - anonymize DICOM datasets'''
