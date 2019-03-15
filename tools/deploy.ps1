@@ -47,6 +47,8 @@ try {
         throw "Release $releaseName already exists. Aborting."
     }
 
+    pip install -q twine
+
     $releaseBody = @()
     $releaseNotesLine = 1
     while (! $releaseNotes[$releaseNotesLine].StartsWith('## ')) {
