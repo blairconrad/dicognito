@@ -1,3 +1,5 @@
+## 0.3.1
+
 ### Fixed
 
 - Cannot anonymize instance lacking `PatientSex` ([#24](https://github.com/blairconrad/dicognito/issues/24))
