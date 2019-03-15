@@ -1,5 +1,3 @@
-$ErrorActionPreference = "Stop"
-
 # Adapted from PEP 440:
 # https://www.python.org/dev/peps/pep-0440/#appendix-b-parsing-version-strings-with-regular-expressions
 $preReleaseRegex = "([-_\.]?(a|b|c|rc|alpha|beta|pre|preview)[-_\.]?[0-9]*)"
@@ -11,6 +9,13 @@ try {
         Write-Output "No Appveyor tag name supplied. Not deploying."
         return
     }
+
+    # pip issues a warning about Python2.7 soon being deprecated.
+    # ErrorActionPreference Stop will stop when it sees this, 
+    # so don't set it until after installing twine
+    pip install -q twine
+
+    $ErrorActionPreference = "Stop"
 
     $releaseName = $env:APPVEYOR_REPO_TAG_NAME
     $gitHubAuthToken = $env:GITHUB_TOKEN
