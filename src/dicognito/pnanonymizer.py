@@ -11,12 +11,13 @@ class PNAnonymizer:
         if not data_element.value:
             return True
 
+        patient_sex = dataset.get("PatientSex")
         if isinstance(data_element.value, pydicom.multival.MultiValue):
             data_element.value = [
-                self._new_pn(dataset.PatientSex, original_name) for original_name in data_element.value
+                self._new_pn(patient_sex, original_name) for original_name in data_element.value
             ]
         else:
-            data_element.value = self._new_pn(dataset.PatientSex, data_element.value)
+            data_element.value = self._new_pn(patient_sex, data_element.value)
         return True
 
     def _new_pn(self, sex, original_value):

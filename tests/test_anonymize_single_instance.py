@@ -480,3 +480,17 @@ def test_datetime_of_various_lengths_gets_anonymized(acquisition_datetime):
 
     assert new_datetime_string != acquisition_datetime
     assert len(new_datetime_string) == len(acquisition_datetime)
+
+
+def test_no_sex_still_changes_patient_name():
+    with load_test_instance() as dataset:
+        del dataset.PatientSex
+
+        original_patient_name = dataset.PatientName
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        new_patient_name = dataset.PatientName
+
+    assert new_patient_name != original_patient_name
