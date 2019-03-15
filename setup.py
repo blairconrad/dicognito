@@ -1,8 +1,13 @@
 import setuptools
 
-version = "0.3.0"
 package_name = "dicognito"
 url = "https://github.com/blairconrad/dicognito"
+
+with open("release_notes.md", "r") as notes:
+    for line in notes:
+        if line.startswith("## "):
+            version = line[3:].strip()
+            break
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
