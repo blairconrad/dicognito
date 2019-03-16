@@ -1,5 +1,3 @@
-$ErrorActionPreference = "Stop"
-
 # Adapted from PEP 440:
 # https://www.python.org/dev/peps/pep-0440/#appendix-b-parsing-version-strings-with-regular-expressions
 $preReleaseRegex = "([-_\.]?(a|b|c|rc|alpha|beta|pre|preview)[-_\.]?[0-9]*)"
@@ -7,14 +5,17 @@ $preReleaseRegex = "([-_\.]?(a|b|c|rc|alpha|beta|pre|preview)[-_\.]?[0-9]*)"
 Push-Location (Get-Item $PSScriptRoot).Parent.FullName
 
 try {
+    Write-Output "Installing twine"
+    # pip issues a warning on stdout about Python2.7 soon being deprecated.
+    # This breaks the build, so don't stop on errors until after.
+    pip install --quiet twine
+
+    # $ErrorActionPreference = "Stop"
+
     if (! $env:APPVEYOR_REPO_TAG_NAME) {
         Write-Output "No Appveyor tag name supplied. Not deploying."
         return
     }
-
-    # pip issues a warning on stdout about Python2.7 soon being deprecated.
-    # This breaks the build, so make the install quiet quiet to suppress it.
-    pip install --quiet --quiet twine
 
     $releaseName = $env:APPVEYOR_REPO_TAG_NAME
     $gitHubAuthToken = $env:GITHUB_TOKEN
