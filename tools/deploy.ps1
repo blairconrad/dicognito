@@ -12,12 +12,9 @@ try {
         return
     }
 
-    # pip issues a warning about Python2.7 soon being deprecated.
-    # ErrorActionPreference Stop will stop when it sees this.
-    $ErrorActionPreference = "Continue"
-    pip install -q twine
-    $ErrorActionPreference = "Stop"
-
+    # pip issues a warning on stdout about Python2.7 soon being deprecated.
+    # This breaks the build, so make the install quiet quiet to suppress it.
+    pip install --quiet --quiet twine
 
     $releaseName = $env:APPVEYOR_REPO_TAG_NAME
     $gitHubAuthToken = $env:GITHUB_TOKEN
