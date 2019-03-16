@@ -8,7 +8,7 @@ try {
     Write-Output "Installing twine"
     # pip issues a warning on stdout about Python2.7 soon being deprecated.
     # This breaks the build, so don't stop on errors until after.
-    pip install --quiet twine
+    pip install --quiet --quiet twine
 
     $ErrorActionPreference = "Stop"
 
