@@ -9,27 +9,16 @@ environment:
       secure: aWfXrMGuHhiVY6rGk8pVM4sAWVCqEzeix9ZyOyJiM9k=
     GITHUB_TOKEN:
       secure: u86M99mB306NL1s9hug3LwNRNM6PbVLsgsJMzV4oshIgbLw4nSGMN1OPWw/6zJAm
-  matrix:
-    - PYTHON: "C:\\Python27-x64"
 
 install:
-  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PYTHON%\\Library\\bin;%PATH%"
-
-  # Check that we have the expected version and architecture for Python
-  - "python --version"
-  - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
-
-  # Install dependencies
-  - "python -m pip install --upgrade pip setuptools"
-  - "pip install -q wheel pytest pydicom flake8"
+  - "python -m pip install pip>=19.0.3"
+  - "pip install setuptools>=40.8.0 wheel>=0.31.1 pydicom tox"
 
 build_script:
-  # Build and install the generated wheel package before testing it
   - "python setup.py sdist bdist_wheel"
-  - "pip install --pre --no-index --find-links dist/ dicognito"
 
 test_script:
-  - ps: ./tools/test.ps1
+  - tox
 
 deploy_script:
   - ps: ./tools/deploy.ps1
