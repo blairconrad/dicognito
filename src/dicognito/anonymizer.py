@@ -16,10 +16,11 @@ class Anonymizer:
         self,
         id_prefix="",
         id_suffix="",
+        salt=None,
     ):
         minimum_offset_hours = 62 * 24
         maximum_offset_hours = 730 * 24
-        randomizer = Randomizer()
+        randomizer = Randomizer(salt)
         address_anonymizer = AddressAnonymizer(randomizer)
         self._element_handlers = [
             UnwantedElementsStripper(

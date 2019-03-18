@@ -29,13 +29,18 @@ def main(args=None):
                              "studies. Longer suffixes reduce the number of available random "
                              "characters in the ID and increase the chance of collisions with other "
                              "IDs. May be combined with --id-prefix.")
+    parser.add_argument("--salt",  # currently only intended to make testing easier
+                        help="The salt to use when generating random attribute values. Primarily "
+                             "intended to make testing easier. Best anonymization practice is to omit "
+                             "this value and let dicognito generate its own random salt.")
 
-    args = parser.parse_args()
+    args = parser.parse_args(args)
 
     anonymizer = Anonymizer(
         id_prefix=args.id_prefix,
         id_suffix=args.id_suffix,
-        )
+        salt=args.salt,
+    )
     for pattern in args.patterns:
         for file in glob.glob(pattern):
             with pydicom.dcmread(file, force=True) as dataset:
