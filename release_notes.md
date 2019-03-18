@@ -1,3 +1,7 @@
+### Additional Items
+
+- Use tox for testing ([#28](https://github.com/blairconrad/dicognito/issues/28))
+
 ## 0.3.1.post7
 
 ### Fixed

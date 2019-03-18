@@ -11,7 +11,6 @@ $env:PYTHONPATH = "${env:PYTHONPATH};$PWD"
 
 $actions = @{
     'clean'        = { 'build', 'dicognito.egg-info', 'dist' | Where-Object { Test-Path $_ } | Remove-Item -Force -Recurse  }
-    'testpackage'  = { .\tools\test.ps1 }
     'testlocal'    = { Push-Location src; python -m pytest ..\tests; Pop-Location }
     'testforever'  = { Set-Location src; python -m pytest --looponfail ..\tests }
     'smoketest'    = { python smoketest\smoketest.py; code --diff smoketest\original.txt smoketest\anonymized.txt }
