@@ -52,8 +52,7 @@ def main(args=None):
             with pydicom.dcmread(file, force=True) as dataset:
                 anonymizer.anonymize(dataset)
                 (filedir, filename) = os.path.split(file)
-                new_filename = os.path.join(filedir, "anon-" + filename)
-                dataset.save_as(new_filename, write_like_original=False)
+                dataset.save_as(file, write_like_original=False)
                 converted_studies.add(ConvertedStudy(dataset.AccessionNumber, dataset.PatientID, dataset.PatientName))
 
     if not args.quiet:

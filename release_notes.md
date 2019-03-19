@@ -1,3 +1,6 @@
+### Changed
+- Anonymize files in place ([#21](https://github.com/blairconrad/dicognito/issues/21))
+
 ### New
 
 - Print summary of anonymized studies ([#2](https://github.com/blairconrad/dicognito/issues/2))
