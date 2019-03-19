@@ -1,3 +1,4 @@
+import sys
 import os
 import datetime
 import pydicom
@@ -183,3 +184,10 @@ def _set_instance_attributes(dataset, patient_number, study_number, series_numbe
     dataset.InstanceCreationTime = datetime.time(
         patient_number, study_number, 7*series_number + instance_number
     ).strftime("%H%M%S")
+
+
+if __name__ == "__main__":
+    patient_number, study_number, series_number, object_number = [
+        int(x) for x in (sys.argv[1:] + [1] * (5 - len(sys.argv)))]
+    dataset = load_instance(patient_number, study_number, series_number, object_number)
+    dataset.save_as("p%02d_s%02d_s%02d_i%02d.dcm" % (patient_number, study_number, series_number, object_number))

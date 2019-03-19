@@ -1,10 +1,12 @@
-import datetime
 import md5
+import os
 
 
 class Randomizer:
-    def __init__(self):
-        self.salt = str(datetime.datetime.utcnow())
+    def __init__(self, salt):
+        if salt is None:
+            salt = os.urandom(20)
+        self.salt = str(salt)
 
     def to_int(self, original_value):
         hash = md5.md5(self.salt + str(original_value)).digest()

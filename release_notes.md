@@ -1,3 +1,7 @@
+### New
+
+- Print summary of anonymized studies ([#2](https://github.com/blairconrad/dicognito/issues/2))
+
 ### Additional Items
 
 - Use tox for testing ([#28](https://github.com/blairconrad/dicognito/issues/28))

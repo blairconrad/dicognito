@@ -11,3 +11,4 @@
 .pytest_cache/
 
 *.pyc
+anon-*.dcm
