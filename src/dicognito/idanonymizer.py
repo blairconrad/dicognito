@@ -26,10 +26,6 @@ class IDAnonymizer:
         return False
 
     def _new_id(self, original_value):
-        id_root = "".join(
-            [
-                self._alphabet[i]
-                for i in self.randomizer.get_ints_from_ranges(original_value, *self._indices_for_randomizer)
-            ]
-        )
+        indexes = self.randomizer.get_ints_from_ranges(original_value, *self._indices_for_randomizer)
+        id_root = "".join([self._alphabet[i] for i in indexes])
         return self.id_prefix + id_root + self.id_suffix

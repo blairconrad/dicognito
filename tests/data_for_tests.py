@@ -31,8 +31,8 @@ def load_test_instance():
     dataset.ReferringPhysicianName = "REFERRING^FIRST^MIDDLE"
     dataset.RequestingPhysician = "REQUESTING^FIRST^MIDDLE"
     dataset.ResponsiblePerson = "RESPONSIBLE^FIRST^MIDDLE"
-    dataset.PatientBirthName = ("PBN",)
-    dataset.PatientMotherBirthName = ("PMBN",)
+    dataset.PatientBirthName = "PBN"
+    dataset.PatientMotherBirthName = "PMBN"
 
     dataset.PatientAddress = "10 REAL STREET"
     dataset.RegionOfResidence = "BROAD COVE"
@@ -115,10 +115,10 @@ def _set_patient_attributes(dataset, patient_number):
     dataset.OtherPatientIDsSequence = [pydicom.dataset.Dataset()]
     dataset.OtherPatientIDsSequence[0].PatientID = "OTHSEQ" + dataset.PatientID
 
-    dataset.OtherPatientNames = "Other" + dataset.PatientName
-    dataset.PatientBirthName = "Birth" + dataset.PatientName
-    dataset.PatientMotherBirthName = "Mother" + dataset.PatientName
-    dataset.ResponsiblePerson = "Responsible" + dataset.PatientName
+    dataset.OtherPatientNames = "Other" + str(dataset.PatientName)
+    dataset.PatientBirthName = "Birth" + str(dataset.PatientName)
+    dataset.PatientMotherBirthName = "Mother" + str(dataset.PatientName)
+    dataset.ResponsiblePerson = "Responsible" + str(dataset.PatientName)
 
 
 def _set_study_attributes(dataset, patient_number, study_number):

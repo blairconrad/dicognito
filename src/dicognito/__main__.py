@@ -7,7 +7,7 @@ import glob
 import os.path
 import pydicom
 
-from anonymizer import Anonymizer
+from dicognito.anonymizer import Anonymizer
 
 
 def main(args=None):
@@ -68,7 +68,9 @@ def main(args=None):
                 anonymizer.anonymize(dataset)
                 (filedir, filename) = os.path.split(file)
                 dataset.save_as(file, write_like_original=False)
-                converted_studies.add(ConvertedStudy(dataset.AccessionNumber, dataset.PatientID, dataset.PatientName))
+                converted_studies.add(
+                    ConvertedStudy(dataset.AccessionNumber, dataset.PatientID, str(dataset.PatientName))
+                )
 
     if not args.quiet:
         headers = ("Accession Number", "Patient ID", "Patient Name")
