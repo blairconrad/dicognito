@@ -15,6 +15,12 @@ NO4NP4PXEOWT     YKQBAJZS5UO3     MARSHALL^BEULAH^AURELIA
     assert expected == actual
 
 
+def test_summary_with_quiet_no_report(capsys):
+    actual = run_dicognito(test_summary_with_quiet_no_report.__name__, capsys, "--quiet")
+    expected = ""
+    assert expected == actual
+
+
 def run_dicognito(test_name, capsys, *extra_args):
     base_dir = os.path.dirname(__file__)
     glob = os.path.join(base_dir, "data", test_name, "p*.dcm")
