@@ -7,8 +7,8 @@
 /smoketest/*.dcm
 /smoketest/*.txt
 
-
 .pytest_cache/
 
 *.pyc
-anon-*.dcm
+p*.dcm
+
