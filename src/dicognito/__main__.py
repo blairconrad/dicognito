@@ -1,16 +1,16 @@
 """dicognito - anonymize DICOM files"""
 from __future__ import print_function
+import sys
+import argparse
+import collections
+import glob
+import os.path
+import pydicom
+
+from anonymizer import Anonymizer
 
 
 def main(args=None):
-    import sys
-    import argparse
-    import glob
-    import os.path
-    import pydicom
-
-    from anonymizer import Anonymizer
-
     if args is None:
         args = sys.argv[1:]
 
@@ -41,6 +41,10 @@ def main(args=None):
         id_suffix=args.id_suffix,
         salt=args.salt,
     )
+
+    ConvertedStudy = collections.namedtuple("ConvertedStudy", ["AccessionNumber", "PatientID", "PatientName"])
+
+    converted_studies = set()
     for pattern in args.patterns:
         for file in glob.glob(pattern):
             with pydicom.dcmread(file, force=True) as dataset:
@@ -48,6 +52,13 @@ def main(args=None):
                 (filedir, filename) = os.path.split(file)
                 new_filename = os.path.join(filedir, "anon-" + filename)
                 dataset.save_as(new_filename, write_like_original=False)
+                converted_studies.add(ConvertedStudy(dataset.AccessionNumber, dataset.PatientID, dataset.PatientName))
+
+    headers = ("Accession Number", "Patient ID", "Patient Name")
+    print("%-16s %-16s %s" % headers)
+    print("%-16s %-16s %s" % tuple("-" * len(header) for header in headers))
+    for converted_study in sorted(converted_studies, key=lambda k: (k.PatientID, k.AccessionNumber)):
+        print("%-16s %-16s %s" % converted_study)
 
 
 if __name__ == "__main__":
