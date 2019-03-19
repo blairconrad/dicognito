@@ -1,3 +1,5 @@
+## 0.4.0
+
 ### Changed
 - Anonymize files in place ([#21](https://github.com/blairconrad/dicognito/issues/21))
 
