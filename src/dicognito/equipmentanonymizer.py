@@ -13,9 +13,7 @@ class EquipmentAnonymizer:
         }
 
     def __call__(self, dataset, data_element):
-        element_anonymizer = self._element_anonymizers.get(
-            data_element.tag, None
-        )
+        element_anonymizer = self._element_anonymizers.get(data_element.tag, None)
         if not element_anonymizer:
             return False
 
@@ -23,11 +21,13 @@ class EquipmentAnonymizer:
 
     def anonymize_institution_name(self, dataset, data_element):
         region = self.address_anonymizer.get_region(data_element.value)
-        dataset.InstitutionAddress = " ".join([
-            self.address_anonymizer.get_street_address(data_element.value),
-            region,
-            self.address_anonymizer.get_country(data_element.value)
-        ])
+        dataset.InstitutionAddress = " ".join(
+            [
+                self.address_anonymizer.get_street_address(data_element.value),
+                region,
+                self.address_anonymizer.get_country(data_element.value),
+            ]
+        )
         data_element.value = region + " CLINIC"
 
     def anonymize_institution_address(self, dataset, data_element):
@@ -35,7 +35,7 @@ class EquipmentAnonymizer:
         pass
 
     def anonymize_department_name(self, dataset, data_element):
-        data_element.value = 'RADIOLOGY'
+        data_element.value = "RADIOLOGY"
 
     def anonymize_station_name(self, dataset, data_element):
-        data_element.value = dataset.Modality + '01'
+        data_element.value = dataset.Modality + "01"

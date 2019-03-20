@@ -1,3 +1,8 @@
+### Additional Items
+
+- Format code using [black](https://black.readthedocs.io/en/stable/)
+  ([#33](https://github.com/blairconrad/dicognito/issues/33))
+
 ## 0.4.0
 
 ### Changed

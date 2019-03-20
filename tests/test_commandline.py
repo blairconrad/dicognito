@@ -24,14 +24,18 @@ Accession Number Patient ID       Patient Name
 NO4NP4PXEOWT     YKQBAJZS5UO3     MARSHALL^BEULAH^AURELIA
 """
 
-    copy_file(test_summary_mixed_files_reports_on_each_study.__name__,
-              "orig_p01_s01_s01_i01.dcm", "p01_s01_s01_i01.dcm")
-    copy_file(test_summary_mixed_files_reports_on_each_study.__name__,
-              "orig_p01_s01_s01_i02.dcm", "p01_s01_s01_i02.dcm")
-    copy_file(test_summary_mixed_files_reports_on_each_study.__name__,
-              "orig_p02_s01_s01_i01.dcm", "p02_s01_s01_i01.dcm")
-    copy_file(test_summary_mixed_files_reports_on_each_study.__name__,
-              "orig_p02_s02_s01_i01.dcm", "p02_s02_s01_i01.dcm")
+    copy_file(
+        test_summary_mixed_files_reports_on_each_study.__name__, "orig_p01_s01_s01_i01.dcm", "p01_s01_s01_i01.dcm"
+    )
+    copy_file(
+        test_summary_mixed_files_reports_on_each_study.__name__, "orig_p01_s01_s01_i02.dcm", "p01_s01_s01_i02.dcm"
+    )
+    copy_file(
+        test_summary_mixed_files_reports_on_each_study.__name__, "orig_p02_s01_s01_i01.dcm", "p02_s01_s01_i01.dcm"
+    )
+    copy_file(
+        test_summary_mixed_files_reports_on_each_study.__name__, "orig_p02_s02_s01_i01.dcm", "p02_s02_s01_i01.dcm"
+    )
 
     actual = run_dicognito(test_summary_mixed_files_reports_on_each_study.__name__, capsys)
 

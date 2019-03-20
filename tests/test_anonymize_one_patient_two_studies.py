@@ -8,12 +8,8 @@ from data_for_tests import load_instance
 class TestOnePatientTwoStudies:
     @classmethod
     def setup_class(cls):
-        TestOnePatientTwoStudies.dataset1 = load_instance(
-            patient_number=1, study_number=1
-        )
-        TestOnePatientTwoStudies.dataset2 = load_instance(
-            patient_number=1, study_number=2
-        )
+        TestOnePatientTwoStudies.dataset1 = load_instance(patient_number=1, study_number=1)
+        TestOnePatientTwoStudies.dataset2 = load_instance(patient_number=1, study_number=2)
 
         anonymizer = Anonymizer()
         anonymizer.anonymize(TestOnePatientTwoStudies.dataset1)
@@ -74,9 +70,7 @@ class TestOnePatientTwoStudies:
             "InstanceCreationTime",
         ],
     )
-    def test_anonymize_study_series_and_instance_attributes_are_different(
-        self, element_path
-    ):
+    def test_anonymize_study_series_and_instance_attributes_are_different(self, element_path):
         value1 = eval("TestOnePatientTwoStudies.dataset1." + element_path)
         value2 = eval("TestOnePatientTwoStudies.dataset2." + element_path)
         assert value1 != value2

@@ -5,9 +5,9 @@ class AddressAnonymizer:
     def __init__(self, randomizer):
         self.randomizer = randomizer
 
-        address_tag = pydicom.datadict.tag_for_keyword('PatientAddress')
-        region_tag = pydicom.datadict.tag_for_keyword('RegionOfResidence')
-        country_tag = pydicom.datadict.tag_for_keyword('CountryOfResidence')
+        address_tag = pydicom.datadict.tag_for_keyword("PatientAddress")
+        region_tag = pydicom.datadict.tag_for_keyword("RegionOfResidence")
+        country_tag = pydicom.datadict.tag_for_keyword("CountryOfResidence")
 
         self._value_factories = {
             address_tag: self.get_street_address,
@@ -27,18 +27,17 @@ class AddressAnonymizer:
 
     def get_street_address(self, original_value):
         (street_number_index, street_index) = self.randomizer.get_ints_from_ranges(
-            original_value, 1000, len(self._streets))
+            original_value, 1000, len(self._streets)
+        )
         street_number = street_number_index + 1
-        return str(street_number) + ' ' + self._streets[street_index]
+        return str(street_number) + " " + self._streets[street_index]
 
     def get_region(self, original_value):
-        (city_index,) = self.randomizer.get_ints_from_ranges(
-            original_value, len(self._cities))
+        (city_index,) = self.randomizer.get_ints_from_ranges(original_value, len(self._cities))
         return self._cities[city_index]
 
     def get_country(self, original_value):
-        (country_index,) = self.randomizer.get_ints_from_ranges(
-            original_value, len(self._countries))
+        (country_index,) = self.randomizer.get_ints_from_ranges(original_value, len(self._countries))
         return self._countries[country_index]
 
     # from https://www.randomlists.com/random-street-names?qty=100&dup=false, mostly

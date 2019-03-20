@@ -8,12 +8,8 @@ from data_for_tests import load_instance
 class TestOneStudyTwoSerieses:
     @classmethod
     def setup_class(cls):
-        TestOneStudyTwoSerieses.dataset1 = load_instance(
-            patient_number=1, study_number=1, series_number=1
-        )
-        TestOneStudyTwoSerieses.dataset2 = load_instance(
-            patient_number=1, study_number=1, series_number=2
-        )
+        TestOneStudyTwoSerieses.dataset1 = load_instance(patient_number=1, study_number=1, series_number=1)
+        TestOneStudyTwoSerieses.dataset2 = load_instance(patient_number=1, study_number=1, series_number=2)
 
         anonymizer = Anonymizer()
         anonymizer.anonymize(TestOneStudyTwoSerieses.dataset1)
@@ -72,15 +68,7 @@ class TestOneStudyTwoSerieses:
             "InstanceCreationDate,InstanceCreationTime",
         ],
     )
-    def test_anonymize_series_and_instance_attributes_are_different(
-        self, element_paths
-    ):
-        value1 = [
-            eval("TestOneStudyTwoSerieses.dataset1." + path)
-            for path in element_paths.split(",")
-        ]
-        value2 = [
-            eval("TestOneStudyTwoSerieses.dataset2." + path)
-            for path in element_paths.split(",")
-        ]
+    def test_anonymize_series_and_instance_attributes_are_different(self, element_paths):
+        value1 = [eval("TestOneStudyTwoSerieses.dataset1." + path) for path in element_paths.split(",")]
+        value2 = [eval("TestOneStudyTwoSerieses.dataset2." + path) for path in element_paths.split(",")]
         assert value1 != value2

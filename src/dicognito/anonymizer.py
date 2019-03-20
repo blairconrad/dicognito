@@ -12,12 +12,7 @@ import random
 
 
 class Anonymizer:
-    def __init__(
-        self,
-        id_prefix="",
-        id_suffix="",
-        salt=None,
-    ):
+    def __init__(self, id_prefix="", id_suffix="", salt=None):
         minimum_offset_hours = 62 * 24
         maximum_offset_hours = 730 * 24
         randomizer = Randomizer(salt)
@@ -53,8 +48,7 @@ class Anonymizer:
             EquipmentAnonymizer(address_anonymizer),
             FixedValueAnonymizer("RequestingService", ""),
             FixedValueAnonymizer("CurrentPatientLocation", ""),
-            DateTimeAnonymizer(-random.randint(minimum_offset_hours,
-                                               maximum_offset_hours))
+            DateTimeAnonymizer(-random.randint(minimum_offset_hours, maximum_offset_hours)),
         ]
 
     def anonymize(self, dataset):

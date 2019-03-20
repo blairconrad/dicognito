@@ -9,24 +9,21 @@ def load_instance(patient_number=1, study_number=1, series_number=1, instance_nu
     dataset = load_minimal_instance()
     _set_patient_attributes(dataset, patient_number)
     _set_study_attributes(dataset, patient_number, study_number)
-    _set_series_attributes(dataset, patient_number,
-                           study_number, series_number)
-    _set_instance_attributes(dataset, patient_number,
-                             study_number, series_number, instance_number)
+    _set_series_attributes(dataset, patient_number, study_number, series_number)
+    _set_instance_attributes(dataset, patient_number, study_number, series_number, instance_number)
     return dataset
 
 
 def load_minimal_instance():
-    return load_dcm(get_testdata_files('MR_small.dcm')[0])
+    return load_dcm(get_testdata_files("MR_small.dcm")[0])
 
 
 def load_test_instance():
     dataset = load_minimal_instance()
     source_image_dataset = pydicom.dataset.Dataset()
-    source_image_dataset.ReferencedSOPClassUID = ['1.2.3.0.1']
-    source_image_dataset.ReferencedSOPInstanceUID = ['1.2.3.1.1']
-    dataset.SourceImageSequence = pydicom.sequence.Sequence(
-        [source_image_dataset])
+    source_image_dataset.ReferencedSOPClassUID = ["1.2.3.0.1"]
+    source_image_dataset.ReferencedSOPInstanceUID = ["1.2.3.1.1"]
+    dataset.SourceImageSequence = pydicom.sequence.Sequence([source_image_dataset])
 
     dataset.OperatorsName = "OPERATOR^FIRST^MIDDLE"
     dataset.NameOfPhysiciansReadingStudy = "READING^FIRST^MIDDLE"
@@ -34,21 +31,20 @@ def load_test_instance():
     dataset.ReferringPhysicianName = "REFERRING^FIRST^MIDDLE"
     dataset.RequestingPhysician = "REQUESTING^FIRST^MIDDLE"
     dataset.ResponsiblePerson = "RESPONSIBLE^FIRST^MIDDLE"
-    dataset.PatientBirthName = "PBN",
-    dataset.PatientMotherBirthName = "PMBN",
+    dataset.PatientBirthName = ("PBN",)
+    dataset.PatientMotherBirthName = ("PMBN",)
 
-    dataset.PatientAddress = '10 REAL STREET'
-    dataset.RegionOfResidence = 'BROAD COVE'
-    dataset.CountryOfResidence = 'GERMANY'
+    dataset.PatientAddress = "10 REAL STREET"
+    dataset.RegionOfResidence = "BROAD COVE"
+    dataset.CountryOfResidence = "GERMANY"
 
     dataset.IssuerOfPatientID = "ISSUEROFPATIENTID"
-    dataset.OtherPatientIDs = 'OTHERPATIENTID'
-    dataset.PerformedProcedureStepID = 'PERFORMEDID'
-    dataset.ScheduledProcedureStepID = 'SCHEDULEDID'
+    dataset.OtherPatientIDs = "OTHERPATIENTID"
+    dataset.PerformedProcedureStepID = "PERFORMEDID"
+    dataset.ScheduledProcedureStepID = "SCHEDULEDID"
 
     dataset.Occupation = "VIGILANTE"
-    dataset.PatientInsurancePlanCodeSequence = [
-        code("VALUE", "DESIGNATOR", "MEANING")]
+    dataset.PatientInsurancePlanCodeSequence = [code("VALUE", "DESIGNATOR", "MEANING")]
     dataset.MilitaryRank = "YEOMAN"
     dataset.BranchOfService = "COAST GUARD"
     dataset.PatientTelephoneNumbers = "123-456-7890"
@@ -64,16 +60,12 @@ def load_test_instance():
     other_patient_id_item1 = pydicom.dataset.Dataset()
     other_patient_id_item1.PatientID = "opi-1-ID"
     other_patient_id_item1.IssuerOfPatientID = "ISSUER"
-    dataset.OtherPatientIDsSequence = pydicom.sequence.Sequence(
-        [other_patient_id_item0, other_patient_id_item1]
-    )
+    dataset.OtherPatientIDsSequence = pydicom.sequence.Sequence([other_patient_id_item0, other_patient_id_item1])
 
     request_attribute_item = pydicom.dataset.Dataset()
     request_attribute_item.RequestedProcedureID = "rai-0-REQUESTEDID"
     request_attribute_item.ScheduledProcedureStepID = "rai-0-SCHEDULEDID"
-    dataset.RequestAttributesSequence = pydicom.sequence.Sequence(
-        [request_attribute_item]
-    )
+    dataset.RequestAttributesSequence = pydicom.sequence.Sequence([request_attribute_item])
 
     dataset.InstitutionName = "INSTITUTIONNAME"
     dataset.InstitutionAddress = "INSTITUTIONADDRESS"
@@ -130,15 +122,11 @@ def _set_patient_attributes(dataset, patient_number):
 
 
 def _set_study_attributes(dataset, patient_number, study_number):
-    dataset.StudyID = ("STUDYFOR4MR" +
-                       str(patient_number) + "." + str(study_number))
+    dataset.StudyID = "STUDYFOR4MR" + str(patient_number) + "." + str(study_number)
     dataset.AccessionNumber = "ACC" + dataset.StudyID
-    dataset.StudyDate = (datetime.date(2004, patient_number, study_number)
-                         .strftime("%Y%m%d"))
-    dataset.StudyTime = (datetime.time(
-        patient_number * 5 + study_number, 0, 0).strftime("%H%M%S"))
-    dataset.StudyInstanceUID = ("1.3.6.1.4.1.5962.20040827145012.5458." +
-                                str(patient_number) + "." + str(study_number))
+    dataset.StudyDate = datetime.date(2004, patient_number, study_number).strftime("%Y%m%d")
+    dataset.StudyTime = datetime.time(patient_number * 5 + study_number, 0, 0).strftime("%H%M%S")
+    dataset.StudyInstanceUID = "1.3.6.1.4.1.5962.20040827145012.5458." + str(patient_number) + "." + str(study_number)
     dataset.NameOfPhysiciansReadingStudy = "READING^FIRST^" + dataset.StudyID
     dataset.RequestingPhysician = "REQUESTING1^FIRST^" + dataset.StudyID
     dataset.ReferringPhysicianName = "REFERRING1^FIRST^" + dataset.StudyID
@@ -146,29 +134,22 @@ def _set_study_attributes(dataset, patient_number, study_number):
 
 def _set_series_attributes(dataset, patient_number, study_number, series_number):
     series_suffix = "%(patient_number)-d%(study_number)-d%(series_number)d" % vars()
-    dataset.SeriesInstanceUID = (dataset.StudyInstanceUID +
-                                 "." + str(series_number))
-    dataset.FrameOfReferenceUID = (dataset.SeriesInstanceUID +
-                                   ".0." + str(series_number))
+    dataset.SeriesInstanceUID = dataset.StudyInstanceUID + "." + str(series_number)
+    dataset.FrameOfReferenceUID = dataset.SeriesInstanceUID + ".0." + str(series_number)
     dataset.PerformedProcedureStepID = "PERFSTEP" + series_suffix
     dataset.RequestedProcedureID = "REQSTEP" + series_suffix
     dataset.ScheduledProcedureStepID = "SCHEDSTEP" + series_suffix
 
     dataset.SeriesDate = dataset.StudyDate
-    dataset.SeriesTime = datetime.time(
-        patient_number, study_number, series_number
-    ).strftime("%H%M%S")
-    dataset.StationName = ("STATIONNAME" + str(patient_number) +
-                           "." + str(study_number) + "." + str(series_number))
+    dataset.SeriesTime = datetime.time(patient_number, study_number, series_number).strftime("%H%M%S")
+    dataset.StationName = "STATIONNAME" + str(patient_number) + "." + str(study_number) + "." + str(series_number)
     dataset.OperatorsName = "OPERATOR^FIRST^" + series_suffix
     dataset.PerformingPhysicianName = "PERFORMING1^FIRST^" + series_suffix
 
     request_attribute_item = pydicom.dataset.Dataset()
     request_attribute_item.RequestedProcedureID = dataset.RequestedProcedureID
     request_attribute_item.ScheduledProcedureStepID = dataset.ScheduledProcedureStepID
-    dataset.RequestAttributesSequence = pydicom.sequence.Sequence(
-        [request_attribute_item]
-    )
+    dataset.RequestAttributesSequence = pydicom.sequence.Sequence([request_attribute_item])
 
     dataset.InstitutionName = "INSTITUTIONNAME" + series_suffix
     dataset.InstitutionAddress = "INSTITUTIONADDRESS" + series_suffix
@@ -177,17 +158,17 @@ def _set_series_attributes(dataset, patient_number, study_number, series_number)
 
 
 def _set_instance_attributes(dataset, patient_number, study_number, series_number, instance_number):
-    dataset.SOPInstanceUID = (dataset.SeriesInstanceUID +
-                              "." + str(instance_number))
+    dataset.SOPInstanceUID = dataset.SeriesInstanceUID + "." + str(instance_number)
     dataset.file_meta.MediaStorageSOPInstanceUID = dataset.SOPInstanceUID
     dataset.InstanceCreationDate = dataset.SeriesDate
     dataset.InstanceCreationTime = datetime.time(
-        patient_number, study_number, 7*series_number + instance_number
+        patient_number, study_number, 7 * series_number + instance_number
     ).strftime("%H%M%S")
 
 
 if __name__ == "__main__":
     patient_number, study_number, series_number, object_number = [
-        int(x) for x in (sys.argv[1:] + [1] * (5 - len(sys.argv)))]
+        int(x) for x in (sys.argv[1:] + [1] * (5 - len(sys.argv)))
+    ]
     dataset = load_instance(patient_number, study_number, series_number, object_number)
     dataset.save_as("p%02d_s%02d_s%02d_i%02d.dcm" % (patient_number, study_number, series_number, object_number))

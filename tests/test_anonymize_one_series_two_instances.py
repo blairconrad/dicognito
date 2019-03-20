@@ -74,12 +74,6 @@ class TestOneSeriesTwoInstances:
         ],
     )
     def test_anonymize_instance_attributes_are_different(self, element_paths):
-        value1 = [
-            eval("TestOneSeriesTwoInstances.dataset1." + path)
-            for path in element_paths.split(",")
-        ]
-        value2 = [
-            eval("TestOneSeriesTwoInstances.dataset2." + path)
-            for path in element_paths.split(",")
-        ]
+        value1 = [eval("TestOneSeriesTwoInstances.dataset1." + path) for path in element_paths.split(",")]
+        value2 = [eval("TestOneSeriesTwoInstances.dataset2." + path) for path in element_paths.split(",")]
         assert value1 != value2
