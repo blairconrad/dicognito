@@ -5,14 +5,14 @@ from dicognito.anonymizer import Anonymizer
 from data_for_tests import load_instance
 
 all_id_elements = [
-                "AccessionNumber",
-                "OtherPatientIDs",
-                "OtherPatientIDsSequence[0].PatientID",
-                "PatientID",
-                "PerformedProcedureStepID",
-                "RequestedProcedureID",
-                "ScheduledProcedureStepID",
-                "StudyID",
+    "AccessionNumber",
+    "OtherPatientIDs",
+    "OtherPatientIDsSequence[0].PatientID",
+    "PatientID",
+    "PerformedProcedureStepID",
+    "RequestedProcedureID",
+    "ScheduledProcedureStepID",
+    "StudyID",
 ]
 
 

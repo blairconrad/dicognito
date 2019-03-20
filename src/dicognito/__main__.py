@@ -15,34 +15,49 @@ def main(args=None):
         args = sys.argv[1:]
 
     parser = argparse.ArgumentParser(description="Anonymize one or more DICOM files.")
-    parser.add_argument("patterns", metavar="pattern", type=str, nargs="+",
-                        help="the files to anonymize (may include wildcards, e.g. *.dcm)")
-    parser.add_argument("--id-prefix", "-p", default="",
-                        help="A short string prepended to each ID field, such as PatientID, "
-                             "AccessionNumber, and so on, to make it easier to identify anonymized "
-                             "studies. Longer prefixes reduce the number of available random "
-                             "characters in the ID and increase the chance of collisions with other "
-                             "IDs. May be combined with --id-suffix.")
-    parser.add_argument("--id-suffix", "-s", default="",
-                        help="A short string appended to each ID field, such as PatientID, "
-                             "AccessionNumber, and so on, to make it easier to identify anonymized "
-                             "studies. Longer suffixes reduce the number of available random "
-                             "characters in the ID and increase the chance of collisions with other "
-                             "IDs. May be combined with --id-prefix.")
-    parser.add_argument("--quiet", "-q", action="store_true",
-                        help="Reduce the verbosity of output. Suppresses summary of anonymized studies.")
-    parser.add_argument("--salt",  # currently only intended to make testing easier
-                        help="The salt to use when generating random attribute values. Primarily "
-                             "intended to make testing easier. Best anonymization practice is to omit "
-                             "this value and let dicognito generate its own random salt.")
+    parser.add_argument(
+        "patterns",
+        metavar="pattern",
+        type=str,
+        nargs="+",
+        help="the files to anonymize (may include wildcards, e.g. *.dcm)",
+    )
+    parser.add_argument(
+        "--id-prefix",
+        "-p",
+        default="",
+        help="A short string prepended to each ID field, such as PatientID, "
+        "AccessionNumber, and so on, to make it easier to identify anonymized "
+        "studies. Longer prefixes reduce the number of available random "
+        "characters in the ID and increase the chance of collisions with other "
+        "IDs. May be combined with --id-suffix.",
+    )
+    parser.add_argument(
+        "--id-suffix",
+        "-s",
+        default="",
+        help="A short string appended to each ID field, such as PatientID, "
+        "AccessionNumber, and so on, to make it easier to identify anonymized "
+        "studies. Longer suffixes reduce the number of available random "
+        "characters in the ID and increase the chance of collisions with other "
+        "IDs. May be combined with --id-prefix.",
+    )
+    parser.add_argument(
+        "--quiet",
+        "-q",
+        action="store_true",
+        help="Reduce the verbosity of output. Suppresses summary of anonymized studies.",
+    )
+    parser.add_argument(
+        "--salt",  # currently only intended to make testing easier
+        help="The salt to use when generating random attribute values. Primarily "
+        "intended to make testing easier. Best anonymization practice is to omit "
+        "this value and let dicognito generate its own random salt.",
+    )
 
     args = parser.parse_args(args)
 
-    anonymizer = Anonymizer(
-        id_prefix=args.id_prefix,
-        id_suffix=args.id_suffix,
-        salt=args.salt,
-    )
+    anonymizer = Anonymizer(id_prefix=args.id_prefix, id_suffix=args.id_suffix, salt=args.salt)
 
     ConvertedStudy = collections.namedtuple("ConvertedStudy", ["AccessionNumber", "PatientID", "PatientName"])
 

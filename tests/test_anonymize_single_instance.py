@@ -18,95 +18,103 @@ def test_minimal_instance_anonymizes_safely():
         anonymizer.anonymize(dataset)
 
 
-@pytest.mark.parametrize('element_path', [
-    'file_meta.MediaStorageSOPClassUID',
-    'file_meta.TransferSyntaxUID',
-    'file_meta.ImplementationClassUID',
-    'SOPClassUID',
-    'SourceImageSequence[0].ReferencedSOPClassUID',
-])
+@pytest.mark.parametrize(
+    "element_path",
+    [
+        "file_meta.MediaStorageSOPClassUID",
+        "file_meta.TransferSyntaxUID",
+        "file_meta.ImplementationClassUID",
+        "SOPClassUID",
+        "SourceImageSequence[0].ReferencedSOPClassUID",
+    ],
+)
 def test_nonidentifying_uis_are_left_alone(element_path):
     with load_test_instance() as dataset:
 
-        expected = eval('dataset.' + element_path)
+        expected = eval("dataset." + element_path)
 
         anonymizer = Anonymizer()
         anonymizer.anonymize(dataset)
 
-        actual = eval('dataset.' + element_path)
+        actual = eval("dataset." + element_path)
 
         assert actual == expected
 
 
-@pytest.mark.parametrize('element_path', [
-    'file_meta.MediaStorageSOPInstanceUID',
-    'SOPInstanceUID',
-    'SourceImageSequence[0].ReferencedSOPInstanceUID',
-    'StudyInstanceUID',
-    'SeriesInstanceUID',
-    'FrameOfReferenceUID',
-])
+@pytest.mark.parametrize(
+    "element_path",
+    [
+        "file_meta.MediaStorageSOPInstanceUID",
+        "SOPInstanceUID",
+        "SourceImageSequence[0].ReferencedSOPInstanceUID",
+        "StudyInstanceUID",
+        "SeriesInstanceUID",
+        "FrameOfReferenceUID",
+    ],
+)
 def test_identifying_uis_are_updated(element_path):
     with load_test_instance() as dataset:
 
-        expected = eval('dataset.' + element_path)
+        expected = eval("dataset." + element_path)
 
         anonymizer = Anonymizer()
         anonymizer.anonymize(dataset)
 
-        actual = eval('dataset.' + element_path)
+        actual = eval("dataset." + element_path)
 
         assert actual != expected
 
 
-@pytest.mark.parametrize('one_element_path,another_element_path', [
-    ('file_meta.MediaStorageSOPInstanceUID', 'SOPInstanceUID'),
-])
+@pytest.mark.parametrize(
+    "one_element_path,another_element_path", [("file_meta.MediaStorageSOPInstanceUID", "SOPInstanceUID")]
+)
 def test_repeated_identifying_uis_get_same_values(one_element_path, another_element_path):
     with load_test_instance() as dataset:
 
         anonymizer = Anonymizer()
         anonymizer.anonymize(dataset)
 
-        one_uid = eval('dataset.' + one_element_path)
-        another_uid = eval('dataset.' + another_element_path)
+        one_uid = eval("dataset." + one_element_path)
+        another_uid = eval("dataset." + another_element_path)
 
         assert one_uid == another_uid
 
 
-@pytest.mark.parametrize('element_path', [
-    'AccessionNumber',
-    'IssuerOfPatientID',
-    'OtherPatientIDs',
-    'OtherPatientIDsSequence[0].PatientID',
-    'OtherPatientIDsSequence[0].IssuerOfPatientID',
-    'OtherPatientIDsSequence[1].PatientID',
-    'OtherPatientIDsSequence[1].IssuerOfPatientID',
-    'PatientID',
-    'PerformedProcedureStepID',
-    'RequestAttributesSequence[0].RequestedProcedureID',
-    'RequestAttributesSequence[0].ScheduledProcedureStepID',
-    'ScheduledProcedureStepID',
-    'StudyID',
-])
+@pytest.mark.parametrize(
+    "element_path",
+    [
+        "AccessionNumber",
+        "IssuerOfPatientID",
+        "OtherPatientIDs",
+        "OtherPatientIDsSequence[0].PatientID",
+        "OtherPatientIDsSequence[0].IssuerOfPatientID",
+        "OtherPatientIDsSequence[1].PatientID",
+        "OtherPatientIDsSequence[1].IssuerOfPatientID",
+        "PatientID",
+        "PerformedProcedureStepID",
+        "RequestAttributesSequence[0].RequestedProcedureID",
+        "RequestAttributesSequence[0].ScheduledProcedureStepID",
+        "ScheduledProcedureStepID",
+        "StudyID",
+    ],
+)
 def test_ids_are_anonymized(element_path):
     with load_test_instance() as dataset:
 
-        original = eval('dataset.' + element_path)
-        print 'original', original
+        original = eval("dataset." + element_path)
         anonymizer = Anonymizer()
         anonymizer.anonymize(dataset)
 
-        actual = eval('dataset.' + element_path)
+        actual = eval("dataset." + element_path)
 
         assert actual != original
 
 
-@pytest.mark.parametrize('number_of_ids', [1, 2, 3])
+@pytest.mark.parametrize("number_of_ids", [1, 2, 3])
 def test_other_patient_ids_anonymized_to_same_number_of_ids(number_of_ids):
     with load_test_instance() as dataset:
 
-        original = ['ID' + str(i) for i in range(1, number_of_ids + 1)]
+        original = ["ID" + str(i) for i in range(1, number_of_ids + 1)]
         dataset.OtherPatientIDs = original
 
         anonymizer = Anonymizer()
@@ -146,8 +154,8 @@ def test_issuer_of_patient_id_not_added_if_empty():
 
 def test_female_patient_name_gets_anonymized():
     with load_test_instance() as dataset:
-        dataset.PatientSex = 'F'
-        dataset.PatientName = 'LAST^FIRST^MIDDLE'
+        dataset.PatientSex = "F"
+        dataset.PatientName = "LAST^FIRST^MIDDLE"
 
         original_patient_name = dataset.PatientName
 
@@ -157,18 +165,15 @@ def test_female_patient_name_gets_anonymized():
         new_patient_name = dataset.PatientName
 
         assert new_patient_name != original_patient_name
-        assert (new_patient_name.split('^')[LAST]
-                in PNAnonymizer._last_names)
-        assert (new_patient_name.split('^')[FIRST]
-                in PNAnonymizer._female_first_names)
-        assert (new_patient_name.split('^')[MIDDLE]
-                in PNAnonymizer._all_first_names)
+        assert new_patient_name.split("^")[LAST] in PNAnonymizer._last_names
+        assert new_patient_name.split("^")[FIRST] in PNAnonymizer._female_first_names
+        assert new_patient_name.split("^")[MIDDLE] in PNAnonymizer._all_first_names
 
 
 def test_male_patient_name_gets_anonymized():
     with load_test_instance() as dataset:
-        dataset.PatientSex = 'M'
-        dataset.PatientName = 'LAST^FIRST^MIDDLE'
+        dataset.PatientSex = "M"
+        dataset.PatientName = "LAST^FIRST^MIDDLE"
 
         original_patient_name = dataset.PatientName
 
@@ -178,18 +183,15 @@ def test_male_patient_name_gets_anonymized():
         new_patient_name = dataset.PatientName
 
         assert new_patient_name != original_patient_name
-        assert (new_patient_name.split('^')[LAST]
-                in PNAnonymizer._last_names)
-        assert (new_patient_name.split('^')[FIRST]
-                in PNAnonymizer._male_first_names)
-        assert (new_patient_name.split('^')[MIDDLE]
-                in PNAnonymizer._all_first_names)
+        assert new_patient_name.split("^")[LAST] in PNAnonymizer._last_names
+        assert new_patient_name.split("^")[FIRST] in PNAnonymizer._male_first_names
+        assert new_patient_name.split("^")[MIDDLE] in PNAnonymizer._all_first_names
 
 
 def test_sex_other_patient_name_gets_anonymized():
     with load_test_instance() as dataset:
-        dataset.PatientSex = 'O'
-        dataset.PatientName = 'LAST^FIRST^MIDDLE'
+        dataset.PatientSex = "O"
+        dataset.PatientName = "LAST^FIRST^MIDDLE"
 
         original_patient_name = dataset.PatientName
 
@@ -199,19 +201,16 @@ def test_sex_other_patient_name_gets_anonymized():
         new_patient_name = dataset.PatientName
 
         assert new_patient_name != original_patient_name
-        assert (new_patient_name.split('^')[LAST]
-                in PNAnonymizer._last_names)
-        assert (new_patient_name.split('^')[FIRST]
-                in PNAnonymizer._all_first_names)
-        assert (new_patient_name.split('^')[MIDDLE]
-                in PNAnonymizer._all_first_names)
+        assert new_patient_name.split("^")[LAST] in PNAnonymizer._last_names
+        assert new_patient_name.split("^")[FIRST] in PNAnonymizer._all_first_names
+        assert new_patient_name.split("^")[MIDDLE] in PNAnonymizer._all_first_names
 
 
-@pytest.mark.parametrize('number_of_names', [1, 2, 3])
+@pytest.mark.parametrize("number_of_names", [1, 2, 3])
 def test_other_patient_names_anonymized_to_same_number_of_names(number_of_names):
     with load_test_instance() as dataset:
 
-        original = ['NAME' + str(i) for i in range(1, number_of_names + 1)]
+        original = ["NAME" + str(i) for i in range(1, number_of_names + 1)]
         dataset.OtherPatientNames = original
 
         anonymizer = Anonymizer()
@@ -223,25 +222,28 @@ def test_other_patient_names_anonymized_to_same_number_of_names(number_of_names)
         assert len(set(actual)) == number_of_names
 
 
-@pytest.mark.parametrize('element_path', [
-    'NameOfPhysiciansReadingStudy',
-    'OperatorsName',
-    'PatientBirthName',
-    'PatientMotherBirthName',
-    'PerformingPhysicianName',
-    'ReferringPhysicianName',
-    'RequestingPhysician',
-    'ResponsiblePerson',
-])
+@pytest.mark.parametrize(
+    "element_path",
+    [
+        "NameOfPhysiciansReadingStudy",
+        "OperatorsName",
+        "PatientBirthName",
+        "PatientMotherBirthName",
+        "PerformingPhysicianName",
+        "ReferringPhysicianName",
+        "RequestingPhysician",
+        "ResponsiblePerson",
+    ],
+)
 def test_non_patient_names_get_anonymized(element_path):
     with load_test_instance() as dataset:
-        original_name = eval('dataset.' + element_path)
+        original_name = eval("dataset." + element_path)
         assert original_name
 
         anonymizer = Anonymizer()
         anonymizer.anonymize(dataset)
 
-        new_name = eval('dataset.' + element_path)
+        new_name = eval("dataset." + element_path)
         assert new_name != original_name
 
 
@@ -263,19 +265,21 @@ def test_patient_address_gets_anonymized():
         assert new_country != original_country
 
 
-@pytest.mark.parametrize('element_name',
-                         [
-                             "Occupation",
-                             "PatientInsurancePlanCodeSequence",
-                             "MilitaryRank",
-                             "BranchOfService",
-                             "PatientTelephoneNumbers",
-                             "PatientTelecomInformation",
-                             "PatientReligiousPreference",
-                             "MedicalRecordLocator",
-                             "ReferencedPatientPhotoSequence",
-                             "ResponsibleOrganization",
-                         ])
+@pytest.mark.parametrize(
+    "element_name",
+    [
+        "Occupation",
+        "PatientInsurancePlanCodeSequence",
+        "MilitaryRank",
+        "BranchOfService",
+        "PatientTelephoneNumbers",
+        "PatientTelecomInformation",
+        "PatientReligiousPreference",
+        "MedicalRecordLocator",
+        "ReferencedPatientPhotoSequence",
+        "ResponsibleOrganization",
+    ],
+)
 def test_extra_patient_attributes_are_removed(element_name):
     with load_test_instance() as dataset:
         assert element_name in dataset
@@ -331,16 +335,18 @@ def test_current_patient_location_gets_anonymized():
         assert actual != original
 
 
-@pytest.mark.parametrize("date_name",
-                         [
-                             "AcquisitionDate",
-                             "ContentDate",
-                             "InstanceCreationDate",
-                             "PatientBirthDate",
-                             "PerformedProcedureStepStartDate",
-                             "SeriesDate",
-                             "StudyDate",
-                         ])
+@pytest.mark.parametrize(
+    "date_name",
+    [
+        "AcquisitionDate",
+        "ContentDate",
+        "InstanceCreationDate",
+        "PatientBirthDate",
+        "PerformedProcedureStepStartDate",
+        "SeriesDate",
+        "StudyDate",
+    ],
+)
 def test_dates_and_times_get_anonymized_when_both_are_present(date_name):
     time_name = date_name[:-4] + "Time"
 
@@ -358,14 +364,13 @@ def test_dates_and_times_get_anonymized_when_both_are_present(date_name):
         new_date_string = getattr(dataset, date_name)
         new_time_string = getattr(dataset, time_name)
 
-    assert ((new_date_string, new_time_string) !=
-            (original_date_string, original_time_string))
+    assert (new_date_string, new_time_string) != (original_date_string, original_time_string)
 
 
 def test_date_gets_anonymized_when_there_is_no_time():
     with load_test_instance() as dataset:
-        original_birth_date = dataset.PatientBirthDate = '19830213'
-        assert 'PatientBirthTime' not in dataset
+        original_birth_date = dataset.PatientBirthDate = "19830213"
+        assert "PatientBirthTime" not in dataset
 
         anonymizer = Anonymizer()
         anonymizer.anonymize(dataset)
@@ -373,15 +378,10 @@ def test_date_gets_anonymized_when_there_is_no_time():
         new_birth_date = dataset.PatientBirthDate
 
     assert new_birth_date != original_birth_date
-    assert 'PatientBirthTime' not in dataset
+    assert "PatientBirthTime" not in dataset
 
 
-@pytest.mark.parametrize("birth_date",
-                         [
-                             "20180202",
-                             "199901",
-                             "1983",
-                         ])
+@pytest.mark.parametrize("birth_date", ["20180202", "199901", "1983"])
 def test_date_gets_anonymized_when_date_has_various_lengths(birth_date):
     with load_test_instance() as dataset:
         dataset.PatientBirthDate = birth_date
@@ -399,19 +399,10 @@ def test_date_gets_anonymized_when_date_has_various_lengths(birth_date):
     assert len(new_time_string) == len(original_birth_time)
 
 
-@pytest.mark.parametrize("birth_time",
-                         [
-                             "",
-                             "07",
-                             "0911",
-                             "131517",
-                             "192123.1",
-                             "192123.12",
-                             "192123.123",
-                             "192123.1234",
-                             "192123.12345",
-                             "192123.123456",
-                         ])
+@pytest.mark.parametrize(
+    "birth_time",
+    ["", "07", "0911", "131517", "192123.1", "192123.12", "192123.123", "192123.1234", "192123.12345", "192123.123456"],
+)
 def test_date_gets_anonymized_when_time_has_various_lengths(birth_time):
     with load_test_instance() as dataset:
         dataset.PatientBirthDate = original_birth_date = "20010401"
@@ -429,16 +420,18 @@ def test_date_gets_anonymized_when_time_has_various_lengths(birth_time):
     assert len(new_time_string) == len(birth_time)
 
 
-@pytest.mark.parametrize("datetime_name",
-                         [
-                             "AcquisitionDateTime",
-                             "FrameReferenceDateTime",
-                             "FrameAcquisitionDateTime",
-                             "StartAcquisitionDateTime",
-                             "EndAcquisitionDateTime",
-                             "PerformedProcedureStepStartDateTime",
-                             "PerformedProcedureStepEndDateTime",
-                         ])
+@pytest.mark.parametrize(
+    "datetime_name",
+    [
+        "AcquisitionDateTime",
+        "FrameReferenceDateTime",
+        "FrameAcquisitionDateTime",
+        "StartAcquisitionDateTime",
+        "EndAcquisitionDateTime",
+        "PerformedProcedureStepStartDateTime",
+        "PerformedProcedureStepEndDateTime",
+    ],
+)
 def test_datetime_gets_anonymized(datetime_name):
     original_datetime = datetime.datetime(1974, 11, 3, 12, 15, 58)
     original_datetime_string = original_datetime.strftime("%Y%m%d%H%M%S")
@@ -454,21 +447,23 @@ def test_datetime_gets_anonymized(datetime_name):
     assert new_datetime_string != original_datetime_string
 
 
-@pytest.mark.parametrize("acquisition_datetime",
-                         [
-                             "1947",
-                             "194711",
-                             "19471103",
-                             "1947110307",
-                             "194711030911",
-                             "19471103131517",
-                             "19471103192123.1",
-                             "19471103192123.12",
-                             "19471103192123.123",
-                             "19471103192123.1234",
-                             "19471103192123.12345",
-                             "19471103192123.123456",
-                         ])
+@pytest.mark.parametrize(
+    "acquisition_datetime",
+    [
+        "1947",
+        "194711",
+        "19471103",
+        "1947110307",
+        "194711030911",
+        "19471103131517",
+        "19471103192123.1",
+        "19471103192123.12",
+        "19471103192123.123",
+        "19471103192123.1234",
+        "19471103192123.12345",
+        "19471103192123.123456",
+    ],
+)
 def test_datetime_of_various_lengths_gets_anonymized(acquisition_datetime):
     with load_test_instance() as dataset:
         dataset.AcquisitionDateTime = acquisition_datetime
