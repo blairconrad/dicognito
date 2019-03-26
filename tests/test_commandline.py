@@ -25,6 +25,17 @@ def test_overwrite_files(capsys):
     assert anon_dataset.PatientName != orig_dataset.PatientName
 
 
+def test_ignores_file_that_do_not_match_glob(capsys):
+    test_name = get_test_name()
+    orig_dataset = read_original_file(test_name, "np01_s01_s01_i01.dcm")
+    assert "CompressedSamples^MR1" == orig_dataset.PatientName
+
+    run_dicognito(capsys, path_to("p*"))
+
+    anon_dataset = read_file(test_name, "np01_s01_s01_i01.dcm")
+    assert anon_dataset.PatientName == orig_dataset.PatientName
+
+
 def test_summary_mixed_files_reports_on_each_study(capsys):
     expected = """\
 Accession Number Patient ID       Patient Name
