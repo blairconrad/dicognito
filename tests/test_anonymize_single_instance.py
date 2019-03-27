@@ -4,12 +4,8 @@ import pytest
 from dicognito.anonymizer import Anonymizer
 from dicognito.pnanonymizer import PNAnonymizer
 
-from data_for_tests import load_minimal_instance
-from data_for_tests import load_test_instance
-
-LAST = 0
-FIRST = 1
-MIDDLE = 2
+from .data_for_tests import load_minimal_instance
+from .data_for_tests import load_test_instance
 
 
 def test_minimal_instance_anonymizes_safely():
@@ -165,9 +161,9 @@ def test_female_patient_name_gets_anonymized():
         new_patient_name = dataset.PatientName
 
         assert new_patient_name != original_patient_name
-        assert new_patient_name.split("^")[LAST] in PNAnonymizer._last_names
-        assert new_patient_name.split("^")[FIRST] in PNAnonymizer._female_first_names
-        assert new_patient_name.split("^")[MIDDLE] in PNAnonymizer._all_first_names
+        assert family_name(new_patient_name) in PNAnonymizer._last_names
+        assert given_name(new_patient_name) in PNAnonymizer._female_first_names
+        assert middle_name(new_patient_name) in PNAnonymizer._all_first_names
 
 
 def test_male_patient_name_gets_anonymized():
@@ -183,9 +179,9 @@ def test_male_patient_name_gets_anonymized():
         new_patient_name = dataset.PatientName
 
         assert new_patient_name != original_patient_name
-        assert new_patient_name.split("^")[LAST] in PNAnonymizer._last_names
-        assert new_patient_name.split("^")[FIRST] in PNAnonymizer._male_first_names
-        assert new_patient_name.split("^")[MIDDLE] in PNAnonymizer._all_first_names
+        assert family_name(new_patient_name) in PNAnonymizer._last_names
+        assert given_name(new_patient_name) in PNAnonymizer._male_first_names
+        assert middle_name(new_patient_name) in PNAnonymizer._all_first_names
 
 
 def test_sex_other_patient_name_gets_anonymized():
@@ -201,9 +197,9 @@ def test_sex_other_patient_name_gets_anonymized():
         new_patient_name = dataset.PatientName
 
         assert new_patient_name != original_patient_name
-        assert new_patient_name.split("^")[LAST] in PNAnonymizer._last_names
-        assert new_patient_name.split("^")[FIRST] in PNAnonymizer._all_first_names
-        assert new_patient_name.split("^")[MIDDLE] in PNAnonymizer._all_first_names
+        assert family_name(new_patient_name) in PNAnonymizer._last_names
+        assert given_name(new_patient_name) in PNAnonymizer._all_first_names
+        assert middle_name(new_patient_name) in PNAnonymizer._all_first_names
 
 
 @pytest.mark.parametrize("number_of_names", [1, 2, 3])
@@ -383,15 +379,15 @@ def test_date_gets_anonymized_when_there_is_no_time():
 
 @pytest.mark.parametrize("birth_date", ["20180202", "199901", "1983"])
 def test_date_gets_anonymized_when_date_has_various_lengths(birth_date):
-    with load_test_instance() as dataset:
-        dataset.PatientBirthDate = birth_date
-        dataset.PatientBirthTime = original_birth_time = "123456"
+    dataset = load_test_instance()
+    dataset.PatientBirthDate = birth_date
+    dataset.PatientBirthTime = original_birth_time = "123456"
 
-        anonymizer = Anonymizer()
-        anonymizer.anonymize(dataset)
+    anonymizer = Anonymizer()
+    anonymizer.anonymize(dataset)
 
-        new_date_string = dataset.PatientBirthDate
-        new_time_string = dataset.PatientBirthTime
+    new_date_string = dataset.PatientBirthDate
+    new_time_string = dataset.PatientBirthTime
 
     assert new_date_string != birth_date
     assert len(new_date_string) == len(birth_date)
@@ -489,3 +485,24 @@ def test_no_sex_still_changes_patient_name():
         new_patient_name = dataset.PatientName
 
     assert new_patient_name != original_patient_name
+
+
+def given_name(name):
+    if isinstance(name, str):
+        return name.split(b"^")[1]
+    else:
+        return name.given_name
+
+
+def family_name(name):
+    if isinstance(name, str):
+        return name.split(b"^")[0]
+    else:
+        return name.family_name
+
+
+def middle_name(name):
+    if isinstance(name, str):
+        return name.split(b"^")[2]
+    else:
+        return name.middle_name

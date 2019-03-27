@@ -1,6 +1,7 @@
 import collections
 import datetime
 import pydicom
+import pydicom.dataelem
 import random
 
 
@@ -17,7 +18,10 @@ class UIAnonymizer:
         ):
             return False
 
-        data_element.value = self._ui_map[data_element.value]
+        if pydicom.dataelem.isMultiValue(data_element.value):
+            data_element.value = list([self._ui_map[v] for v in data_element.value])
+        else:
+            data_element.value = self._ui_map[data_element.value]
         return True
 
     def _new_ui(self):

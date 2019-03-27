@@ -1,3 +1,7 @@
+### New
+
+- Support python 3.7 ([#31](https://github.com/blairconrad/dicognito/issues/31))
+
 ### Additional Items
 
 - Format code using [black](https://black.readthedocs.io/en/stable/)

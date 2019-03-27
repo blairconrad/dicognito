@@ -1,7 +1,7 @@
 import os.path
 import shutil
-import data_for_tests
 import dicognito.__main__
+from .data_for_tests import load_dcm
 
 
 def test_overwrite_files(capsys):
@@ -62,7 +62,7 @@ def run_dicognito(test_name, capsys, *extra_args):
 
 
 def read_file(directory, name):
-    return data_for_tests.load_dcm(os.path.join("data", directory, name))
+    return load_dcm(os.path.join("data", directory, name))
 
 
 def copy_file(test_name, original_name, new_name):

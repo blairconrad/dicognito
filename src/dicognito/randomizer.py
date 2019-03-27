@@ -1,4 +1,4 @@
-import md5
+import hashlib
 import os
 
 
@@ -9,13 +9,23 @@ class Randomizer:
         self.salt = str(salt)
 
     def to_int(self, original_value):
-        hash = md5.md5(self.salt + str(original_value)).digest()
-        return reduce(lambda a, b: a * 0x100 + ord(b), hash, 0)
+        message = self.salt + str(original_value)
+        if isinstance(message, bytes):
+            encoded = message
+            hash = [ord(d) for d in hashlib.md5(encoded).digest()]
+        else:
+            encoded = message.encode("utf8")
+            hash = hashlib.md5(encoded).digest()
+        result = 0
+        for c in hash:
+            result *= 0x100
+            result += c
+        return result
 
     def get_ints_from_ranges(self, original_value, *suprenums):
         big_int = self.to_int(original_value)
         result = []
         for s in suprenums:
             result.append(big_int % s)
-            big_int /= s
+            big_int //= s
         return result

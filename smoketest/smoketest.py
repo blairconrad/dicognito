@@ -18,11 +18,11 @@ ds.PatientBirthDate = "19670219"
 ds.PatientBirthTime = "2315"
 
 ds.save_as(script_dir + "/original.dcm")
-with file(script_dir + "/original.txt", "wb") as f:
+with open(script_dir + "/original.txt", "wb") as f:
     f.write(str(ds))
 
 dicognito.anonymizer.Anonymizer().anonymize(ds)
 
 ds.save_as(script_dir + "/anonymizeds.dcm")
-with file(script_dir + "/anonymized.txt", "wb") as f:
+with open(script_dir + "/anonymized.txt", "wb") as f:
     f.write(str(ds))

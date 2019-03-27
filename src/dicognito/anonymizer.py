@@ -1,12 +1,12 @@
-from addressanonymizer import AddressAnonymizer
-from equipmentanonymizer import EquipmentAnonymizer
-from fixedvalueanonymizer import FixedValueAnonymizer
-from idanonymizer import IDAnonymizer
-from pnanonymizer import PNAnonymizer
-from datetimeanonymizer import DateTimeAnonymizer
-from uianonymizer import UIAnonymizer
-from unwantedelements import UnwantedElementsStripper
-from randomizer import Randomizer
+from dicognito.addressanonymizer import AddressAnonymizer
+from dicognito.equipmentanonymizer import EquipmentAnonymizer
+from dicognito.fixedvalueanonymizer import FixedValueAnonymizer
+from dicognito.idanonymizer import IDAnonymizer
+from dicognito.pnanonymizer import PNAnonymizer
+from dicognito.datetimeanonymizer import DateTimeAnonymizer
+from dicognito.uianonymizer import UIAnonymizer
+from dicognito.unwantedelements import UnwantedElementsStripper
+from dicognito.randomizer import Randomizer
 
 import random
 
