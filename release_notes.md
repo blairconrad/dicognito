@@ -1,3 +1,7 @@
+### Additional Items
+
+- Update package keywords and pointer to releases ([#37](https://github.com/blairconrad/dicognito/issues/37))
+
 ## 0.5.0
 
 ### New
