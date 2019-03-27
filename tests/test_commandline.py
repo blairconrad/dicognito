@@ -70,6 +70,17 @@ def test_directory_is_recursed(capsys):
     assert orig_dataset2.PatientName != anon_dataset2.PatientName
 
 
+def test_non_dicom_files_ignored(capsys):
+    test_name = get_test_name()
+    orig_dataset = read_original_file(test_name, "p01_s01_s01_i01.dcm")
+    assert "CompressedSamples^MR1" == orig_dataset.PatientName
+
+    run_dicognito(capsys, path_to(""))
+
+    anon_dataset = read_file(test_name, "p01_s01_s01_i01.dcm")
+    assert orig_dataset.PatientName != anon_dataset.PatientName
+
+
 def get_test_name():
     depth = 1
     while True:

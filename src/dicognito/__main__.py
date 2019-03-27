@@ -77,12 +77,15 @@ def main(args=None):
     converted_studies = set()
     for source in args.sources:
         for file in get_files_from_source(source):
-            with pydicom.dcmread(file, force=True) as dataset:
-                anonymizer.anonymize(dataset)
-                dataset.save_as(file, write_like_original=False)
-                converted_studies.add(
-                    ConvertedStudy(dataset.AccessionNumber, dataset.PatientID, str(dataset.PatientName))
-                )
+            try:
+                with pydicom.dcmread(file, force=False) as dataset:
+                    anonymizer.anonymize(dataset)
+                    dataset.save_as(file, write_like_original=False)
+                    converted_studies.add(
+                        ConvertedStudy(dataset.AccessionNumber, dataset.PatientID, str(dataset.PatientName))
+                    )
+            except pydicom.errors.InvalidDicomError:
+                continue
 
     if not args.quiet:
         headers = ("Accession Number", "Patient ID", "Patient Name")
