@@ -14,18 +14,17 @@ pip install dicognito
 
 ## Anonymizing from the command line
 
-Once installed, a `dicognito` command will be added to you Python scripts directory. You can run it on a collection
-of files specified by glob like so:
+Once installed, a `dicognito` command will be added to your Python scripts directory.
+You can run it on entire filesystem trees or a collection of files specified by glob like so:
 
 ```
-dicognito *.dcm
+dicognito .      # recurses down the filesystem, anonymizing all found DICOM files
+dicognito *.dcm  # anonymizes all files in the current directory with the dcm extension
 ```
 
-Anonymized versions of the files will be created, with significant attributes, such as identifiers, names, and
-addresses, replaced by random values. Dates and times will be shifted a random amount, but their order will remain
-consistent within and across the files.
-
-The new files will all be named "anon-_original filename_" and will appear next to the original ones.
+Files will be anonymized in place, with significant attributes, such as identifiers, names, and
+addresses, replaced by random values. Dates and times will be shifted a random amount, but their
+order will remain consistent within and across the files.
 
 Get more help via `dicognito --help`.
 
