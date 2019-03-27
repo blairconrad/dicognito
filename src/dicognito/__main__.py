@@ -16,11 +16,12 @@ def main(args=None):
 
     parser = argparse.ArgumentParser(description="Anonymize one or more DICOM files.")
     parser.add_argument(
-        "patterns",
-        metavar="pattern",
+        "sources",
+        metavar="source",
         type=str,
         nargs="+",
-        help="the files to anonymize (may include wildcards, e.g. *.dcm)",
+        help="The directories or file globs (e.g. *.dcm) to anonymize. Directories "
+        "will be recursed, and all files found within will be anonymized.",
     )
     parser.add_argument(
         "--id-prefix",
@@ -61,12 +62,23 @@ def main(args=None):
 
     ConvertedStudy = collections.namedtuple("ConvertedStudy", ["AccessionNumber", "PatientID", "PatientName"])
 
+    def get_files_from_source(source):
+        if os.path.isfile(source):
+            yield source
+        elif os.path.isdir(source):
+            for (dirpath, dirnames, filenames) in os.walk(source):
+                for filename in filenames:
+                    yield os.path.join(dirpath, filename)
+        else:
+            for expanded_source in glob.glob(source):
+                for file in get_files_from_source(expanded_source):
+                    yield file
+
     converted_studies = set()
-    for pattern in args.patterns:
-        for file in glob.glob(pattern):
+    for source in args.sources:
+        for file in get_files_from_source(source):
             with pydicom.dcmread(file, force=True) as dataset:
                 anonymizer.anonymize(dataset)
-                (filedir, filename) = os.path.split(file)
                 dataset.save_as(file, write_like_original=False)
                 converted_studies.add(
                     ConvertedStudy(dataset.AccessionNumber, dataset.PatientID, str(dataset.PatientName))

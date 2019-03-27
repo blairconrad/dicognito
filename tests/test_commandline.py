@@ -55,6 +55,21 @@ def test_summary_with_quiet_no_report(capsys):
     assert expected == actual
 
 
+def test_directory_is_recursed(capsys):
+    test_name = get_test_name()
+    orig_dataset1 = read_original_file(test_name, "p01_s01_s01_i01.dcm")
+    orig_dataset2 = read_original_file(test_name, "a", "b", "p01_s02_s01_i01.dcm")
+    assert "CompressedSamples^MR1" == orig_dataset1.PatientName
+    assert "CompressedSamples^MR1" == orig_dataset2.PatientName
+
+    run_dicognito(capsys, path_to(""))
+
+    anon_dataset1 = read_file(test_name, "p01_s01_s01_i01.dcm")
+    anon_dataset2 = read_file(test_name, "a", "b", "p01_s02_s01_i01.dcm")
+    assert orig_dataset1.PatientName != anon_dataset1.PatientName
+    assert orig_dataset2.PatientName != anon_dataset2.PatientName
+
+
 def get_test_name():
     depth = 1
     while True:
@@ -75,9 +90,9 @@ def run_dicognito(capsys, *extra_args):
     return out
 
 
-def read_file(directory, name):
-    return load_dcm(os.path.join("data", directory, name))
+def read_file(*directory_parts):
+    return load_dcm(os.path.join("data", *directory_parts))
 
 
-def read_original_file(directory, name):
-    return load_dcm(os.path.join("orig_data", directory, name))
+def read_original_file(*directory_parts):
+    return load_dcm(os.path.join("orig_data", *directory_parts))
