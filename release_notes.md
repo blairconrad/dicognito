@@ -1,3 +1,5 @@
+## 0.5.0
+
 ### New
 
 - Add option to anonymize directory trees ([#22](https://github.com/blairconrad/dicognito/issues/22))
