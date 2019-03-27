@@ -5,6 +5,7 @@ import argparse
 import collections
 import glob
 import os.path
+import logging
 import pydicom
 
 from dicognito.anonymizer import Anonymizer
@@ -50,6 +51,12 @@ def main(args=None):
         help="Reduce the verbosity of output. Suppresses summary of anonymized studies.",
     )
     parser.add_argument(
+        "--log-level",
+        action="store",
+        default="WARNING",
+        help="Set the log level. May be one of DEBUG, INFO, WARNING, ERROR, or CRITICAL.",
+    )
+    parser.add_argument(
         "--salt",  # currently only intended to make testing easier
         help="The salt to use when generating random attribute values. Primarily "
         "intended to make testing easier. Best anonymization practice is to omit "
@@ -57,6 +64,11 @@ def main(args=None):
     )
 
     args = parser.parse_args(args)
+
+    numeric_level = getattr(logging, args.log_level.upper(), None)
+    if not isinstance(numeric_level, int):
+        raise ValueError("Invalid log level: %s" % args.log_level)
+    logging.basicConfig(format="", level=numeric_level)
 
     anonymizer = Anonymizer(id_prefix=args.id_prefix, id_suffix=args.id_suffix, salt=args.salt)
 
@@ -85,6 +97,7 @@ def main(args=None):
                         ConvertedStudy(dataset.AccessionNumber, dataset.PatientID, str(dataset.PatientName))
                     )
             except pydicom.errors.InvalidDicomError:
+                logging.info("File %s appears not to be DICOM. Skipping.", file)
                 continue
 
     if not args.quiet:
