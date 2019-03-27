@@ -1,5 +1,6 @@
 ### New
 
+- Add option to anonymize directory trees ([#22](https://github.com/blairconrad/dicognito/issues/22))
 - Support python 3.7 ([#31](https://github.com/blairconrad/dicognito/issues/31))
 
 ### Additional Items

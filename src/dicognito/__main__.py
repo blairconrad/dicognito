@@ -5,6 +5,7 @@ import argparse
 import collections
 import glob
 import os.path
+import logging
 import pydicom
 
 from dicognito.anonymizer import Anonymizer
@@ -16,11 +17,12 @@ def main(args=None):
 
     parser = argparse.ArgumentParser(description="Anonymize one or more DICOM files.")
     parser.add_argument(
-        "patterns",
-        metavar="pattern",
+        "sources",
+        metavar="source",
         type=str,
         nargs="+",
-        help="the files to anonymize (may include wildcards, e.g. *.dcm)",
+        help="The directories or file globs (e.g. *.dcm) to anonymize. Directories "
+        "will be recursed, and all files found within will be anonymized.",
     )
     parser.add_argument(
         "--id-prefix",
@@ -49,6 +51,12 @@ def main(args=None):
         help="Reduce the verbosity of output. Suppresses summary of anonymized studies.",
     )
     parser.add_argument(
+        "--log-level",
+        action="store",
+        default="WARNING",
+        help="Set the log level. May be one of DEBUG, INFO, WARNING, ERROR, or CRITICAL.",
+    )
+    parser.add_argument(
         "--salt",  # currently only intended to make testing easier
         help="The salt to use when generating random attribute values. Primarily "
         "intended to make testing easier. Best anonymization practice is to omit "
@@ -57,20 +65,40 @@ def main(args=None):
 
     args = parser.parse_args(args)
 
+    numeric_level = getattr(logging, args.log_level.upper(), None)
+    if not isinstance(numeric_level, int):
+        raise ValueError("Invalid log level: %s" % args.log_level)
+    logging.basicConfig(format="", level=numeric_level)
+
     anonymizer = Anonymizer(id_prefix=args.id_prefix, id_suffix=args.id_suffix, salt=args.salt)
 
     ConvertedStudy = collections.namedtuple("ConvertedStudy", ["AccessionNumber", "PatientID", "PatientName"])
 
+    def get_files_from_source(source):
+        if os.path.isfile(source):
+            yield source
+        elif os.path.isdir(source):
+            for (dirpath, dirnames, filenames) in os.walk(source):
+                for filename in filenames:
+                    yield os.path.join(dirpath, filename)
+        else:
+            for expanded_source in glob.glob(source):
+                for file in get_files_from_source(expanded_source):
+                    yield file
+
     converted_studies = set()
-    for pattern in args.patterns:
-        for file in glob.glob(pattern):
-            with pydicom.dcmread(file, force=True) as dataset:
-                anonymizer.anonymize(dataset)
-                (filedir, filename) = os.path.split(file)
-                dataset.save_as(file, write_like_original=False)
-                converted_studies.add(
-                    ConvertedStudy(dataset.AccessionNumber, dataset.PatientID, str(dataset.PatientName))
-                )
+    for source in args.sources:
+        for file in get_files_from_source(source):
+            try:
+                with pydicom.dcmread(file, force=False) as dataset:
+                    anonymizer.anonymize(dataset)
+                    dataset.save_as(file, write_like_original=False)
+                    converted_studies.add(
+                        ConvertedStudy(dataset.AccessionNumber, dataset.PatientID, str(dataset.PatientName))
+                    )
+            except pydicom.errors.InvalidDicomError:
+                logging.info("File %s appears not to be DICOM. Skipping.", file)
+                continue
 
     if not args.quiet:
         headers = ("Accession Number", "Patient ID", "Patient Name")
