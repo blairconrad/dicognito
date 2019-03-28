@@ -1,6 +1,7 @@
 ### Additional Items
 
 - Add how_to_build.md ([#8](https://github.com/blairconrad/dicognito/issues/8))
+- Update CONTRIBUTING.md ([#9](https://github.com/blairconrad/dicognito/issues/9))
 - Update package keywords and pointer to releases ([#37](https://github.com/blairconrad/dicognito/issues/37))
 - Update docs in README ([#36](https://github.com/blairconrad/dicognito/issues/36))
 
