@@ -1,6 +1,7 @@
 ### Additional Items
 
 - Update package keywords and pointer to releases ([#37](https://github.com/blairconrad/dicognito/issues/37))
+- Update docs in README ([#36](https://github.com/blairconrad/dicognito/issues/36))
 
 ## 0.5.0
 
