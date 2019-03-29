@@ -21,14 +21,12 @@ class EquipmentAnonymizer:
 
     def anonymize_institution_name(self, dataset, data_element):
         region = self.address_anonymizer.get_region(data_element.value)
-        dataset.InstitutionAddress = " ".join(
-            [
-                self.address_anonymizer.get_street_address(data_element.value),
-                region,
-                self.address_anonymizer.get_country(data_element.value),
-            ]
+        street_address = self.address_anonymizer.get_street_address(data_element.value)
+        street = street_address.split(" ", 1)[1]
+        dataset.InstitutionAddress = ", ".join(
+            [street_address, region, self.address_anonymizer.get_country(data_element.value)]
         )
-        data_element.value = region + " CLINIC"
+        data_element.value = region + "'S " + street + " CLINIC"
 
     def anonymize_institution_address(self, dataset, data_element):
         # handled by anonymize_institution_name

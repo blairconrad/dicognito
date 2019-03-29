@@ -19,10 +19,10 @@ ds.PatientBirthTime = "2315"
 
 ds.save_as(script_dir + "/original.dcm")
 with open(script_dir + "/original.txt", "wb") as f:
-    f.write(str(ds))
+    f.write(str(ds).encode("utf-8"))
 
 dicognito.anonymizer.Anonymizer().anonymize(ds)
 
 ds.save_as(script_dir + "/anonymizeds.dcm")
 with open(script_dir + "/anonymized.txt", "wb") as f:
-    f.write(str(ds))
+    f.write(str(ds).encode("utf-8"))

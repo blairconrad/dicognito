@@ -1,3 +1,7 @@
+### Changed
+
+- Made InstitutionName more unique ([#19](https://github.com/blairconrad/dicognito/issues/19))
+
 ### Additional Items
 
 - Add how_to_build.md ([#8](https://github.com/blairconrad/dicognito/issues/8))
