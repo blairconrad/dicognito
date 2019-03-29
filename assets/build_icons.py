@@ -6,13 +6,35 @@ except:  # NOQA - fallback, no matter the cause
     except:  # NOQA - we'll raise a better exception
         raise Exception("Can't import PIL or PILLOW. Install one.")
 
-incognito = Image.open("noun_Incognito_7572.png")
-xray = Image.open("noun_Radiology_1777366.png")
+
+def build_icon(final_width, xray, incognito):
+    xray = prepare_xray(final_width, xray)
+    incognito = prepare_incognito(incognito)
+
+    xray_border_size = 9
+
+    logo_size = get_logo_size(incognito, xray, xray_border_size)
+
+    icon = Image.new("RGB", logo_size, "white")
+    paste_icon_part(icon, incognito, vertical_position=0)
+    paste_icon_part(icon, xray, vertical_position=incognito.height + xray_border_size)
+
+    icon = icon.resize((final_width, final_width), Image.BICUBIC)
+    icon.save("dicognito_" + str(icon.width) + ".png")
 
 
-def build_icon(size):
+def paste_icon_part(icon, part, vertical_position):
+    icon.paste(part, ((icon.width - part.width) // 2, vertical_position), part)
 
-    if size > 100:
+
+def prepare_xray(final_width, xray):
+    xray_bounds = get_xray_bounds(final_width)
+    xray = xray.crop(xray_bounds)
+    return xray
+
+
+def get_xray_bounds(final_width):
+    if final_width > 100:
         xray_left = 112
         xray_top = 253
         xray_height = 298
@@ -22,40 +44,32 @@ def build_icon(size):
         xray_height = 225
 
     xray_width = xray.width - xray_left * 2
-    xray_top_part = xray.crop((xray_left, xray_top, xray_left + xray_width, xray_top + xray_height))
 
-    backed_xray = Image.new("RGB", xray_top_part.size, "white")
-    backed_xray.paste(xray_top_part, (0, 0), xray_top_part)
+    return (xray_left, xray_top, xray_left + xray_width, xray_top + xray_height)
 
-    incognito_left = 40
-    incognito_top = 15
-    incognito_right = incognito.width - 60
-    incognito_bottom = 500
-    incognito_cropped = incognito.crop((incognito_left, incognito_top, incognito_right, incognito_bottom))
 
-    backed_incognito_cropped = Image.new("RGB", incognito_cropped.size, "white")
-    backed_incognito_cropped.paste(incognito_cropped, (0, 0), incognito_cropped)
+def prepare_incognito(incognito):
+    incognito_bounds = (40, 15, 640, 500)
+    incognito = incognito.crop(incognito_bounds)
 
     new_width = 262
-    new_height = int(1.0 * backed_incognito_cropped.height / backed_incognito_cropped.width * new_width)
+    new_height = int(1.0 * incognito.height / incognito.width * new_width)
 
-    backed_incognito_resized = backed_incognito_cropped.resize((new_width, new_height), Image.BICUBIC)
-
-    # backed_incognito_resized.show()
-    gap_size = 9
-    bottom_padding_size = gap_size
-
-    logo_height = backed_xray.height + backed_incognito_resized.height + gap_size + bottom_padding_size
-    logo_width = backed_xray.width
-
-    logo_size = max(logo_width, logo_height)
-
-    logo = Image.new(backed_xray.mode, (logo_size, logo_size), "white")
-    logo.paste(backed_incognito_resized, ((logo.width - backed_incognito_resized.width) / 2, 0))
-    logo.paste(backed_xray, ((logo.width - backed_xray.width) / 2, backed_incognito_resized.height + gap_size))
-
-    logo.resize((size, size), Image.BICUBIC).save("dicognito_" + str(size) + ".png")
+    incognito = incognito.resize((new_width, new_height), Image.BICUBIC)
+    return incognito
 
 
-for size in [512, 256, 128, 64, 48, 32, 16]:
-    build_icon(size)
+def get_logo_size(incognito, xray, xray_border_size):
+    height = incognito.height + xray.height + 2 * xray_border_size
+    width = xray.width
+
+    largest_dimension = max(width, height)
+    return (largest_dimension, largest_dimension)
+
+
+incognito = Image.open("noun_Incognito_7572.png")
+xray = Image.open("noun_Radiology_1777366.png")
+
+
+for final_width in [512, 256, 128, 64, 48, 32, 16]:
+    build_icon(final_width, xray, incognito)
