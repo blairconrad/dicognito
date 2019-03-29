@@ -1,3 +1,5 @@
+## 0.6.0
+
 ### Changed
 
 - Made InstitutionName more unique ([#19](https://github.com/blairconrad/dicognito/issues/19))
