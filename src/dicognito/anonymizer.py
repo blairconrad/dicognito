@@ -1,3 +1,6 @@
+"""\
+Defines Anonymizer, the principle class used to anonymize DICOM objects.
+"""
 from dicognito.addressanonymizer import AddressAnonymizer
 from dicognito.equipmentanonymizer import EquipmentAnonymizer
 from dicognito.fixedvalueanonymizer import FixedValueAnonymizer
@@ -12,7 +15,46 @@ import random
 
 
 class Anonymizer:
+    """\
+    The main class responsible for anonymizing pydicom datasets.
+    New instances will anonymize instances differently, so when
+    anonymizing instances from the same series, study, or patient,
+    reuse an Anonymizer.
+
+    Examples
+    --------
+    Anonymizing a single instance:
+
+    >>> anonymizer = Anonymizer()
+    >>> with load_instance() as dataset:
+    >>>     anonymizer.anonymize(dataset)
+    >>>     dataset.save_as("new filename")
+
+    Anonymizing several instances:
+
+    >>> anonymizer = Anonymizer()
+    >>> for filename in filenames:
+    >>>     with load_instance(filename) as dataset:
+    >>>         anonymizer.anonymize(dataset)
+    >>>         dataset.save_as("new-" + filename)
+    """
+
     def __init__(self, id_prefix="", id_suffix="", salt=None):
+        """\
+        Create a new Anonymizer.
+
+        Parameters
+        ----------
+        id_prefix : str
+            A prefix to add to all unstructured ID fields, such as Patient
+            ID, Accession Number, etc.
+        id_suffix : str
+            A prefix to add to all unstructured ID fields, such as Patient
+            ID, Accession Number, etc.
+        salt
+            Not intended for general use. Seeds the data randomizer in order
+            to produce consistent results. Used for testing.
+        """
         minimum_offset_hours = 62 * 24
         maximum_offset_hours = 730 * 24
         randomizer = Randomizer(salt)
@@ -52,6 +94,15 @@ class Anonymizer:
         ]
 
     def anonymize(self, dataset):
+        """\
+        Anonymize a dataset in place. Replaces all PNs, UIs, dates and times, and
+        known identifiying attributes with other vlaues.
+
+        Parameters
+        ----------
+        dataset : pydicom.dataset.DataSet
+            A DICOM dataset to anonymize.
+        """
         dataset.file_meta.walk(self._anonymize_element)
         dataset.walk(self._anonymize_element)
 

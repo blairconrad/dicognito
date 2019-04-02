@@ -4,11 +4,30 @@ import os
 
 class Randomizer:
     def __init__(self, salt):
+        """\
+        Create a new Randomizer.
+
+        Parameters
+        ----------
+        salt
+            Not intended for general use. Seeds the data randomizer so it
+            produces consistent results when anonymizing elements with the
+            same initial values.
+        """
         if salt is None:
             salt = os.urandom(20)
         self.salt = str(salt)
 
     def to_int(self, original_value):
+        """\
+        Convert an original data element value into a large integer,
+        which can be used to select or construct a replacement value.
+
+        Parameters
+        ----------
+        original_value
+            The original value that will ultimately be replaced.
+        """
         message = self.salt + str(original_value)
         if isinstance(message, bytes):
             encoded = message
@@ -23,6 +42,19 @@ class Randomizer:
         return result
 
     def get_ints_from_ranges(self, original_value, *suprenums):
+        """\
+        Convert an original data element value into a series of
+        integers, each between 0 (inclusive) and one of the suprenums
+        (exclusive) passed in.
+
+        Parameters
+        ----------
+        original_value
+            The original value that will ultimately be replaced.
+
+        suprenums : sequence of int
+            The upper bounds for each of the desired integer ranges.
+        """
         big_int = self.to_int(original_value)
         result = []
         for s in suprenums:
