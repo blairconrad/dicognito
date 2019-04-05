@@ -3,9 +3,36 @@ import datetime
 
 class DateTimeAnonymizer:
     def __init__(self, offset_hours):
+        """\
+        Create a new DateTimeAnonymizer.
+
+        Parameters
+        ----------
+        offset_hours : int
+            The number of hours to shift dates and times by. May be
+            negative or zero.
+        """
         self.offset = datetime.timedelta(hours=offset_hours)
 
     def __call__(self, dataset, data_element):
+        """\
+        Potentially anonymize one or two elements, replacing their
+        value(s) with something that obscures the patient's identity.
+
+        Parameters
+        ----------
+        dataset : pydicom.dataset.Dataset
+            The dataset to operate on.
+
+        data_element : pydicom.dataset.DataElement
+            The current element. Will be anonymized if it has VR DA
+            or DT. If it has value DA, the corresponding TM will also
+            be anonymized.
+
+        Returns
+        -------
+        True if an element (or two) was anonymized, or False if not.
+        """
         if data_element.VR != "DA" and data_element.VR != "DT":
             return False
         if not data_element.value:

@@ -1,4 +1,6 @@
-"""dicognito - anonymize DICOM files"""
+"""\
+Anonymize one or more DICOM files' headers (not pixel data).
+"""
 from __future__ import print_function
 import sys
 import argparse
@@ -15,7 +17,7 @@ def main(args=None):
     if args is None:
         args = sys.argv[1:]
 
-    parser = argparse.ArgumentParser(description="Anonymize one or more DICOM files.")
+    parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "sources",
         metavar="source",
@@ -53,6 +55,7 @@ def main(args=None):
     parser.add_argument(
         "--log-level",
         action="store",
+        metavar="LEVEL",
         default="WARNING",
         help="Set the log level. May be one of DEBUG, INFO, WARNING, ERROR, or CRITICAL.",
     )

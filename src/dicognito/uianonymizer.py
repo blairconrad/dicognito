@@ -7,9 +7,30 @@ import random
 
 class UIAnonymizer:
     def __init__(self):
+        """\
+        Create a new UIAnonymizer.
+        """
         self._ui_map = collections.defaultdict(self._new_ui)
 
     def __call__(self, dataset, data_element):
+        """\
+        Potentially anonymize a single DataElement, replacing its
+        value with something that obscures the patient's identity.
+
+        Parameters
+        ----------
+        dataset : pydicom.dataset.Dataset
+            The dataset to operate on.
+
+        data_element : pydicom.dataset.DataElement
+            The current element. Will be anonymized if its VR is UI.
+            If multi-valued, each item will be anonymized
+            independently.
+
+        Returns
+        -------
+        True if the element was anonymized, or False if not.
+        """
         if (
             data_element.VR != "UI"
             or not data_element.value

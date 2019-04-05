@@ -3,6 +3,14 @@ import pydicom
 
 class EquipmentAnonymizer:
     def __init__(self, address_anonymizer):
+        """\
+        Create a new EquipmentAnonymizer.
+
+        Parameters
+        ----------
+        address_anonymizer : dicognito.addressanonymizer.AddressAnonymizer
+            Provides anonymized address components.
+        """
         self.address_anonymizer = address_anonymizer
 
         self._element_anonymizers = {
@@ -13,6 +21,26 @@ class EquipmentAnonymizer:
         }
 
     def __call__(self, dataset, data_element):
+        """\
+        Potentially anonymize a single DataElement, replacing its
+        value with something that obscures the patient's identity.
+
+        Parameters
+        ----------
+        dataset : pydicom.dataset.Dataset
+            The dataset to operate on.
+
+        data_element : pydicom.dataset.DataElement
+            The current element. Will be anonymized if it has a value
+            and if its keyword is one of InstitutionName,
+            InstitutionAddress, InstitutionalDepartmentName, or
+            StationName. Additionally, if its keyword is InstitutionName,
+            then InstitutionAddress will also be anonymized.
+
+        Returns
+        -------
+        True if the element was anonymized, or False if not.
+        """
         element_anonymizer = self._element_anonymizers.get(data_element.tag, None)
         if not element_anonymizer:
             return False

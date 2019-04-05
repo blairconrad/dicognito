@@ -3,9 +3,33 @@ import pydicom
 
 class PNAnonymizer:
     def __init__(self, randomizer):
+        """\
+        Create a new PNAnonymizer.
+
+        Parameters
+        ----------
+        randomizer : dicognito.randomizer.Randomizer
+            Provides a source of randomness.
+        """
         self.randomizer = randomizer
 
     def __call__(self, dataset, data_element):
+        """\
+        Potentially anonymize a single DataElement, replacing its
+        value with something that obscures the patient's identity.
+
+        Parameters
+        ----------
+        dataset : pydicom.dataset.Dataset
+            The dataset to operate on.
+
+        data_element : pydicom.dataset.DataElement
+            The current element. Will be anonymized if its VR is PN.
+
+        Returns
+        -------
+        True if the element was anonymized, or False if not.
+        """
         if data_element.VR != "PN":
             return False
         if not data_element.value:

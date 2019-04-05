@@ -1,3 +1,7 @@
+### Additional Items
+
+- Add API documentation ([#45](https://github.com/blairconrad/dicognito/issues/45))
+
 ## 0.6.0
 
 ### Changed
