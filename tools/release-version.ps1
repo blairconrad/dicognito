@@ -8,7 +8,7 @@ $ErrorActionPreference = "Stop"
 Push-Location $PSScriptRoot.Parent
 
 try {
-    $releaseNotesFile = Resolve-Path release_notes.md
+    $releaseNotesFile = Resolve-Path src/dicognito/release_notes.md
     $branchName = "release/$NewVersion"
 
     Write-Host "Releasing version $NewVersion"

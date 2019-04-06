@@ -21,7 +21,7 @@ try {
     $gitHubAuthToken = $env:GITHUB_TOKEN
     $repo = $env:APPVEYOR_REPO_NAME
 
-    $releaseNotesFile = 'release_notes.md'
+    $releaseNotesFile = 'src/dicognito/release_notes.md'
     # Use Tls12 to communicate with GitHub
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
