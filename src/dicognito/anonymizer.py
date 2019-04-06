@@ -39,7 +39,7 @@ class Anonymizer:
     >>>         dataset.save_as("new-" + filename)
     """
 
-    def __init__(self, id_prefix="", id_suffix="", salt=None):
+    def __init__(self, id_prefix="", id_suffix="", seed=None):
         """\
         Create a new Anonymizer.
 
@@ -51,13 +51,13 @@ class Anonymizer:
         id_suffix : str
             A prefix to add to all unstructured ID fields, such as Patient
             ID, Accession Number, etc.
-        salt
+        seed
             Not intended for general use. Seeds the data randomizer in order
             to produce consistent results. Used for testing.
         """
         minimum_offset_hours = 62 * 24
         maximum_offset_hours = 730 * 24
-        randomizer = Randomizer(salt)
+        randomizer = Randomizer(seed)
         address_anonymizer = AddressAnonymizer(randomizer)
         self._element_handlers = [
             UnwantedElementsStripper(

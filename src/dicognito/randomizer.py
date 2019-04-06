@@ -3,20 +3,20 @@ import os
 
 
 class Randomizer:
-    def __init__(self, salt):
+    def __init__(self, seed):
         """\
         Create a new Randomizer.
 
         Parameters
         ----------
-        salt
+        seed
             Not intended for general use. Seeds the data randomizer so it
             produces consistent results when anonymizing elements with the
             same initial values.
         """
-        if salt is None:
-            salt = os.urandom(20)
-        self.salt = str(salt)
+        if seed is None:
+            seed = os.urandom(20)
+        self.seed = str(seed)
 
     def to_int(self, original_value):
         """\
@@ -28,7 +28,7 @@ class Randomizer:
         original_value
             The original value that will ultimately be replaced.
         """
-        message = self.salt + str(original_value)
+        message = self.seed + str(original_value)
         if isinstance(message, bytes):
             encoded = message
             hash = [ord(d) for d in hashlib.md5(encoded).digest()]
