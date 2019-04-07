@@ -1,6 +1,7 @@
 ### Additional Items
 
 - Add API documentation ([#45](https://github.com/blairconrad/dicognito/issues/45))
+- Enforce black formatting via tests ([#50](https://github.com/blairconrad/dicognito/issues/50))
 
 ## 0.6.0
 
