@@ -22,9 +22,8 @@ updated tests.
 
 ## Style
 
-We use flake8 as a linter (and one of the tests runs flake8 on all Python source files, failing if there are
-any violations), and black as a formatter. Please follow existing conventions. Any deviations risk having
-your pull request sent back for rework.
+We use [flake8](http://flake8.pycqa.org/en/latest/) as a linter and [black](https://black.readthedocs.io/en/stable/)
+as a formatter. Please follow existing conventions. Any deviations will cause the tests to fail.
 
 ## Making Changes
 
