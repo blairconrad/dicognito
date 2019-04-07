@@ -41,9 +41,9 @@ def test_summary_mixed_files_reports_on_each_study(capsys):
     expected_output = """\
 Accession Number Patient ID       Patient Name
 ---------------- ----------       ------------
-DRVN05NEDUYD     2S183ZNON7HU     RICHMOND^MARCY^NITA
-8NZGNEJWE7QA     NPC1XHSJT51Z     MORROW^SUSANNA^LUCIEN
-SXJXM4HE90EO     NPC1XHSJT51Z     MORROW^SUSANNA^LUCIEN
+HGED6DXQTO1F     DQFZ0HDKPYUX     JENSEN^KELLIE^PATRICK
+XV266HDCGIOH     DQFZ0HDKPYUX     JENSEN^KELLIE^PATRICK
+UUM68P1IJHBE     LXO0DMOPN7PV     BUCHANAN^ALBA^MADGE
 """
     run_dicognito(path_to("p*"))
     (actual_output, actual_error) = capsys.readouterr()
@@ -125,7 +125,7 @@ def path_to(end_of_path):
 
 
 def run_dicognito(*extra_args):
-    dicognito.__main__.main(("--salt", "salt for test") + extra_args)
+    dicognito.__main__.main(("--seed", "") + extra_args)
 
 
 def read_file(*directory_parts):

@@ -61,10 +61,10 @@ def main(args=None):
         help="Set the log level. May be one of DEBUG, INFO, WARNING, ERROR, or CRITICAL.",
     )
     parser.add_argument(
-        "--salt",  # currently only intended to make testing easier
-        help="The salt to use when generating random attribute values. Primarily "
+        "--seed",  # currently only intended to make testing easier
+        help="The seed to use when generating random attribute values. Primarily "
         "intended to make testing easier. Best anonymization practice is to omit "
-        "this value and let dicognito generate its own random salt.",
+        "this value and let dicognito generate its own random seed.",
     )
     parser.add_argument("--version", action="version", version=dicognito.__version__)
 
@@ -75,7 +75,7 @@ def main(args=None):
         raise ValueError("Invalid log level: %s" % args.log_level)
     logging.basicConfig(format="", level=numeric_level)
 
-    anonymizer = Anonymizer(id_prefix=args.id_prefix, id_suffix=args.id_suffix, salt=args.salt)
+    anonymizer = Anonymizer(id_prefix=args.id_prefix, id_suffix=args.id_suffix, seed=args.seed)
 
     ConvertedStudy = collections.namedtuple("ConvertedStudy", ["AccessionNumber", "PatientID", "PatientName"])
 
