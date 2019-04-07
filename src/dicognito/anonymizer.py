@@ -11,6 +11,7 @@ from dicognito.uianonymizer import UIAnonymizer
 from dicognito.unwantedelements import UnwantedElementsStripper
 from dicognito.randomizer import Randomizer
 
+import pydicom
 import random
 
 
@@ -105,8 +106,22 @@ class Anonymizer:
         """
         dataset.file_meta.walk(self._anonymize_element)
         dataset.walk(self._anonymize_element)
+        self._update_deidentification_method(dataset)
 
     def _anonymize_element(self, dataset, data_element):
         for handler in self._element_handlers:
             if handler(dataset, data_element):
                 return
+
+    def _update_deidentification_method(self, dataset):
+        if "DeidentificationMethod" not in dataset:
+            dataset.DeidentificationMethod = "DICOGNITO"
+            return
+
+        existing_element = dataset.data_element("DeidentificationMethod")
+
+        if pydicom.dataelem.isMultiValue(existing_element.value):
+            if "DICOGNITO" not in existing_element.value:
+                existing_element.value.append("DICOGNITO")
+        elif existing_element.value != "DICOGNITO":
+            existing_element.value = [existing_element.value, "DICOGNITO"]

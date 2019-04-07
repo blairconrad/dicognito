@@ -487,6 +487,66 @@ def test_no_sex_still_changes_patient_name():
     assert new_patient_name != original_patient_name
 
 
+def test_no_deidentification_method_method_added():
+    with load_test_instance() as dataset:
+        assert "DeidentificationMethod" not in dataset
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        new_deidentification_method = dataset.DeidentificationMethod
+
+    assert "DICOGNITO" == new_deidentification_method
+
+
+def test_deidentification_method_dicognito_is_preserved():
+    with load_test_instance() as dataset:
+        dataset.DeidentificationMethod = "DICOGNITO"
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        new_deidentification_method = dataset.DeidentificationMethod
+
+    assert "DICOGNITO" == new_deidentification_method
+
+
+def test_deidentification_method_not_dicognito_dicognito_appended():
+    with load_test_instance() as dataset:
+        dataset.DeidentificationMethod = "SOMETHINGELSE"
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        new_deidentification_method = dataset.DeidentificationMethod
+
+    assert ["SOMETHINGELSE", "DICOGNITO"] == new_deidentification_method
+
+
+def test_multiple_deidentification_method_not_dicognito_dicognito_appended():
+    with load_test_instance() as dataset:
+        dataset.DeidentificationMethod = r"SOMETHING\SOMETHINGELSE"
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        new_deidentification_method = dataset.DeidentificationMethod
+
+    assert ["SOMETHING", "SOMETHINGELSE", "DICOGNITO"] == new_deidentification_method
+
+
+def test_multiple_deidentifications_including_dicognito_value_is_preserved():
+    with load_test_instance() as dataset:
+        dataset.DeidentificationMethod = r"DICOGNITO\SOMETHINGELSE"
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        new_deidentification_method = dataset.DeidentificationMethod
+
+    assert ["DICOGNITO", "SOMETHINGELSE"] == new_deidentification_method
+
+
 def given_name(name):
     if isinstance(name, str):
         return name.split(b"^")[1]
