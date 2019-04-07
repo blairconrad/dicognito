@@ -10,6 +10,7 @@ import os.path
 import logging
 import pydicom
 
+import dicognito
 from dicognito.anonymizer import Anonymizer
 
 
@@ -65,6 +66,7 @@ def main(args=None):
         "intended to make testing easier. Best anonymization practice is to omit "
         "this value and let dicognito generate its own random salt.",
     )
+    parser.add_argument("--version", action="version", version=dicognito.__version__)
 
     args = parser.parse_args(args)
 

@@ -1,3 +1,7 @@
+### New
+
+- Provide `--version` flag and `__version__` attribute ([#47](https://github.com/blairconrad/dicognito/issues/47))
+
 ### Additional Items
 
 - Add API documentation ([#45](https://github.com/blairconrad/dicognito/issues/45))

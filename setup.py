@@ -3,7 +3,7 @@ import setuptools
 package_name = "dicognito"
 url = "https://github.com/blairconrad/dicognito"
 
-with open("release_notes.md", "r") as notes:
+with open("src/dicognito/release_notes.md", "r") as notes:
     for line in notes:
         if line.startswith("## "):
             version = line[3:].strip()
