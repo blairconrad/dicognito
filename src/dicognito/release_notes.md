@@ -10,6 +10,7 @@
 
 - Add API documentation ([#45](https://github.com/blairconrad/dicognito/issues/45))
 - Enforce black formatting via tests ([#50](https://github.com/blairconrad/dicognito/issues/50))
+- Enforce PEP-8 naming conventions via tests ([#53](https://github.com/blairconrad/dicognito/issues/53))
 
 ## 0.6.0
 
