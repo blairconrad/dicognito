@@ -107,6 +107,7 @@ class Anonymizer:
         dataset.file_meta.walk(self._anonymize_element)
         dataset.walk(self._anonymize_element)
         self._update_deidentification_method(dataset)
+        self._update_patient_identity_removed(dataset)
 
     def _anonymize_element(self, dataset, data_element):
         for handler in self._element_handlers:
@@ -125,3 +126,7 @@ class Anonymizer:
                 existing_element.value.append("DICOGNITO")
         elif existing_element.value != "DICOGNITO":
             existing_element.value = [existing_element.value, "DICOGNITO"]
+
+    def _update_patient_identity_removed(self, dataset):
+        if dataset.get("BurnedInAnnotation", "YES") == "NO":
+            dataset.PatientIdentityRemoved = "YES"

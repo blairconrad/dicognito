@@ -547,6 +547,47 @@ def test_multiple_deidentifications_including_dicognito_value_is_preserved():
     assert ["DICOGNITO", "SOMETHINGELSE"] == new_deidentification_method
 
 
+@pytest.mark.parametrize(
+    "initial_patient_identity_removed,burned_in_annotation,expected_patient_identity_removed",
+    [
+        (None, None, None),
+        (None, "YES", None),
+        (None, "NO", "YES"),
+        ("NO", None, "NO"),
+        ("NO", "YES", "NO"),
+        ("NO", "NO", "YES"),
+        ("YES", None, "YES"),
+        ("YES", "YES", "YES"),
+        ("YES", "NO", "YES"),
+    ],
+)
+def test_patient_identity_removed(
+    initial_patient_identity_removed, burned_in_annotation, expected_patient_identity_removed
+):
+    with load_test_instance() as dataset:
+        ensure_attribute_is(dataset, "PatientIdentityRemoved", initial_patient_identity_removed)
+        ensure_attribute_is(dataset, "BurnedInAnnotation", burned_in_annotation)
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        assert_attribute_is(dataset, "PatientIdentityRemoved", expected_patient_identity_removed)
+
+
+def ensure_attribute_is(dataset, attribute_name, value):
+    if value is None:
+        assert attribute_name not in dataset
+    else:
+        setattr(dataset, attribute_name, value)
+
+
+def assert_attribute_is(dataset, attribute_name, expected):
+    if expected is None:
+        assert attribute_name not in dataset
+    else:
+        assert expected == getattr(dataset, attribute_name)
+
+
 def given_name(name):
     if isinstance(name, str):
         return name.split(b"^")[1]
