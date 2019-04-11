@@ -1,3 +1,5 @@
+## 0.7.0
+
 ### Changed
 
 - Renamed "salt" to "seed" in command-line tool and `Anonymizer` class ([#49](https://github.com/blairconrad/dicognito/issues/49))
