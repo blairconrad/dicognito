@@ -487,64 +487,65 @@ def test_no_sex_still_changes_patient_name():
     assert new_patient_name != original_patient_name
 
 
-def test_no_deidentification_method_method_added():
+@pytest.mark.parametrize(
+    "initial,expected",
+    [
+        (None, "DICOGNITO"),
+        ("DICOGNITO", "DICOGNITO"),
+        ("SOMETHINGELSE", ["SOMETHINGELSE", "DICOGNITO"]),
+        (r"SOMETHING\SOMETHINGELSE", ["SOMETHING", "SOMETHINGELSE", "DICOGNITO"]),
+        (r"DICOGNITO\SOMETHINGELSE", ["DICOGNITO", "SOMETHINGELSE"]),
+    ],
+)
+def test_deidentification_method_set_properly(initial, expected):
     with load_test_instance() as dataset:
-        assert "DeidentificationMethod" not in dataset
+        ensure_attribute_is(dataset, "DeidentificationMethod", initial)
 
         anonymizer = Anonymizer()
         anonymizer.anonymize(dataset)
 
-        new_deidentification_method = dataset.DeidentificationMethod
-
-    assert "DICOGNITO" == new_deidentification_method
+        assert_attribute_is(dataset, "DeidentificationMethod", expected)
 
 
-def test_deidentification_method_dicognito_is_preserved():
+@pytest.mark.parametrize(
+    "initial_patient_identity_removed,burned_in_annotation,expected_patient_identity_removed",
+    [
+        (None, None, None),
+        (None, "YES", None),
+        (None, "NO", "YES"),
+        ("NO", None, "NO"),
+        ("NO", "YES", "NO"),
+        ("NO", "NO", "YES"),
+        ("YES", None, "YES"),
+        ("YES", "YES", "YES"),
+        ("YES", "NO", "YES"),
+    ],
+)
+def test_patient_identity_removed(
+    initial_patient_identity_removed, burned_in_annotation, expected_patient_identity_removed
+):
     with load_test_instance() as dataset:
-        dataset.DeidentificationMethod = "DICOGNITO"
+        ensure_attribute_is(dataset, "PatientIdentityRemoved", initial_patient_identity_removed)
+        ensure_attribute_is(dataset, "BurnedInAnnotation", burned_in_annotation)
 
         anonymizer = Anonymizer()
         anonymizer.anonymize(dataset)
 
-        new_deidentification_method = dataset.DeidentificationMethod
-
-    assert "DICOGNITO" == new_deidentification_method
+        assert_attribute_is(dataset, "PatientIdentityRemoved", expected_patient_identity_removed)
 
 
-def test_deidentification_method_not_dicognito_dicognito_appended():
-    with load_test_instance() as dataset:
-        dataset.DeidentificationMethod = "SOMETHINGELSE"
-
-        anonymizer = Anonymizer()
-        anonymizer.anonymize(dataset)
-
-        new_deidentification_method = dataset.DeidentificationMethod
-
-    assert ["SOMETHINGELSE", "DICOGNITO"] == new_deidentification_method
+def ensure_attribute_is(dataset, attribute_name, value):
+    if value is None:
+        assert attribute_name not in dataset
+    else:
+        setattr(dataset, attribute_name, value)
 
 
-def test_multiple_deidentification_method_not_dicognito_dicognito_appended():
-    with load_test_instance() as dataset:
-        dataset.DeidentificationMethod = r"SOMETHING\SOMETHINGELSE"
-
-        anonymizer = Anonymizer()
-        anonymizer.anonymize(dataset)
-
-        new_deidentification_method = dataset.DeidentificationMethod
-
-    assert ["SOMETHING", "SOMETHINGELSE", "DICOGNITO"] == new_deidentification_method
-
-
-def test_multiple_deidentifications_including_dicognito_value_is_preserved():
-    with load_test_instance() as dataset:
-        dataset.DeidentificationMethod = r"DICOGNITO\SOMETHINGELSE"
-
-        anonymizer = Anonymizer()
-        anonymizer.anonymize(dataset)
-
-        new_deidentification_method = dataset.DeidentificationMethod
-
-    assert ["DICOGNITO", "SOMETHINGELSE"] == new_deidentification_method
+def assert_attribute_is(dataset, attribute_name, expected):
+    if expected is None:
+        assert attribute_name not in dataset
+    else:
+        assert expected == getattr(dataset, attribute_name)
 
 
 def given_name(name):

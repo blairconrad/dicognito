@@ -6,6 +6,7 @@
 
 - Provide `--version` flag and `__version__` attribute ([#47](https://github.com/blairconrad/dicognito/issues/47))
 - Add De-identification Method after anonymizing ([#42](https://github.com/blairconrad/dicognito/issues/42))
+- Add Patient Identity Removed attribute when appropriate ([#43](https://github.com/blairconrad/dicognito/issues/43))
 
 ### Additional Items
 
