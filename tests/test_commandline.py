@@ -60,6 +60,18 @@ def test_summary_with_quiet_no_report(capsys):
     assert expected_output == actual_output
 
 
+def test_summary_no_accession_number(capsys):
+    expected_output = """\
+Accession Number Patient ID       Patient Name
+---------------- ----------       ------------
+                 LXO0DMOPN7PV     BUCHANAN^ALBA^MADGE
+"""
+    run_dicognito(path_to("p*"))
+    (actual_output, actual_error) = capsys.readouterr()
+
+    assert expected_output == actual_output
+
+
 def test_directory_is_recursed():
     test_name = get_test_name()
     orig_dataset1 = read_original_file(test_name, "p01_s01_s01_i01.dcm")
