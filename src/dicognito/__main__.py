@@ -99,7 +99,11 @@ def main(args=None):
                     anonymizer.anonymize(dataset)
                     dataset.save_as(file, write_like_original=False)
                     converted_studies.add(
-                        ConvertedStudy(dataset.AccessionNumber, dataset.PatientID, str(dataset.PatientName))
+                        ConvertedStudy(
+                            dataset.get("AccessionNumber", ""),
+                            dataset.get("PatientID", ""),
+                            str(dataset.get("PatientName", "")),
+                        )
                     )
             except pydicom.errors.InvalidDicomError:
                 logging.info("File %s appears not to be DICOM. Skipping.", file)

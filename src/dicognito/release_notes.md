@@ -1,3 +1,7 @@
+### Fixed
+
+- Command-line anonymizer fails if an object doesn't have an AccessionNumber ([#55](https://github.com/blairconrad/dicognito/issues/55))
+
 ## 0.7.0
 
 ### Changed
