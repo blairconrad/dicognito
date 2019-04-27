@@ -1,3 +1,8 @@
+if (! $env:APPVEYOR_REPO_TAG_NAME) {
+    Write-Output "No Appveyor tag name supplied. Not deploying."
+    return
+}
+
 # Adapted from PEP 440:
 # https://www.python.org/dev/peps/pep-0440/#appendix-b-parsing-version-strings-with-regular-expressions
 $preReleaseRegex = "([-_\.]?(a|b|c|rc|alpha|beta|pre|preview)[-_\.]?[0-9]*)"
@@ -11,11 +16,6 @@ try {
     pip install --quiet --quiet twine
 
     $ErrorActionPreference = "Stop"
-
-    if (! $env:APPVEYOR_REPO_TAG_NAME) {
-        Write-Output "No Appveyor tag name supplied. Not deploying."
-        return
-    }
 
     $releaseName = $env:APPVEYOR_REPO_TAG_NAME
     $gitHubAuthToken = $env:GITHUB_TOKEN
