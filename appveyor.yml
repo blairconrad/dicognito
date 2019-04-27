@@ -12,7 +12,7 @@ environment:
 
 install:
   - "python -m pip install pip>=19.0.3"
-  - "pip install setuptools>=40.8.0 wheel>=0.31.1 pydicom tox"
+  - "pip install setuptools>=40.8.0 wheel>=0.31.1 tox"
 
 build_script:
   - "python setup.py sdist bdist_wheel"
