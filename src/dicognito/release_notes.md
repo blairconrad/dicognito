@@ -1,3 +1,7 @@
+### New
+
+- Anonymize placer- and filler-order numbers ([#58](https://github.com/blairconrad/dicognito/issues/58))
+
 ## 0.7.1
 
 ### Fixed
