@@ -43,6 +43,13 @@ def load_test_instance():
     dataset.PerformedProcedureStepID = "PERFORMEDID"
     dataset.ScheduledProcedureStepID = "SCHEDULEDID"
 
+    dataset.FillerOrderNumberImagingServiceRequest = ""
+    dataset.FillerOrderNumberImagingServiceRequestRetired = ""
+    dataset.FillerOrderNumberProcedure = ""
+    dataset.PlacerOrderNumberImagingServiceRequest = ""
+    dataset.PlacerOrderNumberImagingServiceRequestRetired = ""
+    dataset.PlacerOrderNumberProcedure = ""
+
     dataset.Occupation = "VIGILANTE"
     dataset.PatientInsurancePlanCodeSequence = [code("VALUE", "DESIGNATOR", "MEANING")]
     dataset.MilitaryRank = "YEOMAN"
