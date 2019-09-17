@@ -1,6 +1,7 @@
 ### Changed
 
 - Drop support for Python 2.7 ([#63](https://github.com/blairconrad/dicognito/issues/63))
+- Require pydicom 1.3 or higher ([#62](https://github.com/blairconrad/dicognito/issues/62))
 
 ### New
 
