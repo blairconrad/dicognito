@@ -1,3 +1,7 @@
+### Changed
+
+- Drop support for Python 2.7 ([#63](https://github.com/blairconrad/dicognito/issues/63))
+
 ### New
 
 - Anonymize placer- and filler-order numbers ([#58](https://github.com/blairconrad/dicognito/issues/58))
