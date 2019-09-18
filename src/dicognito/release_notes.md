@@ -1,3 +1,5 @@
+## 0.8.0
+
 ### Changed
 
 - Drop support for Python 2.7 ([#63](https://github.com/blairconrad/dicognito/issues/63))
