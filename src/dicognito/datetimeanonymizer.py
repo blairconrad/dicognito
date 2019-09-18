@@ -1,4 +1,5 @@
 import datetime
+import pydicom
 
 
 class DateTimeAnonymizer:
@@ -46,32 +47,65 @@ class DateTimeAnonymizer:
 
     def _anonymize_date_and_time(self, dataset, data_element):
         date_value = data_element.value
-        date_format = "%Y%m%d"[: len(date_value) - 2]
+        if isinstance(data_element.value, pydicom.multival.MultiValue):
+            dates = list([v for v in data_element.value])
+        else:
+            dates = [data_element.value]
 
-        old_date = datetime.datetime.strptime(date_value, date_format).date()
-
-        old_hours = datetime.time()
-        time_value = ""
+        times = []
         time_name = data_element.keyword[:-4] + "Time"
         if time_name in dataset:
             time_value = dataset.data_element(time_name).value
             if time_value:
-                old_hours = datetime.datetime.strptime(time_value[:2], "%H").time()
+                if isinstance(time_value, pydicom.multival.MultiValue):
+                    times = list([v for v in time_value])
+                else:
+                    times = [time_value]
 
-        old_datetime = datetime.datetime.combine(old_date, old_hours)
-        new_datetime = old_datetime + self.offset
+        new_dates = []
+        new_times = []
+        for i in range(len(dates)):
+            date_value = dates[i]
+            date_format = "%Y%m%d"[: len(date_value) - 2]
+            old_date = datetime.datetime.strptime(date_value, date_format).date()
 
-        data_element.value = new_datetime.strftime(date_format)
-        if time_value:
-            dataset.data_element(time_name).value = new_datetime.strftime("%H") + time_value[2:]
+            time_value = ""
+            old_hours = datetime.time()
+            if i < len(times):
+                time_value = times[i]
+                if time_value:
+                    old_hours = datetime.datetime.strptime(time_value[:2], "%H").time()
+                else:
+                    old_hours = datetime.time()
+
+            old_datetime = datetime.datetime.combine(old_date, old_hours)
+            new_datetime = old_datetime + self.offset
+
+            new_dates.append(new_datetime.strftime(date_format))
+            new_times.append(new_datetime.strftime("%H") + time_value[2:])
+
+        new_dates = "\\".join(new_dates)
+        new_times = "\\".join(new_times)
+
+        data_element.value = new_dates
+        if times:
+            dataset.data_element(time_name).value = new_times
 
     def _anonymize_datetime(self, dataset, data_element):
-        datetime_value = data_element.value
-        datetime_format = "%Y%m%d%H"[: len(datetime_value) - 2]
+        if isinstance(data_element.value, pydicom.multival.MultiValue):
+            datetimes = list([v for v in data_element.value])
+        else:
+            datetimes = [data_element.value]
 
-        old_datetime = datetime.datetime.strptime(datetime_value[:10], datetime_format)
-        new_datetime = old_datetime + self.offset
+        new_datetimes = []
+        for datetime_value in datetimes:
+            datetime_format = "%Y%m%d%H"[: len(datetime_value) - 2]
 
-        new_datetime_value = new_datetime.strftime(datetime_format)
-        new_datetime_value += datetime_value[len(new_datetime_value) :]
-        data_element.value = new_datetime_value
+            old_datetime = datetime.datetime.strptime(datetime_value[:10], datetime_format)
+            new_datetime = old_datetime + self.offset
+
+            new_datetime_value = new_datetime.strftime(datetime_format)
+            new_datetime_value += datetime_value[len(new_datetime_value) :]
+            new_datetimes.append(new_datetime_value)
+
+        data_element.value = "\\".join(new_datetimes)

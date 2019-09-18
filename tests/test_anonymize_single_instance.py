@@ -422,6 +422,36 @@ def test_date_gets_anonymized_when_time_has_various_lengths(birth_time):
     assert len(new_time_string) == len(birth_time)
 
 
+def test_multivalued_date_with_no_time_pair_gets_anonymized():
+    with load_test_instance() as dataset:
+        dataset.DateOfLastCalibration = original_date = ["20010401", "20010402"]
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        new_date_string = dataset.DateOfLastCalibration
+
+    assert new_date_string != original_date
+    assert len(new_date_string) == len(original_date)
+
+
+def test_multivalued_date_and_time_pair_gets_anonymized():
+    with load_test_instance() as dataset:
+        dataset.DateOfLastCalibration = original_date = ["20010401", "20010402"]
+        dataset.TimeOfLastCalibration = original_time = ["120000", "135959"]
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        new_date_string = dataset.DateOfLastCalibration
+        new_time_string = dataset.TimeOfLastCalibration
+
+    assert new_date_string != original_date
+    assert len(new_date_string) == len(original_date)
+    assert new_time_string[2:] == original_time[2:]
+    assert len(new_time_string) == len(original_time)
+
+
 @pytest.mark.parametrize(
     "datetime_name",
     [
@@ -477,6 +507,19 @@ def test_datetime_of_various_lengths_gets_anonymized(acquisition_datetime):
 
     assert new_datetime_string != acquisition_datetime
     assert len(new_datetime_string) == len(acquisition_datetime)
+
+
+def test_multivalued_datetime_gets_anonymized():
+    with load_test_instance() as dataset:
+        dataset.AcquisitionDateTime = original_datetime = ["19741103121558", "19721004161558"]
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        new_datetime = dataset.AcquisitionDateTime
+
+    assert new_datetime != original_datetime
+    assert len(new_datetime) == len(original_datetime)
 
 
 def test_no_sex_still_changes_patient_name():
