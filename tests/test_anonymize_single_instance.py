@@ -440,16 +440,16 @@ def test_multivalued_date_and_time_pair_gets_anonymized():
         dataset.DateOfLastCalibration = original_date = ["20010401", "20010402"]
         dataset.TimeOfLastCalibration = original_time = ["120000", "135959"]
 
-        anonymizer = Anonymizer()
+        anonymizer = Anonymizer(seed="")
         anonymizer.anonymize(dataset)
 
-        new_date_string = dataset.DateOfLastCalibration
-        new_time_string = dataset.TimeOfLastCalibration
+        new_date = dataset.DateOfLastCalibration
+        new_time = dataset.TimeOfLastCalibration
 
-    assert new_date_string != original_date
-    assert len(new_date_string) == len(original_date)
-    assert new_time_string[2:] == original_time[2:]
-    assert len(new_time_string) == len(original_time)
+    assert new_date != original_date
+    assert len(new_date) == len(original_date)
+    assert new_time != original_time
+    assert len(new_time) == len(original_time)
 
 
 @pytest.mark.parametrize(
