@@ -127,7 +127,7 @@ class Anonymizer:
 
         existing_element = dataset.data_element("DeidentificationMethod")
 
-        if pydicom.dataelem.isMultiValue(existing_element.value):
+        if isinstance(existing_element.value, pydicom.multival.MultiValue):
             if "DICOGNITO" not in existing_element.value:
                 existing_element.value.append("DICOGNITO")
         elif existing_element.value != "DICOGNITO":
