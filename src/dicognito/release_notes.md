@@ -6,6 +6,7 @@
 ### New
 
 - Anonymize placer- and filler-order numbers ([#58](https://github.com/blairconrad/dicognito/issues/58))
+- Anonymize Mitra Global Patient IDs ([#60](https://github.com/blairconrad/dicognito/issues/60))
 
 ### Fixed
 

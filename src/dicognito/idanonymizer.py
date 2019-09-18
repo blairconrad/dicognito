@@ -54,15 +54,31 @@ class IDAnonymizer:
         True if the element was anonymized, or False if not.
         """
         if data_element.tag in self.id_tags:
-            if isinstance(data_element.value, pydicom.multival.MultiValue):
-                data_element.value = [self._new_id(id) for id in data_element.value]
-            else:
-                data_element.value = self._new_id(data_element.value)
+            self._replace_id(data_element)
             return True
+
+        if self._anonymize_mitra_global_patient_id(dataset, data_element):
+            return True
+
         if data_element.tag == self.issuer_tag and data_element.value:
             data_element.value = "DICOGNITO"
             return True
         return False
+
+    def _anonymize_mitra_global_patient_id(self, dataset, data_element):
+        if data_element.tag.group == 0x0031 and data_element.tag.element % 0x0020 == 0:
+            private_tag_group = data_element.tag.element >> 8
+            if dataset[(0x0031 << 16) + private_tag_group].value == "MITRA LINKED ATTRIBUTES 1.0":
+                self._replace_id(data_element)
+                data_element.value = data_element.value.encode()
+                return True
+        return False
+
+    def _replace_id(self, data_element):
+        if isinstance(data_element.value, pydicom.multival.MultiValue):
+            data_element.value = [self._new_id(id) for id in data_element.value]
+        else:
+            data_element.value = self._new_id(data_element.value)
 
     def _new_id(self, original_value):
         indexes = self.randomizer.get_ints_from_ranges(original_value, *self._indices_for_randomizer)
