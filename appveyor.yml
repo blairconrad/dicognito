@@ -1,7 +1,7 @@
 branches:
     only:
         - /^(master|[1-9][0-9]*\.[1-9][0-9]*\.[1-9][0-9]*(-.+)?)$/
-        
+
 environment:
   global:
     TWINE_USERNAME: blairconrad
@@ -11,6 +11,7 @@ environment:
       secure: u86M99mB306NL1s9hug3LwNRNM6PbVLsgsJMzV4oshIgbLw4nSGMN1OPWw/6zJAm
 
 install:
+  - "SET PATH=C:\\Python37-x64;C:\\Python37-x64\\Scripts;%PATH%"
   - "python -m pip install --upgrade pip"
   - "pip install --upgrade setuptools wheel tox"
 
