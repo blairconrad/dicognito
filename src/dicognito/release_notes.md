@@ -1,3 +1,5 @@
+## 0.8.1
+
 ### Fixed
 
 - Fails to anonymize TimeOfLastCalibration ([#66](https://github.com/blairconrad/dicognito/issues/66))
