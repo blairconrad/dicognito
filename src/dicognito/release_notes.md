@@ -7,6 +7,10 @@
 
 - Anonymize placer- and filler-order numbers ([#58](https://github.com/blairconrad/dicognito/issues/58))
 
+### Fixed
+
+- Fails on multi-valued dates and times ([#61](https://github.com/blairconrad/dicognito/issues/61))
+
 ## 0.7.1
 
 ### Fixed
