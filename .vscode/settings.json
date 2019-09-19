@@ -1,0 +1,23 @@
+{
+    "python.formatting.provider": "black",
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true,
+    "python.testing.pytestArgs": [],
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "cSpell.words": [
+        "Anonymizer",
+        "DICOGNITO",
+        "DICOM",
+        "anonymize",
+        "anonymized",
+        "anonymizes",
+        "anonymizing",
+        "deidentification",
+        "deidentify",
+        "pydicom",
+        "randomizer",
+        "recursed"
+    ]
+}
