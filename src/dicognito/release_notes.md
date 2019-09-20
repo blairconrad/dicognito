@@ -1,3 +1,5 @@
+## 0.9.1
+
 ### Fixed
 
 - Fails to anonymize object with Issue Date of Imaging Service Request ([#72](https://github.com/blairconrad/dicognito/issues/72))
