@@ -122,6 +122,37 @@ def test_non_dicom_files_logged_at_info(caplog):
     assert log_record.getMessage().endswith(expected_error)
 
 
+def test_creates_output_directory_when_missing():
+    run_dicognito(path_to(""), "--output-dir", path_to("new_dir"))
+
+    assert os.path.isdir(path_to("new_dir"))
+
+
+def test_preserves_existing_source_files_when_writing_to_output_directory():
+    run_dicognito(path_to("p01_s01_s01_i01.dcm"), "--output-dir", path_to())
+
+    orig_dataset = read_original_file(get_test_name(), "p01_s01_s01_i01.dcm")
+    assert orig_dataset.SOPInstanceUID == "1.3.6.1.4.1.5962.20040827145012.5458.1.1.1.1"
+
+
+def test_writes_file_as_sop_instance_uid_in_output_directory():
+    run_dicognito(path_to("p01_s01_s01_i01.dcm"), "--output-dir", path_to("new_dir"))
+
+    all_output_files = os.listdir(path_to("new_dir"))
+    assert len(all_output_files) == 1
+
+    dataset = read_file(get_test_name(), "new_dir", all_output_files[0])
+    assert all_output_files[0] == dataset.SOPInstanceUID + ".dcm"
+
+
+def test_retains_existing_files_in_output_directory():
+    run_dicognito(path_to("p01_s01_s01_i01.dcm"), "--output-dir", path_to())
+
+    all_output_files = os.listdir(path_to())
+    assert len(all_output_files) == 2
+    assert "p01_s01_s01_i01.dcm" in all_output_files
+
+
 def get_test_name():
     depth = 1
     while True:
@@ -131,9 +162,9 @@ def get_test_name():
         depth += 1
 
 
-def path_to(end_of_path):
+def path_to(*end_of_path):
     base_dir = os.path.dirname(__file__)
-    return os.path.join(base_dir, "data", get_test_name(), end_of_path)
+    return os.path.join(base_dir, "data", get_test_name(), *end_of_path)
 
 
 def run_dicognito(*extra_args):
