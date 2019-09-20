@@ -1,3 +1,5 @@
+## 0.9.0
+
 ### New
 
 - Add option to write anonymized files to another directory([#69](https://github.com/blairconrad/dicognito/issues/69))
