@@ -53,10 +53,7 @@ class DateTimeAnonymizer:
             dates = [data_element.value]
 
         times = []
-        if data_element.keyword.endswith("Date"):
-            time_name = data_element.keyword[:-4] + "Time"
-        elif data_element.keyword.startswith("Date"):
-            time_name = "Time" + data_element.keyword[4:]
+        time_name = data_element.keyword.replace("Date", "Time")
 
         if time_name in dataset:
             time_value = dataset.data_element(time_name).value
