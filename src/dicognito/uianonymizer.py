@@ -11,6 +11,8 @@ class UIAnonymizer:
         Create a new UIAnonymizer.
         """
         self._ui_map = collections.defaultdict(self._new_ui)
+        self._creation_date = datetime.datetime.utcnow().strftime("%Y%m%d%H%M%S%f")
+        self._counter = 10000000
 
     def __call__(self, dataset, data_element):
         """\
@@ -46,5 +48,9 @@ class UIAnonymizer:
         return True
 
     def _new_ui(self):
-        date_part = datetime.datetime.utcnow().strftime("%Y%m%d%H%M%S")
-        return "2." + date_part + "." + str(random.randint(1e45, 1e46 - 1))
+        self._counter += 1
+        counter_part = str(self._counter)
+        prefix = "2." + self._creation_date + "." + counter_part + "."
+        random_begin = pow(10, 63 - len(prefix))
+        random_end = pow(10, 64 - len(prefix)) - 1
+        return prefix + str(random.randint(random_begin, random_end))

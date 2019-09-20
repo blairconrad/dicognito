@@ -48,6 +48,14 @@ def main(args=None):
         "IDs. May be combined with --id-prefix.",
     )
     parser.add_argument(
+        "--output-directory",
+        "-o",
+        action="store",
+        type=str,
+        help="Instead of anonymizing files in-place, write anonymized files to "
+        "OUTPUT_DIRECTORY, which will be created if necessary",
+    )
+    parser.add_argument(
         "--quiet",
         "-q",
         action="store_true",
@@ -91,13 +99,26 @@ def main(args=None):
                 for file in get_files_from_source(expanded_source):
                     yield file
 
+    def ensure_output_directory_exists(args):
+        if args.output_directory and not os.path.isdir(args.output_directory):
+            os.makedirs(args.output_directory)
+
+    def calculate_output_filename(file, args, dataset):
+        output_file = file
+        if args.output_directory:
+            output_file = os.path.join(args.output_directory, dataset.SOPInstanceUID + ".dcm")
+        return output_file
+
+    ensure_output_directory_exists(args)
+
     converted_studies = set()
     for source in args.sources:
         for file in get_files_from_source(source):
             try:
                 with pydicom.dcmread(file, force=False) as dataset:
                     anonymizer.anonymize(dataset)
-                    dataset.save_as(file, write_like_original=False)
+                    output_file = calculate_output_filename(file, args, dataset)
+                    dataset.save_as(output_file, write_like_original=False)
                     converted_studies.add(
                         ConvertedStudy(
                             dataset.get("AccessionNumber", ""),
