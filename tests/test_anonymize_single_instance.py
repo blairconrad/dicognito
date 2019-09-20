@@ -452,6 +452,23 @@ def test_multivalued_date_and_time_pair_gets_anonymized():
     assert len(new_time) == len(original_time)
 
 
+def test_issue_date_of_imaging_service_request_gets_anonymized():
+    original_datetime = datetime.datetime(1974, 11, 3, 12, 15, 58)
+    original_date_string = original_datetime.strftime("%Y%m%d")
+    original_time_string = original_datetime.strftime("%H%M%S")
+
+    with load_test_instance() as dataset:
+        dataset.IssueDateOfImagingServiceRequest = original_date_string
+        dataset.IssueTimeOfImagingServiceRequest = original_time_string
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        new_date_string = dataset.IssueDateOfImagingServiceRequest
+        new_time_string = dataset.IssueTimeOfImagingServiceRequest
+    assert (new_date_string, new_time_string) != (original_date_string, original_time_string)
+
+
 @pytest.mark.parametrize(
     "datetime_name",
     [
