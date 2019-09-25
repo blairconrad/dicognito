@@ -31,7 +31,7 @@ def main(args=None):
         "--id-prefix",
         "-p",
         default="",
-        help="A short string prepended to each ID field, such as PatientID, "
+        help="Justin - A short string prepended to each ID field, such as PatientID, "
         "AccessionNumber, and so on, to make it easier to identify anonymized "
         "studies. Longer prefixes reduce the number of available random "
         "characters in the ID and increase the chance of collisions with other "
