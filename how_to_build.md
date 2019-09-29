@@ -6,7 +6,7 @@ At the time of writing the build is only confirmed to work on Windows.
 
 Ensure that the following are installed:
 
-* tox - version 3.7.0 is confirmed to work, but others may as well
+* [tox](https://tox.readthedocs.io/en/latest/) - version 3.7.0 is confirmed to work, but others may as well
 
 ## Building
 
@@ -23,7 +23,9 @@ your test run to those that you do have.
 
 ## Extras
 
-The `build.ps1` file in the root of the directory contains some convenience targets that can be used to
-do a quick (quicker than the full test run) check that your changes are working. The supplied commands may
-change at any time, without notice. `.\build.ps1 help` will list the available targets, which may require
-that certain additional prerequisites (e.g. pytest) be installed.
+The `tasks.py` file int he root of the repository contains some convenience [invoke](http://www.pyinvoke.org/)
+tasks that can be used to do a quick (quicker than the full test run) check that your changes are working.
+The supplied commands may change at any time, without notice. 
+
+`invoke --list` will list the available targets, which may require that certain additional prerequisites
+(e.g. [pytest](https://docs.pytest.org/en/latest/)) be installed.
