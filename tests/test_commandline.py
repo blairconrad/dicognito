@@ -5,11 +5,15 @@ import logging
 import dicognito.__main__
 from .data_for_tests import load_dcm
 
+data_dir = None
+
 
 def setup_module(module):
     base_dir = os.path.dirname(__file__)
-    data_dir = os.path.join(base_dir, "data")
     orig_dir = os.path.join(base_dir, "orig_data")
+
+    global data_dir
+    data_dir = os.path.join(base_dir, "..", "build", "data")
     if os.path.isdir(data_dir):
         shutil.rmtree(data_dir)
     shutil.copytree(orig_dir, data_dir)
@@ -163,8 +167,7 @@ def get_test_name():
 
 
 def path_to(*end_of_path):
-    base_dir = os.path.dirname(__file__)
-    return os.path.join(base_dir, "data", get_test_name(), *end_of_path)
+    return os.path.join(data_dir, get_test_name(), *end_of_path)
 
 
 def run_dicognito(*extra_args):
@@ -172,7 +175,7 @@ def run_dicognito(*extra_args):
 
 
 def read_file(*directory_parts):
-    return load_dcm(os.path.join("data", *directory_parts))
+    return load_dcm(os.path.join(data_dir, *directory_parts))
 
 
 def read_original_file(*directory_parts):
