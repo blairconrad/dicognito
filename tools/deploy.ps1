@@ -10,12 +10,10 @@ $preReleaseRegex = "([-_\.]?(a|b|c|rc|alpha|beta|pre|preview)[-_\.]?[0-9]*)"
 Push-Location (Get-Item $PSScriptRoot).Parent.FullName
 
 try {
-    Write-Output "Installing twine"
-    # pip issues a warning on stdout about Python2.7 soon being deprecated.
-    # This breaks the build, so don't stop on errors until after.
-    pip install --quiet --quiet twine
-
     $ErrorActionPreference = "Stop"
+
+    Write-Output "Installing twine"
+    pip install --quiet --quiet twine
 
     $releaseName = $env:APPVEYOR_REPO_TAG_NAME
     $gitHubAuthToken = $env:GITHUB_TOKEN
