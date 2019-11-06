@@ -1,3 +1,7 @@
+### New
+
+- Test on Python 3.8 as well as 3.7
+
 ## 0.9.1
 
 ### Fixed
