@@ -7,6 +7,7 @@
 ### Fixed
 
 - Fails to anonymize object with Issue Date of Imaging Service Request ([#72](https://github.com/blairconrad/dicognito/issues/72))
+- Same patient names anonymize differently when formatted differently ([#78](https://github.com/blairconrad/dicognito/issues/78))
 
 ## 0.9.0
 

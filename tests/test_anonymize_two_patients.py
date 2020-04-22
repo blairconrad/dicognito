@@ -6,15 +6,6 @@ from .data_for_tests import load_instance
 
 
 class TestTwoPatients:
-    @classmethod
-    def setup_class(cls):
-        TestTwoPatients.dataset1 = load_instance(patient_number=1)
-        TestTwoPatients.dataset2 = load_instance(patient_number=2)
-
-        anonymizer = Anonymizer()
-        anonymizer.anonymize(TestTwoPatients.dataset1)
-        anonymizer.anonymize(TestTwoPatients.dataset2)
-
     @pytest.mark.parametrize(
         "element_path",
         [
@@ -61,6 +52,27 @@ class TestTwoPatients:
         ],
     )
     def test_anonymize_all_attributes_are_different(self, element_path):
-        value1 = eval("TestTwoPatients.dataset1." + element_path)
-        value2 = eval("TestTwoPatients.dataset2." + element_path)
+        dataset1 = load_instance(patient_number=1)
+        dataset2 = load_instance(patient_number=2)
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset1)
+        anonymizer.anonymize(dataset2)
+
+        value1 = eval("dataset1." + element_path)
+        value2 = eval("dataset2." + element_path)
         assert value1 != value2
+
+    def test_anonymize_same_patient_with_differently_formatted_name_anonymizes_the_same_way(self):
+        dataset1 = load_instance(patient_number=1)
+        dataset1.PatientName = "LAST^FIRST^MIDDLE"
+        dataset2 = load_instance(patient_number=1)
+        dataset2.PatientName = "LAST^FIRST^MIDDLE^"
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset1)
+        anonymizer.anonymize(dataset2)
+
+        value1 = dataset1.PatientName
+        value2 = dataset2.PatientName
+        assert value1 == value2
