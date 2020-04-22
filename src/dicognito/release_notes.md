@@ -4,12 +4,15 @@
 
 - Test on Python 3.8 as well as 3.7
 
+### Fixed
+
+- Same patient names anonymize differently when formatted differently ([#78](https://github.com/blairconrad/dicognito/issues/78))
+
 ## 0.9.1
 
 ### Fixed
 
 - Fails to anonymize object with Issue Date of Imaging Service Request ([#72](https://github.com/blairconrad/dicognito/issues/72))
-- Same patient names anonymize differently when formatted differently ([#78](https://github.com/blairconrad/dicognito/issues/78))
 
 ## 0.9.0
 
