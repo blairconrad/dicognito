@@ -1,3 +1,5 @@
+## 0.10.0
+
 ### New
 
 - Test on Python 3.8 as well as 3.7
