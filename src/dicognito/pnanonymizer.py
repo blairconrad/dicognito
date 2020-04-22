@@ -50,6 +50,8 @@ class PNAnonymizer:
         else:
             first_names = self._all_first_names
 
+        if original_value:
+            original_value = str(original_value).rstrip("^")
         indices = self.randomizer.get_ints_from_ranges(
             original_value, len(self._last_names), len(first_names), len(self._all_first_names)
         )
