@@ -1,3 +1,14 @@
+### Changed
+
+- Require pydicom 2.0.0rc1 or higher
+  ([#80](https://github.com/blairconrad/dicognito/issues/80))
+
+### Fixed
+
+- Deflated files are corrupt when anonymized from the command line
+  ([#80](https://github.com/blairconrad/dicognito/issues/80))
+
+
 ## 0.10.0
 
 ### New

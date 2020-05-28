@@ -157,6 +157,14 @@ def test_retains_existing_files_in_output_directory():
     assert "p01_s01_s01_i01.dcm" in all_output_files
 
 
+def test_writes_deflated_file_correctly():
+    run_dicognito(path_to("CT_small_deflated.dcm"), "--output-dir", path_to("new_dir"))
+
+    output_file_name = os.listdir(path_to("new_dir"))[0]
+
+    read_file(get_test_name(), "new_dir", output_file_name)
+
+
 def get_test_name():
     depth = 1
     while True:
