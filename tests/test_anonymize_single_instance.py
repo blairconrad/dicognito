@@ -452,6 +452,25 @@ def test_multivalued_date_and_time_pair_gets_anonymized():
     assert len(new_time) == len(original_time)
 
 
+def test_multivalued_date_and_time_pair_gets_anonymized_same_with_same_seed():
+    with load_test_instance() as dataset1, load_test_instance() as dataset2:
+        dataset1.DateOfLastCalibration = original_date = ["20010401", "20010402"]
+        dataset1.TimeOfLastCalibration = original_time = ["120000", "135959"]
+        dataset2.DateOfLastCalibration = original_date
+        dataset2.TimeOfLastCalibration = original_time
+
+        Anonymizer(seed="").anonymize(dataset1)
+        Anonymizer(seed="").anonymize(dataset2)
+
+        new_date1 = dataset1.DateOfLastCalibration
+        new_time1 = dataset1.TimeOfLastCalibration
+        new_date2 = dataset2.DateOfLastCalibration
+        new_time2 = dataset2.TimeOfLastCalibration
+
+    assert new_date1 == new_date2
+    assert new_time1 == new_time2
+
+
 def test_issue_date_of_imaging_service_request_gets_anonymized():
     original_datetime = datetime.datetime(1974, 11, 3, 12, 15, 58)
     original_date_string = original_datetime.strftime("%Y%m%d")

@@ -12,7 +12,6 @@ from dicognito.unwantedelements import UnwantedElementsStripper
 from dicognito.randomizer import Randomizer
 
 import pydicom
-import random
 
 
 class Anonymizer:
@@ -58,8 +57,14 @@ class Anonymizer:
         """
         minimum_offset_hours = 62 * 24
         maximum_offset_hours = 730 * 24
+
         randomizer = Randomizer(seed)
+
+        date_offset_hours = -(
+            randomizer.to_int("date_offset") % (maximum_offset_hours - minimum_offset_hours) + minimum_offset_hours
+        )
         address_anonymizer = AddressAnonymizer(randomizer)
+
         self._element_handlers = [
             UnwantedElementsStripper(
                 "BranchOfService",
@@ -97,7 +102,7 @@ class Anonymizer:
             EquipmentAnonymizer(address_anonymizer),
             FixedValueAnonymizer("RequestingService", ""),
             FixedValueAnonymizer("CurrentPatientLocation", ""),
-            DateTimeAnonymizer(-random.randint(minimum_offset_hours, maximum_offset_hours)),
+            DateTimeAnonymizer(date_offset_hours),
         ]
 
     def anonymize(self, dataset):
