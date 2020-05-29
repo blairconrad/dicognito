@@ -1,3 +1,7 @@
+### New
+
+- Officially support Linux (tested on Ubuntu) ([#85](https://github.com/blairconrad/dicognito/issues/85))
+
 ### Changed
 
 - Require pydicom 2.0.0rc1 or higher
