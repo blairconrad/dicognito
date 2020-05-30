@@ -30,3 +30,24 @@ jobs:
       - name: Test with tox - Python ${{ matrix.python-version }} on ${{ matrix.os }}
         run: |
           tox -e py
+
+  deploy:
+
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        python-version: [3.8]
+    needs: test
+
+    steps:
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Display the version
+        shell: python
+        run: |
+          import platform
+          import sys
+          print(platform.platform())
+          print('Python', sys.version)
