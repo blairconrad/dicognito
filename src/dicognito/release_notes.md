@@ -1,3 +1,5 @@
+## 0.11.0-alpha.0
+
 ### New
 
 - Officially support Linux (tested on Ubuntu) ([#85](https://github.com/blairconrad/dicognito/issues/85))

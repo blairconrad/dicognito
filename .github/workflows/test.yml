@@ -9,27 +9,27 @@ on:
       - master
 
 jobs:
-  test:
+  # test:
 
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        python-version: [3.7, 3.8]
-        os: [ubuntu-latest, windows-latest]
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     matrix:
+  #       python-version: [3.7, 3.8]
+  #       os: [ubuntu-latest, windows-latest]
 
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python ${{ matrix.python-version }} on ${{ matrix.os }}
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install dependencies - Python ${{ matrix.python-version }} on ${{ matrix.os }}
-        run: |
-          python -m pip install --upgrade pip
-          pip install --upgrade tox
-      - name: Test with tox - Python ${{ matrix.python-version }} on ${{ matrix.os }}
-        run: |
-          tox -e py
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Set up Python ${{ matrix.python-version }} on ${{ matrix.os }}
+  #       uses: actions/setup-python@v2
+  #       with:
+  #         python-version: ${{ matrix.python-version }}
+  #     - name: Install dependencies - Python ${{ matrix.python-version }} on ${{ matrix.os }}
+  #       run: |
+  #         python -m pip install --upgrade pip
+  #         pip install --upgrade tox
+  #     - name: Test with tox - Python ${{ matrix.python-version }} on ${{ matrix.os }}
+  #       run: |
+  #         tox -e py
 
   deploy:
 
@@ -37,9 +37,10 @@ jobs:
     strategy:
       matrix:
         python-version: [3.8]
-    needs: test
+    #needs: test
 
     steps:
+      - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
@@ -51,3 +52,6 @@ jobs:
           import sys
           print(platform.platform())
           print('Python', sys.version)
+      - name: Deploy
+        shell: powershell
+        run: ./tools/deploy.ps1
