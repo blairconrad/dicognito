@@ -1,3 +1,5 @@
+## 1.0.0-alpha.1
+
 ### Changed
 
 - Require pydicom 2.0.0rc1 or higher
@@ -11,6 +13,8 @@
 - Date/time offset is not always the same for a given seed
   ([#86](https://github.com/blairconrad/dicognito/issues/86))
 
+### With special thanks for contributions to this release from:
+- Renée
 
 ## 0.10.0
 

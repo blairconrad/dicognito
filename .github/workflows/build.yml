@@ -10,20 +10,90 @@ on:
 
 jobs:
 
-  deploy:
+  test:
 
-    runs-on: windows-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-version: [3.8]
+        python-version: [3.7, 3.8]
+        #os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest]
 
     steps:
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Spew info
+        run: |
+          echo "github.ref ${{ github.ref }}"
+      - uses: actions/checkout@v2
+      - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Display some context
-        shell: powershell
+      - name: Install dependencies
         run: |
-          Write-Output Event ${{github.event_name}}
-          Write-Output Ref   ${{github.ref}}
+          python -m pip install --upgrade pip
+          python -m pip install --upgrade tox
+      - name: Test with tox
+        run: |
+          tox -e py
+
+  package:
+
+    needs: test
+    runs-on: ubuntu-latest
+
+    outputs:
+      release-name: ${{ steps.gather-release-info.outputs.release-name }}
+      release-body: ${{ steps.gather-release-info.outputs.release-body }}
+      is-prerelease: ${{ steps.gather-release-info.outputs.is-prerelease }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --upgrade setuptools wheel
+      - name: Build Package
+        run: python setup.py sdist bdist_wheel
+      - uses: actions/upload-artifact@v2
+        with:
+          path: dist/
+          name: dist
+      - name: Gather release info
+        id: gather-release-info
+        run: python tools/gather-release-info-for-github-actions.py        
+
+  publish:
+
+    needs: package
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Validate release name
+        if: format('{0}{1}', 'refs/tags/', needs.package.outputs.release-name) != github.ref
+        run: |
+          echo "Tag ${{ github.ref }} does not match release name ${{ needs.package.outputs.release-name }}"
+          exit 1
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: dist
+      - uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          body: ${{ needs.package.outputs.release-body }}
+          prerelease: ${{ needs.package.outputs.is-prerelease }}
+          draft: true
+      - name: Publish distribution package to PyPI
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+          user: __token__
+          password: ${{ secrets.pypi_password }}
