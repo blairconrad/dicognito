@@ -4,16 +4,13 @@
 
 ### Changed
 
-- Require pydicom 2.0.0rc1 or higher
-  ([#80](https://github.com/blairconrad/dicognito/issues/80))
+- Require pydicom 2.0.0 or higher ([#92](https://github.com/blairconrad/dicognito/issues/92))
 
 ### Fixed
 
-- Deflated files are corrupt when anonymized from the command line
-  ([#80](https://github.com/blairconrad/dicognito/issues/80))
+- Deflated files are corrupt when anonymized from the command line ([#80](https://github.com/blairconrad/dicognito/issues/80))
 
-- Date/time offset is not always the same for a given seed
-  ([#86](https://github.com/blairconrad/dicognito/issues/86))
+- Date/time offset is not always the same for a given seed ([#86](https://github.com/blairconrad/dicognito/issues/86))
 
 
 ## 0.10.0
