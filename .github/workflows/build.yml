@@ -85,7 +85,7 @@ jobs:
           release_name: ${{ github.ref }}
           body: ${{ needs.package.outputs.release-body }}
           prerelease: ${{ needs.package.outputs.is-prerelease }}
-          draft: true
+          draft: false
       - name: Publish distribution package to PyPI
         uses: pypa/gh-action-pypi-publish@master
         with:
