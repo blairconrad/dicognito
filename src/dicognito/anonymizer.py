@@ -96,6 +96,7 @@ class Anonymizer:
                 "PlacerOrderNumberProcedure",
                 "RequestedProcedureID",
                 "ScheduledProcedureStepID",
+                "StationName",
                 "StudyID",
             ),
             address_anonymizer,

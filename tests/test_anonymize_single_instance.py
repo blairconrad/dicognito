@@ -313,6 +313,19 @@ def test_equipment_gets_anonymized():
         assert new_station_name != original_station_name
 
 
+def test_station_gets_anonymized_when_no_modality():
+    with load_test_instance() as dataset:
+        original_station_name = dataset.StationName
+        del dataset.Modality
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        new_station_name = dataset.StationName
+
+        assert new_station_name != original_station_name
+
+
 def test_requesting_service_gets_anonymized():
     with load_test_instance() as dataset:
         original = dataset.RequestingService

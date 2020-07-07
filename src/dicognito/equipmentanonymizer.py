@@ -17,7 +17,6 @@ class EquipmentAnonymizer:
             pydicom.datadict.tag_for_keyword("InstitutionName"): self.anonymize_institution_name,
             pydicom.datadict.tag_for_keyword("InstitutionAddress"): self.anonymize_institution_address,
             pydicom.datadict.tag_for_keyword("InstitutionalDepartmentName"): self.anonymize_department_name,
-            pydicom.datadict.tag_for_keyword("StationName"): self.anonymize_station_name,
         }
 
     def __call__(self, dataset, data_element):
@@ -33,8 +32,8 @@ class EquipmentAnonymizer:
         data_element : pydicom.dataset.DataElement
             The current element. Will be anonymized if it has a value
             and if its keyword is one of InstitutionName,
-            InstitutionAddress, InstitutionalDepartmentName, or
-            StationName. Additionally, if its keyword is InstitutionName,
+            InstitutionAddress, or InstitutionalDepartmentName.
+            Additionally, if its keyword is InstitutionName,
             then InstitutionAddress will also be anonymized.
 
         Returns
@@ -62,6 +61,3 @@ class EquipmentAnonymizer:
 
     def anonymize_department_name(self, dataset, data_element):
         data_element.value = "RADIOLOGY"
-
-    def anonymize_station_name(self, dataset, data_element):
-        data_element.value = dataset.Modality + "01"
