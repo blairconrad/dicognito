@@ -4,6 +4,7 @@ import pytest
 from dicognito.anonymizer import Anonymizer
 from dicognito.pnanonymizer import PNAnonymizer
 
+from .data_for_tests import load_dcm
 from .data_for_tests import load_minimal_instance
 from .data_for_tests import load_test_instance
 
@@ -630,6 +631,14 @@ def test_patient_identity_removed(
         anonymizer.anonymize(dataset)
 
         assert_attribute_is(dataset, "PatientIdentityRemoved", expected_patient_identity_removed)
+
+
+def test_pixel_data_with_embedded_sequence_delimiter():
+    with load_dcm(
+        "orig_data", "test_pixel_data_with_embedded_sequence_delimiter", "JPEG2000-embedded-sequence-delimiter.dcm"
+    ) as dataset:
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
 
 
 def ensure_attribute_is(dataset, attribute_name, value):
