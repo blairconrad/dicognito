@@ -183,8 +183,8 @@ def run_dicognito(*extra_args):
 
 
 def read_file(*directory_parts):
-    return load_dcm(os.path.join(data_dir, *directory_parts))
+    return load_dcm(data_dir, *directory_parts)
 
 
 def read_original_file(*directory_parts):
-    return load_dcm(os.path.join("orig_data", *directory_parts))
+    return load_dcm("orig_data", *directory_parts)
