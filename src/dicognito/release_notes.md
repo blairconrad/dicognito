@@ -2,6 +2,11 @@
 
 - Officially support Python 3.9 ([#99](https://github.com/blairconrad/dicognito/issues/99))
 
+### Fixed
+
+- Unable to anonymize dataset with encapsulated pixel data that contains embedded sequence delimiter ([#96](https://github.com/blairconrad/dicognito/issues/96))
+
+
 ## 0.11.0
 
 ### New
