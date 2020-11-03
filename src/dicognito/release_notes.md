@@ -1,3 +1,7 @@
+### New
+
+- Officially support Python 3.9 ([#99](https://github.com/blairconrad/dicognito/issues/99))
+
 ## 0.11.0
 
 ### New
