@@ -126,6 +126,23 @@ def test_non_dicom_files_logged_at_info(caplog):
     assert log_record.getMessage().endswith(expected_error)
 
 
+def test_burned_in_warning_logged_at_warning(caplog):
+    expected_warning = "Burned In Annotation attribute value does not exist."
+
+    test_name = get_test_name()
+    orig_dataset = read_original_file(test_name, "p01_s01_s01_i01.dcm")
+    assert "BurnedInAnnotation" not in orig_dataset
+
+    # py.test configures the logs itself, so setting the log level in the command
+    # doesn't work. Instead, use caplog to set the level.
+    caplog.set_level(logging.WARNING)
+    run_dicognito(path_to(""), "--burned-in-annotation-warning", "unless-no")
+
+    log_record = caplog.records[0]
+    assert log_record.levelname == "WARNING"
+    assert log_record.getMessage().endswith(expected_warning)
+
+
 def test_creates_output_directory_when_missing():
     run_dicognito(path_to(""), "--output-dir", path_to("new_dir"))
 

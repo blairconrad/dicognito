@@ -12,6 +12,7 @@ import pydicom
 
 import dicognito
 from dicognito.anonymizer import Anonymizer
+from dicognito.burnedinannotationwarner import BurnedInAnnotationWarner
 
 
 def main(args=None):
@@ -46,6 +47,17 @@ def main(args=None):
         "studies. Longer suffixes reduce the number of available random "
         "characters in the ID and increase the chance of collisions with other "
         "IDs. May be combined with --id-prefix.",
+    )
+    parser.add_argument(
+        "--burned-in-annotation-warning",
+        "-b",
+        action="store",
+        type=str,
+        default="if-yes",
+        choices=["never", "if-yes", "unless-no"],
+        metavar="LEVEL",
+        help="Set the warning level for the burned-in-annotation DICOM attribute. "
+        "May be one of if-yes, never, or unless-no. Default is if-yes.",
     )
     parser.add_argument(
         "--output-directory",
@@ -84,6 +96,7 @@ def main(args=None):
     logging.basicConfig(format="", level=numeric_level)
 
     anonymizer = Anonymizer(id_prefix=args.id_prefix, id_suffix=args.id_suffix, seed=args.seed)
+    burned_in_annotation_warner = BurnedInAnnotationWarner(args.burned_in_annotation_warning)
 
     ConvertedStudy = collections.namedtuple("ConvertedStudy", ["AccessionNumber", "PatientID", "PatientName"])
 
@@ -117,6 +130,11 @@ def main(args=None):
             try:
                 with pydicom.dcmread(file, force=False) as dataset:
                     anonymizer.anonymize(dataset)
+
+                    burned_in_warning = burned_in_annotation_warner.generate_warning(dataset)
+                    if burned_in_warning != "":
+                        logging.warning(burned_in_warning)
+
                     output_file = calculate_output_filename(file, args, dataset)
                     dataset.save_as(output_file, write_like_original=False)
                     converted_studies.add(
