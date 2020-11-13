@@ -37,6 +37,6 @@ setuptools.setup(
         "Environment :: Console",
         "Intended Audience :: Healthcare Industry",
     ],
-    install_requires=["pydicom>=2.0.0"],
+    install_requires=["pydicom>=2.1.1"],
     entry_points={"console_scripts": ["dicognito=dicognito.__main__:main"]},
 )

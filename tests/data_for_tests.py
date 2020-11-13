@@ -107,9 +107,9 @@ def referenced_photo_item():
     return item
 
 
-def load_dcm(filename):
+def load_dcm(*directory_parts):
     script_dir = os.path.dirname(__file__)
-    return pydicom.dcmread(os.path.join(script_dir, filename))
+    return pydicom.dcmread(os.path.join(script_dir, *directory_parts))
 
 
 def _set_patient_attributes(dataset, patient_number):
