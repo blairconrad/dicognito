@@ -15,7 +15,7 @@ class TestOneSeriesTwoInstances:
             patient_number=1, study_number=1, series_number=1, instance_number=2
         )
 
-        anonymizer = Anonymizer()
+        anonymizer = Anonymizer(seed="")
         anonymizer.anonymize(TestOneSeriesTwoInstances.dataset1)
         anonymizer.anonymize(TestOneSeriesTwoInstances.dataset2)
 
