@@ -11,7 +11,7 @@ class TestOnePatientTwoStudies:
         TestOnePatientTwoStudies.dataset1 = load_instance(patient_number=1, study_number=1)
         TestOnePatientTwoStudies.dataset2 = load_instance(patient_number=1, study_number=2)
 
-        anonymizer = Anonymizer()
+        anonymizer = Anonymizer(seed="")
         anonymizer.anonymize(TestOnePatientTwoStudies.dataset1)
         anonymizer.anonymize(TestOnePatientTwoStudies.dataset2)
 
