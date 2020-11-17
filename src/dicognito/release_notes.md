@@ -1,6 +1,7 @@
 ### New
 
 - Officially support Python 3.9 ([#99](https://github.com/blairconrad/dicognito/issues/99))
+- Command line flag `--version` also outputs environmental info and pydicom version ([#103](https://github.com/blairconrad/dicognito/issues/103))
 
 ### Fixed
 

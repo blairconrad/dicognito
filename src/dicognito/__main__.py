@@ -15,6 +15,41 @@ from dicognito.anonymizer import Anonymizer
 
 
 def main(args=None):
+    class VersionAction(argparse.Action):
+        def __init__(
+            self,
+            option_strings,
+            version=None,
+            dest=argparse.SUPPRESS,
+            default=argparse.SUPPRESS,
+            help="show program's version information and exit",
+        ):
+            super(VersionAction, self).__init__(
+                option_strings=option_strings, dest=dest, default=default, nargs=0, help=help
+            )
+            self.version = version
+
+        def __call__(self, parser, namespace, values, option_string=None):
+            import platform
+
+            def print_table(version_rows):
+                row_format = "{:12} | {}"
+                print(row_format.format("module", "version"))
+                print(row_format.format("------", "-------"))
+                for module, version in version_rows:
+                    # Some version strings have multiple lines and need to be squashed
+                    print(row_format.format(module, version.replace("\n", " ")))
+
+            version_rows = [
+                ("platform", platform.platform()),
+                ("Python", sys.version),
+                ("dicognito", dicognito.__version__),
+                ("pydicom", pydicom.__version__),
+            ]
+
+            print_table(version_rows)
+            parser.exit()
+
     if args is None:
         args = sys.argv[1:]
 
@@ -74,7 +109,7 @@ def main(args=None):
         "intended to make testing easier. Best anonymization practice is to omit "
         "this value and let dicognito generate its own random seed.",
     )
-    parser.add_argument("--version", action="version", version=dicognito.__version__)
+    parser.add_argument("--version", action=VersionAction)
 
     args = parser.parse_args(args)
 
