@@ -29,12 +29,8 @@ class Randomizer:
             The original value that will ultimately be replaced.
         """
         message = self.seed + str(original_value)
-        if isinstance(message, bytes):
-            encoded = message
-            hash = [ord(d) for d in hashlib.md5(encoded).digest()]
-        else:
-            encoded = message.encode("utf8")
-            hash = hashlib.md5(encoded).digest()
+        encoded = message.encode("utf8")
+        hash = hashlib.md5(encoded).digest()
         result = 0
         for c in hash:
             result *= 0x100

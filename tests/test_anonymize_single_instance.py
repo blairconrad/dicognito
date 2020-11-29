@@ -168,9 +168,9 @@ def test_female_patient_name_gets_anonymized():
         new_patient_name = dataset.PatientName
 
         assert new_patient_name != original_patient_name
-        assert family_name(new_patient_name) in PNAnonymizer._last_names
-        assert given_name(new_patient_name) in PNAnonymizer._female_first_names
-        assert middle_name(new_patient_name) in PNAnonymizer._all_first_names
+        assert new_patient_name.family_name in PNAnonymizer._last_names
+        assert new_patient_name.given_name in PNAnonymizer._female_first_names
+        assert new_patient_name.middle_name in PNAnonymizer._all_first_names
 
 
 def test_male_patient_name_gets_anonymized():
@@ -186,9 +186,9 @@ def test_male_patient_name_gets_anonymized():
         new_patient_name = dataset.PatientName
 
         assert new_patient_name != original_patient_name
-        assert family_name(new_patient_name) in PNAnonymizer._last_names
-        assert given_name(new_patient_name) in PNAnonymizer._male_first_names
-        assert middle_name(new_patient_name) in PNAnonymizer._all_first_names
+        assert new_patient_name.family_name in PNAnonymizer._last_names
+        assert new_patient_name.given_name in PNAnonymizer._male_first_names
+        assert new_patient_name.middle_name in PNAnonymizer._all_first_names
 
 
 def test_sex_other_patient_name_gets_anonymized():
@@ -204,9 +204,9 @@ def test_sex_other_patient_name_gets_anonymized():
         new_patient_name = dataset.PatientName
 
         assert new_patient_name != original_patient_name
-        assert family_name(new_patient_name) in PNAnonymizer._last_names
-        assert given_name(new_patient_name) in PNAnonymizer._all_first_names
-        assert middle_name(new_patient_name) in PNAnonymizer._all_first_names
+        assert new_patient_name.family_name in PNAnonymizer._last_names
+        assert new_patient_name.given_name in PNAnonymizer._all_first_names
+        assert new_patient_name.middle_name in PNAnonymizer._all_first_names
 
 
 @pytest.mark.parametrize("number_of_names", [1, 2, 3])
@@ -653,24 +653,3 @@ def assert_attribute_is(dataset, attribute_name, expected):
         assert attribute_name not in dataset
     else:
         assert expected == getattr(dataset, attribute_name)
-
-
-def given_name(name):
-    if isinstance(name, str):
-        return name.split(b"^")[1]
-    else:
-        return name.given_name
-
-
-def family_name(name):
-    if isinstance(name, str):
-        return name.split(b"^")[0]
-    else:
-        return name.family_name
-
-
-def middle_name(name):
-    if isinstance(name, str):
-        return name.split(b"^")[2]
-    else:
-        return name.middle_name

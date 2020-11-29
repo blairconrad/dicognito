@@ -1,3 +1,8 @@
+### Additional Items
+
+- Remove Python 2.7 shims ([#105](https://github.com/blairconrad/dicognito/issues/105))
+
+
 ## 0.12.0
 
 ### New
