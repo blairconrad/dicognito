@@ -2,7 +2,7 @@ import pydicom
 
 
 class UnwantedElementsStripper:
-    def __init__(self, *tag_names):
+    def __init__(self, *keywords: str):
         """\
         Create a new UnwantedElementsStripper.
 
@@ -12,9 +12,9 @@ class UnwantedElementsStripper:
             All of the keywords for elements to be removed from the
             dataset.
         """
-        self.tags = [pydicom.datadict.tag_for_keyword(tag_name) for tag_name in tag_names]
+        self.tags = [pydicom.datadict.tag_for_keyword(keyword) for keyword in keywords]
 
-    def __call__(self, dataset, data_element):
+    def __call__(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> bool:
         """\
         Potentially anonymize a single DataElement, removing its value
         if the data_element's keyword matches one of those supplied when
