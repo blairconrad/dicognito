@@ -1,8 +1,11 @@
 import pydicom
 
+from typing import Any, Optional
+from dicognito.randomizer import Randomizer
+
 
 class PNAnonymizer:
-    def __init__(self, randomizer):
+    def __init__(self, randomizer: Randomizer):
         """\
         Create a new PNAnonymizer.
 
@@ -13,17 +16,17 @@ class PNAnonymizer:
         """
         self.randomizer = randomizer
 
-    def __call__(self, dataset, data_element):
+    def __call__(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> bool:
         """\
         Potentially anonymize a single DataElement, replacing its
         value with something that obscures the patient's identity.
 
         Parameters
         ----------
-        dataset : pydicom.dataset.Dataset
+        dataset : pydicom.Dataset
             The dataset to operate on.
 
-        data_element : pydicom.dataset.DataElement
+        data_element : pydicom.DataElement
             The current element. Will be anonymized if its VR is PN.
 
         Returns
@@ -42,7 +45,7 @@ class PNAnonymizer:
             data_element.value = self._new_pn(patient_sex, data_element.value)
         return True
 
-    def _new_pn(self, sex, original_value):
+    def _new_pn(self, sex: Optional[str], original_value: Any) -> str:
         if sex == "F":
             first_names = self._female_first_names
         elif sex == "M":
