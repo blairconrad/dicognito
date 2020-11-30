@@ -1,9 +1,10 @@
 import hashlib
 import os
+from typing import Any, Optional, Sequence
 
 
 class Randomizer:
-    def __init__(self, seed):
+    def __init__(self, seed: Optional[str]):
         """\
         Create a new Randomizer.
 
@@ -15,10 +16,11 @@ class Randomizer:
             same initial values.
         """
         if seed is None:
-            seed = os.urandom(20)
-        self.seed = str(seed)
+            self.seed = str(os.urandom(20))
+        else:
+            self.seed = str(seed)
 
-    def to_int(self, original_value):
+    def to_int(self, original_value: Any) -> int:
         """\
         Convert an original data element value into a large integer,
         which can be used to select or construct a replacement value.
@@ -37,7 +39,7 @@ class Randomizer:
             result += c
         return result
 
-    def get_ints_from_ranges(self, original_value, *suprenums):
+    def get_ints_from_ranges(self, original_value: Any, *suprenums: int) -> Sequence[int]:
         """\
         Convert an original data element value into a series of
         integers, each between 0 (inclusive) and one of the suprenums
