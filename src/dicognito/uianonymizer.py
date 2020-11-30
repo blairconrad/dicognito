@@ -1,3 +1,5 @@
+from typing import Dict
+
 import collections
 import datetime
 import pydicom
@@ -6,15 +8,15 @@ import random
 
 
 class UIAnonymizer:
-    def __init__(self):
+    def __init__(self) -> None:
         """\
         Create a new UIAnonymizer.
         """
-        self._ui_map = collections.defaultdict(self._new_ui)
-        self._creation_date = datetime.datetime.utcnow().strftime("%Y%m%d%H%M%S%f")
-        self._counter = 10000000
+        self._ui_map: Dict[str, str] = collections.defaultdict(self._new_ui)
+        self._creation_date: str = datetime.datetime.utcnow().strftime("%Y%m%d%H%M%S%f")
+        self._counter: int = 10000000
 
-    def __call__(self, dataset, data_element):
+    def __call__(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> bool:
         """\
         Potentially anonymize a single DataElement, replacing its
         value with something that obscures the patient's identity.
@@ -47,7 +49,7 @@ class UIAnonymizer:
             data_element.value = self._ui_map[data_element.value]
         return True
 
-    def _new_ui(self):
+    def _new_ui(self) -> str:
         self._counter += 1
         counter_part = str(self._counter)
         prefix = "2." + self._creation_date + "." + counter_part + "."
