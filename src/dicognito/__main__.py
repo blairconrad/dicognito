@@ -2,6 +2,8 @@
 Anonymize one or more DICOM files' headers (not pixel data).
 """
 from __future__ import print_function
+from argparse import ArgumentParser, Namespace
+from typing import Any, Iterable, Optional, Sequence, Text, Tuple, Union
 import sys
 import argparse
 import collections
@@ -15,25 +17,31 @@ from dicognito.anonymizer import Anonymizer
 from dicognito.burnedinannotationwarner import BurnedInAnnotationWarner
 
 
-def main(args=None):
+def main(main_args: Optional[Sequence[str]] = None) -> None:
     class VersionAction(argparse.Action):
         def __init__(
             self,
-            option_strings,
-            version=None,
-            dest=argparse.SUPPRESS,
-            default=argparse.SUPPRESS,
-            help="show program's version information and exit",
+            option_strings: Sequence[str],
+            version: Optional[str] = None,
+            dest: str = argparse.SUPPRESS,
+            default: str = argparse.SUPPRESS,
+            help: str = "show program's version information and exit",
         ):
             super(VersionAction, self).__init__(
                 option_strings=option_strings, dest=dest, default=default, nargs=0, help=help
             )
             self.version = version
 
-        def __call__(self, parser, namespace, values, option_string=None):
+        def __call__(
+            self,
+            parser: ArgumentParser,
+            namespace: Namespace,
+            values: Union[Text, Sequence[Any], None],
+            option_string: Optional[Text] = None,
+        ) -> None:
             import platform
 
-            def print_table(version_rows):
+            def print_table(version_rows: Sequence[Tuple[str, str]]) -> None:
                 row_format = "{:12} | {}"
                 print(row_format.format("module", "version"))
                 print(row_format.format("------", "-------"))
@@ -51,8 +59,8 @@ def main(args=None):
             print_table(version_rows)
             parser.exit()
 
-    if args is None:
-        args = sys.argv[1:]
+    if main_args is None:
+        main_args = sys.argv[1:]
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -123,7 +131,7 @@ def main(args=None):
     )
     parser.add_argument("--version", action=VersionAction)
 
-    args = parser.parse_args(args)
+    args = parser.parse_args(main_args)
 
     numeric_level = getattr(logging, args.log_level.upper(), None)
     if not isinstance(numeric_level, int):
@@ -135,7 +143,7 @@ def main(args=None):
 
     ConvertedStudy = collections.namedtuple("ConvertedStudy", ["AccessionNumber", "PatientID", "PatientName"])
 
-    def get_files_from_source(source):
+    def get_files_from_source(source: str) -> Iterable[str]:
         if os.path.isfile(source):
             yield source
         elif os.path.isdir(source):
@@ -147,11 +155,11 @@ def main(args=None):
                 for file in get_files_from_source(expanded_source):
                     yield file
 
-    def ensure_output_directory_exists(args):
+    def ensure_output_directory_exists(args: Namespace) -> None:
         if args.output_directory and not os.path.isdir(args.output_directory):
             os.makedirs(args.output_directory)
 
-    def calculate_output_filename(file, args, dataset):
+    def calculate_output_filename(file: str, args: Namespace, dataset: pydicom.dataset.Dataset) -> str:
         output_file = file
         if args.output_directory:
             output_file = os.path.join(args.output_directory, dataset.SOPInstanceUID + ".dcm")
@@ -192,4 +200,4 @@ def main(args=None):
 
 
 if __name__ == "__main__":
-    main()  # type: ignore[no-untyped-call]
+    main()
