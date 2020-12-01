@@ -113,7 +113,7 @@ class Anonymizer:
 
         Parameters
         ----------
-        dataset : pydicom.dataset.DataSet
+        dataset : pydicom.dataset.Dataset
             A DICOM dataset to anonymize.
         """
         dataset.file_meta.walk(self._anonymize_element)
