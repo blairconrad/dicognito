@@ -1,5 +1,9 @@
 import pydicom
 
+
+from typing import Any
+from dicognito.randomizer import Randomizer
+
 """\
 Defines AddressAnonymizer, responsible for anonymizing addresses
 """
@@ -10,7 +14,7 @@ class AddressAnonymizer:
     Anonymizes addresses.
     """
 
-    def __init__(self, randomizer):
+    def __init__(self, randomizer: Randomizer):
         """\
         Create a new AddressAnonymizer.
 
@@ -31,7 +35,7 @@ class AddressAnonymizer:
             country_tag: self.get_country,
         }
 
-    def __call__(self, dataset, data_element):
+    def __call__(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> bool:
         """\
         Potentially anonymize a single DataElement, replacing its
         value with something that obscures the patient's identity.
@@ -59,18 +63,18 @@ class AddressAnonymizer:
         data_element.value = value_factory(data_element.value)
         return True
 
-    def get_street_address(self, original_value):
+    def get_street_address(self, original_value: Any) -> str:
         (street_number_index, street_index) = self.randomizer.get_ints_from_ranges(
             original_value, 1000, len(self._streets)
         )
         street_number = street_number_index + 1
-        return str(street_number) + " " + self._streets[street_index]
+        return f"{street_number} {self._streets[street_index]}"
 
-    def get_region(self, original_value):
+    def get_region(self, original_value: Any) -> str:
         (city_index,) = self.randomizer.get_ints_from_ranges(original_value, len(self._cities))
         return self._cities[city_index]
 
-    def get_country(self, original_value):
+    def get_country(self, original_value: Any) -> str:
         (country_index,) = self.randomizer.get_ints_from_ranges(original_value, len(self._countries))
         return self._countries[country_index]
 
