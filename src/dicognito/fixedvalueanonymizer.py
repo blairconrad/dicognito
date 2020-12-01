@@ -17,7 +17,7 @@ class FixedValueAnonymizer:
         self.tag = pydicom.datadict.tag_for_keyword(keyword)
         self.value = value
 
-    def __call__(self, dataset, data_element):
+    def __call__(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> bool:
         """\
         Potentially anonymize a single DataElement, replacing its
         value with self.value.
