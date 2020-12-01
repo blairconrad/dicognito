@@ -1,8 +1,10 @@
+from typing import Any
+
 import pydicom
 
 
 class FixedValueAnonymizer:
-    def __init__(self, keyword, value):
+    def __init__(self, keyword: str, value: Any) -> None:
         """\
         Create a new FixedValueAnonymizer.
 

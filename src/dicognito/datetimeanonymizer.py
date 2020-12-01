@@ -3,7 +3,7 @@ import pydicom
 
 
 class DateTimeAnonymizer:
-    def __init__(self, offset_hours):
+    def __init__(self, offset_hours: int) -> None:
         """\
         Create a new DateTimeAnonymizer.
 
