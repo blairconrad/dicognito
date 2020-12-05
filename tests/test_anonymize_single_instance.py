@@ -1,5 +1,8 @@
 import datetime
+import pydicom
 import pytest
+
+from typing import Any, Optional
 
 from dicognito.anonymizer import Anonymizer
 from dicognito.pnanonymizer import PNAnonymizer
@@ -165,7 +168,7 @@ def test_female_patient_name_gets_anonymized():
         anonymizer = Anonymizer()
         anonymizer.anonymize(dataset)
 
-        new_patient_name = dataset.PatientName
+        new_patient_name: pydicom.valuerep.PersonName = dataset.PatientName
 
         assert new_patient_name != original_patient_name
         assert new_patient_name.family_name in PNAnonymizer._last_names
@@ -183,7 +186,7 @@ def test_male_patient_name_gets_anonymized():
         anonymizer = Anonymizer()
         anonymizer.anonymize(dataset)
 
-        new_patient_name = dataset.PatientName
+        new_patient_name: pydicom.valuerep.PersonName = dataset.PatientName
 
         assert new_patient_name != original_patient_name
         assert new_patient_name.family_name in PNAnonymizer._last_names
@@ -201,7 +204,7 @@ def test_sex_other_patient_name_gets_anonymized():
         anonymizer = Anonymizer()
         anonymizer.anonymize(dataset)
 
-        new_patient_name = dataset.PatientName
+        new_patient_name: pydicom.valuerep.PersonName = dataset.PatientName
 
         assert new_patient_name != original_patient_name
         assert new_patient_name.family_name in PNAnonymizer._last_names
@@ -641,14 +644,14 @@ def test_pixel_data_with_embedded_sequence_delimiter():
         anonymizer.anonymize(dataset)
 
 
-def ensure_attribute_is(dataset, attribute_name, value):
+def ensure_attribute_is(dataset: pydicom.dataset.Dataset, attribute_name: str, value: Optional[Any]) -> None:
     if value is None:
         assert attribute_name not in dataset
     else:
         setattr(dataset, attribute_name, value)
 
 
-def assert_attribute_is(dataset, attribute_name, expected):
+def assert_attribute_is(dataset: pydicom.dataset.Dataset, attribute_name: str, expected: Optional[Any]) -> None:
     if expected is None:
         assert attribute_name not in dataset
     else:
