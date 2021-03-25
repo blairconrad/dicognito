@@ -39,7 +39,7 @@ class Anonymizer:
     >>>         dataset.save_as("new-" + filename)
     """
 
-    def __init__(self, id_prefix="", id_suffix="", seed=None):
+    def __init__(self, id_prefix="", PN_lastname="", seed=None):
         """\
         Create a new Anonymizer.
 
@@ -77,27 +77,26 @@ class Anonymizer:
                 "PatientTelephoneNumbers",
                 "ReferencedPatientPhotoSequence",
                 "ResponsibleOrganization",
+                "StationName",
+                "RequestedProcedureID",
+                "PlacerOrderNumberProcedure",
+                "PlacerOrderNumberImagingServiceRequestRetired",
+                "PlacerOrderNumberImagingServiceRequest",
+                "StudyID",
+                "FillerOrderNumberProcedure",
+                "FillerOrderNumberImagingServiceRequest",
+                "FillerOrderNumberImagingServiceRequestRetired",
+                "AccessionNumber",
             ),
             UIAnonymizer(),
-            PNAnonymizer(randomizer),
+            PNAnonymizer(randomizer,
+                PN_lastname,
+            ),
             IDAnonymizer(
                 randomizer,
                 id_prefix,
-                id_suffix,
-                "AccessionNumber",
                 "OtherPatientIDs",
-                "FillerOrderNumberImagingServiceRequest",
-                "FillerOrderNumberImagingServiceRequestRetired",
-                "FillerOrderNumberProcedure",
                 "PatientID",
-                "PerformedProcedureStepID",
-                "PlacerOrderNumberImagingServiceRequest",
-                "PlacerOrderNumberImagingServiceRequestRetired",
-                "PlacerOrderNumberProcedure",
-                "RequestedProcedureID",
-                "ScheduledProcedureStepID",
-                "StationName",
-                "StudyID",
             ),
             address_anonymizer,
             EquipmentAnonymizer(address_anonymizer),
@@ -105,6 +104,7 @@ class Anonymizer:
             FixedValueAnonymizer("CurrentPatientLocation", ""),
             DateTimeAnonymizer(date_offset_hours),
         ]
+        
 
     def anonymize(self, dataset):
         """\
@@ -129,6 +129,12 @@ class Anonymizer:
     def _update_deidentification_method(self, dataset):
         if "DeidentificationMethod" not in dataset:
             dataset.DeidentificationMethod = "DICOGNITO"
+
+        if "PatientIdentityRemoved" not in dataset:
+            dataset.PatientIdentityRemoved = "YES"
+
+        if "IssuerOfPatientID" not in dataset:
+            dataset.IssuerOfPatientID = "DICOGNITO, In an effort to remove PHI all dates are offset from their original values"
             return
 
         existing_element = dataset.data_element("DeidentificationMethod")
@@ -138,6 +144,11 @@ class Anonymizer:
                 existing_element.value.append("DICOGNITO")
         elif existing_element.value != "DICOGNITO":
             existing_element.value = [existing_element.value, "DICOGNITO"]
+
+        existing_element = dataset.data_element("PatientIdentityRemoved")
+
+        if existing_element.value != "YES":
+            existing_element.value = "YES"
 
     def _update_patient_identity_removed(self, dataset):
         if dataset.get("BurnedInAnnotation", "YES") == "NO":

@@ -47,17 +47,12 @@ class EquipmentAnonymizer:
         element_anonymizer(dataset, data_element)
 
     def anonymize_institution_name(self, dataset, data_element):
-        region = self.address_anonymizer.get_region(data_element.value)
-        street_address = self.address_anonymizer.get_street_address(data_element.value)
-        street = street_address.split(" ", 1)[1]
-        dataset.InstitutionAddress = ", ".join(
-            [street_address, region, self.address_anonymizer.get_country(data_element.value)]
-        )
-        data_element.value = region + "'S " + street + " CLINIC"
+        dataset.InstitutionAddress = " "
+        data_element.value = " "
 
     def anonymize_institution_address(self, dataset, data_element):
         # handled by anonymize_institution_name
         pass
 
     def anonymize_department_name(self, dataset, data_element):
-        data_element.value = "RADIOLOGY"
+        data_element.value = ""

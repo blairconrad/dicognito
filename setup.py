@@ -1,7 +1,7 @@
 import setuptools
 
 package_name = "dicognito"
-url = "https://github.com/blairconrad/dicognito"
+url = "https://github.com/medphysJH/dicognito"
 
 with open("src/dicognito/release_notes.md", "r") as notes:
     for line in notes:
@@ -15,7 +15,7 @@ with open("README.md", "r") as fh:
 setuptools.setup(
     name=package_name,
     version=version,
-    author="Blair Conrad",
+    author="Blair Conrad/MedPhysJH",
     author_email="blair@blairconrad.com",
     description="A tool for anonymizing DICOM files",
     keywords="anonymize deidentify dicom python",

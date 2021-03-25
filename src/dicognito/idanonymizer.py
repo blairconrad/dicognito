@@ -4,7 +4,7 @@ import pydicom
 class IDAnonymizer:
     _alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
-    def __init__(self, randomizer, id_prefix, id_suffix, *keywords):
+    def __init__(self, randomizer, id_prefix, *keywords):
         """\
         Create a new IDAnonymizer.
 
@@ -15,24 +15,20 @@ class IDAnonymizer:
         id_prefix : str
             A prefix to add to all unstructured ID fields, such as Patient
             ID, Accession Number, etc.
-        id_suffix : str
-            A prefix to add to all unstructured ID fields, such as Patient
-            ID, Accession Number, etc.
         keywords : list of str
             All of the keywords for elements to be anonymized. Only
             elements with matching keywords will be updated.
         """
         self.randomizer = randomizer
         self.id_prefix = id_prefix
-        self.id_suffix = id_suffix
         self.issuer_tag = pydicom.datadict.tag_for_keyword("IssuerOfPatientID")
         self.id_tags = [pydicom.datadict.tag_for_keyword(tag_name) for tag_name in keywords]
 
-        total_affixes_length = len(self.id_prefix) + len(self.id_suffix)
+        total_affixes_length = len(self.id_prefix) + 1 # + len(self.id_suffix)
         self._indices_for_randomizer = [len(self._alphabet)] * (12 - total_affixes_length)
 
     def __call__(self, dataset, data_element):
-        """\
+        """
         Potentially anonymize a single DataElement, replacing its
         value with something that obscures the patient's identity.
 
@@ -60,8 +56,8 @@ class IDAnonymizer:
         if self._anonymize_mitra_global_patient_id(dataset, data_element):
             return True
 
-        if data_element.tag == self.issuer_tag and data_element.value:
-            data_element.value = "DICOGNITO"
+        if data_element.tag == self.issuer_tag:
+            data_element.value = "DICOGNITO, In an effort to remove PHI all dates are offset from their original values"
             return True
         return False
 
@@ -83,4 +79,4 @@ class IDAnonymizer:
     def _new_id(self, original_value):
         indexes = self.randomizer.get_ints_from_ranges(original_value, *self._indices_for_randomizer)
         id_root = "".join([self._alphabet[i] for i in indexes])
-        return self.id_prefix + id_root + self.id_suffix
+        return self.id_prefix + "_" + id_root
