@@ -1,6 +1,19 @@
+### New
+
+- Command line option to warn if source may have burned in annotations
+  ([#44](https://github.com/blairconrad/dicognito/issues/44)):
+    ```bash
+    dicognito --burned-in-annotation-warning if-yes     # default
+    dicognito --burned-in-annotation-warning unless-no
+    dicognito --burned-in-annotation-warning never
+    ```
+
 ### Additional Items
 
 - Remove Python 2.7 shims ([#105](https://github.com/blairconrad/dicognito/issues/105))
+
+### With special thanks for contributions to this release from:
+- [justineclin](https://github.com/justineclin) &#x1F947;
 
 
 ## 0.12.0
@@ -161,4 +174,4 @@
 - Initial release, with minimal functionality
 
 ### With special thanks for contributions to this release from:
-- [Paul Duncan](https://github.com/paulsbduncan)
+- [Paul Duncan](https://github.com/paulsbduncan) &#x1F947;
