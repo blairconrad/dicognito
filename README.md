@@ -1,4 +1,4 @@
-![Dicognito logo](https://github.com/blairconrad/dicognito/raw/master/assets/dicognito_128.png "Dicognito logo")
+![Dicognito logo](https://github.com/blairconrad/dicognito/raw/main/assets/dicognito_128.png "Dicognito logo")
 
 Dicognito is a [Python](https://www.python.org/) module and command-line utility that anonymizes
 [DICOM](https://www.dicomstandard.org/) files.

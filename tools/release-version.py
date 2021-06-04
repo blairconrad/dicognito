@@ -14,7 +14,7 @@ def main(args: Sequence[str]) -> None:
     tools_dir = os.path.split(__file__)[0]
     os.chdir(os.path.split(tools_dir)[0])
 
-    main_branch = "master"
+    main_branch = "main"
     release_notes_filename = "src/dicognito/release_notes.md"
     branch_name = "release/" + new_version
 
