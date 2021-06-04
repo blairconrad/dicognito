@@ -1,10 +1,12 @@
+import pydicom
+
 """\
 Defines BurnedAnnotationWarner, the class that generates warnings for the BurnedInAnnontation attribute.
 """
 
 
 class BurnedInAnnotationWarner:
-    def __init__(self, warn_level):
+    def __init__(self, warn_level: str):
         """\
         Create a new BurnedInAnnotationWarner.
 
@@ -18,7 +20,7 @@ class BurnedInAnnotationWarner:
         """
         self.warn_level = warn_level
 
-    def generate_warning(self, file, dataset):
+    def generate_warning(self, file: str, dataset: pydicom.dataset.Dataset) -> str:
         """\
         Potentially generate a warning based on the self.warn_level
         and the BurnedInAnnotation attribute value in dataset.

@@ -3,7 +3,7 @@ import pydicom
 
 
 class DateTimeAnonymizer:
-    def __init__(self, offset_hours):
+    def __init__(self, offset_hours: int) -> None:
         """\
         Create a new DateTimeAnonymizer.
 
@@ -15,7 +15,7 @@ class DateTimeAnonymizer:
         """
         self.offset = datetime.timedelta(hours=offset_hours)
 
-    def __call__(self, dataset, data_element):
+    def __call__(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> bool:
         """\
         Potentially anonymize one or two elements, replacing their
         value(s) with something that obscures the patient's identity.
@@ -45,7 +45,7 @@ class DateTimeAnonymizer:
             self._anonymize_datetime(dataset, data_element)
         return True
 
-    def _anonymize_date_and_time(self, dataset, data_element):
+    def _anonymize_date_and_time(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> None:
         date_value = data_element.value
         if isinstance(data_element.value, pydicom.multival.MultiValue):
             dates = list([v for v in data_element.value])
@@ -85,14 +85,14 @@ class DateTimeAnonymizer:
             new_dates.append(new_datetime.strftime(date_format))
             new_times.append(new_datetime.strftime("%H") + time_value[2:])
 
-        new_dates = "\\".join(new_dates)
-        new_times = "\\".join(new_times)
+        new_dates_string = "\\".join(new_dates)
+        new_times_string = "\\".join(new_times)
 
-        data_element.value = new_dates
+        data_element.value = new_dates_string
         if times:
-            dataset.data_element(time_name).value = new_times
+            dataset.data_element(time_name).value = new_times_string
 
-    def _anonymize_datetime(self, dataset, data_element):
+    def _anonymize_datetime(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> None:
         if isinstance(data_element.value, pydicom.multival.MultiValue):
             datetimes = list([v for v in data_element.value])
         else:

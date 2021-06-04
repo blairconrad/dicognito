@@ -1,8 +1,10 @@
 import pydicom
 
+from dicognito.addressanonymizer import AddressAnonymizer
+
 
 class EquipmentAnonymizer:
-    def __init__(self, address_anonymizer):
+    def __init__(self, address_anonymizer: AddressAnonymizer) -> None:
         """\
         Create a new EquipmentAnonymizer.
 
@@ -19,7 +21,7 @@ class EquipmentAnonymizer:
             pydicom.datadict.tag_for_keyword("InstitutionalDepartmentName"): self.anonymize_department_name,
         }
 
-    def __call__(self, dataset, data_element):
+    def __call__(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> bool:
         """\
         Potentially anonymize a single DataElement, replacing its
         value with something that obscures the patient's identity.
@@ -45,8 +47,9 @@ class EquipmentAnonymizer:
             return False
 
         element_anonymizer(dataset, data_element)
+        return True
 
-    def anonymize_institution_name(self, dataset, data_element):
+    def anonymize_institution_name(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> None:
         region = self.address_anonymizer.get_region(data_element.value)
         street_address = self.address_anonymizer.get_street_address(data_element.value)
         street = street_address.split(" ", 1)[1]
@@ -55,9 +58,11 @@ class EquipmentAnonymizer:
         )
         data_element.value = region + "'S " + street + " CLINIC"
 
-    def anonymize_institution_address(self, dataset, data_element):
+    def anonymize_institution_address(
+        self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement
+    ) -> None:
         # handled by anonymize_institution_name
         pass
 
-    def anonymize_department_name(self, dataset, data_element):
+    def anonymize_department_name(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> None:
         data_element.value = "RADIOLOGY"

@@ -5,7 +5,9 @@ import pydicom
 from pydicom.data import get_testdata_files
 
 
-def load_instance(patient_number=1, study_number=1, series_number=1, instance_number=1):
+def load_instance(
+    patient_number: int = 1, study_number: int = 1, series_number: int = 1, instance_number: int = 1
+) -> pydicom.dataset.Dataset:
     dataset = load_minimal_instance()
     _set_patient_attributes(dataset, patient_number)
     _set_study_attributes(dataset, patient_number, study_number)
@@ -14,11 +16,11 @@ def load_instance(patient_number=1, study_number=1, series_number=1, instance_nu
     return dataset
 
 
-def load_minimal_instance():
+def load_minimal_instance() -> pydicom.dataset.Dataset:
     return load_dcm(get_testdata_files("MR_small.dcm")[0])
 
 
-def load_test_instance():
+def load_test_instance() -> pydicom.dataset.Dataset:
     dataset = load_minimal_instance()
     source_image_dataset = pydicom.dataset.Dataset()
     source_image_dataset.ReferencedSOPClassUID = ["1.2.3.0.1"]
@@ -85,7 +87,7 @@ def load_test_instance():
     return dataset
 
 
-def code(value, designator, meaning):
+def code(value: str, designator: str, meaning: str) -> pydicom.dataset.Dataset:
     code_ds = pydicom.dataset.Dataset()
     code_ds.CodeValue = value
     code_ds.CodingSchemeDesignator = designator
@@ -93,7 +95,7 @@ def code(value, designator, meaning):
     return code_ds
 
 
-def referenced_photo_item():
+def referenced_photo_item() -> pydicom.dataset.Dataset:
     referenced_sop_item = pydicom.dataset.Dataset()
     referenced_sop_item.ReferencedSOPClassUID = "2.3.4.5.6.7"
     referenced_sop_item.ReferencedSOPInstanceUID = "2.3.4.5.6.7.1.2.3"
@@ -107,12 +109,12 @@ def referenced_photo_item():
     return item
 
 
-def load_dcm(*directory_parts):
+def load_dcm(*directory_parts: str) -> pydicom.dataset.Dataset:
     script_dir = os.path.dirname(__file__)
     return pydicom.dcmread(os.path.join(script_dir, *directory_parts))
 
 
-def _set_patient_attributes(dataset, patient_number):
+def _set_patient_attributes(dataset: pydicom.dataset.Dataset, patient_number: int) -> None:
     dataset.PatientAddress = str(123 + patient_number) + " Fake Street"
     dataset.PatientBirthDate = str(19830213 + patient_number)
     dataset.PatientBirthTime = "13:14:0" + str(patient_number)
@@ -128,7 +130,7 @@ def _set_patient_attributes(dataset, patient_number):
     dataset.ResponsiblePerson = "Responsible" + str(dataset.PatientName)
 
 
-def _set_study_attributes(dataset, patient_number, study_number):
+def _set_study_attributes(dataset: pydicom.dataset.Dataset, patient_number: int, study_number: int) -> None:
     dataset.StudyID = "STUDYFOR4MR" + str(patient_number) + "." + str(study_number)
     dataset.AccessionNumber = "ACC" + dataset.StudyID
     dataset.StudyDate = datetime.date(2004, patient_number, study_number).strftime("%Y%m%d")
@@ -139,7 +141,9 @@ def _set_study_attributes(dataset, patient_number, study_number):
     dataset.ReferringPhysicianName = "REFERRING1^FIRST^" + dataset.StudyID
 
 
-def _set_series_attributes(dataset, patient_number, study_number, series_number):
+def _set_series_attributes(
+    dataset: pydicom.dataset.Dataset, patient_number: int, study_number: int, series_number: int
+) -> None:
     series_suffix = "%(patient_number)-d%(study_number)-d%(series_number)d" % vars()
     dataset.SeriesInstanceUID = dataset.StudyInstanceUID + "." + str(series_number)
     dataset.FrameOfReferenceUID = dataset.SeriesInstanceUID + ".0." + str(series_number)
@@ -164,7 +168,9 @@ def _set_series_attributes(dataset, patient_number, study_number, series_number)
     dataset.StationName = "STATIONNAME" + series_suffix
 
 
-def _set_instance_attributes(dataset, patient_number, study_number, series_number, instance_number):
+def _set_instance_attributes(
+    dataset: pydicom.dataset.Dataset, patient_number: int, study_number: int, series_number: int, instance_number: int
+) -> None:
     dataset.SOPInstanceUID = dataset.SeriesInstanceUID + "." + str(instance_number)
     dataset.file_meta.MediaStorageSOPInstanceUID = dataset.SOPInstanceUID
     dataset.InstanceCreationDate = dataset.SeriesDate
@@ -175,7 +181,7 @@ def _set_instance_attributes(dataset, patient_number, study_number, series_numbe
 
 if __name__ == "__main__":
     patient_number, study_number, series_number, object_number = [
-        int(x) for x in (sys.argv[1:] + [1] * (5 - len(sys.argv)))
+        int(x) for x in (sys.argv[1:] + ["1"] * (5 - len(sys.argv)))
     ]
     dataset = load_instance(patient_number, study_number, series_number, object_number)
     dataset.save_as("p%02d_s%02d_s%02d_i%02d.dcm" % (patient_number, study_number, series_number, object_number))

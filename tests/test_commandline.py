@@ -2,10 +2,12 @@ import sys
 import os.path
 import shutil
 import logging
+
+import pydicom
 import dicognito.__main__
 from .data_for_tests import load_dcm
 
-data_dir = None
+data_dir = ""
 
 
 def setup_module(module):
@@ -182,7 +184,7 @@ def test_writes_deflated_file_correctly():
     read_file(get_test_name(), "new_dir", output_file_name)
 
 
-def get_test_name():
+def get_test_name() -> str:
     depth = 1
     while True:
         frame = sys._getframe(depth)
@@ -191,17 +193,17 @@ def get_test_name():
         depth += 1
 
 
-def path_to(*end_of_path):
+def path_to(*end_of_path: str) -> str:
     return os.path.join(data_dir, get_test_name(), *end_of_path)
 
 
-def run_dicognito(*extra_args):
+def run_dicognito(*extra_args: str) -> None:
     dicognito.__main__.main(("--seed", "") + extra_args)
 
 
-def read_file(*directory_parts):
+def read_file(*directory_parts: str) -> pydicom.dataset.Dataset:
     return load_dcm(data_dir, *directory_parts)
 
 
-def read_original_file(*directory_parts):
+def read_original_file(*directory_parts: str) -> pydicom.dataset.Dataset:
     return load_dcm("orig_data", *directory_parts)

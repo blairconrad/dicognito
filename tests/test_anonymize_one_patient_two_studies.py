@@ -1,3 +1,4 @@
+import pydicom
 import pytest
 
 from dicognito.anonymizer import Anonymizer
@@ -6,6 +7,9 @@ from .data_for_tests import load_instance
 
 
 class TestOnePatientTwoStudies:
+    dataset1: pydicom.dataset.Dataset
+    dataset2: pydicom.dataset.Dataset
+
     @classmethod
     def setup_class(cls):
         TestOnePatientTwoStudies.dataset1 = load_instance(patient_number=1, study_number=1)

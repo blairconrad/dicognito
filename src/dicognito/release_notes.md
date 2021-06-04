@@ -10,6 +10,8 @@
 
 ### Additional Items
 
+- Add type hints, per [PEP 484](https://www.python.org/dev/peps/pep-0484/)
+  ([#111](https://github.com/blairconrad/dicognito/issues/111))
 - Remove Python 2.7 shims ([#105](https://github.com/blairconrad/dicognito/issues/105))
 
 ### With special thanks for contributions to this release from:

@@ -1,1 +1,2 @@
+include src/dicognito/py.typed
 include src/dicognito/release_notes.md

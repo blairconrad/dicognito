@@ -1,6 +1,7 @@
 """\
 Defines Anonymizer, the principle class used to anonymize DICOM objects.
 """
+from typing import Callable, Optional, Sequence
 from dicognito.addressanonymizer import AddressAnonymizer
 from dicognito.equipmentanonymizer import EquipmentAnonymizer
 from dicognito.fixedvalueanonymizer import FixedValueAnonymizer
@@ -39,7 +40,7 @@ class Anonymizer:
     >>>         dataset.save_as("new-" + filename)
     """
 
-    def __init__(self, id_prefix="", id_suffix="", seed=None):
+    def __init__(self, id_prefix: str = "", id_suffix: str = "", seed: Optional[str] = None) -> None:
         """\
         Create a new Anonymizer.
 
@@ -65,7 +66,7 @@ class Anonymizer:
         )
         address_anonymizer = AddressAnonymizer(randomizer)
 
-        self._element_handlers = [
+        self._element_handlers: Sequence[Callable[[pydicom.dataset.Dataset, pydicom.dataelem.DataElement], bool]] = [
             UnwantedElementsStripper(
                 "BranchOfService",
                 "Occupation",
@@ -106,14 +107,14 @@ class Anonymizer:
             DateTimeAnonymizer(date_offset_hours),
         ]
 
-    def anonymize(self, dataset):
+    def anonymize(self, dataset: pydicom.dataset.Dataset) -> None:
         """\
         Anonymize a dataset in place. Replaces all PNs, UIs, dates and times, and
         known identifiying attributes with other vlaues.
 
         Parameters
         ----------
-        dataset : pydicom.dataset.DataSet
+        dataset : pydicom.dataset.Dataset
             A DICOM dataset to anonymize.
         """
         dataset.file_meta.walk(self._anonymize_element)
@@ -121,12 +122,12 @@ class Anonymizer:
         self._update_deidentification_method(dataset)
         self._update_patient_identity_removed(dataset)
 
-    def _anonymize_element(self, dataset, data_element):
+    def _anonymize_element(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.dataelem.DataElement) -> None:
         for handler in self._element_handlers:
             if handler(dataset, data_element):
                 return
 
-    def _update_deidentification_method(self, dataset):
+    def _update_deidentification_method(self, dataset: pydicom.dataset.Dataset) -> None:
         if "DeidentificationMethod" not in dataset:
             dataset.DeidentificationMethod = "DICOGNITO"
             return
@@ -139,6 +140,6 @@ class Anonymizer:
         elif existing_element.value != "DICOGNITO":
             existing_element.value = [existing_element.value, "DICOGNITO"]
 
-    def _update_patient_identity_removed(self, dataset):
+    def _update_patient_identity_removed(self, dataset: pydicom.dataset.Dataset) -> None:
         if dataset.get("BurnedInAnnotation", "YES") == "NO":
             dataset.PatientIdentityRemoved = "YES"
