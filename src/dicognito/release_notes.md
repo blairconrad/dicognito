@@ -1,11 +1,13 @@
 ### New
 
-- Command line option to warn if source may have burned in annotations
-  ([#44](https://github.com/blairconrad/dicognito/issues/44)):
+- Command line options define how to detect and handle burned-in annotations in source
+  ([#44](https://github.com/blairconrad/dicognito/issues/44),
+   [#113](https://github.com/blairconrad/dicognito/issues/113)):
     ```bash
-    dicognito --burned-in-annotation-warning if-yes     # default
-    dicognito --burned-in-annotation-warning unless-no
-    dicognito --burned-in-annotation-warning never
+    dicognito --assume-burned-in-annotation if-yes --on-burned-in-annotation warn  # default
+    dicognito --assume-burned-in-annotation unless-no
+    dicognito --assume-burned-in-annotation never
+    dicognito --on-burned-in-annotation fail
     ```
 - Officially support Python 3.10 ([#115](https://github.com/blairconrad/dicognito/issues/115))
 

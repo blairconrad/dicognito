@@ -14,7 +14,7 @@ import pydicom
 
 import dicognito
 from dicognito.anonymizer import Anonymizer
-from dicognito.burnedinannotationwarner import BurnedInAnnotationWarner
+from dicognito.burnedinannotationguard import BurnedInAnnotationGuard
 
 
 def main(main_args: Optional[Sequence[str]] = None) -> None:
@@ -92,15 +92,21 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:
         "IDs. May be combined with --id-prefix.",
     )
     parser.add_argument(
-        "--burned-in-annotation-warning",
-        "-b",
+        "--assume-burned-in-annotation",
         action="store",
         type=str,
-        default="if-yes",
-        choices=["never", "if-yes", "unless-no"],
-        metavar="LEVEL",
-        help="Set the warning level for the burned-in-annotation DICOM attribute. "
-        "May be one of if-yes, never, or unless-no. Default is if-yes.",
+        default=BurnedInAnnotationGuard.ASSUME_IF_CHOICES[0],
+        choices=BurnedInAnnotationGuard.ASSUME_IF_CHOICES,
+        help="How to assume the presence of burned-in annotations, considering "
+        "the value of the Burned In Annotation attribute",
+    )
+    parser.add_argument(
+        "--on-burned-in-annotation",
+        action="store",
+        type=str,
+        default=BurnedInAnnotationGuard.IF_FOUND_CHOICES[0],
+        choices=BurnedInAnnotationGuard.IF_FOUND_CHOICES,
+        help="What to do when an object with assumed burned-in annotations is found",
     )
     parser.add_argument(
         "--output-directory",
@@ -139,7 +145,7 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:
     logging.basicConfig(format="", level=numeric_level)
 
     anonymizer = Anonymizer(id_prefix=args.id_prefix, id_suffix=args.id_suffix, seed=args.seed)
-    burned_in_annotation_warner = BurnedInAnnotationWarner(args.burned_in_annotation_warning)
+    burned_in_annotation_guard = BurnedInAnnotationGuard(args.assume_burned_in_annotation, args.on_burned_in_annotation)
 
     ConvertedStudy = collections.namedtuple("ConvertedStudy", ["AccessionNumber", "PatientID", "PatientName"])
 
@@ -172,11 +178,8 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:
         for file in get_files_from_source(source):
             try:
                 with pydicom.dcmread(file, force=False) as dataset:
+                    burned_in_annotation_guard.guard(dataset, file)
                     anonymizer.anonymize(dataset)
-
-                    burned_in_warning = burned_in_annotation_warner.generate_warning(file, dataset)
-                    if burned_in_warning != "":
-                        logging.warning(burned_in_warning)
 
                     output_file = calculate_output_filename(file, args, dataset)
                     dataset.save_as(output_file, write_like_original=False)
