@@ -133,12 +133,14 @@ class Anonymizer:
             return
 
         existing_element = dataset.data_element("DeidentificationMethod")
+        assert existing_element is not None  # satisfy mypy
+        existing_value = existing_element.value
 
-        if isinstance(existing_element.value, pydicom.multival.MultiValue):
-            if "DICOGNITO" not in existing_element.value:
-                existing_element.value.append("DICOGNITO")
-        elif existing_element.value != "DICOGNITO":
-            existing_element.value = [existing_element.value, "DICOGNITO"]
+        if isinstance(existing_value, pydicom.multival.MultiValue):
+            if "DICOGNITO" not in existing_value:
+                existing_value.append("DICOGNITO")
+        elif existing_value != "DICOGNITO":
+            existing_element.value = [existing_value, "DICOGNITO"]
 
     def _update_patient_identity_removed(self, dataset: pydicom.dataset.Dataset) -> None:
         if dataset.get("BurnedInAnnotation", "YES") == "NO":
