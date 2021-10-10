@@ -7,6 +7,7 @@
     dicognito --burned-in-annotation-warning unless-no
     dicognito --burned-in-annotation-warning never
     ```
+- Officially support Python 3.10 ([#115](https://github.com/blairconrad/dicognito/issues/115))
 
 ### Additional Items
 

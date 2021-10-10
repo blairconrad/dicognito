@@ -161,14 +161,14 @@ def test_issuer_of_patient_id_not_added_if_empty():
 def test_female_patient_name_gets_anonymized():
     with load_test_instance() as dataset:
         dataset.PatientSex = "F"
-        dataset.PatientName = "LAST^FIRST^MIDDLE"
+        dataset.PatientName = pydicom.valuerep.PersonName("LAST^FIRST^MIDDLE")
 
         original_patient_name = dataset.PatientName
 
         anonymizer = Anonymizer()
         anonymizer.anonymize(dataset)
 
-        new_patient_name: pydicom.valuerep.PersonName = dataset.PatientName
+        new_patient_name = dataset.PatientName
 
         assert new_patient_name != original_patient_name
         assert new_patient_name.family_name in PNAnonymizer._last_names
@@ -179,14 +179,14 @@ def test_female_patient_name_gets_anonymized():
 def test_male_patient_name_gets_anonymized():
     with load_test_instance() as dataset:
         dataset.PatientSex = "M"
-        dataset.PatientName = "LAST^FIRST^MIDDLE"
+        dataset.PatientName = pydicom.valuerep.PersonName("LAST^FIRST^MIDDLE")
 
         original_patient_name = dataset.PatientName
 
         anonymizer = Anonymizer()
         anonymizer.anonymize(dataset)
 
-        new_patient_name: pydicom.valuerep.PersonName = dataset.PatientName
+        new_patient_name = dataset.PatientName
 
         assert new_patient_name != original_patient_name
         assert new_patient_name.family_name in PNAnonymizer._last_names
@@ -197,14 +197,14 @@ def test_male_patient_name_gets_anonymized():
 def test_sex_other_patient_name_gets_anonymized():
     with load_test_instance() as dataset:
         dataset.PatientSex = "O"
-        dataset.PatientName = "LAST^FIRST^MIDDLE"
+        dataset.PatientName = pydicom.valuerep.PersonName("LAST^FIRST^MIDDLE")
 
         original_patient_name = dataset.PatientName
 
         anonymizer = Anonymizer()
         anonymizer.anonymize(dataset)
 
-        new_patient_name: pydicom.valuerep.PersonName = dataset.PatientName
+        new_patient_name = dataset.PatientName
 
         assert new_patient_name != original_patient_name
         assert new_patient_name.family_name in PNAnonymizer._last_names

@@ -56,7 +56,8 @@ class DateTimeAnonymizer:
         time_name = data_element.keyword.replace("Date", "Time")
 
         if time_name in dataset:
-            time_value = dataset.data_element(time_name).value
+            time_element = dataset.data_element(time_name)
+            time_value = time_element.value  # type: ignore[union-attr]
             if time_value:
                 if isinstance(time_value, pydicom.multival.MultiValue):
                     times = list([v for v in time_value])
@@ -90,7 +91,7 @@ class DateTimeAnonymizer:
 
         data_element.value = new_dates_string
         if times:
-            dataset.data_element(time_name).value = new_times_string
+            time_element.value = new_times_string  # type: ignore[union-attr]
 
     def _anonymize_datetime(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> None:
         if isinstance(data_element.value, pydicom.multival.MultiValue):
