@@ -1,4 +1,3 @@
-import sys
 import os.path
 import shutil
 
@@ -6,25 +5,20 @@ from invoke import task
 
 
 def add_source_to_sys_path():
-    base_dir = os.path.dirname(__file__)
-    path = os.path.join(base_dir, "src")
-    if path not in sys.path:
-        sys.path = [path] + sys.path
+    os.environ["PYTHONPATH"] = "src"
 
 
 @task(iterable=["like"])
 def test(context, like, loop=False):
-    import pytest
-
     add_source_to_sys_path()
 
-    args = ["tests"]
+    args = ["pytest", "--flake8", "--black"]
     if like:
         args += ["-k", " or ".join(like)]
     if loop:
         args += ["--looponfail"]
 
-    pytest.main(args)
+    context.run(" ".join(args))
 
 
 @task
