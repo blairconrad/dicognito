@@ -1,5 +1,7 @@
 import sys
 import os.path
+import pytest
+import re
 import shutil
 import logging
 
@@ -115,11 +117,8 @@ def test_non_dicom_files_logged_at_info(caplog):
     orig_dataset = read_original_file(test_name, "p01_s01_s01_i01.dcm")
     assert "CompressedSamples^MR1" == orig_dataset.PatientName
 
-    # py.test configures the logs itself, so setting the log level in the command
-    # doesn't work. Instead, use caplog to set the level.
-    caplog.set_level(logging.INFO)
+    set_log_level(caplog, logging.INFO)
     run_dicognito(path_to(""))
-
     anon_dataset = read_file(test_name, "p01_s01_s01_i01.dcm")
     assert orig_dataset.PatientName != anon_dataset.PatientName
 
@@ -128,21 +127,63 @@ def test_non_dicom_files_logged_at_info(caplog):
     assert log_record.getMessage().endswith(expected_error)
 
 
-def test_burned_in_warning_logged_at_warning(caplog):
-    expected_warning = "Burned In Annotation attribute value does not exist."
+def test_burned_in_annotation_default(caplog):
+    expected_warnings = {"Burned In Annotation is YES in " + path_to("burned_in_yes.dcm")}
 
-    test_name = get_test_name()
-    orig_dataset = read_original_file(test_name, "p01_s01_s01_i01.dcm")
-    assert "BurnedInAnnotation" not in orig_dataset
+    set_log_level(caplog, logging.WARNING)
+    run_dicognito(path_to(""))
 
-    # py.test configures the logs itself, so setting the log level in the command
-    # doesn't work. Instead, use caplog to set the level.
-    caplog.set_level(logging.WARNING)
-    run_dicognito(path_to(""), "--burned-in-annotation-warning", "unless-no")
+    messages = {log.getMessage() for log in caplog.records if log.levelname == "WARNING"}
+    assert messages == expected_warnings
 
-    log_record = caplog.records[0]
-    assert log_record.levelname == "WARNING"
-    assert log_record.getMessage().endswith(expected_warning)
+
+def test_burned_in_annotation_unless_no(caplog):
+    expected_warnings = {
+        "Burned In Annotation is not specified in " + path_to("burned_in_missing.dcm"),
+        "Burned In Annotation is OTHER in " + path_to("burned_in_other.dcm"),
+        "Burned In Annotation is YES in " + path_to("burned_in_yes.dcm"),
+    }
+
+    set_log_level(caplog, logging.WARNING)
+    run_dicognito(path_to(""), "--assume-burned-in-annotation", "unless-no")
+
+    messages = {log.getMessage() for log in caplog.records if log.levelname == "WARNING"}
+    assert messages == expected_warnings
+
+
+def test_burned_in_annotation_if_yes(caplog):
+    expected_warnings = {"Burned In Annotation is YES in " + path_to("burned_in_yes.dcm")}
+
+    set_log_level(caplog, logging.WARNING)
+    run_dicognito(path_to(""), "--assume-burned-in-annotation", "if-yes")
+
+    messages = {log.getMessage() for log in caplog.records if log.levelname == "WARNING"}
+    assert messages == expected_warnings
+
+
+def test_burned_in_annotation_never(caplog):
+    set_log_level(caplog, logging.WARNING)
+    run_dicognito(path_to(""), "--assume-burned-in-annotation", "never")
+
+    messages = {log.getMessage() for log in caplog.records if log.levelname == "WARNING"}
+    assert not messages
+
+
+def test_burned_in_annotation_warn(caplog):
+    expected_warnings = {"Burned In Annotation is YES in " + path_to("burned_in_yes.dcm")}
+
+    set_log_level(caplog, logging.WARNING)
+    run_dicognito(path_to(""), "--on-burned-in-annotation", "warn")
+
+    messages = {log.getMessage() for log in caplog.records if log.levelname == "WARNING"}
+    assert messages == expected_warnings
+
+
+def test_burned_in_annotation_fail(caplog):
+    expected_message = re.escape("Burned In Annotation is YES in " + path_to("burned_in_yes.dcm"))
+
+    with pytest.raises(Exception, match=expected_message):
+        run_dicognito(path_to(""), "--on-burned-in-annotation", "fail")
 
 
 def test_creates_output_directory_when_missing():
@@ -207,3 +248,9 @@ def read_file(*directory_parts: str) -> pydicom.dataset.Dataset:
 
 def read_original_file(*directory_parts: str) -> pydicom.dataset.Dataset:
     return load_dcm("orig_data", *directory_parts)
+
+
+def set_log_level(caplog: pytest.LogCaptureFixture, log_level: int) -> None:
+    # py.test configures the logs itself, so setting the log level in the command
+    # doesn't work. Instead, use caplog to set the level.
+    caplog.set_level(log_level)
