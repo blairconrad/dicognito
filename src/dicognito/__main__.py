@@ -193,6 +193,9 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:
             except pydicom.errors.InvalidDicomError:
                 logging.info("File %s appears not to be DICOM. Skipping.", file)
                 continue
+            except Exception:
+                logging.error("Error occurred while converting %s. Aborting.\nError was:", file, exc_info=True)
+                sys.exit(1)
 
     if not args.quiet:
         headers = ("Accession Number", "Patient ID", "Patient Name")
