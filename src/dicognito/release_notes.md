@@ -11,6 +11,10 @@
     ```
 - Officially support Python 3.10 ([#115](https://github.com/blairconrad/dicognito/issues/115))
 
+### Fixed
+
+- Fails to anonymize LEI file with Mitra global patient ID when using pydicom 2.2.x ([#118](https://github.com/blairconrad/dicognito/issues/118))
+
 ### Additional Items
 
 - Add type hints, per [PEP 484](https://www.python.org/dev/peps/pep-0484/)
