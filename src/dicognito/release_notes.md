@@ -9,6 +9,7 @@
     dicognito --assume-burned-in-annotation never
     dicognito --on-burned-in-annotation fail
     ```
+- Indicate filename when anonymization fails ([#120](https://github.com/blairconrad/dicognito/issues/120))
 - Officially support Python 3.10 ([#115](https://github.com/blairconrad/dicognito/issues/115))
 
 ### Fixed

@@ -1,7 +1,6 @@
 import sys
 import os.path
 import pytest
-import re
 import shutil
 import logging
 
@@ -180,10 +179,15 @@ def test_burned_in_annotation_warn(caplog):
 
 
 def test_burned_in_annotation_fail(caplog):
-    expected_message = re.escape("Burned In Annotation is YES in " + path_to("burned_in_yes.dcm"))
+    input_file_name = path_to("burned_in_yes.dcm")
+    expected_message = "Burned In Annotation is YES in " + input_file_name
 
-    with pytest.raises(Exception, match=expected_message):
+    with pytest.raises(SystemExit):
         run_dicognito(path_to(""), "--on-burned-in-annotation", "fail")
+
+    log_record = [log for log in caplog.records if log.levelname == "ERROR"][0]
+    assert f"Error occurred while converting {input_file_name}. Aborting.\nError was:" in log_record.getMessage()
+    assert expected_message in str(log_record.exc_info[1])
 
 
 def test_creates_output_directory_when_missing():
@@ -223,6 +227,16 @@ def test_writes_deflated_file_correctly():
     output_file_name = os.listdir(path_to("new_dir"))[0]
 
     read_file(get_test_name(), "new_dir", output_file_name)
+
+
+def test_conversion_error_logs_filename_and_error_type(caplog):
+    input_file_name = path_to("bad.dcm")
+    with pytest.raises(SystemExit):
+        run_dicognito(input_file_name, "--output-dir", path_to("new_dir"))
+
+    log_record = [log for log in caplog.records if log.levelname == "ERROR"][0]
+    assert f"Error occurred while converting {input_file_name}. Aborting.\nError was:" in log_record.getMessage()
+    assert log_record.exc_info is not None
 
 
 def get_test_name() -> str:
