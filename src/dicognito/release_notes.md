@@ -1,3 +1,5 @@
+## 0.13.0
+
 ### New
 
 - Command line options define how to detect and handle burned-in annotations in source
