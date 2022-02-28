@@ -19,4 +19,7 @@ exclude = '''
 filterwarnings = [
     "error",
     "ignore:SelectableGroups:DeprecationWarning",
+    "ignore:<class '.*'> is not using a cooperative constructor:pytest.PytestDeprecationWarning",
+    "ignore:The \\(fspath. py.path.local\\) argument to .* is deprecated.:pytest.PytestDeprecationWarning",
+    "ignore:.* is an Item subclass and should not be a collector.*:pytest.PytestWarning",
 ]
