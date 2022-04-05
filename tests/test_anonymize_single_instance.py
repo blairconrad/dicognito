@@ -116,7 +116,22 @@ def test_ids_are_anonymized(element_path):
         assert actual != original
 
 
-@pytest.mark.parametrize("number_of_ids", [1, 2, 3])
+def test_single_other_patient_ids_anonymized_to_single_id():
+    with load_test_instance() as dataset:
+
+        original = ["ID1"]
+        dataset.OtherPatientIDs = original
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        actual = dataset.OtherPatientIDs
+
+        assert actual != original
+        assert type(actual) is str  # type: ignore[comparison-overlap, unreachable]
+
+
+@pytest.mark.parametrize("number_of_ids", [2, 3])
 def test_other_patient_ids_anonymized_to_same_number_of_ids(number_of_ids):
     with load_test_instance() as dataset:
 
@@ -212,7 +227,22 @@ def test_sex_other_patient_name_gets_anonymized():
         assert new_patient_name.middle_name in PNAnonymizer._all_first_names
 
 
-@pytest.mark.parametrize("number_of_names", [1, 2, 3])
+def test_single_other_patient_names_anonymized_to_single_name():
+    with load_test_instance() as dataset:
+
+        original = ["NAME1"]
+        dataset.OtherPatientNames = original
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        actual = dataset.OtherPatientNames
+
+        assert actual != original
+        assert type(actual) is pydicom.valuerep.PersonName  # type: ignore[comparison-overlap, unreachable]
+
+
+@pytest.mark.parametrize("number_of_names", [2, 3])
 def test_other_patient_names_anonymized_to_same_number_of_names(number_of_names):
     with load_test_instance() as dataset:
 
@@ -400,10 +430,9 @@ def test_date_gets_anonymized_when_there_is_no_time():
     assert "PatientBirthTime" not in dataset
 
 
-@pytest.mark.parametrize("birth_date", ["20180202", "199901", "1983"])
-def test_date_gets_anonymized_when_date_has_various_lengths(birth_date):
+def test_date_gets_anonymized_when_time_is_present():
     dataset = load_test_instance()
-    dataset.PatientBirthDate = birth_date
+    dataset.PatientBirthDate = original_birth_date = "20180202"
     dataset.PatientBirthTime = original_birth_time = "123456"
 
     anonymizer = Anonymizer()
@@ -412,8 +441,8 @@ def test_date_gets_anonymized_when_date_has_various_lengths(birth_date):
     new_date_string = dataset.PatientBirthDate
     new_time_string = dataset.PatientBirthTime
 
-    assert new_date_string != birth_date
-    assert len(new_date_string) == len(birth_date)
+    assert new_date_string != original_birth_date
+    assert len(new_date_string) == len(original_birth_date)
     assert new_time_string[2:] == original_birth_time[2:]
     assert len(new_time_string) == len(original_birth_time)
 

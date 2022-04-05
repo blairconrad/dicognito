@@ -48,9 +48,9 @@ def test_summary_mixed_files_reports_on_each_study(capsys):
     expected_output = """\
 Accession Number Patient ID       Patient Name
 ---------------- ----------       ------------
-HGED6DXQTO1F     DQFZ0HDKPYUX     JENSEN^KELLIE^PATRICK
-XV266HDCGIOH     DQFZ0HDKPYUX     JENSEN^KELLIE^PATRICK
-UUM68P1IJHBE     LXO0DMOPN7PV     BUCHANAN^ALBA^MADGE
+028EY1JNTTP8     DQFZ0HDKPYUX     JENSEN^KELLIE^PATRICK
+5VIGINLZ0LPZ     DQFZ0HDKPYUX     JENSEN^KELLIE^PATRICK
+PYDV44HEDN1E     LXO0DMOPN7PV     BUCHANAN^ALBA^MADGE
 """
     run_dicognito(path_to("p*"))
     (actual_output, actual_error) = capsys.readouterr()
