@@ -72,8 +72,8 @@ def load_test_instance() -> pydicom.dataset.Dataset:
     dataset.OtherPatientIDsSequence = pydicom.sequence.Sequence([other_patient_id_item0, other_patient_id_item1])
 
     request_attribute_item = pydicom.dataset.Dataset()
-    request_attribute_item.RequestedProcedureID = "rai-0-REQUESTEDID"
-    request_attribute_item.ScheduledProcedureStepID = "rai-0-SCHEDULEDID"
+    request_attribute_item.RequestedProcedureID = "rai-0-REQID"
+    request_attribute_item.ScheduledProcedureStepID = "rai-0-SCHEDID"
     dataset.RequestAttributesSequence = pydicom.sequence.Sequence([request_attribute_item])
 
     dataset.InstitutionName = "INSTITUTIONNAME"
@@ -117,7 +117,7 @@ def load_dcm(*directory_parts: str) -> pydicom.dataset.Dataset:
 def _set_patient_attributes(dataset: pydicom.dataset.Dataset, patient_number: int) -> None:
     dataset.PatientAddress = str(123 + patient_number) + " Fake Street"
     dataset.PatientBirthDate = str(19830213 + patient_number)
-    dataset.PatientBirthTime = "13:14:0" + str(patient_number)
+    dataset.PatientBirthTime = "13140" + str(patient_number)
     dataset.PatientID = "4MR" + str(patient_number)
     dataset.PatientName = "CompressedSamples^MR" + str(patient_number)
     dataset.OtherPatientIDs = "OTH" + dataset.PatientID
@@ -131,7 +131,7 @@ def _set_patient_attributes(dataset: pydicom.dataset.Dataset, patient_number: in
 
 
 def _set_study_attributes(dataset: pydicom.dataset.Dataset, patient_number: int, study_number: int) -> None:
-    dataset.StudyID = "STUDYFOR4MR" + str(patient_number) + "." + str(study_number)
+    dataset.StudyID = "FOR4MR" + str(patient_number) + "." + str(study_number)
     dataset.AccessionNumber = "ACC" + dataset.StudyID
     dataset.StudyDate = datetime.date(2004, patient_number, study_number).strftime("%Y%m%d")
     dataset.StudyTime = datetime.time(patient_number * 5 + study_number, 0, 0).strftime("%H%M%S")
