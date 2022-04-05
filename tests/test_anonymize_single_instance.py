@@ -116,7 +116,22 @@ def test_ids_are_anonymized(element_path):
         assert actual != original
 
 
-@pytest.mark.parametrize("number_of_ids", [1, 2, 3])
+def test_single_other_patient_ids_anonymized_to_single_id():
+    with load_test_instance() as dataset:
+
+        original = ["ID1"]
+        dataset.OtherPatientIDs = original
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        actual = dataset.OtherPatientIDs
+
+        assert actual != original
+        assert type(actual) is str  # type: ignore[comparison-overlap, unreachable]
+
+
+@pytest.mark.parametrize("number_of_ids", [2, 3])
 def test_other_patient_ids_anonymized_to_same_number_of_ids(number_of_ids):
     with load_test_instance() as dataset:
 
