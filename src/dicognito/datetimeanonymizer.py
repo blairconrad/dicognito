@@ -68,7 +68,7 @@ class DateTimeAnonymizer:
         new_times = []
         for i in range(len(dates)):
             date_value = dates[i]
-            date_format = "%Y%m%d"[: len(date_value) - 2]
+            date_format = "%Y%m%d"
             old_date = datetime.datetime.strptime(date_value, date_format).date()
 
             time_value = ""

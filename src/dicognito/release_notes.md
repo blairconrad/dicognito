@@ -1,3 +1,7 @@
+### Changed
+
+- Now assuming DA fields are 8 characters long ([#123](https://github.com/blairconrad/dicognito/issues/123))
+
 ## 0.13.0
 
 ### New
