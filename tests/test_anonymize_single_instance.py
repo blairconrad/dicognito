@@ -430,10 +430,9 @@ def test_date_gets_anonymized_when_there_is_no_time():
     assert "PatientBirthTime" not in dataset
 
 
-@pytest.mark.parametrize("birth_date", ["20180202", "199901", "1983"])
-def test_date_gets_anonymized_when_date_has_various_lengths(birth_date):
+def test_date_gets_anonymized_when_time_is_present():
     dataset = load_test_instance()
-    dataset.PatientBirthDate = birth_date
+    dataset.PatientBirthDate = original_birth_date = "20180202"
     dataset.PatientBirthTime = original_birth_time = "123456"
 
     anonymizer = Anonymizer()
@@ -442,8 +441,8 @@ def test_date_gets_anonymized_when_date_has_various_lengths(birth_date):
     new_date_string = dataset.PatientBirthDate
     new_time_string = dataset.PatientBirthTime
 
-    assert new_date_string != birth_date
-    assert len(new_date_string) == len(birth_date)
+    assert new_date_string != original_birth_date
+    assert len(new_date_string) == len(original_birth_date)
     assert new_time_string[2:] == original_birth_time[2:]
     assert len(new_time_string) == len(original_birth_time)
 
