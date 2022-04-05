@@ -227,7 +227,22 @@ def test_sex_other_patient_name_gets_anonymized():
         assert new_patient_name.middle_name in PNAnonymizer._all_first_names
 
 
-@pytest.mark.parametrize("number_of_names", [1, 2, 3])
+def test_single_other_patient_names_anonymized_to_single_name():
+    with load_test_instance() as dataset:
+
+        original = ["NAME1"]
+        dataset.OtherPatientNames = original
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        actual = dataset.OtherPatientNames
+
+        assert actual != original
+        assert type(actual) is pydicom.valuerep.PersonName  # type: ignore[comparison-overlap, unreachable]
+
+
+@pytest.mark.parametrize("number_of_names", [2, 3])
 def test_other_patient_names_anonymized_to_same_number_of_names(number_of_names):
     with load_test_instance() as dataset:
 
