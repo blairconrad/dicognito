@@ -6,7 +6,6 @@ from argparse import ArgumentParser, Namespace
 from typing import Any, Iterable, Optional, Sequence, Text, Tuple, Union
 import sys
 import argparse
-import collections
 import glob
 import os.path
 import logging
@@ -15,6 +14,7 @@ import pydicom
 import dicognito
 from dicognito.anonymizer import Anonymizer
 from dicognito.burnedinannotationguard import BurnedInAnnotationGuard
+from dicognito.summary import Summary
 
 
 def main(main_args: Optional[Sequence[str]] = None) -> None:
@@ -147,8 +147,6 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:
     anonymizer = Anonymizer(id_prefix=args.id_prefix, id_suffix=args.id_suffix, seed=args.seed)
     burned_in_annotation_guard = BurnedInAnnotationGuard(args.assume_burned_in_annotation, args.on_burned_in_annotation)
 
-    ConvertedStudy = collections.namedtuple("ConvertedStudy", ["AccessionNumber", "PatientID", "PatientName"])
-
     def get_files_from_source(source: str) -> Iterable[str]:
         if os.path.isfile(source):
             yield source
@@ -173,7 +171,7 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:
 
     ensure_output_directory_exists(args)
 
-    converted_studies = set()
+    summary = Summary("Accession Number", "Patient ID", "Patient Name")
     for source in args.sources:
         for file in get_files_from_source(source):
             try:
@@ -183,12 +181,10 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:
 
                     output_file = calculate_output_filename(file, args, dataset)
                     dataset.save_as(output_file, write_like_original=False)
-                    converted_studies.add(
-                        ConvertedStudy(
-                            dataset.get("AccessionNumber", ""),
-                            dataset.get("PatientID", ""),
-                            str(dataset.get("PatientName", "")),
-                        )
+                    summary.add_row(
+                        dataset.get("AccessionNumber", ""),
+                        dataset.get("PatientID", ""),
+                        str(dataset.get("PatientName", "")),
                     )
             except pydicom.errors.InvalidDicomError:
                 logging.info("File %s appears not to be DICOM. Skipping.", file)
@@ -198,11 +194,7 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:
                 sys.exit(1)
 
     if not args.quiet:
-        headers = ("Accession Number", "Patient ID", "Patient Name")
-        print("%-16s %-16s %s" % headers)
-        print("%-16s %-16s %s" % tuple("-" * len(header) for header in headers))
-        for converted_study in sorted(converted_studies, key=lambda k: (k.PatientID, k.AccessionNumber)):
-            print("%-16s %-16s %s" % converted_study)
+        summary.print()
 
 
 if __name__ == "__main__":

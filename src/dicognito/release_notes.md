@@ -1,6 +1,7 @@
 ### Changed
 
 - Now assuming DA fields are 8 characters long ([#123](https://github.com/blairconrad/dicognito/issues/123))
+- Summary formatted as GitHub Flavored Markdown ([#125](https://github.com/blairconrad/dicognito/issues/125))
 
 ## 0.13.0
 
