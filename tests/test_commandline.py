@@ -46,11 +46,11 @@ def test_ignores_file_that_do_not_match_glob():
 
 def test_summary_mixed_files_reports_on_each_study(capsys):
     expected_output = """\
-Accession Number Patient ID   Patient Name
----------------- ------------ ---------------------
-028EY1JNTTP8     DQFZ0HDKPYUX JENSEN^KELLIE^PATRICK
-5VIGINLZ0LPZ     DQFZ0HDKPYUX JENSEN^KELLIE^PATRICK
-PYDV44HEDN1E     LXO0DMOPN7PV BUCHANAN^ALBA^MADGE
+| Accession Number |  Patient ID  |     Patient Name      |
+| ---------------- | ------------ | --------------------- |
+| 028EY1JNTTP8     | DQFZ0HDKPYUX | JENSEN^KELLIE^PATRICK |
+| 5VIGINLZ0LPZ     | DQFZ0HDKPYUX | JENSEN^KELLIE^PATRICK |
+| PYDV44HEDN1E     | LXO0DMOPN7PV | BUCHANAN^ALBA^MADGE   |
 """
     run_dicognito(path_to("p*"))
     (actual_output, actual_error) = capsys.readouterr()
@@ -69,9 +69,9 @@ def test_summary_with_quiet_no_report(capsys):
 
 def test_summary_no_accession_number(capsys):
     expected_output = """\
-Accession Number Patient ID   Patient Name
----------------- ------------ -------------------
-                 LXO0DMOPN7PV BUCHANAN^ALBA^MADGE
+| Accession Number |  Patient ID  |    Patient Name     |
+| ---------------- | ------------ | ------------------- |
+|                  | LXO0DMOPN7PV | BUCHANAN^ALBA^MADGE |
 """
     run_dicognito(path_to("p*"))
     (actual_output, actual_error) = capsys.readouterr()

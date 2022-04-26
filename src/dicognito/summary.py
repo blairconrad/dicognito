@@ -21,10 +21,13 @@ class Summary:
             for (i, v) in enumerate(row):
                 widths[i] = max(widths[i], len(v))
 
-        format = " ".join("{" + str(i) + ":<" + str(width) + "}" for (i, width) in enumerate(widths))
+        header_format = (
+            "| " + " | ".join("{" + str(i) + ":^" + str(width) + "}" for (i, width) in enumerate(widths)) + " |"
+        )
+        row_format = header_format.replace("^", "<")
         lines = tuple("-" * width for (i, width) in enumerate(widths))
 
-        print(format.format(*self.attributes).rstrip())
-        print(format.format(*lines))
+        print(header_format.format(*self.attributes))
+        print(header_format.format(*lines))
         for row in output_rows:
-            print(format.format(*row).rstrip())
+            print(row_format.format(*row))
