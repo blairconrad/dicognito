@@ -13,9 +13,18 @@ class Summary:
         self.rows.append(row)
 
     def print(self) -> None:
-        print("%-16s %-16s %s" % self.attributes)
-        print("%-16s %-16s %s" % tuple("-" * len(attribute) for attribute in self.attributes))
+        widths = [len(a) for a in self.attributes]
 
         sorted_rows = sorted(self.rows, key=self.key)  # type: ignore[arg-type]
-        for row in map(operator.itemgetter(0), itertools.groupby(sorted_rows, key=self.key)):
-            print("%-16s %-16s %s" % row)
+        output_rows = list(map(operator.itemgetter(0), itertools.groupby(sorted_rows, key=self.key)))
+        for row in output_rows:
+            for (i, v) in enumerate(row):
+                widths[i] = max(widths[i], len(v))
+
+        format = " ".join("{" + str(i) + ":<" + str(width) + "}" for (i, width) in enumerate(widths))
+        lines = tuple("-" * width for (i, width) in enumerate(widths))
+
+        print(format.format(*self.attributes).rstrip())
+        print(format.format(*lines))
+        for row in output_rows:
+            print(format.format(*row).rstrip())
