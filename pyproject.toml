@@ -16,6 +16,7 @@ exclude = '''
 '''
 
 [tool.pytest.ini_options]
+xfail_strict=true
 filterwarnings = [
     "error",
     "ignore:SelectableGroups:DeprecationWarning",
