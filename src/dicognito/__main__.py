@@ -130,10 +130,12 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:
         help="Set the log level. May be one of DEBUG, INFO, WARNING, ERROR, or CRITICAL.",
     )
     parser.add_argument(
-        "--seed",  # currently only intended to make testing easier
-        help="The seed to use when generating random attribute values. Primarily "
-        "intended to make testing easier. Best anonymization practice is to omit "
-        "this value and let dicognito generate its own random seed.",
+        "--seed",
+        help="The seed to use when generating anonymized attribute values. "
+        "If the same value is supplied for subsequent dicognito invocations, then "
+        "the same input objects will result in consistent anonymized results. "
+        "Omitting this value allows dicognito to generate its own random seed, which "
+        "may be slightly more secure, but does not support reproducible anonymization.",
     )
     parser.add_argument("--version", action=VersionAction)
 

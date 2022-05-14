@@ -11,9 +11,9 @@ class Randomizer:
         Parameters
         ----------
         seed
-            Not intended for general use. Seeds the data randomizer so it
-            produces consistent results when anonymizing elements with the
-            same initial values.
+            Used to convert input values into large integers.
+            The results are completely determined by the
+            given seed and the input value.
         """
         if seed is None:
             self.seed = str(os.urandom(20))
@@ -39,10 +39,10 @@ class Randomizer:
             result += c
         return result
 
-    def get_ints_from_ranges(self, original_value: Any, *suprenums: int) -> Sequence[int]:
+    def get_ints_from_ranges(self, original_value: Any, *suprema: int) -> Sequence[int]:
         """\
         Convert an original data element value into a series of
-        integers, each between 0 (inclusive) and one of the suprenums
+        integers, each between 0 (inclusive) and one of the suprema
         (exclusive) passed in.
 
         Parameters
@@ -55,7 +55,7 @@ class Randomizer:
         """
         big_int = self.to_int(original_value)
         result = []
-        for s in suprenums:
+        for s in suprema:
             result.append(big_int % s)
             big_int //= s
         return result

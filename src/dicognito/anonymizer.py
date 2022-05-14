@@ -52,9 +52,9 @@ class Anonymizer:
         id_suffix : str
             A prefix to add to all unstructured ID fields, such as Patient
             ID, Accession Number, etc.
-        seed
-            Not intended for general use. Seeds the data randomizer in order
-            to produce consistent results. Used for testing.
+        seed : Optional[str]
+            Seeds the data randomizer, which will produce consistent results when
+            invoked with the same seed.
         """
         minimum_offset_hours = 62 * 24
         maximum_offset_hours = 730 * 24
@@ -79,7 +79,7 @@ class Anonymizer:
                 "ReferencedPatientPhotoSequence",
                 "ResponsibleOrganization",
             ),
-            UIAnonymizer(),
+            UIAnonymizer(randomizer),
             PNAnonymizer(randomizer),
             IDAnonymizer(
                 randomizer,

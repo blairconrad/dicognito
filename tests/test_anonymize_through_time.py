@@ -1,5 +1,4 @@
 import pydicom
-import pytest
 
 from itertools import filterfalse, tee
 from typing import Callable, Tuple, Union, ValuesView
@@ -9,7 +8,6 @@ from dicognito.anonymizer import Anonymizer
 from .data_for_tests import load_minimal_instance
 
 
-@pytest.mark.xfail(raises=AssertionError)
 def test_dataset_anonymizes_same_with_same_seed():
     anonymizer1 = Anonymizer(seed="SOME_FIXED_SEED")
     anonymizer2 = Anonymizer(seed="SOME_FIXED_SEED")
