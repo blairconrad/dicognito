@@ -117,6 +117,16 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:
         "OUTPUT_DIRECTORY, which will be created if necessary",
     )
     parser.add_argument(
+        "--anonymization-map",
+        "-m",
+        action="store",
+        type=str,
+        default=None,
+        help="Save a mapping between the original (unanonymized) and anonymized PatientIDs to "
+        "ANONYMIZATION_MAP. Map will be saved in CSV format. Use with caution: this "
+        "file will contain sensitive data!",
+    )
+    parser.add_argument(
         "--quiet",
         "-q",
         action="store_true",
@@ -143,6 +153,18 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:
     if not isinstance(numeric_level, int):
         raise ValueError("Invalid log level: %s" % args.log_level)
     logging.basicConfig(format="", level=numeric_level)
+
+    if args.anonymization_map is not None:
+        if not args.anonymization_map.endswith(".csv"):
+            args.anonymization_map += ".csv"
+        if os.path.isfile(args.anonymization_map):
+            logging.critical(
+                "Refusing to overwrite existing map file: %s. Rename existing file or specify alternate path.",
+                args.anonymization_map,
+            )
+            sys.exit(1)
+        with open(args.anonymization_map, "w") as f:
+            print("original patient ID, anonymized patient ID", file=f)
 
     anonymizer = Anonymizer(id_prefix=args.id_prefix, id_suffix=args.id_suffix, seed=args.seed)
     burned_in_annotation_guard = BurnedInAnnotationGuard(args.assume_burned_in_annotation, args.on_burned_in_annotation)
@@ -172,12 +194,20 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:
     ensure_output_directory_exists(args)
 
     summary = Summary("Accession Number", "Patient ID", "Patient Name")
+    mapped_ids = []
     for source in args.sources:
         for file in get_files_from_source(source):
             try:
                 with pydicom.dcmread(file, force=False) as dataset:
                     burned_in_annotation_guard.guard(dataset, file)
+                    original_patient_id = dataset.get("PatientID", "")
                     anonymizer.anonymize(dataset)
+
+                    if args.anonymization_map is not None:
+                        if original_patient_id not in mapped_ids:
+                            with open(args.anonymization_map, "a") as f:
+                                print(original_patient_id + "," + dataset.get("PatientID", ""), file=f)
+                            mapped_ids += [original_patient_id]
 
                     output_file = calculate_output_filename(file, args, dataset)
                     dataset.save_as(output_file, write_like_original=False)
@@ -192,6 +222,9 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:
             except Exception:
                 logging.error("Error occurred while converting %s. Aborting.\nError was:", file, exc_info=True)
                 sys.exit(1)
+
+    if args.anonymization_map is not None:
+        logging.warning("Saved anonymization map to %s", args.anonymization_map)
 
     if not args.quiet:
         summary.print()
