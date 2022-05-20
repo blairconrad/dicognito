@@ -15,6 +15,7 @@ import pydicom
 from dicognito._config import parse_arguments
 from dicognito.anonymizer import Anonymizer
 from dicognito.burnedinannotationguard import BurnedInAnnotationGuard
+from dicognito.pipeline import Pipeline
 from dicognito.summary import Summary
 
 
@@ -73,6 +74,9 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:
 
     _ensure_output_directory_exists(args)
 
+    pipeline = Pipeline()
+    pipeline.before_any()
+
     summary = Summary("Accession Number", "Patient ID", "Patient Name")
     for dataset in _get_datasets_from_sources(args.sources):
         try:
@@ -86,12 +90,15 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:
                 dataset.get("PatientID", ""),
                 str(dataset.get("PatientName", "")),
             )
+            pipeline.after_each(dataset)
         except Exception:
             logging.error("Error occurred while converting %s. Aborting.\nError was:", dataset.filename, exc_info=True)
             sys.exit(1)
 
     if not args.quiet:
         summary.print()
+
+    pipeline.after_all()
 
 
 if __name__ == "__main__":
