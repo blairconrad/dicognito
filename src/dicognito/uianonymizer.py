@@ -1,20 +1,15 @@
-from typing import Dict
-
-import collections
-import datetime
 import pydicom
 import pydicom.dataelem
-import random
+
+from dicognito.randomizer import Randomizer
 
 
 class UIAnonymizer:
-    def __init__(self) -> None:
+    def __init__(self, randomizer: Randomizer) -> None:
         """\
         Create a new UIAnonymizer.
         """
-        self._ui_map: Dict[str, str] = collections.defaultdict(self._new_ui)
-        self._creation_date: str = datetime.datetime.utcnow().strftime("%Y%m%d%H%M%S%f")
-        self._counter: int = 10000000
+        self._randomizer = randomizer
 
     def __call__(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> bool:
         """\
@@ -44,15 +39,10 @@ class UIAnonymizer:
             return False
 
         if isinstance(data_element.value, pydicom.multival.MultiValue):
-            data_element.value = list([self._ui_map[v] for v in data_element.value])
+            data_element.value = list(self._new_ui(v) for v in data_element.value)
         else:
-            data_element.value = self._ui_map[data_element.value]
+            data_element.value = self._new_ui(data_element.value)
         return True
 
-    def _new_ui(self) -> str:
-        self._counter += 1
-        counter_part = str(self._counter)
-        prefix = "2." + self._creation_date + "." + counter_part + "."
-        random_begin = pow(10, 63 - len(prefix))
-        random_end = pow(10, 64 - len(prefix)) - 1
-        return prefix + str(random.randint(random_begin, random_end))
+    def _new_ui(self, ui: str) -> str:
+        return "2." + str(10**39 + self._randomizer.to_int(ui))

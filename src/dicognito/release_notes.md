@@ -2,6 +2,7 @@
 
 - Now assuming DA fields are 8 characters long ([#123](https://github.com/blairconrad/dicognito/issues/123))
 - Summary formatted as GitHub Flavored Markdown ([#125](https://github.com/blairconrad/dicognito/issues/125))
+- Anonymized UI values are now consistent between runs if the same seed is supplied ([#126](https://github.com/blairconrad/dicognito/issues/126))
 
 ## 0.13.0
 
