@@ -1,13 +1,12 @@
 import itertools
 import operator
-from typing import Callable, List, Sequence
+from typing import List, Sequence
 
 
 class Summary:
-    def __init__(self, *attributes: Sequence[str], key: Callable[[Sequence[str]], Sequence[str]] = lambda r: r):
+    def __init__(self, *attributes: Sequence[str]):
         self.attributes = attributes
         self.rows: List[Sequence[str]] = []
-        self.key = key
 
     def add_row(self, *row: str) -> None:
         self.rows.append(row)
@@ -15,8 +14,8 @@ class Summary:
     def print(self) -> None:
         widths = [len(a) for a in self.attributes]
 
-        sorted_rows = sorted(self.rows, key=self.key)  # type: ignore[arg-type]
-        output_rows = list(map(operator.itemgetter(0), itertools.groupby(sorted_rows, key=self.key)))
+        sorted_rows = sorted(self.rows)  # type: ignore[type-var]
+        output_rows = list(map(operator.itemgetter(0), itertools.groupby(sorted_rows)))
         for row in output_rows:
             for (i, v) in enumerate(row):
                 widths[i] = max(widths[i], len(v))
