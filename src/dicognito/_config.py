@@ -5,7 +5,7 @@ from typing import Any, Optional, Sequence, Text, Tuple, Union
 import pydicom
 
 import dicognito
-from dicognito.burnedinannotationguard import BurnedInAnnotationGuard
+from dicognito.filters import BurnedInAnnotationGuard
 
 
 class VersionAction(argparse.Action):

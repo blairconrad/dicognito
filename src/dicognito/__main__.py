@@ -14,8 +14,7 @@ import pydicom
 
 from dicognito._config import parse_arguments
 from dicognito.anonymizer import Anonymizer
-from dicognito.burnedinannotationguard import BurnedInAnnotationGuard
-from dicognito.filters import Summarize
+from dicognito.filters import BurnedInAnnotationGuard, Summarize
 from dicognito.pipeline import Pipeline
 
 
@@ -70,11 +69,11 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:
     logging.basicConfig(format="", level=numeric_level)
 
     anonymizer = Anonymizer(id_prefix=args.id_prefix, id_suffix=args.id_suffix, seed=args.seed)
-    burned_in_annotation_guard = BurnedInAnnotationGuard(args.assume_burned_in_annotation, args.on_burned_in_annotation)
 
     _ensure_output_directory_exists(args)
 
     pipeline = Pipeline()
+    pipeline.add(BurnedInAnnotationGuard(args.assume_burned_in_annotation, args.on_burned_in_annotation))
     if not args.quiet:
         pipeline.add(Summarize())
 
@@ -83,8 +82,8 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:
     for dataset in _get_datasets_from_sources(args.sources):
         try:
             pipeline.before_each(dataset)
-            burned_in_annotation_guard.guard(dataset, dataset.filename)
             anonymizer.anonymize(dataset)
+
             output_file = _calculate_output_filename(dataset.filename, args, dataset)
             dataset.save_as(output_file, write_like_original=False)
             pipeline.after_each(dataset)
