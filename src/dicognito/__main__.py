@@ -16,7 +16,7 @@ from dicognito._config import parse_arguments
 from dicognito.anonymizer import Anonymizer
 from dicognito.burnedinannotationguard import BurnedInAnnotationGuard
 from dicognito.pipeline import Pipeline
-from dicognito.summary import Summary
+from dicognito.summary import Summarize
 
 
 def _get_filenames_from_source(source: str) -> Iterable[str]:
@@ -77,7 +77,7 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:
     pipeline = Pipeline()
     pipeline.before_any()
 
-    summary = Summary("Accession Number", "Patient ID", "Patient Name")
+    summary = Summarize("Accession Number", "Patient ID", "Patient Name")
     for dataset in _get_datasets_from_sources(args.sources):
         try:
             burned_in_annotation_guard.guard(dataset, dataset.filename)

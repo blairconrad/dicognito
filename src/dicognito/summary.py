@@ -3,7 +3,7 @@ import operator
 from typing import List, Sequence
 
 
-class Summary:
+class Summarize:
     def __init__(self, *attributes: Sequence[str]):
         self.attributes = attributes
         self.rows: List[Sequence[str]] = []
