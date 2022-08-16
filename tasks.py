@@ -12,7 +12,7 @@ def add_source_to_sys_path():
 def test(context, like, loop=False):
     add_source_to_sys_path()
 
-    args = ["pytest", "--flake8", "--black"]
+    args = ["pytest"]
     if like:
         args += ["-k", " or ".join(like)]
     if loop:

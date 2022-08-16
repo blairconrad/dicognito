@@ -14,13 +14,40 @@ exclude = '''
   )/
 )
 '''
+[tool.pylama.linter.mypy]
+show_error_codes=true
+show_error_context=true
+show_column_numbers=true
+pretty=true
+color_output=true
+
+warn_unreachable=true
+allow_redefinition=false
+
+# treat Optional per PEP 484
+strict_optional=true
+
+strict=true
+
+[tool.pylama]
+linters = "mccabe,mypy,pycodestyle,pyflakes"
+skip = ".tox/*"
+
+[[tool.pylama.linter.mypy.overrides]]
+module="pydicom.*"
+ignore_missing_imports = true
+
+[[tool.pylama.linter.mypy.overrides]]
+module="pytest."
+ignore_missing_imports = true
+
+[[tool.pylama.linter.mypy.overrides]]
+module="tests.*"
+allow_untyped_defs = true
+
+[tool.pylama.linter.pycodestyle]
+ignore = "E203,W503"
+max_line_length = 120
 
 [tool.pytest.ini_options]
 xfail_strict=true
-filterwarnings = [
-    "error",
-    "ignore:SelectableGroups:DeprecationWarning",
-    "ignore:<class '.*'> is not using a cooperative constructor:pytest.PytestDeprecationWarning",
-    "ignore:The \\(fspath. py.path.local\\) argument to .* is deprecated.:pytest.PytestDeprecationWarning",
-    "ignore:.* is an Item subclass and should not be a collector.*:pytest.PytestWarning",
-]
