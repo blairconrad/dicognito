@@ -13,16 +13,22 @@ jobs:
 
   test:
 
+    continue-on-error: ${{ contains(matrix.job-prefix, 'experimental') }}
+    name: ${{ matrix.job-prefix }} test ${{ matrix.os }} Python ${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-version: ['3.7', '3.8', '3.9', '3.10']
+        job-prefix: ['']
         os: [ubuntu-latest, windows-latest]
-
+        python-version: ['3.7', '3.8', '3.9', '3.10']
+        include:
+          - job-prefix: 'experimental '
+            os: ubuntu-latest
+            python-version: '3.11-dev'
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
