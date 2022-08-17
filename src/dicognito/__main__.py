@@ -17,7 +17,7 @@ from dicognito.burnedinannotationguard import BurnedInAnnotationGuard
 from dicognito.summary import Summary
 
 
-def main(main_args: Optional[Sequence[str]] = None) -> None:
+def main(main_args: Optional[Sequence[str]] = None) -> None:  # noqa: C901
     class VersionAction(argparse.Action):
         def __init__(
             self,
