@@ -2,63 +2,24 @@
 Anonymize one or more DICOM files' headers (not pixel data).
 """
 from __future__ import print_function
-from argparse import ArgumentParser, Namespace
-from typing import Any, Iterable, Optional, Sequence, Text, Tuple, Union
-import sys
+
 import argparse
 import glob
-import os.path
 import logging
+import os.path
+import sys
+from argparse import Namespace
+from ._config import VersionAction
+from typing import Iterable, Optional, Sequence
+
 import pydicom
 
-import dicognito
 from dicognito.anonymizer import Anonymizer
 from dicognito.burnedinannotationguard import BurnedInAnnotationGuard
 from dicognito.summary import Summary
 
 
 def main(main_args: Optional[Sequence[str]] = None) -> None:  # noqa: C901
-    class VersionAction(argparse.Action):
-        def __init__(
-            self,
-            option_strings: Sequence[str],
-            version: Optional[str] = None,
-            dest: str = argparse.SUPPRESS,
-            default: str = argparse.SUPPRESS,
-            help: str = "show program's version information and exit",
-        ):
-            super(VersionAction, self).__init__(
-                option_strings=option_strings, dest=dest, default=default, nargs=0, help=help
-            )
-            self.version = version
-
-        def __call__(
-            self,
-            parser: ArgumentParser,
-            namespace: Namespace,
-            values: Union[Text, Sequence[Any], None],
-            option_string: Optional[Text] = None,
-        ) -> None:
-            import platform
-
-            def print_table(version_rows: Sequence[Tuple[str, str]]) -> None:
-                row_format = "{:12} | {}"
-                print(row_format.format("module", "version"))
-                print(row_format.format("------", "-------"))
-                for module, version in version_rows:
-                    # Some version strings have multiple lines and need to be squashed
-                    print(row_format.format(module, version.replace("\n", " ")))
-
-            version_rows = [
-                ("platform", platform.platform()),
-                ("Python", sys.version),
-                ("dicognito", dicognito.__version__),
-                ("pydicom", pydicom.__version__),
-            ]
-
-            print_table(version_rows)
-            parser.exit()
-
     if main_args is None:
         main_args = sys.argv[1:]
 
