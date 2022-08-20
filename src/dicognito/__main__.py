@@ -18,7 +18,7 @@ from dicognito.burnedinannotationguard import BurnedInAnnotationGuard
 from dicognito.summary import Summary
 
 
-def _get_files_from_source(source: str) -> Iterable[str]:
+def _get_filenames_from_source(source: str) -> Iterable[str]:
     if os.path.isfile(source):
         yield source
     elif os.path.isdir(source):
@@ -27,8 +27,13 @@ def _get_files_from_source(source: str) -> Iterable[str]:
                 yield os.path.join(dirpath, filename)
     else:
         for expanded_source in glob.glob(source):
-            for file in _get_files_from_source(expanded_source):
-                yield file
+            for filename in _get_filenames_from_source(expanded_source):
+                yield filename
+
+
+def _get_filenames_from_sources(sources: Iterable[str]) -> Iterable[str]:
+    for source in sources:
+        yield from _get_filenames_from_source(source)
 
 
 def _ensure_output_directory_exists(args: Namespace) -> None:
@@ -60,26 +65,25 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:
     _ensure_output_directory_exists(args)
 
     summary = Summary("Accession Number", "Patient ID", "Patient Name")
-    for source in args.sources:
-        for file in _get_files_from_source(source):
-            try:
-                with pydicom.dcmread(file, force=False) as dataset:
-                    burned_in_annotation_guard.guard(dataset, file)
-                    anonymizer.anonymize(dataset)
+    for filename in _get_filenames_from_sources(args.sources):
+        try:
+            with pydicom.dcmread(filename, force=False) as dataset:
+                burned_in_annotation_guard.guard(dataset, filename)
+                anonymizer.anonymize(dataset)
 
-                    output_file = _calculate_output_filename(file, args, dataset)
-                    dataset.save_as(output_file, write_like_original=False)
-                    summary.add_row(
-                        dataset.get("AccessionNumber", ""),
-                        dataset.get("PatientID", ""),
-                        str(dataset.get("PatientName", "")),
-                    )
-            except pydicom.errors.InvalidDicomError:
-                logging.info("File %s appears not to be DICOM. Skipping.", file)
-                continue
-            except Exception:
-                logging.error("Error occurred while converting %s. Aborting.\nError was:", file, exc_info=True)
-                sys.exit(1)
+                output_file = _calculate_output_filename(filename, args, dataset)
+                dataset.save_as(output_file, write_like_original=False)
+                summary.add_row(
+                    dataset.get("AccessionNumber", ""),
+                    dataset.get("PatientID", ""),
+                    str(dataset.get("PatientName", "")),
+                )
+        except pydicom.errors.InvalidDicomError:
+            logging.info("File %s appears not to be DICOM. Skipping.", filename)
+            continue
+        except Exception:
+            logging.error("Error occurred while converting %s. Aborting.\nError was:", filename, exc_info=True)
+            sys.exit(1)
 
     if not args.quiet:
         summary.print()
