@@ -18,7 +18,32 @@ from dicognito.burnedinannotationguard import BurnedInAnnotationGuard
 from dicognito.summary import Summary
 
 
-def main(main_args: Optional[Sequence[str]] = None) -> None:  # noqa: C901
+def _get_files_from_source(source: str) -> Iterable[str]:
+    if os.path.isfile(source):
+        yield source
+    elif os.path.isdir(source):
+        for (dirpath, dirnames, filenames) in os.walk(source):
+            for filename in filenames:
+                yield os.path.join(dirpath, filename)
+    else:
+        for expanded_source in glob.glob(source):
+            for file in _get_files_from_source(expanded_source):
+                yield file
+
+
+def _ensure_output_directory_exists(args: Namespace) -> None:
+    if args.output_directory and not os.path.isdir(args.output_directory):
+        os.makedirs(args.output_directory)
+
+
+def _calculate_output_filename(file: str, args: Namespace, dataset: pydicom.dataset.Dataset) -> str:
+    output_file = file
+    if args.output_directory:
+        output_file = os.path.join(args.output_directory, dataset.SOPInstanceUID + ".dcm")
+    return output_file
+
+
+def main(main_args: Optional[Sequence[str]] = None) -> None:
     if main_args is None:
         main_args = sys.argv[1:]
 
@@ -32,39 +57,17 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:  # noqa: C901
     anonymizer = Anonymizer(id_prefix=args.id_prefix, id_suffix=args.id_suffix, seed=args.seed)
     burned_in_annotation_guard = BurnedInAnnotationGuard(args.assume_burned_in_annotation, args.on_burned_in_annotation)
 
-    def get_files_from_source(source: str) -> Iterable[str]:
-        if os.path.isfile(source):
-            yield source
-        elif os.path.isdir(source):
-            for (dirpath, dirnames, filenames) in os.walk(source):
-                for filename in filenames:
-                    yield os.path.join(dirpath, filename)
-        else:
-            for expanded_source in glob.glob(source):
-                for file in get_files_from_source(expanded_source):
-                    yield file
-
-    def ensure_output_directory_exists(args: Namespace) -> None:
-        if args.output_directory and not os.path.isdir(args.output_directory):
-            os.makedirs(args.output_directory)
-
-    def calculate_output_filename(file: str, args: Namespace, dataset: pydicom.dataset.Dataset) -> str:
-        output_file = file
-        if args.output_directory:
-            output_file = os.path.join(args.output_directory, dataset.SOPInstanceUID + ".dcm")
-        return output_file
-
-    ensure_output_directory_exists(args)
+    _ensure_output_directory_exists(args)
 
     summary = Summary("Accession Number", "Patient ID", "Patient Name")
     for source in args.sources:
-        for file in get_files_from_source(source):
+        for file in _get_files_from_source(source):
             try:
                 with pydicom.dcmread(file, force=False) as dataset:
                     burned_in_annotation_guard.guard(dataset, file)
                     anonymizer.anonymize(dataset)
 
-                    output_file = calculate_output_filename(file, args, dataset)
+                    output_file = _calculate_output_filename(file, args, dataset)
                     dataset.save_as(output_file, write_like_original=False)
                     summary.add_row(
                         dataset.get("AccessionNumber", ""),
