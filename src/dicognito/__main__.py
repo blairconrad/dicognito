@@ -3,17 +3,16 @@ Anonymize one or more DICOM files' headers (not pixel data).
 """
 from __future__ import print_function
 
-import argparse
 import glob
 import logging
 import os.path
 import sys
 from argparse import Namespace
-from ._config import VersionAction
 from typing import Iterable, Optional, Sequence
 
 import pydicom
 
+from dicognito._config import parse_arguments
 from dicognito.anonymizer import Anonymizer
 from dicognito.burnedinannotationguard import BurnedInAnnotationGuard
 from dicognito.summary import Summary
@@ -23,84 +22,7 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:  # noqa: C901
     if main_args is None:
         main_args = sys.argv[1:]
 
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "sources",
-        metavar="source",
-        type=str,
-        nargs="+",
-        help="The directories or file globs (e.g. *.dcm) to anonymize. Directories "
-        "will be recursed, and all files found within will be anonymized.",
-    )
-    parser.add_argument(
-        "--id-prefix",
-        "-p",
-        default="",
-        help="A short string prepended to each ID field, such as PatientID, "
-        "AccessionNumber, and so on, to make it easier to identify anonymized "
-        "studies. Longer prefixes reduce the number of available random "
-        "characters in the ID and increase the chance of collisions with other "
-        "IDs. May be combined with --id-suffix.",
-    )
-    parser.add_argument(
-        "--id-suffix",
-        "-s",
-        default="",
-        help="A short string appended to each ID field, such as PatientID, "
-        "AccessionNumber, and so on, to make it easier to identify anonymized "
-        "studies. Longer suffixes reduce the number of available random "
-        "characters in the ID and increase the chance of collisions with other "
-        "IDs. May be combined with --id-prefix.",
-    )
-    parser.add_argument(
-        "--assume-burned-in-annotation",
-        action="store",
-        type=str,
-        default=BurnedInAnnotationGuard.ASSUME_IF_CHOICES[0],
-        choices=BurnedInAnnotationGuard.ASSUME_IF_CHOICES,
-        help="How to assume the presence of burned-in annotations, considering "
-        "the value of the Burned In Annotation attribute",
-    )
-    parser.add_argument(
-        "--on-burned-in-annotation",
-        action="store",
-        type=str,
-        default=BurnedInAnnotationGuard.IF_FOUND_CHOICES[0],
-        choices=BurnedInAnnotationGuard.IF_FOUND_CHOICES,
-        help="What to do when an object with assumed burned-in annotations is found",
-    )
-    parser.add_argument(
-        "--output-directory",
-        "-o",
-        action="store",
-        type=str,
-        help="Instead of anonymizing files in-place, write anonymized files to "
-        "OUTPUT_DIRECTORY, which will be created if necessary",
-    )
-    parser.add_argument(
-        "--quiet",
-        "-q",
-        action="store_true",
-        help="Reduce the verbosity of output. Suppresses summary of anonymized studies.",
-    )
-    parser.add_argument(
-        "--log-level",
-        action="store",
-        metavar="LEVEL",
-        default="WARNING",
-        help="Set the log level. May be one of DEBUG, INFO, WARNING, ERROR, or CRITICAL.",
-    )
-    parser.add_argument(
-        "--seed",
-        help="The seed to use when generating anonymized attribute values. "
-        "If the same value is supplied for subsequent dicognito invocations, then "
-        "the same input objects will result in consistent anonymized results. "
-        "Omitting this value allows dicognito to generate its own random seed, which "
-        "may be slightly more secure, but does not support reproducible anonymization.",
-    )
-    parser.add_argument("--version", action=VersionAction)
-
-    args = parser.parse_args(main_args)
+    args = parse_arguments(main_args)
 
     numeric_level = getattr(logging, args.log_level.upper(), None)
     if not isinstance(numeric_level, int):

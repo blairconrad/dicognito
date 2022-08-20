@@ -1,8 +1,11 @@
 import argparse
-import dicognito
-import pydicom
 import sys
 from typing import Any, Optional, Sequence, Text, Tuple, Union
+
+import pydicom
+
+import dicognito
+from dicognito.burnedinannotationguard import BurnedInAnnotationGuard
 
 
 class VersionAction(argparse.Action):
@@ -31,7 +34,7 @@ class VersionAction(argparse.Action):
         def print_table(version_rows: Sequence[Tuple[str, str]]) -> None:
             row_format = "{:12} | {}"
             print(row_format.format("module", "version"))
-            print(row_format.format("------", "-------"))
+            print(row_format.format("-  -----", "-------"))
             for module, version in version_rows:
                 # Some version strings have multiple lines and need to be squashed
                 print(row_format.format(module, version.replace("\n", " ")))
@@ -45,3 +48,85 @@ class VersionAction(argparse.Action):
 
         print_table(version_rows)
         parser.exit()
+
+
+def parse_arguments(main_args: Sequence[str]) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "sources",
+        metavar="source",
+        type=str,
+        nargs="+",
+        help="The directories or file globs (e.g. *.dcm) to anonymize. Directories "
+        "will be recursed, and all files found within will be anonymized.",
+    )
+    parser.add_argument(
+        "--id-prefix",
+        "-p",
+        default="",
+        help="A short string prepended to each ID field, such as PatientID, "
+        "AccessionNumber, and so on, to make it easier to identify anonymized "
+        "studies. Longer prefixes reduce the number of available random "
+        "characters in the ID and increase the chance of collisions with other "
+        "IDs. May be combined with --id-suffix.",
+    )
+    parser.add_argument(
+        "--id-suffix",
+        "-s",
+        default="",
+        help="A short string appended to each ID field, such as PatientID, "
+        "AccessionNumber, and so on, to make it easier to identify anonymized "
+        "studies. Longer suffixes reduce the number of available random "
+        "characters in the ID and increase the chance of collisions with other "
+        "IDs. May be combined with --id-prefix.",
+    )
+    parser.add_argument(
+        "--assume-burned-in-annotation",
+        action="store",
+        type=str,
+        default=BurnedInAnnotationGuard.ASSUME_IF_CHOICES[0],
+        choices=BurnedInAnnotationGuard.ASSUME_IF_CHOICES,
+        help="How to assume the presence of burned-in annotations, considering "
+        "the value of the Burned In Annotation attribute",
+    )
+    parser.add_argument(
+        "--on-burned-in-annotation",
+        action="store",
+        type=str,
+        default=BurnedInAnnotationGuard.IF_FOUND_CHOICES[0],
+        choices=BurnedInAnnotationGuard.IF_FOUND_CHOICES,
+        help="What to do when an object with assumed burned-in annotations is found",
+    )
+    parser.add_argument(
+        "--output-directory",
+        "-o",
+        action="store",
+        type=str,
+        help="Instead of anonymizing files in-place, write anonymized files to "
+        "OUTPUT_DIRECTORY, which will be created if necessary",
+    )
+    parser.add_argument(
+        "--quiet",
+        "-q",
+        action="store_true",
+        help="Reduce the verbosity of output. Suppresses summary of anonymized studies.",
+    )
+    parser.add_argument(
+        "--log-level",
+        action="store",
+        metavar="LEVEL",
+        default="WARNING",
+        help="Set the log level. May be one of DEBUG, INFO, WARNING, ERROR, or CRITICAL.",
+    )
+    parser.add_argument(
+        "--seed",
+        help="The seed to use when generating anonymized attribute values. "
+        "If the same value is supplied for subsequent dicognito invocations, then "
+        "the same input objects will result in consistent anonymized results. "
+        "Omitting this value allows dicognito to generate its own random seed, which "
+        "may be slightly more secure, but does not support reproducible anonymization.",
+    )
+    parser.add_argument("--version", action=VersionAction)
+
+    args = parser.parse_args(main_args)
+    return args
