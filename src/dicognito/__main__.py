@@ -36,6 +36,15 @@ def _get_filenames_from_sources(sources: Iterable[str]) -> Iterable[str]:
         yield from _get_filenames_from_source(source)
 
 
+def _get_datasets_from_sources(sources: Iterable[str]) -> Iterable[pydicom.dataset.Dataset]:
+    for filename in _get_filenames_from_sources(sources):
+        try:
+            with pydicom.dcmread(filename, force=False) as dataset:
+                yield dataset
+        except pydicom.errors.InvalidDicomError:
+            logging.info("File %s appears not to be DICOM. Skipping.", filename)
+
+
 def _ensure_output_directory_exists(args: Namespace) -> None:
     if args.output_directory and not os.path.isdir(args.output_directory):
         os.makedirs(args.output_directory)
@@ -65,24 +74,20 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:
     _ensure_output_directory_exists(args)
 
     summary = Summary("Accession Number", "Patient ID", "Patient Name")
-    for filename in _get_filenames_from_sources(args.sources):
+    for dataset in _get_datasets_from_sources(args.sources):
         try:
-            with pydicom.dcmread(filename, force=False) as dataset:
-                burned_in_annotation_guard.guard(dataset, filename)
-                anonymizer.anonymize(dataset)
+            burned_in_annotation_guard.guard(dataset, dataset.filename)
+            anonymizer.anonymize(dataset)
 
-                output_file = _calculate_output_filename(filename, args, dataset)
-                dataset.save_as(output_file, write_like_original=False)
-                summary.add_row(
-                    dataset.get("AccessionNumber", ""),
-                    dataset.get("PatientID", ""),
-                    str(dataset.get("PatientName", "")),
-                )
-        except pydicom.errors.InvalidDicomError:
-            logging.info("File %s appears not to be DICOM. Skipping.", filename)
-            continue
+            output_file = _calculate_output_filename(dataset.filename, args, dataset)
+            dataset.save_as(output_file, write_like_original=False)
+            summary.add_row(
+                dataset.get("AccessionNumber", ""),
+                dataset.get("PatientID", ""),
+                str(dataset.get("PatientName", "")),
+            )
         except Exception:
-            logging.error("Error occurred while converting %s. Aborting.\nError was:", filename, exc_info=True)
+            logging.error("Error occurred while converting %s. Aborting.\nError was:", dataset.filename, exc_info=True)
             sys.exit(1)
 
     if not args.quiet:
