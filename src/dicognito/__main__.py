@@ -7,14 +7,13 @@ import glob
 import logging
 import os.path
 import sys
-from argparse import Namespace
 from typing import Iterable, Optional, Sequence
 
 import pydicom
 
 from dicognito._config import parse_arguments
 from dicognito.anonymizer import Anonymizer
-from dicognito.filters import BurnedInAnnotationGuard, Summarize
+from dicognito.filters import BurnedInAnnotationGuard, SaveInPlace, SaveToSOPInstanceUID, Summarize
 from dicognito.pipeline import Pipeline
 
 
@@ -45,18 +44,6 @@ def _get_datasets_from_sources(sources: Iterable[str]) -> Iterable[pydicom.datas
             logging.info("File %s appears not to be DICOM. Skipping.", filename)
 
 
-def _ensure_output_directory_exists(args: Namespace) -> None:
-    if args.output_directory and not os.path.isdir(args.output_directory):
-        os.makedirs(args.output_directory)
-
-
-def _calculate_output_filename(file: str, args: Namespace, dataset: pydicom.dataset.Dataset) -> str:
-    output_file = file
-    if args.output_directory:
-        output_file = os.path.join(args.output_directory, dataset.SOPInstanceUID + ".dcm")
-    return output_file
-
-
 def main(main_args: Optional[Sequence[str]] = None) -> None:
     if main_args is None:
         main_args = sys.argv[1:]
@@ -70,12 +57,11 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:
 
     anonymizer = Anonymizer(id_prefix=args.id_prefix, id_suffix=args.id_suffix, seed=args.seed)
 
-    _ensure_output_directory_exists(args)
-
     pipeline = Pipeline()
     pipeline.add(BurnedInAnnotationGuard(args.assume_burned_in_annotation, args.on_burned_in_annotation))
     if not args.quiet:
         pipeline.add(Summarize())
+    pipeline.add(args.output_directory and SaveToSOPInstanceUID(args.output_directory) or SaveInPlace())
 
     pipeline.before_any()
 
@@ -83,9 +69,6 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:
         try:
             pipeline.before_each(dataset)
             anonymizer.anonymize(dataset)
-
-            output_file = _calculate_output_filename(dataset.filename, args, dataset)
-            dataset.save_as(output_file, write_like_original=False)
             pipeline.after_each(dataset)
         except Exception:
             logging.error("Error occurred while converting %s. Aborting.\nError was:", dataset.filename, exc_info=True)

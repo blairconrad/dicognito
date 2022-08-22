@@ -1,6 +1,7 @@
 import itertools
 import logging
 import operator
+import os
 from typing import List, Sequence
 
 import pydicom
@@ -87,3 +88,24 @@ class BurnedInAnnotationGuard(Filter):
             raise Exception(burned_in_annotation_message)
         else:
             logging.warning(burned_in_annotation_message)
+
+
+class SaveInPlace(Filter):
+    def before_each(self, dataset: pydicom.dataset.Dataset) -> None:
+        self.output_filename = dataset.filename
+
+    def after_each(self, dataset: pydicom.dataset.Dataset) -> None:
+        dataset.save_as(self.output_filename, write_like_original=False)
+
+
+class SaveToSOPInstanceUID(Filter):
+    def __init__(self, output_directory: str):
+        self.output_directory = output_directory
+
+    def before_any(self) -> None:
+        if not os.path.isdir(self.output_directory):
+            os.makedirs(self.output_directory)
+
+    def after_each(self, dataset: pydicom.dataset.Dataset) -> None:
+        output_filename = os.path.join(self.output_directory, dataset.SOPInstanceUID + ".dcm")
+        dataset.save_as(output_filename, write_like_original=False)
