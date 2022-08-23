@@ -14,7 +14,7 @@ exclude = '''
   )/
 )
 '''
-[tool.pylama.linter.mypy]
+[tool.mypy]
 show_error_codes=true
 show_error_context=true
 show_column_numbers=true
@@ -29,21 +29,21 @@ strict_optional=true
 
 strict=true
 
-[tool.pylama]
-linters = "mccabe,mypy,pycodestyle,pyflakes"
-skip = ".tox/*"
-
-[[tool.pylama.linter.mypy.overrides]]
+[[tool.mypy.overrides]]
 module="pydicom.*"
 ignore_missing_imports = true
 
-[[tool.pylama.linter.mypy.overrides]]
+[[tool.mypy.overrides]]
 module="pytest."
 ignore_missing_imports = true
 
-[[tool.pylama.linter.mypy.overrides]]
+[[tool.mypy.overrides]]
 module="tests.*"
 allow_untyped_defs = true
+
+[tool.pylama]
+linters = "mccabe,pycodestyle,pyflakes"
+skip = ".tox/*"
 
 [tool.pylama.linter.pycodestyle]
 ignore = "E203,W503"
