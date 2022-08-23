@@ -61,6 +61,21 @@ def parse_arguments(main_args: Sequence[str]) -> argparse.Namespace:
         "will be recursed, and all files found within will be anonymized.",
     )
     parser.add_argument(
+        "--output-directory",
+        "-o",
+        action="store",
+        type=str,
+        help="Write anonymized files to OUTPUT_DIRECTORY. The output filename will be "
+        "the new SOP Instance UID. OUTPUT_DIRECTORY will be created if necessary.",
+    )
+    parser.add_argument(
+        "--in-place",
+        action="store_true",
+        help="Anonymize files in place, replacing original files. Note that repeatedly "
+        "anonymizing the same files will cause date attributes to move farther into "
+        "the past.",
+    )
+    parser.add_argument(
         "--id-prefix",
         "-p",
         default="",
@@ -96,14 +111,6 @@ def parse_arguments(main_args: Sequence[str]) -> argparse.Namespace:
         default=BurnedInAnnotationGuard.IF_FOUND_CHOICES[0],
         choices=BurnedInAnnotationGuard.IF_FOUND_CHOICES,
         help="What to do when an object with assumed burned-in annotations is found",
-    )
-    parser.add_argument(
-        "--output-directory",
-        "-o",
-        action="store",
-        type=str,
-        help="Instead of anonymizing files in-place, write anonymized files to "
-        "OUTPUT_DIRECTORY, which will be created if necessary",
     )
     parser.add_argument(
         "--quiet",

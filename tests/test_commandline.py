@@ -33,6 +33,17 @@ def test_overwrite_files():
     assert anon_dataset.PatientName != orig_dataset.PatientName
 
 
+def test_in_place_overwrites_files():
+    test_name = get_test_name()
+    orig_dataset = read_original_file(test_name, "p01_s01_s01_i01.dcm")
+    assert "CompressedSamples^MR1" == orig_dataset.PatientName
+
+    run_dicognito(path_to("p*"), "--in-place")
+
+    anon_dataset = read_file(test_name, "p01_s01_s01_i01.dcm")
+    assert anon_dataset.PatientName != orig_dataset.PatientName
+
+
 def test_ignores_file_that_do_not_match_glob():
     test_name = get_test_name()
     orig_dataset = read_original_file(test_name, "np01_s01_s01_i01.dcm")

@@ -1,3 +1,8 @@
+### New
+
+- `--in-place` flag added to explicitly specify in place editing of source files
+  ([#134](https://github.com/blairconrad/dicognito/issues/134))
+
 ## 0.14.0
 
 ### Changed
