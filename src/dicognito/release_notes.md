@@ -1,3 +1,9 @@
+### Changed
+
+- If neither `--in-place` or `--output-directory`/`-o` are specified on the command line, a
+  warning will be printed. The anonymization will proceed as if `--in-place` were specified.
+  A future release will require that one of the options be specified.
+
 ### New
 
 - `--in-place` flag added to explicitly specify in place editing of source files. It's an error
