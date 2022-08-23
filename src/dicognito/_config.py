@@ -60,7 +60,8 @@ def parse_arguments(main_args: Sequence[str]) -> argparse.Namespace:
         help="The directories or file globs (e.g. *.dcm) to anonymize. Directories "
         "will be recursed, and all files found within will be anonymized.",
     )
-    parser.add_argument(
+    output_location_group = parser.add_mutually_exclusive_group()
+    output_location_group.add_argument(
         "--output-directory",
         "-o",
         action="store",
@@ -68,7 +69,7 @@ def parse_arguments(main_args: Sequence[str]) -> argparse.Namespace:
         help="Write anonymized files to OUTPUT_DIRECTORY. The output filename will be "
         "the new SOP Instance UID. OUTPUT_DIRECTORY will be created if necessary.",
     )
-    parser.add_argument(
+    output_location_group.add_argument(
         "--in-place",
         action="store_true",
         help="Anonymize files in place, replacing original files. Note that repeatedly "
