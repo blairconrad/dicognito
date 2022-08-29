@@ -31,7 +31,7 @@ def test_implicit_in_place_warns_but_anonymizes(caplog):
 
     log_record = [log for log in caplog.records if log.levelname == "WARNING"][0]
     assert (
-        "Neither --output-directory/-o nor --in-place were specified. This will be an error in the future."
+        "Neither --output-directory/-o nor --in-place/-i were specified. This will be an error in the future."
         in log_record.getMessage()
     )
 
@@ -47,6 +47,17 @@ def test_in_place_overwrites_files():
     assert "CompressedSamples^MR1" == orig_dataset.PatientName
 
     run_dicognito(path_to("p*"), "--in-place")
+
+    anon_dataset = read_file(test_name, "p01_s01_s01_i01.dcm")
+    assert anon_dataset.PatientName != orig_dataset.PatientName
+
+
+def test_in_place_short_form_overwrites_files():
+    test_name = get_test_name()
+    orig_dataset = read_original_file(test_name, "p01_s01_s01_i01.dcm")
+    assert "CompressedSamples^MR1" == orig_dataset.PatientName
+
+    run_dicognito(path_to("p*"), "-i")
 
     anon_dataset = read_file(test_name, "p01_s01_s01_i01.dcm")
     assert anon_dataset.PatientName != orig_dataset.PatientName

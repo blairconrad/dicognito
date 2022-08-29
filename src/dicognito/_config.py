@@ -71,6 +71,7 @@ def parse_arguments(main_args: Sequence[str]) -> argparse.Namespace:
     )
     output_location_group.add_argument(
         "--in-place",
+        "-i",
         action="store_true",
         help="Anonymize files in place, replacing original files. Note that repeatedly "
         "anonymizing the same files will cause date attributes to move farther into "
