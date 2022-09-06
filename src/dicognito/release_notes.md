@@ -1,3 +1,15 @@
+### Changed
+
+- If neither `--in-place`/`-i` or `--output-directory`/`-o` are specified on the command line, a
+  warning will be printed. The anonymization will proceed as if `--in-place`/`-i` were specified.
+  A future release will require that one of the options be specified.
+
+### New
+
+- `--in-place`/`-i` flag added to explicitly specify in place editing of source files. It's an error
+  to specify both `--in-place`/`-i` and `--output-directory`/`-o`.
+  ([#134](https://github.com/blairconrad/dicognito/issues/134))
+
 ## 0.14.0
 
 ### Changed

@@ -6,6 +6,10 @@ Dicognito is a [Python](https://www.python.org/) module and command-line utility
 Use it to anonymize one or more DICOM files belonging to one or any number of patients. Objects will remain grouped
 in their original patients, studies, and series.
 
+Anonymization causes significant attributes, such as identifiers, names, and
+addresses, to be replaced by new values. Dates and times will be shifted into the
+past, but their order will remain consistent within and across the files.
+
 The package is [available on pypi](https://pypi.org/project/dicognito/) and can be installed from the command line by typing
 
 ```
@@ -17,15 +21,22 @@ pip install dicognito
 Once installed, a `dicognito` command will be added to your Python scripts directory.
 You can run it on entire filesystem trees or a collection of files specified by glob like so:
 
-```
-dicognito .      # recurses down the filesystem, anonymizing all found DICOM files
-dicognito *.dcm  # anonymizes all files in the current directory with the dcm extension
-```
+```bash
+# Recurse down the filesystem, anonymizing all found DICOM files.
+# Anonymized files will be placed in out-dir, named by new SOP
+# instance UID.
+dicognito --output-directory out-dir .
 
-Files will be anonymized in place, with significant attributes, such as identifiers, names, and
-addresses, replaced by random values. Dates and times will be shifted a random amount, but their
-order will remain consistent within and across the files.
+# Anonymize all files in the current directory with the dcm extension
+# (-o is an alias for --output-directory).
+dicognito -o out-dir *.dcm
 
+# Anonymize all files in the current directory with the dcm extension
+# but overwrite the original files.
+# Note: repeatedly anonymizing the same files will cause date attributes
+# to  move farther into the past.
+dicognito --in-place *.dcm
+```
 Get more help via `dicognito --help`.
 
 ## Anonymizing from within Python

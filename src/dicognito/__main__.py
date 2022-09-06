@@ -55,6 +55,11 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:
         raise ValueError("Invalid log level: %s" % args.log_level)
     logging.basicConfig(format="", level=numeric_level)
 
+    if not args.in_place and not args.output_directory:
+        logging.warning(
+            "Neither --output-directory/-o nor --in-place/-i were specified. This will be an error in the future."
+        )
+
     anonymizer = Anonymizer(id_prefix=args.id_prefix, id_suffix=args.id_suffix, seed=args.seed)
 
     pipeline = Pipeline()

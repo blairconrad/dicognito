@@ -22,12 +22,42 @@ def setup_module(module):
     shutil.copytree(orig_dir, data_dir)
 
 
-def test_overwrite_files():
+def test_implicit_in_place_warns_but_anonymizes(caplog):
     test_name = get_test_name()
     orig_dataset = read_original_file(test_name, "p01_s01_s01_i01.dcm")
     assert "CompressedSamples^MR1" == orig_dataset.PatientName
 
+    run_dicognito(path_to(""))
+
+    log_record = [log for log in caplog.records if log.levelname == "WARNING"][0]
+    assert (
+        "Neither --output-directory/-o nor --in-place/-i were specified. This will be an error in the future."
+        in log_record.getMessage()
+    )
+
     run_dicognito(path_to("p*"))
+
+    anon_dataset = read_file(test_name, "p01_s01_s01_i01.dcm")
+    assert anon_dataset.PatientName != orig_dataset.PatientName
+
+
+def test_in_place_overwrites_files():
+    test_name = get_test_name()
+    orig_dataset = read_original_file(test_name, "p01_s01_s01_i01.dcm")
+    assert "CompressedSamples^MR1" == orig_dataset.PatientName
+
+    run_dicognito(path_to("p*"), "--in-place")
+
+    anon_dataset = read_file(test_name, "p01_s01_s01_i01.dcm")
+    assert anon_dataset.PatientName != orig_dataset.PatientName
+
+
+def test_in_place_short_form_overwrites_files():
+    test_name = get_test_name()
+    orig_dataset = read_original_file(test_name, "p01_s01_s01_i01.dcm")
+    assert "CompressedSamples^MR1" == orig_dataset.PatientName
+
+    run_dicognito(path_to("p*"), "-i")
 
     anon_dataset = read_file(test_name, "p01_s01_s01_i01.dcm")
     assert anon_dataset.PatientName != orig_dataset.PatientName
@@ -117,7 +147,7 @@ def test_non_dicom_files_logged_at_info(caplog):
     assert "CompressedSamples^MR1" == orig_dataset.PatientName
 
     set_log_level(caplog, logging.INFO)
-    run_dicognito(path_to(""))
+    run_dicognito("--in-place", path_to(""))
     anon_dataset = read_file(test_name, "p01_s01_s01_i01.dcm")
     assert orig_dataset.PatientName != anon_dataset.PatientName
 
@@ -130,7 +160,7 @@ def test_burned_in_annotation_default(caplog):
     expected_warnings = {"Burned In Annotation is YES in " + path_to("burned_in_yes.dcm")}
 
     set_log_level(caplog, logging.WARNING)
-    run_dicognito(path_to(""))
+    run_dicognito("--in-place", path_to(""))
 
     messages = {log.getMessage() for log in caplog.records if log.levelname == "WARNING"}
     assert messages == expected_warnings
@@ -144,7 +174,7 @@ def test_burned_in_annotation_unless_no(caplog):
     }
 
     set_log_level(caplog, logging.WARNING)
-    run_dicognito(path_to(""), "--assume-burned-in-annotation", "unless-no")
+    run_dicognito("--in-place", path_to(""), "--assume-burned-in-annotation", "unless-no")
 
     messages = {log.getMessage() for log in caplog.records if log.levelname == "WARNING"}
     assert messages == expected_warnings
@@ -154,7 +184,7 @@ def test_burned_in_annotation_if_yes(caplog):
     expected_warnings = {"Burned In Annotation is YES in " + path_to("burned_in_yes.dcm")}
 
     set_log_level(caplog, logging.WARNING)
-    run_dicognito(path_to(""), "--assume-burned-in-annotation", "if-yes")
+    run_dicognito("--in-place", path_to(""), "--assume-burned-in-annotation", "if-yes")
 
     messages = {log.getMessage() for log in caplog.records if log.levelname == "WARNING"}
     assert messages == expected_warnings
@@ -162,7 +192,7 @@ def test_burned_in_annotation_if_yes(caplog):
 
 def test_burned_in_annotation_never(caplog):
     set_log_level(caplog, logging.WARNING)
-    run_dicognito(path_to(""), "--assume-burned-in-annotation", "never")
+    run_dicognito("--in-place", path_to(""), "--assume-burned-in-annotation", "never")
 
     messages = {log.getMessage() for log in caplog.records if log.levelname == "WARNING"}
     assert not messages
@@ -172,7 +202,7 @@ def test_burned_in_annotation_warn(caplog):
     expected_warnings = {"Burned In Annotation is YES in " + path_to("burned_in_yes.dcm")}
 
     set_log_level(caplog, logging.WARNING)
-    run_dicognito(path_to(""), "--on-burned-in-annotation", "warn")
+    run_dicognito("--in-place", path_to(""), "--on-burned-in-annotation", "warn")
 
     messages = {log.getMessage() for log in caplog.records if log.levelname == "WARNING"}
     assert messages == expected_warnings
@@ -183,11 +213,17 @@ def test_burned_in_annotation_fail(caplog):
     expected_message = "Burned In Annotation is YES in " + input_file_name
 
     with pytest.raises(SystemExit):
-        run_dicognito(path_to(""), "--on-burned-in-annotation", "fail")
+        run_dicognito("--in-place", path_to(""), "--on-burned-in-annotation", "fail")
 
     log_record = [log for log in caplog.records if log.levelname == "ERROR"][0]
     assert f"Error occurred while converting {input_file_name}. Aborting.\nError was:" in log_record.getMessage()
     assert expected_message in str(log_record.exc_info[1])
+
+
+def test_in_place_and_output_directory_are_exclusive():
+    with pytest.raises(SystemExit) as e:
+        run_dicognito(path_to(""), "--output-dir", "some_output_dir", "--in-place")
+        assert "argument --in-place: not allowed with argument --output-directory/-o" in str(e.value)
 
 
 def test_creates_output_directory_when_missing():
