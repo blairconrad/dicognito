@@ -1,3 +1,5 @@
+## 0.15.0
+
 ### Changed
 
 - If neither `--in-place`/`-i` or `--output-directory`/`-o` are specified on the command line, a
