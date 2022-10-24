@@ -26,7 +26,7 @@ jobs:
             os: ubuntu-latest
             python-version: '3.11-dev'
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -49,9 +49,9 @@ jobs:
       is-prerelease: ${{ steps.gather-release-info.outputs.is-prerelease }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
       - name: Install dependencies
@@ -60,7 +60,7 @@ jobs:
           python -m pip install --upgrade setuptools wheel
       - name: Build Package
         run: python setup.py sdist bdist_wheel
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           path: dist/
           name: dist
@@ -80,7 +80,7 @@ jobs:
         run: |
           echo "Tag ${{ github.ref }} does not match release name ${{ needs.package.outputs.release-name }}"
           exit 1
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: dist
           path: dist
