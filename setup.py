@@ -32,12 +32,13 @@ setuptools.setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Development Status :: 3 - Alpha",
         "Environment :: Console",
         "Intended Audience :: Healthcare Industry",
     ],
-    install_requires=["pydicom>=2.1.1"],
+    install_requires=["pydicom>=2.3.1"],  # sync with tox.ini
     entry_points={"console_scripts": ["dicognito=dicognito.__main__:main"]},
 )
