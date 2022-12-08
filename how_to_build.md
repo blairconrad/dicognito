@@ -11,7 +11,7 @@ Ensure that the following are installed:
 From a command prompt in the root of the repo, run
 
 ```powershell
-tox
+tox run
 ```
 
 This will build a source distribution and run tests in all supported environments. This replicates the
