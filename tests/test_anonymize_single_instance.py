@@ -30,7 +30,6 @@ def test_minimal_instance_anonymizes_safely():
 )
 def test_nonidentifying_uis_are_left_alone(element_path):
     with load_test_instance() as dataset:
-
         expected = eval("dataset." + element_path)
 
         anonymizer = Anonymizer()
@@ -54,7 +53,6 @@ def test_nonidentifying_uis_are_left_alone(element_path):
 )
 def test_identifying_uis_are_updated(element_path):
     with load_test_instance() as dataset:
-
         expected = eval("dataset." + element_path)
 
         anonymizer = Anonymizer()
@@ -70,7 +68,6 @@ def test_identifying_uis_are_updated(element_path):
 )
 def test_repeated_identifying_uis_get_same_values(one_element_path, another_element_path):
     with load_test_instance() as dataset:
-
         anonymizer = Anonymizer()
         anonymizer.anonymize(dataset)
 
@@ -106,7 +103,6 @@ def test_repeated_identifying_uis_get_same_values(one_element_path, another_elem
 )
 def test_ids_are_anonymized(element_path):
     with load_test_instance() as dataset:
-
         original = eval("dataset." + element_path)
         anonymizer = Anonymizer()
         anonymizer.anonymize(dataset)
@@ -118,7 +114,6 @@ def test_ids_are_anonymized(element_path):
 
 def test_single_other_patient_ids_anonymized_to_single_id():
     with load_test_instance() as dataset:
-
         original = ["ID1"]
         dataset.OtherPatientIDs = original
 
@@ -134,7 +129,6 @@ def test_single_other_patient_ids_anonymized_to_single_id():
 @pytest.mark.parametrize("number_of_ids", [2, 3])
 def test_other_patient_ids_anonymized_to_same_number_of_ids(number_of_ids):
     with load_test_instance() as dataset:
-
         original = ["ID" + str(i) for i in range(1, number_of_ids + 1)]
         dataset.OtherPatientIDs = original
 
@@ -149,7 +143,6 @@ def test_other_patient_ids_anonymized_to_same_number_of_ids(number_of_ids):
 
 def test_issuer_of_patient_id_changed_if_not_empty():
     with load_test_instance() as dataset:
-
         dataset.IssuerOfPatientID = "NOTEMPTY"
 
         anonymizer = Anonymizer()
@@ -162,7 +155,6 @@ def test_issuer_of_patient_id_changed_if_not_empty():
 
 def test_issuer_of_patient_id_not_added_if_empty():
     with load_test_instance() as dataset:
-
         dataset.IssuerOfPatientID = ""
 
         anonymizer = Anonymizer()
@@ -229,7 +221,6 @@ def test_sex_other_patient_name_gets_anonymized():
 
 def test_single_other_patient_names_anonymized_to_single_name():
     with load_test_instance() as dataset:
-
         original = ["NAME1"]
         dataset.OtherPatientNames = original
 
@@ -245,7 +236,6 @@ def test_single_other_patient_names_anonymized_to_single_name():
 @pytest.mark.parametrize("number_of_names", [2, 3])
 def test_other_patient_names_anonymized_to_same_number_of_names(number_of_names):
     with load_test_instance() as dataset:
-
         original = ["NAME" + str(i) for i in range(1, number_of_names + 1)]
         dataset.OtherPatientNames = original
 

@@ -25,7 +25,7 @@ class Summarize(Filter):
         sorted_rows = sorted(self.rows)  # type: ignore[type-var]
         output_rows = list(map(operator.itemgetter(0), itertools.groupby(sorted_rows)))
         for row in output_rows:
-            for (i, v) in enumerate(row):
+            for i, v in enumerate(row):
                 widths[i] = max(widths[i], len(v))
 
         header_format = (
