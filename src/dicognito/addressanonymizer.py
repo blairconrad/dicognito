@@ -2,6 +2,7 @@ import pydicom
 
 
 from typing import Any
+from dicognito.element_anonymizer import ElementAnonymizer
 from dicognito.randomizer import Randomizer
 
 """\
@@ -9,7 +10,7 @@ Defines AddressAnonymizer, responsible for anonymizing addresses
 """
 
 
-class AddressAnonymizer:
+class AddressAnonymizer(ElementAnonymizer):
     """\
     Anonymizes addresses.
     """

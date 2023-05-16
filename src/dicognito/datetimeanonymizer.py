@@ -1,8 +1,10 @@
 import datetime
 import pydicom
 
+from dicognito.element_anonymizer import ElementAnonymizer
 
-class DateTimeAnonymizer:
+
+class DateTimeAnonymizer(ElementAnonymizer):
     def __init__(self, offset_hours: int) -> None:
         """\
         Create a new DateTimeAnonymizer.

@@ -1,9 +1,10 @@
 """\
 Defines Anonymizer, the principle class used to anonymize DICOM objects.
 """
-from typing import Callable, Optional, Sequence
+from typing import Optional, Sequence
 from dicognito.addressanonymizer import AddressAnonymizer
 from dicognito.dataset_updater import DatasetUpdater, DeidentificationMethodUpdater, PatientIdentityRemovedUpdater
+from dicognito.element_anonymizer import ElementAnonymizer
 from dicognito.equipmentanonymizer import EquipmentAnonymizer
 from dicognito.fixedvalueanonymizer import FixedValueAnonymizer
 from dicognito.idanonymizer import IDAnonymizer
@@ -67,7 +68,7 @@ class Anonymizer:
         )
         address_anonymizer = AddressAnonymizer(randomizer)
 
-        self._element_handlers: Sequence[Callable[[pydicom.dataset.Dataset, pydicom.dataelem.DataElement], bool]] = [
+        self._element_handlers: Sequence[ElementAnonymizer] = [
             UnwantedElementsStripper(
                 "BranchOfService",
                 "Occupation",

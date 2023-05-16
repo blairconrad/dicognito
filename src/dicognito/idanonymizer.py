@@ -1,10 +1,11 @@
 from typing import Any
 import pydicom
+from dicognito.element_anonymizer import ElementAnonymizer
 
 from dicognito.randomizer import Randomizer
 
 
-class IDAnonymizer:
+class IDAnonymizer(ElementAnonymizer):
     _alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
     def __init__(self, randomizer: Randomizer, id_prefix: str, id_suffix: str, *keywords: str):

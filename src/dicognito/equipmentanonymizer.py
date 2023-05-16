@@ -1,9 +1,10 @@
 import pydicom
 
 from dicognito.addressanonymizer import AddressAnonymizer
+from dicognito.element_anonymizer import ElementAnonymizer
 
 
-class EquipmentAnonymizer:
+class EquipmentAnonymizer(ElementAnonymizer):
     def __init__(self, address_anonymizer: AddressAnonymizer) -> None:
         """\
         Create a new EquipmentAnonymizer.

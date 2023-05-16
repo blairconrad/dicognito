@@ -1,10 +1,11 @@
 import pydicom
 
 from typing import Any, Optional
+from dicognito.element_anonymizer import ElementAnonymizer
 from dicognito.randomizer import Randomizer
 
 
-class PNAnonymizer:
+class PNAnonymizer(ElementAnonymizer):
     def __init__(self, randomizer: Randomizer):
         """\
         Create a new PNAnonymizer.

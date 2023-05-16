@@ -1,7 +1,9 @@
 import pydicom
 
+from dicognito.element_anonymizer import ElementAnonymizer
 
-class UnwantedElementsStripper:
+
+class UnwantedElementsStripper(ElementAnonymizer):
     def __init__(self, *keywords: str):
         """\
         Create a new UnwantedElementsStripper.

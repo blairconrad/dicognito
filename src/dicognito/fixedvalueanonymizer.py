@@ -2,8 +2,10 @@ from typing import Any
 
 import pydicom
 
+from dicognito.element_anonymizer import ElementAnonymizer
 
-class FixedValueAnonymizer:
+
+class FixedValueAnonymizer(ElementAnonymizer):
     def __init__(self, keyword: str, value: Any) -> None:
         """\
         Create a new FixedValueAnonymizer.

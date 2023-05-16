@@ -1,10 +1,11 @@
 import pydicom
 import pydicom.dataelem
+from dicognito.element_anonymizer import ElementAnonymizer
 
 from dicognito.randomizer import Randomizer
 
 
-class UIAnonymizer:
+class UIAnonymizer(ElementAnonymizer):
     def __init__(self, randomizer: Randomizer) -> None:
         """\
         Create a new UIAnonymizer.
