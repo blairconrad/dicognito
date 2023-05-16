@@ -3,6 +3,7 @@ Defines Anonymizer, the principle class used to anonymize DICOM objects.
 """
 from typing import Callable, Optional, Sequence
 from dicognito.addressanonymizer import AddressAnonymizer
+from dicognito.dataset_updater import DatasetUpdater, DeidentificationMethodUpdater, PatientIdentityRemovedUpdater
 from dicognito.equipmentanonymizer import EquipmentAnonymizer
 from dicognito.fixedvalueanonymizer import FixedValueAnonymizer
 from dicognito.idanonymizer import IDAnonymizer
@@ -107,6 +108,11 @@ class Anonymizer:
             DateTimeAnonymizer(date_offset_hours),
         ]
 
+        self._dataset_updaters: Sequence[DatasetUpdater] = [
+            DeidentificationMethodUpdater(),
+            PatientIdentityRemovedUpdater(),
+        ]
+
     def anonymize(self, dataset: pydicom.dataset.Dataset) -> None:
         """\
         Anonymize a dataset in place. Replaces all PNs, UIs, dates and times, and
@@ -119,29 +125,10 @@ class Anonymizer:
         """
         dataset.file_meta.walk(self._anonymize_element)
         dataset.walk(self._anonymize_element)
-        self._update_deidentification_method(dataset)
-        self._update_patient_identity_removed(dataset)
+        for updater in self._dataset_updaters:
+            updater(dataset)
 
     def _anonymize_element(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.dataelem.DataElement) -> None:
         for handler in self._element_handlers:
             if handler(dataset, data_element):
                 return
-
-    def _update_deidentification_method(self, dataset: pydicom.dataset.Dataset) -> None:
-        if "DeidentificationMethod" not in dataset:
-            dataset.DeidentificationMethod = "DICOGNITO"
-            return
-
-        existing_element = dataset.data_element("DeidentificationMethod")
-        assert existing_element is not None  # satisfy mypy
-        existing_value = existing_element.value
-
-        if isinstance(existing_value, pydicom.multival.MultiValue):
-            if "DICOGNITO" not in existing_value:
-                existing_value.append("DICOGNITO")
-        elif existing_value != "DICOGNITO":
-            existing_element.value = [existing_value, "DICOGNITO"]
-
-    def _update_patient_identity_removed(self, dataset: pydicom.dataset.Dataset) -> None:
-        if dataset.get("BurnedInAnnotation", "YES") == "NO":
-            dataset.PatientIdentityRemoved = "YES"
