@@ -1,7 +1,7 @@
 """\
 Defines Anonymizer, the principle class used to anonymize DICOM objects.
 """
-from typing import Optional, Sequence
+from typing import Iterator, Optional, Sequence
 from dicognito.addressanonymizer import AddressAnonymizer
 from dicognito.dataset_updater import DatasetUpdater, DeidentificationMethodUpdater, PatientIdentityRemovedUpdater
 from dicognito.element_anonymizer import ElementAnonymizer
@@ -128,6 +128,15 @@ class Anonymizer:
         dataset.walk(self._anonymize_element)
         for updater in self._dataset_updaters:
             updater(dataset)
+
+    def describe_actions(self) -> str:
+        def actions() -> Iterator[str]:
+            for handler in self._element_handlers:
+                yield from handler.describe_actions()
+            for updater in self._dataset_updaters:
+                yield from updater.describe_actions()
+
+        return "* " + "\n* ".join(sorted(actions()))
 
     def _anonymize_element(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.dataelem.DataElement) -> None:
         for handler in self._element_handlers:

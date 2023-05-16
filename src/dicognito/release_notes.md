@@ -5,6 +5,7 @@
 ### New
 
 - Officially support Python 3.11 ([#136](https://github.com/blairconrad/dicognito/issues/136))
+- Complete list of attribute changes now listed in README ([#140](https://github.com/blairconrad/dicognito/issues/140))
 
 ## 0.15.0
 

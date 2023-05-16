@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Iterator
 import pydicom
 from dicognito.element_anonymizer import ElementAnonymizer
 
@@ -29,8 +29,8 @@ class IDAnonymizer(ElementAnonymizer):
         self.randomizer = randomizer
         self.id_prefix = id_prefix
         self.id_suffix = id_suffix
-        self.issuer_tag = pydicom.datadict.tag_for_keyword("IssuerOfPatientID")
-        self.id_tags = [pydicom.datadict.tag_for_keyword(tag_name) for tag_name in keywords]
+        self.issuer_tag = pydicom.datadict.keyword_dict["IssuerOfPatientID"]
+        self.id_tags = [pydicom.datadict.keyword_dict[tag_name] for tag_name in keywords]
 
         total_affixes_length = len(self.id_prefix) + len(self.id_suffix)
         self._indices_for_randomizer = [len(self._alphabet)] * (12 - total_affixes_length)
@@ -68,6 +68,14 @@ class IDAnonymizer(ElementAnonymizer):
             data_element.value = "DICOGNITO"
             return True
         return False
+
+    def describe_actions(self) -> Iterator[str]:
+        yield from map(
+            lambda keyword: f"Replace {keyword} with anonymized values",
+            map(pydicom.datadict.keyword_for_tag, self.id_tags),
+        )
+        yield 'Replace IssuerOfPatientID with "DICOGNITO"'
+        yield 'Replace private "MITRA LINKED ATTRIBUTES 1.0" attribute "Global Patient ID" with anonymized values'
 
     def _anonymize_mitra_global_patient_id(
         self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement

@@ -1,3 +1,4 @@
+from typing import Iterator
 import pydicom
 import pydicom.dataelem
 from dicognito.element_anonymizer import ElementAnonymizer
@@ -44,6 +45,9 @@ class UIAnonymizer(ElementAnonymizer):
         else:
             data_element.value = self._new_ui(data_element.value)
         return True
+
+    def describe_actions(self) -> Iterator[str]:
+        yield "Replace all UI attributes with anonymized values"
 
     def _new_ui(self, ui: str) -> str:
         return "2." + str(10**39 + self._randomizer.to_int(ui))

@@ -1,3 +1,4 @@
+from typing import Iterator
 import pydicom
 
 from dicognito.addressanonymizer import AddressAnonymizer
@@ -17,9 +18,9 @@ class EquipmentAnonymizer(ElementAnonymizer):
         self.address_anonymizer = address_anonymizer
 
         self._element_anonymizers = {
-            pydicom.datadict.tag_for_keyword("InstitutionName"): self.anonymize_institution_name,
-            pydicom.datadict.tag_for_keyword("InstitutionAddress"): self.anonymize_institution_address,
-            pydicom.datadict.tag_for_keyword("InstitutionalDepartmentName"): self.anonymize_department_name,
+            pydicom.datadict.keyword_dict["InstitutionName"]: self.anonymize_institution_name,
+            pydicom.datadict.keyword_dict["InstitutionAddress"]: self.anonymize_institution_address,
+            pydicom.datadict.keyword_dict["InstitutionalDepartmentName"]: self.anonymize_department_name,
         }
 
     def __call__(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> bool:
@@ -49,6 +50,12 @@ class EquipmentAnonymizer(ElementAnonymizer):
 
         element_anonymizer(dataset, data_element)
         return True
+
+    def describe_actions(self) -> Iterator[str]:
+        yield from map(
+            lambda keyword: f"Replace {keyword} with anonymized values",
+            map(pydicom.datadict.keyword_for_tag, self._element_anonymizers),
+        )
 
     def anonymize_institution_name(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> None:
         region = self.address_anonymizer.get_region(data_element.value)

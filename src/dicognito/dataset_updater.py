@@ -1,8 +1,12 @@
+from typing import Iterator
 import pydicom
 
 
 class DatasetUpdater:
     def __call__(self, dataset: pydicom.dataset.Dataset) -> None:
+        raise NotImplementedError()
+
+    def describe_actions(self) -> Iterator[str]:
         raise NotImplementedError()
 
 
@@ -31,6 +35,9 @@ class DeidentificationMethodUpdater(DatasetUpdater):
         elif existing_value != "DICOGNITO":
             existing_element.value = [existing_value, "DICOGNITO"]
 
+    def describe_actions(self) -> Iterator[str]:
+        yield 'Add "DICOGNITO" to DeidentificationMethod'
+
 
 class PatientIdentityRemovedUpdater(DatasetUpdater):
     def __call__(self, dataset: pydicom.dataset.Dataset) -> None:
@@ -45,3 +52,6 @@ class PatientIdentityRemovedUpdater(DatasetUpdater):
         """
         if dataset.get("BurnedInAnnotation", "YES") == "NO":
             dataset.PatientIdentityRemoved = "YES"
+
+    def describe_actions(self) -> Iterator[str]:
+        yield 'Set PatientIdentityRemoved to "YES" if BurnedInAnnotation is "NO"'
