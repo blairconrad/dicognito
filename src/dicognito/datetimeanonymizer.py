@@ -1,8 +1,11 @@
 import datetime
+from typing import Iterator
 import pydicom
 
+from dicognito.element_anonymizer import ElementAnonymizer
 
-class DateTimeAnonymizer:
+
+class DateTimeAnonymizer(ElementAnonymizer):
     def __init__(self, offset_hours: int) -> None:
         """\
         Create a new DateTimeAnonymizer.
@@ -44,6 +47,11 @@ class DateTimeAnonymizer:
         else:
             self._anonymize_datetime(dataset, data_element)
         return True
+
+    def describe_actions(self) -> Iterator[str]:
+        yield "Replace all DA attributes with anonymized values that precede the originals"
+        yield "Replace all DT attributes with anonymized values that precede the originals"
+        yield "Replace all TM attributes with anonymized values that precede the originals"
 
     def _anonymize_date_and_time(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> None:
         date_value = data_element.value

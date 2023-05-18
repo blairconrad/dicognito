@@ -1,10 +1,11 @@
 import pydicom
 
-from typing import Any, Optional
+from typing import Any, Iterator, Optional
+from dicognito.element_anonymizer import ElementAnonymizer
 from dicognito.randomizer import Randomizer
 
 
-class PNAnonymizer:
+class PNAnonymizer(ElementAnonymizer):
     def __init__(self, randomizer: Randomizer):
         """\
         Create a new PNAnonymizer.
@@ -44,6 +45,9 @@ class PNAnonymizer:
         else:
             data_element.value = self._new_pn(patient_sex, data_element.value)
         return True
+
+    def describe_actions(self) -> Iterator[str]:
+        yield "Replace all PN attributes with anonymized values"
 
     def _new_pn(self, sex: Optional[str], original_value: Any) -> str:
         if sex == "F":

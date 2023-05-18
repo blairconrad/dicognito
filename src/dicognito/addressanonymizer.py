@@ -1,7 +1,8 @@
 import pydicom
 
 
-from typing import Any
+from typing import Any, Iterator
+from dicognito.element_anonymizer import ElementAnonymizer
 from dicognito.randomizer import Randomizer
 
 """\
@@ -9,7 +10,7 @@ Defines AddressAnonymizer, responsible for anonymizing addresses
 """
 
 
-class AddressAnonymizer:
+class AddressAnonymizer(ElementAnonymizer):
     """\
     Anonymizes addresses.
     """
@@ -25,9 +26,9 @@ class AddressAnonymizer:
         """
         self.randomizer = randomizer
 
-        address_tag = pydicom.datadict.tag_for_keyword("PatientAddress")
-        region_tag = pydicom.datadict.tag_for_keyword("RegionOfResidence")
-        country_tag = pydicom.datadict.tag_for_keyword("CountryOfResidence")
+        address_tag = pydicom.datadict.keyword_dict["PatientAddress"]
+        region_tag = pydicom.datadict.keyword_dict["RegionOfResidence"]
+        country_tag = pydicom.datadict.keyword_dict["CountryOfResidence"]
 
         self._value_factories = {
             address_tag: self.get_street_address,
@@ -62,6 +63,12 @@ class AddressAnonymizer:
 
         data_element.value = value_factory(data_element.value)
         return True
+
+    def describe_actions(self) -> Iterator[str]:
+        yield from map(
+            lambda keyword: f"Replace {keyword} with anonymized values",
+            map(pydicom.datadict.keyword_for_tag, self._value_factories.keys()),
+        )
 
     def get_street_address(self, original_value: Any) -> str:
         (street_number_index, street_index) = self.randomizer.get_ints_from_ranges(

@@ -59,6 +59,48 @@ for original_filename in ("original1.dcm", "original2.dcm"):
 Use a single `Anonymizer` on datasets that might be part of the same series, or the identifiers will not be
 consistent across objects.
 
+## Exactly what does dicognito do?
+* Add "DICOGNITO" to DeidentificationMethod
+* Remove BranchOfService
+* Remove MedicalRecordLocator
+* Remove MilitaryRank
+* Remove Occupation
+* Remove PatientInsurancePlanCodeSequence
+* Remove PatientReligiousPreference
+* Remove PatientTelecomInformation
+* Remove PatientTelephoneNumbers
+* Remove ReferencedPatientPhotoSequence
+* Remove ResponsibleOrganization
+* Replace AccessionNumber with anonymized values
+* Replace CountryOfResidence with anonymized values
+* Replace CurrentPatientLocation with ""
+* Replace FillerOrderNumberImagingServiceRequest with anonymized values
+* Replace FillerOrderNumberImagingServiceRequestRetired with anonymized values
+* Replace FillerOrderNumberProcedure with anonymized values
+* Replace InstitutionAddress with anonymized values
+* Replace InstitutionName with anonymized values
+* Replace InstitutionalDepartmentName with anonymized values
+* Replace IssuerOfPatientID with "DICOGNITO"
+* Replace OtherPatientIDs with anonymized values
+* Replace PatientAddress with anonymized values
+* Replace PatientID with anonymized values
+* Replace PerformedProcedureStepID with anonymized values
+* Replace PlacerOrderNumberImagingServiceRequest with anonymized values
+* Replace PlacerOrderNumberImagingServiceRequestRetired with anonymized values
+* Replace PlacerOrderNumberProcedure with anonymized values
+* Replace RegionOfResidence with anonymized values
+* Replace RequestedProcedureID with anonymized values
+* Replace RequestingService with ""
+* Replace ScheduledProcedureStepID with anonymized values
+* Replace StationName with anonymized values
+* Replace StudyID with anonymized values
+* Replace all DA attributes with anonymized values that precede the originals
+* Replace all DT attributes with anonymized values that precede the originals
+* Replace all PN attributes with anonymized values
+* Replace all TM attributes with anonymized values that precede the originals
+* Replace all UI attributes with anonymized values
+* Replace private "MITRA LINKED ATTRIBUTES 1.0" attribute "Global Patient ID" with anonymized values
+* Set PatientIdentityRemoved to "YES" if BurnedInAnnotation is "NO"
 ----
 Logo: Remixed from [Radiology](https://thenounproject.com/search/?q=x-ray&i=1777366)
 by [priyanka](https://thenounproject.com/creativepriyanka/) and [Incognito](https://thenounproject.com/search/?q=incognito&i=7572) by [d͡ʒɛrmi Good](https://thenounproject.com/geremygood/) from [the Noun Project](https://thenounproject.com/).

@@ -1,9 +1,11 @@
-from typing import Any
+from typing import Any, Iterator
 
 import pydicom
 
+from dicognito.element_anonymizer import ElementAnonymizer
 
-class FixedValueAnonymizer:
+
+class FixedValueAnonymizer(ElementAnonymizer):
     def __init__(self, keyword: str, value: Any) -> None:
         """\
         Create a new FixedValueAnonymizer.
@@ -16,7 +18,7 @@ class FixedValueAnonymizer:
         value
             The new value to assign to the element.
         """
-        self.tag = pydicom.datadict.tag_for_keyword(keyword)
+        self.tag: int = pydicom.datadict.keyword_dict[keyword]
         self.value = value
 
     def __call__(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> bool:
@@ -42,3 +44,6 @@ class FixedValueAnonymizer:
             data_element.value = self.value
             return True
         return False
+
+    def describe_actions(self) -> Iterator[str]:
+        yield f'Replace {pydicom.datadict.keyword_for_tag(self.tag)} with "{self.value}"'
