@@ -75,8 +75,8 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      # IMPORTANT: this permission is mandatory for trusted publishing
-      id-token: write
+      contents: write # for creating the release
+      id-token: write # IMPORTANT: this permission is mandatory for trusted publishing
 
     steps:
       - name: Reject build if release name disagrees with tag
