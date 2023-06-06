@@ -74,6 +74,10 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
 
+    permissions:
+      # IMPORTANT: this permission is mandatory for trusted publishing
+      id-token: write
+
     steps:
       - name: Reject build if release name disagrees with tag
         if: format('{0}{1}', 'refs/tags/', needs.package.outputs.release-name) != github.ref
@@ -94,7 +98,4 @@ jobs:
           prerelease: ${{ needs.package.outputs.is-prerelease }}
           draft: false
       - name: Publish distribution package to PyPI
-        uses: pypa/gh-action-pypi-publish@master
-        with:
-          user: __token__
-          password: ${{ secrets.pypi_password }}
+        uses: pypa/gh-action-pypi-publish@release/v1
