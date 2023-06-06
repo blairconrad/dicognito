@@ -19,8 +19,6 @@
 
 ### New
 
-- Officially support Python 3.11 ([#136](https://github.com/blairconrad/dicognito/issues/136))
-
 - `--in-place`/`-i` flag added to explicitly specify in place editing of source files ([#134](https://github.com/blairconrad/dicognito/issues/134))
 
   It's an error to specify both `--in-place`/`-i` and `--output-directory`/`-o`.
