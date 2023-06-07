@@ -1,3 +1,6 @@
+### Fixed
+- Version table format has bad separator ([#147](https://github.com/blairconrad/dicognito/issues/147))
+
 ## 0.16.0a1
 
 ### Changed
