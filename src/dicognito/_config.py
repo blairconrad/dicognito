@@ -5,7 +5,32 @@ from typing import Any, Optional, Sequence, Text, Tuple, Union
 import pydicom
 
 import dicognito
+from dicognito.anonymizer import Anonymizer
 from dicognito.filters import BurnedInAnnotationGuard
+
+
+class ShowActionsAction(argparse.Action):
+    def __init__(
+        self,
+        option_strings: Sequence[str],
+        version: Optional[str] = None,
+        dest: str = argparse.SUPPRESS,
+        default: str = argparse.SUPPRESS,
+        help: str = "show program's intended actions and exit",
+    ):
+        super(ShowActionsAction, self).__init__(
+            option_strings=option_strings, dest=dest, default=default, nargs=0, help=help
+        )
+
+    def __call__(
+        self,
+        parser: argparse.ArgumentParser,
+        namespace: argparse.Namespace,
+        values: Union[Text, Sequence[Any], None],
+        option_string: Optional[Text] = None,
+    ) -> None:
+        print(Anonymizer().describe_actions())
+        parser.exit()
 
 
 class VersionAction(argparse.Action):
@@ -135,6 +160,7 @@ def parse_arguments(main_args: Sequence[str]) -> argparse.Namespace:
         "Omitting this value allows dicognito to generate its own random seed, which "
         "may be slightly more secure, but does not support reproducible anonymization.",
     )
+    parser.add_argument("--show-actions", action=ShowActionsAction)
     parser.add_argument("--version", action=VersionAction)
 
     args = parser.parse_args(main_args)

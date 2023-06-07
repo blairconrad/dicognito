@@ -1,3 +1,7 @@
+### New
+
+- New `--show-actions` flag shows intended anonymization actions (as appear in the project README) ([#148](https://github.com/blairconrad/dicognito/issues/148))
+
 ### Fixed
 - Version table format has bad separator ([#147](https://github.com/blairconrad/dicognito/issues/147))
 
