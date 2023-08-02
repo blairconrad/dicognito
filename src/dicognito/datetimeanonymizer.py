@@ -94,12 +94,9 @@ class DateTimeAnonymizer(ElementAnonymizer):
             new_dates.append(new_datetime.strftime(date_format))
             new_times.append(new_datetime.strftime("%H") + time_value[2:])
 
-        new_dates_string = "\\".join(new_dates)
-        new_times_string = "\\".join(new_times)
-
-        data_element.value = new_dates_string
+        data_element.value = new_dates
         if times:
-            time_element.value = new_times_string  # type: ignore[union-attr]
+            time_element.value = new_times  # type: ignore[union-attr]
 
     def _anonymize_datetime(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> None:
         if isinstance(data_element.value, pydicom.multival.MultiValue):
@@ -118,4 +115,4 @@ class DateTimeAnonymizer(ElementAnonymizer):
             new_datetime_value += datetime_value[len(new_datetime_value) :]
             new_datetimes.append(new_datetime_value)
 
-        data_element.value = "\\".join(new_datetimes)
+        data_element.value = new_datetimes
