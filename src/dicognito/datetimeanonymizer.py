@@ -1,5 +1,5 @@
 import datetime
-from typing import Iterator
+from typing import Iterator, MutableSequence
 import pydicom
 
 from dicognito.element_anonymizer import ElementAnonymizer
@@ -54,23 +54,15 @@ class DateTimeAnonymizer(ElementAnonymizer):
         yield "Replace all TM attributes with anonymized values that precede the originals"
 
     def _anonymize_date_and_time(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> None:
-        date_value = data_element.value
-        if isinstance(data_element.value, pydicom.multival.MultiValue):
-            dates = list([v for v in data_element.value])
-        else:
-            dates = [data_element.value]
+        dates = self._get_value_as_sequence(data_element)
 
-        times = []
+        times: MutableSequence[str] = []
         time_name = data_element.keyword.replace("Date", "Time")
 
         if time_name in dataset:
             time_element = dataset.data_element(time_name)
-            time_value = time_element.value  # type: ignore[union-attr]
-            if time_value:
-                if isinstance(time_value, pydicom.multival.MultiValue):
-                    times = list([v for v in time_value])
-                else:
-                    times = [time_value]
+            if time_element and time_element.value:
+                times = self._get_value_as_sequence(time_element)
 
         new_dates = []
         new_times = []
@@ -99,10 +91,7 @@ class DateTimeAnonymizer(ElementAnonymizer):
             time_element.value = new_times  # type: ignore[union-attr]
 
     def _anonymize_datetime(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> None:
-        if isinstance(data_element.value, pydicom.multival.MultiValue):
-            datetimes = list([v for v in data_element.value])
-        else:
-            datetimes = [data_element.value]
+        datetimes = self._get_value_as_sequence(data_element)
 
         new_datetimes = []
         for datetime_value in datetimes:
@@ -116,3 +105,9 @@ class DateTimeAnonymizer(ElementAnonymizer):
             new_datetimes.append(new_datetime_value)
 
         data_element.value = new_datetimes
+
+    def _get_value_as_sequence(self, data_element: pydicom.DataElement) -> MutableSequence[str]:
+        if isinstance(data_element.value, pydicom.multival.MultiValue):
+            return data_element.value
+        else:
+            return [data_element.value]
