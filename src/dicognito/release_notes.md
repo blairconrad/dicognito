@@ -1,3 +1,6 @@
+### Changed
+- Drop support for Python 3.7 ([#151](https://github.com/blairconrad/dicognito/issues/151))
+
 ### Fixed
 - Version table format has bad separator ([#147](https://github.com/blairconrad/dicognito/issues/147))
 
