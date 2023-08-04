@@ -1,4 +1,5 @@
 import datetime
+from itertools import zip_longest
 from typing import Iterator, MutableSequence
 import pydicom
 
@@ -66,25 +67,12 @@ class DateTimeAnonymizer(ElementAnonymizer):
 
         new_dates = []
         new_times = []
-        for i in range(len(dates)):
-            date_value = dates[i]
-            date_format = "%Y%m%d"
-            old_date = datetime.datetime.strptime(date_value, date_format).date()
 
-            time_value = ""
-            old_hours = datetime.time()
-            if i < len(times):
-                time_value = times[i]
-                if time_value:
-                    old_hours = datetime.datetime.strptime(time_value[:2], "%H").time()
-                else:
-                    old_hours = datetime.time()
+        for date, time in zip_longest(dates, times, fillvalue=""):
+            new_datetime = self._shift_datetime(date + time)
 
-            old_datetime = datetime.datetime.combine(old_date, old_hours)
-            new_datetime = old_datetime + self.offset
-
-            new_dates.append(new_datetime.strftime(date_format))
-            new_times.append(new_datetime.strftime("%H") + time_value[2:])
+            new_dates.append(new_datetime[:8])
+            new_times.append(new_datetime[8:])
 
         data_element.value = new_dates
         if times:
@@ -92,19 +80,18 @@ class DateTimeAnonymizer(ElementAnonymizer):
 
     def _anonymize_datetime(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> None:
         datetimes = self._get_value_as_sequence(data_element)
+        data_element.value = [self._shift_datetime(datetime_value) for datetime_value in datetimes]
 
-        new_datetimes = []
-        for datetime_value in datetimes:
-            datetime_format = "%Y%m%d%H"[: len(datetime_value) - 2]
+    def _shift_datetime(self, datetime_value: str) -> str:
+        datetime_format = "%Y%m%d%H"[: len(datetime_value) - 2]
 
-            old_datetime = datetime.datetime.strptime(datetime_value[:10], datetime_format)
-            new_datetime = old_datetime + self.offset
+        old_datetime = datetime.datetime.strptime(datetime_value[:10], datetime_format)
+        new_datetime = old_datetime + self.offset
 
-            new_datetime_value = new_datetime.strftime(datetime_format)
-            new_datetime_value += datetime_value[len(new_datetime_value) :]
-            new_datetimes.append(new_datetime_value)
+        new_datetime_value = new_datetime.strftime(datetime_format)
+        new_datetime_value += datetime_value[len(new_datetime_value) :]
 
-        data_element.value = new_datetimes
+        return new_datetime_value
 
     def _get_value_as_sequence(self, data_element: pydicom.DataElement) -> MutableSequence[str]:
         if isinstance(data_element.value, pydicom.multival.MultiValue):
