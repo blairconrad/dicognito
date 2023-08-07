@@ -1,3 +1,6 @@
+"""Actions that contribute to anonymization of a dataset."""
+from __future__ import annotations
+
 from typing import Iterator
 
 import pydicom
@@ -26,8 +29,11 @@ class DeidentificationMethodUpdater(DatasetUpdater):
             dataset.DeidentificationMethod = "DICOGNITO"
             return
 
-        existing_element = dataset.data_element("DeidentificationMethod")
-        assert existing_element is not None  # satisfy mypy
+        existing_element: pydicom.dataelem.DataElement | None = dataset.data_element("DeidentificationMethod")
+        if not existing_element:
+            dataset.DeidentificationMethod = "DICOGNITO"
+            return
+
         existing_value = existing_element.value
 
         if isinstance(existing_value, pydicom.multival.MultiValue):
