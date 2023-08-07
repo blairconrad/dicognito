@@ -34,7 +34,7 @@ class Randomizer:
         """
         message = self.seed + original_value
         encoded = message.encode("utf8")
-        digest = hashlib.md5(encoded).digest()
+        digest = hashlib.md5(encoded).digest()  # noqa: S324
         result = 0
         for c in digest:
             result *= 0x100

@@ -84,9 +84,6 @@ ignore = [
   "RUF005",
   "RUF012",
   "RUF015",
-  "S324",
-  "S603",
-  "S607",
   "SIM108",
   "SIM300",
   "T201",     # print calls are intentional.
@@ -153,4 +150,9 @@ mypy-init-return = true
   "D103",     # tools don't count as public code. No docstrings needed.
   "INP001",   # tools isn't a namespace package.
   "TRY002",   # I don't care that much about custom exceptions.
+]
+
+"tools/release-version.py" = [
+  "S603",     # subprocess calls in release-version have been checked
+  "S607",     # release-version is assumed to be running on trusted machine
 ]
