@@ -86,7 +86,7 @@ class DateTimeAnonymizer(ElementAnonymizer):
     def _shift_datetime(self, datetime_value: str) -> str:
         datetime_format = "%Y%m%d%H"[: len(datetime_value) - 2]
 
-        old_datetime = datetime.datetime.strptime(datetime_value[:10], datetime_format)
+        old_datetime = datetime.datetime.strptime(datetime_value[:10], datetime_format)  # noqa: DTZ007
         new_datetime = old_datetime + self.offset
 
         new_datetime_value = new_datetime.strftime(datetime_format)

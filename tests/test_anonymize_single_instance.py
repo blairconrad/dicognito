@@ -389,7 +389,7 @@ def test_current_patient_location_gets_anonymized():
 def test_dates_and_times_get_anonymized_when_both_are_present(date_name):
     time_name = date_name[:-4] + "Time"
 
-    original_datetime = datetime.datetime(1974, 11, 3, 12, 15, 58)
+    original_datetime = datetime.datetime(1974, 11, 3, 12, 15, 58)  # noqa: DTZ001
     original_date_string = original_datetime.strftime("%Y%m%d")
     original_time_string = original_datetime.strftime("%H%M%S")
 
@@ -508,7 +508,7 @@ def test_multivalued_date_and_time_pair_gets_anonymized_same_with_same_seed():
 
 
 def test_issue_date_of_imaging_service_request_gets_anonymized():
-    original_datetime = datetime.datetime(1974, 11, 3, 12, 15, 58)
+    original_datetime = datetime.datetime(1974, 11, 3, 12, 15, 58)  # noqa: DTZ001
     original_date_string = original_datetime.strftime("%Y%m%d")
     original_time_string = original_datetime.strftime("%H%M%S")
 
@@ -537,7 +537,7 @@ def test_issue_date_of_imaging_service_request_gets_anonymized():
     ],
 )
 def test_datetime_gets_anonymized(datetime_name):
-    original_datetime = datetime.datetime(1974, 11, 3, 12, 15, 58)
+    original_datetime = datetime.datetime(1974, 11, 3, 12, 15, 58)  # noqa: DTZ001
     original_datetime_string = original_datetime.strftime("%Y%m%d%H%M%S")
 
     with load_test_instance() as dataset:
