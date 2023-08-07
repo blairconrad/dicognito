@@ -56,7 +56,7 @@ class PNAnonymizer(ElementAnonymizer):
 
     def _new_pn(self, sex: str | None, original_value: str) -> str:
         if sex == "F":
-            first_names = self._female_first_names
+            first_names: tuple[str, ...] = self._female_first_names
         elif sex == "M":
             first_names = self._male_first_names
         else:
@@ -73,7 +73,7 @@ class PNAnonymizer(ElementAnonymizer):
 
         return self._last_names[indices[0]] + "^" + first_names[indices[1]] + "^" + self._all_first_names[indices[2]]
 
-    _female_first_names = [
+    _female_first_names = (
         "MARY",
         "PATRICIA",
         "LINDA",
@@ -1074,9 +1074,9 @@ class PNAnonymizer(ElementAnonymizer):
         "HERMINIA",
         "TERRA",
         "CELINA",
-    ]
+    )
 
-    _male_first_names = [
+    _male_first_names = (
         "JAMES",
         "JOHN",
         "ROBERT",
@@ -2077,9 +2077,9 @@ class PNAnonymizer(ElementAnonymizer):
         "TYREE",
         "JEFFEREY",
         "AHMED",
-    ]
+    )
 
-    _last_names = [
+    _last_names = (
         "SMITH",
         "JOHNSON",
         "WILLIAMS",
@@ -3080,6 +3080,6 @@ class PNAnonymizer(ElementAnonymizer):
         "WHITLEY",
         "NOEL",
         "VANG",
-    ]
+    )
 
     _all_first_names = _female_first_names + _male_first_names

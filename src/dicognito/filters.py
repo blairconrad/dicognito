@@ -44,8 +44,8 @@ class Summarize(Filter):
 
 
 class BurnedInAnnotationGuard(Filter):
-    ASSUME_IF_CHOICES = ["if-yes", "unless-no", "never"]
-    IF_FOUND_CHOICES = ["warn", "fail"]
+    ASSUME_IF_CHOICES = ("if-yes", "unless-no", "never")
+    IF_FOUND_CHOICES = ("warn", "fail")
 
     def __init__(self, assume_if: str, if_found: str):
         """\

@@ -92,7 +92,7 @@ class AddressAnonymizer(ElementAnonymizer):
         return self._countries[country_index]
 
     # from https://www.randomlists.com/random-street-names?qty=100&dup=false, mostly
-    _streets = [
+    _streets = (
         "JACKSON STREET",
         "ROUTE 41",
         "HILLCREST AVENUE",
@@ -193,10 +193,10 @@ class AddressAnonymizer(ElementAnonymizer):
         "PEARL STREET",
         "11TH STREET",
         "ROUTE 1",
-    ]
+    )
 
     # from https://www.randomlists.com/random-world-cities?qty=50&dup=false
-    _cities = [
+    _cities = (
         "MADRID",
         "BENGALURU",
         "AHMEDABAD",
@@ -247,10 +247,10 @@ class AddressAnonymizer(ElementAnonymizer):
         "AHVAZ",
         "TEHRAN",
         "HEFEI",
-    ]
+    )
 
     # from https://www.randomlists.com/random-country?qty=40&dup=false
-    _countries = [
+    _countries = (
         "UKRAINE",
         "DJIBOUTI",
         "COLOMBIA",
@@ -291,4 +291,4 @@ class AddressAnonymizer(ElementAnonymizer):
         "CHAD",
         "SRI LANKA",
         "LATVIA",
-    ]
+    )
