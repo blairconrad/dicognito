@@ -50,8 +50,6 @@ line-length = 120
 select = ["ALL"]
 
 ignore = [
-  "A001",
-  "A002",
   "ANN101",   # choosing not to type-annotate self at this time.
   "ANN102",
   "ANN204",

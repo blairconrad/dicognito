@@ -15,10 +15,10 @@ class VersionAction(argparse.Action):
         version: Optional[str] = None,
         dest: str = argparse.SUPPRESS,
         default: str = argparse.SUPPRESS,
-        help: str = "show program's version information and exit",
+        help_message: str = "show program's version information and exit",
     ):
         super(VersionAction, self).__init__(
-            option_strings=option_strings, dest=dest, default=default, nargs=0, help=help
+            option_strings=option_strings, dest=dest, default=default, nargs=0, help=help_message
         )
         self.version = version
 

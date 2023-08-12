@@ -32,9 +32,9 @@ class Randomizer:
         """
         message = self.seed + str(original_value)
         encoded = message.encode("utf8")
-        hash = hashlib.md5(encoded).digest()
+        digest = hashlib.md5(encoded).digest()
         result = 0
-        for c in hash:
+        for c in digest:
             result *= 0x100
             result += c
         return result

@@ -63,21 +63,21 @@ class Pipeline:
     def __init__(self) -> None:
         self.filters: List[Filter] = []
 
-    def add(self, filter: Filter) -> None:
-        self.filters.append(filter)
+    def add(self, new_filter: Filter) -> None:
+        self.filters.append(new_filter)
 
     def before_any(self) -> None:
-        for filter in self.filters:
-            filter.before_any()
+        for a_filter in self.filters:
+            a_filter.before_any()
 
     def before_each(self, dataset: pydicom.dataset.Dataset) -> None:
-        for filter in self.filters:
-            filter.before_each(dataset)
+        for a_filter in self.filters:
+            a_filter.before_each(dataset)
 
     def after_each(self, dataset: pydicom.dataset.Dataset) -> None:
-        for filter in self.filters[::-1]:
-            filter.after_each(dataset)
+        for a_filter in self.filters[::-1]:
+            a_filter.after_each(dataset)
 
     def after_all(self) -> None:
-        for filter in self.filters[::-1]:
-            filter.after_all()
+        for a_filter in self.filters[::-1]:
+            a_filter.after_all()

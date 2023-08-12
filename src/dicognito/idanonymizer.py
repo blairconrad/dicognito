@@ -93,7 +93,7 @@ class IDAnonymizer(ElementAnonymizer):
 
     def _replace_id(self, data_element: pydicom.DataElement) -> None:
         if isinstance(data_element.value, pydicom.multival.MultiValue):
-            data_element.value = [self._new_id(id) for id in data_element.value]
+            data_element.value = [self._new_id(original_id) for original_id in data_element.value]
         else:
             data_element.value = self._new_id(data_element.value)
 
