@@ -1,6 +1,7 @@
 import datetime
 from itertools import zip_longest
 from typing import Iterator, MutableSequence
+
 import pydicom
 
 from dicognito.element_anonymizer import ElementAnonymizer

@@ -1,6 +1,6 @@
 """dicognito - anonymize DICOM datasets"""
-from os.path import abspath, dirname, join
 import re
+from os.path import abspath, dirname, join
 
 DATA_ROOT = abspath(dirname(__file__))
 with open(join(DATA_ROOT, "release_notes.md"), "r") as notes:

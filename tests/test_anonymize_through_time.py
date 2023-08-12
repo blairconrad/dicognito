@@ -1,8 +1,7 @@
-import pydicom
-
 from itertools import filterfalse, tee
 from typing import Callable, Tuple, Union, ValuesView
 
+import pydicom
 from dicognito.anonymizer import Anonymizer
 
 from .data_for_tests import load_minimal_instance

@@ -1,7 +1,8 @@
 import os
+
+import dicognito.anonymizer
 import pydicom
 from pydicom.data import get_testdata_files
-import dicognito.anonymizer
 
 
 def main():

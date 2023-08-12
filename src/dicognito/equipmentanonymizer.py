@@ -1,4 +1,5 @@
 from typing import Iterator
+
 import pydicom
 
 from dicognito.addressanonymizer import AddressAnonymizer

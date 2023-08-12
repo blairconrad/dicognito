@@ -1,4 +1,5 @@
 from typing import Iterator
+
 from pydicom import DataElement
 from pydicom.dataset import Dataset
 

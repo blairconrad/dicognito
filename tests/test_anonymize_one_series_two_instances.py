@@ -1,6 +1,5 @@
 import pydicom
 import pytest
-
 from dicognito.anonymizer import Anonymizer
 
 from .data_for_tests import load_instance

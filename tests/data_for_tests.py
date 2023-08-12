@@ -1,6 +1,7 @@
-import sys
-import os
 import datetime
+import os
+import sys
+
 import pydicom
 from pydicom.data import get_testdata_files
 

@@ -1,5 +1,5 @@
-from os.path import abspath, join
 from itertools import dropwhile, islice, takewhile
+from os.path import abspath, join
 from typing import Iterator
 
 from dicognito.anonymizer import Anonymizer

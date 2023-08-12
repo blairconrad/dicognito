@@ -1,6 +1,7 @@
+from typing import Any, Iterator, Optional
+
 import pydicom
 
-from typing import Any, Iterator, Optional
 from dicognito.element_anonymizer import ElementAnonymizer
 from dicognito.randomizer import Randomizer
 

@@ -1,11 +1,12 @@
-import sys
-import os.path
-import pytest
-import shutil
 import logging
+import os.path
+import shutil
+import sys
 
-import pydicom
 import dicognito.__main__
+import pydicom
+import pytest
+
 from .data_for_tests import load_dcm
 
 data_dir = ""

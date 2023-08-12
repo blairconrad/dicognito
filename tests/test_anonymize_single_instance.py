@@ -1,15 +1,12 @@
 import datetime
-import pydicom
-import pytest
-
 from typing import Any, Optional
 
+import pydicom
+import pytest
 from dicognito.anonymizer import Anonymizer
 from dicognito.pnanonymizer import PNAnonymizer
 
-from .data_for_tests import load_dcm
-from .data_for_tests import load_minimal_instance
-from .data_for_tests import load_test_instance
+from .data_for_tests import load_dcm, load_minimal_instance, load_test_instance
 
 
 def test_minimal_instance_anonymizes_safely():

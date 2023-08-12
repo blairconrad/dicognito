@@ -1,6 +1,6 @@
 from typing import List
-import pydicom
 
+import pydicom
 
 """\
 A framework for running additional tasks using the datasets that will be

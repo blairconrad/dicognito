@@ -2,19 +2,20 @@
 Defines Anonymizer, the principle class used to anonymize DICOM objects.
 """
 from typing import Iterator, Optional, Sequence
+
+import pydicom
+
 from dicognito.addressanonymizer import AddressAnonymizer
 from dicognito.dataset_updater import DatasetUpdater, DeidentificationMethodUpdater, PatientIdentityRemovedUpdater
+from dicognito.datetimeanonymizer import DateTimeAnonymizer
 from dicognito.element_anonymizer import ElementAnonymizer
 from dicognito.equipmentanonymizer import EquipmentAnonymizer
 from dicognito.fixedvalueanonymizer import FixedValueAnonymizer
 from dicognito.idanonymizer import IDAnonymizer
 from dicognito.pnanonymizer import PNAnonymizer
-from dicognito.datetimeanonymizer import DateTimeAnonymizer
+from dicognito.randomizer import Randomizer
 from dicognito.uianonymizer import UIAnonymizer
 from dicognito.unwantedelements import UnwantedElementsStripper
-from dicognito.randomizer import Randomizer
-
-import pydicom
 
 
 class Anonymizer:
