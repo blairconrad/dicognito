@@ -1,4 +1,4 @@
-from typing import Any, Iterator
+from typing import Iterator
 
 import pydicom
 
@@ -6,7 +6,7 @@ from dicognito.element_anonymizer import ElementAnonymizer
 
 
 class FixedValueAnonymizer(ElementAnonymizer):
-    def __init__(self, keyword: str, value: Any) -> None:
+    def __init__(self, keyword: str, value: str) -> None:
         """\
         Create a new FixedValueAnonymizer.
 

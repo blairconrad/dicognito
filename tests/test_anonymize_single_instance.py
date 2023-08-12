@@ -1,5 +1,5 @@
 import datetime
-from typing import Any, Optional
+from typing import Optional
 
 import pydicom
 import pytest
@@ -661,14 +661,14 @@ def test_pixel_data_with_embedded_sequence_delimiter():
         anonymizer.anonymize(dataset)
 
 
-def ensure_attribute_is(dataset: pydicom.dataset.Dataset, attribute_name: str, value: Optional[Any]) -> None:
+def ensure_attribute_is(dataset: pydicom.dataset.Dataset, attribute_name: str, value: Optional[str]) -> None:
     if value is None:
         assert attribute_name not in dataset
     else:
         setattr(dataset, attribute_name, value)
 
 
-def assert_attribute_is(dataset: pydicom.dataset.Dataset, attribute_name: str, expected: Optional[Any]) -> None:
+def assert_attribute_is(dataset: pydicom.dataset.Dataset, attribute_name: str, expected: Optional[str]) -> None:
     if expected is None:
         assert attribute_name not in dataset
     else:

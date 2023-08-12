@@ -1,4 +1,4 @@
-from typing import Any, Iterator
+from typing import Iterator
 
 import pydicom
 
@@ -70,18 +70,18 @@ class AddressAnonymizer(ElementAnonymizer):
             map(pydicom.datadict.keyword_for_tag, self._value_factories.keys()),
         )
 
-    def get_street_address(self, original_value: Any) -> str:
+    def get_street_address(self, original_value: str) -> str:
         (street_number_index, street_index) = self.randomizer.get_ints_from_ranges(
             original_value, 1000, len(self._streets)
         )
         street_number = street_number_index + 1
         return f"{street_number} {self._streets[street_index]}"
 
-    def get_region(self, original_value: Any) -> str:
+    def get_region(self, original_value: str) -> str:
         (city_index,) = self.randomizer.get_ints_from_ranges(original_value, len(self._cities))
         return self._cities[city_index]
 
-    def get_country(self, original_value: Any) -> str:
+    def get_country(self, original_value: str) -> str:
         (country_index,) = self.randomizer.get_ints_from_ranges(original_value, len(self._countries))
         return self._countries[country_index]
 

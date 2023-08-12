@@ -51,10 +51,6 @@ select = ["ALL"]
 
 ignore = [
   "ANN101",   # choosing not to type-annotate self at this time.
-  "ANN102",
-  "ANN204",
-  "ANN206",
-  "ANN401",
   "ARG001",
   "ARG002",
   "B007",
@@ -129,6 +125,9 @@ ignore = [
   "UP027",
   "UP031",
 ]
+
+[tool.ruff.flake8-annotations]
+mypy-init-return = true
 
 [tool.ruff.per-file-ignores]
 "assets/**" = [

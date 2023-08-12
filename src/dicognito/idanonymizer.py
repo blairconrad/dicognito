@@ -1,4 +1,4 @@
-from typing import Any, Iterator
+from typing import Iterator
 
 import pydicom
 
@@ -98,7 +98,7 @@ class IDAnonymizer(ElementAnonymizer):
         else:
             data_element.value = self._new_id(data_element.value)
 
-    def _new_id(self, original_value: Any) -> str:
+    def _new_id(self, original_value: str) -> str:
         indexes = self.randomizer.get_ints_from_ranges(original_value, *self._indices_for_randomizer)
         id_root = "".join([self._alphabet[i] for i in indexes])
         return self.id_prefix + id_root + self.id_suffix

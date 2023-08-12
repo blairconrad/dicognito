@@ -1,8 +1,14 @@
-import pydicom
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import pytest
 from dicognito.anonymizer import Anonymizer
 
 from .data_for_tests import load_instance
+
+if TYPE_CHECKING:
+    import pydicom
 
 
 class TestOneSeriesTwoInstances:
@@ -10,7 +16,7 @@ class TestOneSeriesTwoInstances:
     dataset2: pydicom.dataset.Dataset
 
     @classmethod
-    def setup_class(cls):
+    def setup_class(cls: type[TestOneSeriesTwoInstances]) -> None:
         TestOneSeriesTwoInstances.dataset1 = load_instance(
             patient_number=1, study_number=1, series_number=1, instance_number=1
         )
