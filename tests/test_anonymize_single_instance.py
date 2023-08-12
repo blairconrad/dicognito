@@ -114,16 +114,15 @@ def test_ids_are_anonymized(element_path):
 
 def test_single_other_patient_ids_anonymized_to_single_id():
     with load_test_instance() as dataset:
-        original = ["ID1"]
-        dataset.OtherPatientIDs = original
+        dataset.OtherPatientIDs = ["ID1"]
 
         anonymizer = Anonymizer()
         anonymizer.anonymize(dataset)
 
-        actual = dataset.OtherPatientIDs
+        actual: str = dataset.OtherPatientIDs  # type: ignore[assignment]
 
-        assert actual != original
-        assert type(actual) is str  # type: ignore[comparison-overlap, unreachable]
+        assert actual != "ID1"
+        assert isinstance(actual, str)
 
 
 @pytest.mark.parametrize("number_of_ids", [2, 3])
@@ -137,8 +136,10 @@ def test_other_patient_ids_anonymized_to_same_number_of_ids(number_of_ids):
 
         actual = dataset.OtherPatientIDs
 
-        assert actual != original
-        assert len(set(actual)) == number_of_ids
+        assert len(actual) == number_of_ids
+        for actual_id, original_id in zip(actual, original):
+            assert isinstance(actual_id, str)
+            assert actual_id != original_id
 
 
 def test_issuer_of_patient_id_changed_if_not_empty():
