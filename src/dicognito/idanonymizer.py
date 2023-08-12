@@ -79,7 +79,9 @@ class IDAnonymizer(ElementAnonymizer):
         yield 'Replace private "MITRA LINKED ATTRIBUTES 1.0" attribute "Global Patient ID" with anonymized values'
 
     def _anonymize_mitra_global_patient_id(
-        self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement
+        self,
+        dataset: pydicom.dataset.Dataset,
+        data_element: pydicom.DataElement,
     ) -> bool:
         if data_element.tag.group == 0x0031 and data_element.tag.element % 0x0020 == 0:
             private_tag_group = data_element.tag.element >> 8

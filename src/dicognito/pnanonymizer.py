@@ -61,7 +61,10 @@ class PNAnonymizer(ElementAnonymizer):
         if original_value:
             original_value = str(original_value).rstrip("^")
         indices = self.randomizer.get_ints_from_ranges(
-            original_value, len(self._last_names), len(first_names), len(self._all_first_names)
+            original_value,
+            len(self._last_names),
+            len(first_names),
+            len(self._all_first_names),
         )
 
         return self._last_names[indices[0]] + "^" + first_names[indices[1]] + "^" + self._all_first_names[indices[2]]

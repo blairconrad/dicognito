@@ -18,7 +18,11 @@ class VersionAction(argparse.Action):
         help_message: str = "show program's version information and exit",
     ):
         super(VersionAction, self).__init__(
-            option_strings=option_strings, dest=dest, default=default, nargs=0, help=help_message
+            option_strings=option_strings,
+            dest=dest,
+            default=default,
+            nargs=0,
+            help=help_message,
         )
         self.version = version
 

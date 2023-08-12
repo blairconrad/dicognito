@@ -61,7 +61,8 @@ def test_identifying_uis_are_updated(element_path):
 
 
 @pytest.mark.parametrize(
-    "one_element_path,another_element_path", [("file_meta.MediaStorageSOPInstanceUID", "SOPInstanceUID")]
+    "one_element_path,another_element_path",
+    [("file_meta.MediaStorageSOPInstanceUID", "SOPInstanceUID")],
 )
 def test_repeated_identifying_uis_get_same_values(one_element_path, another_element_path):
     with load_test_instance() as dataset:
@@ -641,7 +642,9 @@ def test_deidentification_method_set_properly(initial, expected):
     ],
 )
 def test_patient_identity_removed(
-    initial_patient_identity_removed, burned_in_annotation, expected_patient_identity_removed
+    initial_patient_identity_removed,
+    burned_in_annotation,
+    expected_patient_identity_removed,
 ):
     with load_test_instance() as dataset:
         ensure_attribute_is(dataset, "PatientIdentityRemoved", initial_patient_identity_removed)
@@ -655,7 +658,9 @@ def test_patient_identity_removed(
 
 def test_pixel_data_with_embedded_sequence_delimiter():
     with load_dcm(
-        "orig_data", "test_pixel_data_with_embedded_sequence_delimiter", "JPEG2000-embedded-sequence-delimiter.dcm"
+        "orig_data",
+        "test_pixel_data_with_embedded_sequence_delimiter",
+        "JPEG2000-embedded-sequence-delimiter.dcm",
     ) as dataset:
         anonymizer = Anonymizer()
         anonymizer.anonymize(dataset)

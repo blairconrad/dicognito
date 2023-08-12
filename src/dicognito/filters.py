@@ -15,7 +15,7 @@ class Summarize(Filter):
 
     def after_each(self, dataset: pydicom.dataset.Dataset) -> None:
         self.rows.append(
-            (dataset.get("AccessionNumber", ""), dataset.get("PatientID", ""), str(dataset.get("PatientName", "")))
+            (dataset.get("AccessionNumber", ""), dataset.get("PatientID", ""), str(dataset.get("PatientName", ""))),
         )
 
     def after_all(self) -> None:

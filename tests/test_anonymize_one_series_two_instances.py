@@ -18,10 +18,16 @@ class TestOneSeriesTwoInstances:
     @classmethod
     def setup_class(cls: type[TestOneSeriesTwoInstances]) -> None:
         TestOneSeriesTwoInstances.dataset1 = load_instance(
-            patient_number=1, study_number=1, series_number=1, instance_number=1
+            patient_number=1,
+            study_number=1,
+            series_number=1,
+            instance_number=1,
         )
         TestOneSeriesTwoInstances.dataset2 = load_instance(
-            patient_number=1, study_number=1, series_number=1, instance_number=2
+            patient_number=1,
+            study_number=1,
+            series_number=1,
+            instance_number=2,
         )
 
         anonymizer = Anonymizer(seed="")

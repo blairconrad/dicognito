@@ -20,7 +20,7 @@ def test_anonymized_attributes_described():
         anonymizer = Anonymizer()
 
         readme_description = "".join(
-            takewhile(still_description, drop_header(dropwhile(before_description, readme)))
+            takewhile(still_description, drop_header(dropwhile(before_description, readme))),
         ).strip()
         anonymizer_description = anonymizer.describe_actions()
 

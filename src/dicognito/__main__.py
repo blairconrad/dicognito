@@ -57,7 +57,7 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:
 
     if not args.in_place and not args.output_directory:
         logging.warning(
-            "Neither --output-directory/-o nor --in-place/-i were specified. This will be an error in the future."
+            "Neither --output-directory/-o nor --in-place/-i were specified. This will be an error in the future.",
         )
 
     anonymizer = Anonymizer(id_prefix=args.id_prefix, id_suffix=args.id_suffix, seed=args.seed)

@@ -63,12 +63,14 @@ class EquipmentAnonymizer(ElementAnonymizer):
         street_address = self.address_anonymizer.get_street_address(data_element.value)
         street = street_address.split(" ", 1)[1]
         dataset.InstitutionAddress = ", ".join(
-            [street_address, region, self.address_anonymizer.get_country(data_element.value)]
+            [street_address, region, self.address_anonymizer.get_country(data_element.value)],
         )
         data_element.value = region + "'S " + street + " CLINIC"
 
     def anonymize_institution_address(
-        self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement
+        self,
+        dataset: pydicom.dataset.Dataset,
+        data_element: pydicom.DataElement,
     ) -> None:
         # handled by anonymize_institution_name
         pass

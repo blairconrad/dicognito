@@ -7,7 +7,10 @@ from pydicom.data import get_testdata_files
 
 
 def load_instance(
-    patient_number: int = 1, study_number: int = 1, series_number: int = 1, instance_number: int = 1
+    patient_number: int = 1,
+    study_number: int = 1,
+    series_number: int = 1,
+    instance_number: int = 1,
 ) -> pydicom.dataset.Dataset:
     dataset = load_minimal_instance()
     _set_patient_attributes(dataset, patient_number)
@@ -143,7 +146,10 @@ def _set_study_attributes(dataset: pydicom.dataset.Dataset, patient_number: int,
 
 
 def _set_series_attributes(
-    dataset: pydicom.dataset.Dataset, patient_number: int, study_number: int, series_number: int
+    dataset: pydicom.dataset.Dataset,
+    patient_number: int,
+    study_number: int,
+    series_number: int,
 ) -> None:
     series_suffix = "%(patient_number)-d%(study_number)-d%(series_number)d" % vars()
     dataset.SeriesInstanceUID = dataset.StudyInstanceUID + "." + str(series_number)
@@ -170,13 +176,19 @@ def _set_series_attributes(
 
 
 def _set_instance_attributes(
-    dataset: pydicom.dataset.Dataset, patient_number: int, study_number: int, series_number: int, instance_number: int
+    dataset: pydicom.dataset.Dataset,
+    patient_number: int,
+    study_number: int,
+    series_number: int,
+    instance_number: int,
 ) -> None:
     dataset.SOPInstanceUID = dataset.SeriesInstanceUID + "." + str(instance_number)
     dataset.file_meta.MediaStorageSOPInstanceUID = dataset.SOPInstanceUID
     dataset.InstanceCreationDate = dataset.SeriesDate
     dataset.InstanceCreationTime = datetime.time(
-        patient_number, study_number, 7 * series_number + instance_number
+        patient_number,
+        study_number,
+        7 * series_number + instance_number,
     ).strftime("%H%M%S")
 
 

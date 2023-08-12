@@ -72,7 +72,9 @@ class AddressAnonymizer(ElementAnonymizer):
 
     def get_street_address(self, original_value: str) -> str:
         (street_number_index, street_index) = self.randomizer.get_ints_from_ranges(
-            original_value, 1000, len(self._streets)
+            original_value,
+            1000,
+            len(self._streets),
         )
         street_number = street_number_index + 1
         return f"{street_number} {self._streets[street_index]}"
