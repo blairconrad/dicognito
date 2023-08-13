@@ -1,11 +1,13 @@
 from __future__ import annotations
 
-from typing import Iterator
+from typing import TYPE_CHECKING, Iterator
 
 import pydicom
 
 from dicognito.element_anonymizer import ElementAnonymizer
-from dicognito.randomizer import Randomizer
+
+if TYPE_CHECKING:
+    from dicognito.randomizer import Randomizer
 
 
 class PNAnonymizer(ElementAnonymizer):

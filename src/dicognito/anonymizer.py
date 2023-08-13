@@ -8,7 +8,6 @@ from typing import TYPE_CHECKING, Iterator, Sequence
 from dicognito.addressanonymizer import AddressAnonymizer
 from dicognito.dataset_updater import DatasetUpdater, DeidentificationMethodUpdater, PatientIdentityRemovedUpdater
 from dicognito.datetimeanonymizer import DateTimeAnonymizer
-from dicognito.element_anonymizer import ElementAnonymizer
 from dicognito.equipmentanonymizer import EquipmentAnonymizer
 from dicognito.fixedvalueanonymizer import FixedValueAnonymizer
 from dicognito.idanonymizer import IDAnonymizer
@@ -19,6 +18,8 @@ from dicognito.unwantedelements import UnwantedElementsStripper
 
 if TYPE_CHECKING:
     import pydicom
+
+    from dicognito.element_anonymizer import ElementAnonymizer
 
 
 class Anonymizer:

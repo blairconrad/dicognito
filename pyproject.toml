@@ -106,7 +106,6 @@ ignore = [
   "SIM108",
   "SIM300",
   "T201",     # print calls are intentional.
-  "TCH001",
   "TRY002",
   "TRY003",
   "TRY004",
