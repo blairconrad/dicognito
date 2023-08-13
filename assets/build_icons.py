@@ -1,9 +1,9 @@
 try:
     import Image
-except:  # NOQA - fallback, no matter the cause
+except ImportError:
     try:
         from PIL import Image
-    except:  # NOQA - we'll raise a better exception
+    except ImportError:
         raise Exception("Can't import PIL or PILLOW. Install one.")
 
 
