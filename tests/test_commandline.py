@@ -217,7 +217,7 @@ def test_burned_in_annotation_fail(caplog):
         run_dicognito("--in-place", path_to(""), "--on-burned-in-annotation", "fail")
 
     log_record = [log for log in caplog.records if log.levelname == "ERROR"][0]
-    assert f"Error occurred while converting {input_file_name}. Aborting.\nError was:" in log_record.getMessage()
+    assert f"Error occurred while converting {input_file_name}. Aborting." in log_record.getMessage()
     assert expected_message in str(log_record.exc_info[1])
 
 
@@ -272,7 +272,7 @@ def test_conversion_error_logs_filename_and_error_type(caplog):
         run_dicognito(input_file_name, "--output-dir", path_to("new_dir"))
 
     log_record = [log for log in caplog.records if log.levelname == "ERROR"][0]
-    assert f"Error occurred while converting {input_file_name}. Aborting.\nError was:" in log_record.getMessage()
+    assert f"Error occurred while converting {input_file_name}. Aborting." in log_record.getMessage()
     assert log_record.exc_info is not None
 
 

@@ -76,7 +76,7 @@ def main(main_args: Sequence[str] | None = None) -> None:
             anonymizer.anonymize(dataset)
             pipeline.after_each(dataset)
         except Exception:
-            logging.error("Error occurred while converting %s. Aborting.\nError was:", dataset.filename, exc_info=True)
+            logging.exception("Error occurred while converting %s. Aborting.", dataset.filename)
             sys.exit(1)
 
     pipeline.after_all()
