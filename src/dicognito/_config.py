@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 import argparse
 import sys
-from typing import Any, Optional, Sequence, Text, Tuple, Union
+from typing import Any, Sequence, Text
 
 import pydicom
 
@@ -12,7 +14,7 @@ class VersionAction(argparse.Action):
     def __init__(
         self,
         option_strings: Sequence[str],
-        version: Optional[str] = None,
+        version: str | None = None,
         dest: str = argparse.SUPPRESS,
         default: str = argparse.SUPPRESS,
         help_message: str = "show program's version information and exit",
@@ -30,12 +32,12 @@ class VersionAction(argparse.Action):
         self,
         parser: argparse.ArgumentParser,
         namespace: argparse.Namespace,
-        values: Union[Text, Sequence[Any], None],
-        option_string: Optional[Text] = None,
+        values: Text | Sequence[Any] | None,
+        option_string: Text | None = None,
     ) -> None:
         import platform
 
-        def print_table(version_rows: Sequence[Tuple[str, str]]) -> None:
+        def print_table(version_rows: Sequence[tuple[str, str]]) -> None:
             row_format = "{:12} | {}"
             print(row_format.format("module", "version"))
             print(row_format.format("------", "-------"))

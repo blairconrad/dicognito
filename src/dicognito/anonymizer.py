@@ -1,9 +1,9 @@
 """\
 Defines Anonymizer, the principle class used to anonymize DICOM objects.
 """
-from typing import Iterator, Optional, Sequence
+from __future__ import annotations
 
-import pydicom
+from typing import TYPE_CHECKING, Iterator, Sequence
 
 from dicognito.addressanonymizer import AddressAnonymizer
 from dicognito.dataset_updater import DatasetUpdater, DeidentificationMethodUpdater, PatientIdentityRemovedUpdater
@@ -16,6 +16,9 @@ from dicognito.pnanonymizer import PNAnonymizer
 from dicognito.randomizer import Randomizer
 from dicognito.uianonymizer import UIAnonymizer
 from dicognito.unwantedelements import UnwantedElementsStripper
+
+if TYPE_CHECKING:
+    import pydicom
 
 
 class Anonymizer:
@@ -43,7 +46,7 @@ class Anonymizer:
     >>>         dataset.save_as("new-" + filename)
     """
 
-    def __init__(self, id_prefix: str = "", id_suffix: str = "", seed: Optional[str] = None) -> None:
+    def __init__(self, id_prefix: str = "", id_suffix: str = "", seed: str | None = None) -> None:
         """\
         Create a new Anonymizer.
 

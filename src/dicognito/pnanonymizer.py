@@ -1,4 +1,6 @@
-from typing import Iterator, Optional
+from __future__ import annotations
+
+from typing import Iterator
 
 import pydicom
 
@@ -50,7 +52,7 @@ class PNAnonymizer(ElementAnonymizer):
     def describe_actions(self) -> Iterator[str]:
         yield "Replace all PN attributes with anonymized values"
 
-    def _new_pn(self, sex: Optional[str], original_value: str) -> str:
+    def _new_pn(self, sex: str | None, original_value: str) -> str:
         if sex == "F":
             first_names = self._female_first_names
         elif sex == "M":

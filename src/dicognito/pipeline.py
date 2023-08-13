@@ -1,6 +1,9 @@
-from typing import List
+from __future__ import annotations
 
-import pydicom
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import pydicom
 
 """\
 A framework for running additional tasks using the datasets that will be
@@ -61,7 +64,7 @@ class Filter:
 
 class Pipeline:
     def __init__(self) -> None:
-        self.filters: List[Filter] = []
+        self.filters: list[Filter] = []
 
     def add(self, new_filter: Filter) -> None:
         self.filters.append(new_filter)

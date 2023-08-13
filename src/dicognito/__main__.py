@@ -1,13 +1,13 @@
 """\
 Anonymize one or more DICOM files' headers (not pixel data).
 """
-from __future__ import print_function
+from __future__ import annotations, print_function
 
 import glob
 import logging
 import os.path
 import sys
-from typing import Iterable, Optional, Sequence
+from typing import Iterable, Sequence
 
 import pydicom
 
@@ -44,7 +44,7 @@ def _get_datasets_from_sources(sources: Iterable[str]) -> Iterable[pydicom.datas
             logging.info("File %s appears not to be DICOM. Skipping.", filename)
 
 
-def main(main_args: Optional[Sequence[str]] = None) -> None:
+def main(main_args: Sequence[str] | None = None) -> None:
     if main_args is None:
         main_args = sys.argv[1:]
 

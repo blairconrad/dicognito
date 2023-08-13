@@ -1,10 +1,12 @@
+from __future__ import annotations
+
 import hashlib
 import os
-from typing import Optional, Sequence
+from typing import Sequence
 
 
 class Randomizer:
-    def __init__(self, seed: Optional[str]):
+    def __init__(self, seed: str | None):
         """\
         Create a new Randomizer.
 

@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from itertools import filterfalse, tee
-from typing import Callable, Tuple, Union, ValuesView
+from typing import Callable, Union, ValuesView
 
 import pydicom
 from dicognito.anonymizer import Anonymizer
@@ -28,7 +30,7 @@ def partition(
     predicate: Callable[[_DatasetValue], bool],
     iterable: ValuesView[_DatasetValue],
     # pytest can't collect the tests when we subscript filterfalse and filter
-) -> Tuple[filterfalse, filter]:  # type: ignore[type-arg]
+) -> tuple[filterfalse, filter]:  # type: ignore[type-arg]
     "Use a predicate to partition entries into false entries and true entries"
     # partition(is_odd, range(10)) --> 0 2 4 6 8   and  1 3 5 7 9
     t1, t2 = tee(iterable)

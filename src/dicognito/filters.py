@@ -1,17 +1,20 @@
+from __future__ import annotations
+
 import itertools
 import logging
 import operator
 import os
-from typing import List, Sequence
-
-import pydicom
+from typing import TYPE_CHECKING, Sequence
 
 from dicognito.pipeline import Filter
+
+if TYPE_CHECKING:
+    import pydicom
 
 
 class Summarize(Filter):
     def __init__(self, *attributes: Sequence[str]):
-        self.rows: List[Sequence[str]] = []
+        self.rows: list[Sequence[str]] = []
 
     def after_each(self, dataset: pydicom.dataset.Dataset) -> None:
         self.rows.append(
