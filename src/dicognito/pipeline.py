@@ -47,19 +47,15 @@ And run as an anonymization session on two datasets, the following calls would b
 class Filter:
     def before_any(self) -> None:
         """Run before any datasets are anonymized"""
-        pass
 
     def before_each(self, dataset: pydicom.dataset.Dataset) -> None:
         """Run on each dataset before it is anonymized"""
-        pass
 
     def after_each(self, dataset: pydicom.dataset.Dataset) -> None:
         """Run on each dataset after it has been anonymized"""
-        pass
 
     def after_all(self) -> None:
         """Run after all datasets have been anonymized"""
-        pass
 
 
 class Pipeline:
