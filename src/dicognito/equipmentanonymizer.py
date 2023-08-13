@@ -75,5 +75,9 @@ class EquipmentAnonymizer(ElementAnonymizer):
         # handled by anonymize_institution_name
         pass
 
-    def anonymize_department_name(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> None:
+    def anonymize_department_name(
+        self,
+        dataset: pydicom.dataset.Dataset,  # noqa: ARG002
+        data_element: pydicom.DataElement,
+    ) -> None:
         data_element.value = "RADIOLOGY"

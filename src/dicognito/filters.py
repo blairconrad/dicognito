@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 
 
 class Summarize(Filter):
-    def __init__(self, *attributes: Sequence[str]):
+    def __init__(self) -> None:
         self.rows: list[Sequence[str]] = []
 
     def after_each(self, dataset: pydicom.dataset.Dataset) -> None:

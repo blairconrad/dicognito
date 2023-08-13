@@ -31,9 +31,9 @@ class VersionAction(argparse.Action):
     def __call__(
         self,
         parser: argparse.ArgumentParser,
-        namespace: argparse.Namespace,
-        values: Text | Sequence[Any] | None,
-        option_string: Text | None = None,
+        namespace: argparse.Namespace,  # noqa: ARG002
+        values: Text | Sequence[Any] | None,  # noqa: ARG002
+        option_string: Text | None = None,  # noqa: ARG002
     ) -> None:
         import platform
 

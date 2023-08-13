@@ -47,7 +47,7 @@ class DateTimeAnonymizer(ElementAnonymizer):
         if data_element.VR == "DA":
             self._anonymize_date_and_time(dataset, data_element)
         else:
-            self._anonymize_datetime(dataset, data_element)
+            self._anonymize_datetime(data_element)
         return True
 
     def describe_actions(self) -> Iterator[str]:
@@ -79,7 +79,7 @@ class DateTimeAnonymizer(ElementAnonymizer):
         if times:
             time_element.value = new_times  # type: ignore[union-attr]
 
-    def _anonymize_datetime(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> None:
+    def _anonymize_datetime(self, data_element: pydicom.DataElement) -> None:
         datetimes = self._get_value_as_sequence(data_element)
         data_element.value = [self._shift_datetime(datetime_value) for datetime_value in datetimes]
 

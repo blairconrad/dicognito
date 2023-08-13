@@ -36,7 +36,11 @@ class AddressAnonymizer(ElementAnonymizer):
             country_tag: self.get_country,
         }
 
-    def __call__(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> bool:
+    def __call__(
+        self,
+        dataset: pydicom.dataset.Dataset,  # noqa: ARG002
+        data_element: pydicom.DataElement,
+    ) -> bool:
         """\
         Potentially anonymize a single DataElement, replacing its
         value with something that obscures the patient's identity.

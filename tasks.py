@@ -32,7 +32,7 @@ def smoketest(context):
 
 
 @task
-def clean(context):
+def clean(context):  # noqa: ARG001
     def rm(path):
         if os.path.exists(path):
             shutil.rmtree(path)

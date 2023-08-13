@@ -12,7 +12,7 @@ from .data_for_tests import load_dcm
 data_dir = ""
 
 
-def setup_module(module):
+def setup_module():
     base_dir = os.path.dirname(__file__)
     orig_dir = os.path.join(base_dir, "orig_data")
 
