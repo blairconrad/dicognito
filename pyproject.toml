@@ -51,7 +51,6 @@ select = ["ALL"]
 
 ignore = [
   "ANN101",   # choosing not to type-annotate self at this time.
-  "B904",
   "C400",
   "C417",
   "D100",

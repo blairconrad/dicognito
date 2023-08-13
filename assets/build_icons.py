@@ -3,8 +3,8 @@ try:
 except ImportError:
     try:
         from PIL import Image
-    except ImportError:
-        raise Exception("Can't import PIL or PILLOW. Install one.")
+    except ImportError as exc:
+        raise Exception("Can't import PIL or PILLOW. Install one.") from exc
 
 
 def build_icon(final_width, xray, incognito):
