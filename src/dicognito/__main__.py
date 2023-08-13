@@ -21,7 +21,7 @@ def _get_filenames_from_source(source: str) -> Iterable[str]:
     if os.path.isfile(source):
         yield source
     elif os.path.isdir(source):
-        for dirpath, dirnames, filenames in os.walk(source):
+        for dirpath, _, filenames in os.walk(source):
             for filename in filenames:
                 yield os.path.join(dirpath, filename)
     else:
