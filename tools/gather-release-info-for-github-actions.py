@@ -8,10 +8,7 @@ with open("src/dicognito/release_notes.md", "r") as release_notes:
         # Adapted from PEP 440:
         # https://www.python.org/dev/peps/pep-0440/#appendix-b-parsing-version-strings-with-regular-expressions
         prerelease_regex = r"([-_\.]?(a|b|c|rc|alpha|beta|pre|preview)[-_\.]?[0-9]*)"
-        if re.search(prerelease_regex, release_name):
-            is_prerelease = "true"
-        else:
-            is_prerelease = "false"
+        is_prerelease = "true" if re.search(prerelease_regex, release_name) else "false"
 
         release_body = ""
         for line in release_notes.readlines():
