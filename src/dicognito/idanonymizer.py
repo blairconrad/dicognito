@@ -71,9 +71,9 @@ class IDAnonymizer(ElementAnonymizer):
         return False
 
     def describe_actions(self) -> Iterator[str]:
-        yield from map(
-            lambda keyword: f"Replace {keyword} with anonymized values",
-            map(pydicom.datadict.keyword_for_tag, self.id_tags),
+        yield from (
+            f"Replace {keyword} with anonymized values"
+            for keyword in map(pydicom.datadict.keyword_for_tag, self.id_tags)
         )
         yield 'Replace IssuerOfPatientID with "DICOGNITO"'
         yield 'Replace private "MITRA LINKED ATTRIBUTES 1.0" attribute "Global Patient ID" with anonymized values'

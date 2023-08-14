@@ -53,9 +53,9 @@ class EquipmentAnonymizer(ElementAnonymizer):
         return True
 
     def describe_actions(self) -> Iterator[str]:
-        yield from map(
-            lambda keyword: f"Replace {keyword} with anonymized values",
-            map(pydicom.datadict.keyword_for_tag, self._element_anonymizers),
+        yield from (
+            f"Replace {keyword} with anonymized values"
+            for keyword in map(pydicom.datadict.keyword_for_tag, self._element_anonymizers)
         )
 
     def anonymize_institution_name(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> None:

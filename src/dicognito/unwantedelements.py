@@ -44,7 +44,4 @@ class UnwantedElementsStripper(ElementAnonymizer):
         return False
 
     def describe_actions(self) -> Iterator[str]:
-        yield from map(
-            lambda keyword: f"Remove {keyword}",
-            map(pydicom.datadict.keyword_for_tag, self.tags),
-        )
+        yield from (f"Remove {keyword}" for keyword in map(pydicom.datadict.keyword_for_tag, self.tags))
