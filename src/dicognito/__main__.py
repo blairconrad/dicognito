@@ -1,7 +1,7 @@
 """\
 Anonymize one or more DICOM files' headers (not pixel data).
 """
-from __future__ import annotations, print_function
+from __future__ import annotations
 
 import glob
 import logging
