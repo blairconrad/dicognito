@@ -30,7 +30,7 @@ def test_implicit_in_place_warns_but_anonymizes(caplog):
 
     run_dicognito(path_to(""))
 
-    log_record = [log for log in caplog.records if log.levelname == "WARNING"][0]
+    log_record = next(log for log in caplog.records if log.levelname == "WARNING")
     assert (
         "Neither --output-directory/-o nor --in-place/-i were specified. This will be an error in the future."
         in log_record.getMessage()
@@ -216,7 +216,7 @@ def test_burned_in_annotation_fail(caplog):
     with pytest.raises(SystemExit):
         run_dicognito("--in-place", path_to(""), "--on-burned-in-annotation", "fail")
 
-    log_record = [log for log in caplog.records if log.levelname == "ERROR"][0]
+    log_record = next(log for log in caplog.records if log.levelname == "ERROR")
     assert f"Error occurred while converting {input_file_name}. Aborting." in log_record.getMessage()
     assert expected_message in str(log_record.exc_info[1])
 
@@ -273,7 +273,7 @@ def test_conversion_error_logs_filename_and_error_type(caplog):
     with pytest.raises(SystemExit):
         run_dicognito(input_file_name, "--output-dir", path_to("new_dir"))
 
-    log_record = [log for log in caplog.records if log.levelname == "ERROR"][0]
+    log_record = next(log for log in caplog.records if log.levelname == "ERROR")
     assert f"Error occurred while converting {input_file_name}. Aborting." in log_record.getMessage()
     assert log_record.exc_info is not None
 
