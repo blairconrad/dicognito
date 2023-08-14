@@ -39,7 +39,7 @@ class DateTimeAnonymizer(ElementAnonymizer):
         -------
         True if an element (or two) was anonymized, or False if not.
         """
-        if data_element.VR != "DA" and data_element.VR != "DT":
+        if data_element.VR not in ("DA", "DT"):
             return False
         if not data_element.value:
             return True
