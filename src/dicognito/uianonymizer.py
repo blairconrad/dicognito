@@ -46,7 +46,7 @@ class UIAnonymizer(ElementAnonymizer):
             return False
 
         if isinstance(data_element.value, pydicom.multival.MultiValue):
-            data_element.value = list(self._new_ui(v) for v in data_element.value)
+            data_element.value = [self._new_ui(v) for v in data_element.value]
         else:
             data_element.value = self._new_ui(data_element.value)
         return True

@@ -19,8 +19,8 @@ def test_dataset_anonymizes_same_with_same_seed():
 
         mismatches, matches = partition(lambda value: value == dataset2[value.tag], dataset1.values())
 
-        assert list(value.name for value in matches)
-        assert not list(value.name for value in mismatches)
+        assert [value.name for value in matches]
+        assert not [value.name for value in mismatches]
 
 
 _DatasetValue = Union[pydicom.DataElement, pydicom.dataelem.RawDataElement]
