@@ -1,6 +1,5 @@
-"""\
-Anonymize one or more DICOM files' headers (not pixel data).
-"""
+"""Anonymize one or more DICOM files' headers (not pixel data)."""
+
 from __future__ import annotations
 
 import glob
@@ -45,6 +44,7 @@ def _get_datasets_from_sources(sources: Iterable[str]) -> Iterable[pydicom.datas
 
 
 def main(main_args: Sequence[str] | None = None) -> None:
+    """Run the anonymizer."""
     if main_args is None:
         main_args = sys.argv[1:]
 

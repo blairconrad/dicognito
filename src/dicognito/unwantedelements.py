@@ -1,3 +1,4 @@
+"""Remove unwanted values from the data_element."""
 from typing import Iterator
 
 import pydicom
@@ -6,8 +7,10 @@ from dicognito.element_anonymizer import ElementAnonymizer
 
 
 class UnwantedElementsStripper(ElementAnonymizer):
+    """Unwanted element remover."""
+
     def __init__(self, *keywords: str):
-        """\
+        """
         Create a new UnwantedElementsStripper.
 
         Parameters
@@ -19,10 +22,8 @@ class UnwantedElementsStripper(ElementAnonymizer):
         self.tags = [pydicom.datadict.keyword_dict[keyword] for keyword in keywords]
 
     def __call__(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> bool:
-        """\
-        Potentially anonymize a single DataElement, removing its value
-        if the data_element's keyword matches one of those supplied when
-        this anonymizer was created.
+        """
+        Remove unwanted values from the data_element.
 
         Parameters
         ----------
@@ -44,4 +45,5 @@ class UnwantedElementsStripper(ElementAnonymizer):
         return False
 
     def describe_actions(self) -> Iterator[str]:
+        """Describe the actions this anonymizer performs."""
         yield from (f"Remove {keyword}" for keyword in map(pydicom.datadict.keyword_for_tag, self.tags))

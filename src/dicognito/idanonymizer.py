@@ -1,3 +1,4 @@
+"""Replace identifier values with something that obscures the patient's identity."""
 from typing import Iterator
 
 import pydicom
@@ -7,10 +8,12 @@ from dicognito.randomizer import Randomizer
 
 
 class IDAnonymizer(ElementAnonymizer):
+    """Identifier anonymizer."""
+
     _alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
     def __init__(self, randomizer: Randomizer, id_prefix: str, id_suffix: str, *keywords: str):
-        """\
+        """
         Create a new IDAnonymizer.
 
         Parameters
@@ -37,9 +40,8 @@ class IDAnonymizer(ElementAnonymizer):
         self._indices_for_randomizer = [len(self._alphabet)] * (12 - total_affixes_length)
 
     def __call__(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> bool:
-        """\
-        Potentially anonymize a single DataElement, replacing its
-        value with something that obscures the patient's identity.
+        """
+        Replace ID attributes with something that obscures the patient's identity.
 
         Parameters
         ----------
@@ -71,6 +73,7 @@ class IDAnonymizer(ElementAnonymizer):
         return False
 
     def describe_actions(self) -> Iterator[str]:
+        """Describe the actions this anonymizer performs."""
         yield from (
             f"Replace {keyword} with anonymized values"
             for keyword in map(pydicom.datadict.keyword_for_tag, self.id_tags)

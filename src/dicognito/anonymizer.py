@@ -1,6 +1,4 @@
-"""\
-Defines Anonymizer, the principle class used to anonymize DICOM objects.
-"""
+"""Defines Anonymizer, the principle class used to anonymize DICOM objects."""
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Iterator, Sequence
@@ -23,8 +21,9 @@ if TYPE_CHECKING:
 
 
 class Anonymizer:
-    """\
+    """
     The main class responsible for anonymizing pydicom datasets.
+
     New instances will anonymize instances differently, so when
     anonymizing instances from the same series, study, or patient,
     reuse an Anonymizer.
@@ -48,7 +47,7 @@ class Anonymizer:
     """
 
     def __init__(self, id_prefix: str = "", id_suffix: str = "", seed: str | None = None) -> None:
-        """\
+        """
         Create a new Anonymizer.
 
         Parameters
@@ -120,9 +119,11 @@ class Anonymizer:
         ]
 
     def anonymize(self, dataset: pydicom.dataset.Dataset) -> None:
-        """\
-        Anonymize a dataset in place. Replaces all PNs, UIs, dates and times, and
-        known identifiying attributes with other vlaues.
+        """
+        Anonymize a dataset in place.
+
+        Replaces all PNs, UIs, dates and times, and
+        known identifying attributes with other values.
 
         Parameters
         ----------
@@ -135,6 +136,8 @@ class Anonymizer:
             updater(dataset)
 
     def describe_actions(self) -> str:
+        """Describe all the actions this anonymizer performs."""
+
         def actions() -> Iterator[str]:
             for handler in self._element_handlers:
                 yield from handler.describe_actions()

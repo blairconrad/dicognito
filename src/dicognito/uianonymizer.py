@@ -1,3 +1,4 @@
+"""Replace UIs with a new value."""
 from typing import Iterator
 
 import pydicom
@@ -8,10 +9,14 @@ from dicognito.randomizer import Randomizer
 
 
 class UIAnonymizer(ElementAnonymizer):
+    """
+    UI anonymizer.
+
+    Any non-empty UI will be replaced except for class UIDs and transfer syntax UIDs.
+    """
+
     def __init__(self, randomizer: Randomizer) -> None:
-        """\
-        Create a new UIAnonymizer.
-        """
+        """Create a new UIAnonymizer."""
         self._randomizer = randomizer
 
     def __call__(
@@ -19,9 +24,8 @@ class UIAnonymizer(ElementAnonymizer):
         dataset: pydicom.dataset.Dataset,  # noqa: ARG002
         data_element: pydicom.DataElement,
     ) -> bool:
-        """\
-        Potentially anonymize a single DataElement, replacing its
-        value with something that obscures the patient's identity.
+        """
+        Replace instance UIs with a new value.
 
         Parameters
         ----------
@@ -52,6 +56,7 @@ class UIAnonymizer(ElementAnonymizer):
         return True
 
     def describe_actions(self) -> Iterator[str]:
+        """Describe the actions this anonymizer performs."""
         yield "Replace all UI attributes with anonymized values"
 
     def _new_ui(self, ui: str) -> str:

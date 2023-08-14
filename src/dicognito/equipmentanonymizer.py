@@ -1,3 +1,4 @@
+"""Replace equipment-related values with something that obscures the patient's identity."""
 from typing import Iterator
 
 import pydicom
@@ -7,8 +8,10 @@ from dicognito.element_anonymizer import ElementAnonymizer
 
 
 class EquipmentAnonymizer(ElementAnonymizer):
+    """Equipment anonymizer."""
+
     def __init__(self, address_anonymizer: AddressAnonymizer) -> None:
-        """\
+        """
         Create a new EquipmentAnonymizer.
 
         Parameters
@@ -19,15 +22,14 @@ class EquipmentAnonymizer(ElementAnonymizer):
         self.address_anonymizer = address_anonymizer
 
         self._element_anonymizers = {
-            pydicom.datadict.keyword_dict["InstitutionName"]: self.anonymize_institution_name,
-            pydicom.datadict.keyword_dict["InstitutionAddress"]: self.anonymize_institution_address,
-            pydicom.datadict.keyword_dict["InstitutionalDepartmentName"]: self.anonymize_department_name,
+            pydicom.datadict.keyword_dict["InstitutionName"]: self._anonymize_institution_name,
+            pydicom.datadict.keyword_dict["InstitutionAddress"]: self._anonymize_institution_address,
+            pydicom.datadict.keyword_dict["InstitutionalDepartmentName"]: self._anonymize_department_name,
         }
 
     def __call__(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> bool:
-        """\
-        Potentially anonymize a single DataElement, replacing its
-        value with something that obscures the patient's identity.
+        """
+        Replace equipment-related values with something that obscures the patient's identity.
 
         Parameters
         ----------
@@ -53,12 +55,13 @@ class EquipmentAnonymizer(ElementAnonymizer):
         return True
 
     def describe_actions(self) -> Iterator[str]:
+        """Describe the actions this anonymizer performs."""
         yield from (
             f"Replace {keyword} with anonymized values"
             for keyword in map(pydicom.datadict.keyword_for_tag, self._element_anonymizers)
         )
 
-    def anonymize_institution_name(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> None:
+    def _anonymize_institution_name(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> None:
         region = self.address_anonymizer.get_region(data_element.value)
         street_address = self.address_anonymizer.get_street_address(data_element.value)
         street = street_address.split(" ", 1)[1]
@@ -67,15 +70,15 @@ class EquipmentAnonymizer(ElementAnonymizer):
         )
         data_element.value = region + "'S " + street + " CLINIC"
 
-    def anonymize_institution_address(
+    def _anonymize_institution_address(
         self,
         dataset: pydicom.dataset.Dataset,
         data_element: pydicom.DataElement,
     ) -> None:
-        # handled by anonymize_institution_name
+        # handled by _anonymize_institution_name
         pass
 
-    def anonymize_department_name(
+    def _anonymize_department_name(
         self,
         dataset: pydicom.dataset.Dataset,  # noqa: ARG002
         data_element: pydicom.DataElement,

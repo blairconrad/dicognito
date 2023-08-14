@@ -1,3 +1,4 @@
+"""Replace AD values with something that obscures the patient's identity."""
 from typing import Iterator
 
 import pydicom
@@ -5,18 +6,12 @@ import pydicom
 from dicognito.element_anonymizer import ElementAnonymizer
 from dicognito.randomizer import Randomizer
 
-"""\
-Defines AddressAnonymizer, responsible for anonymizing addresses
-"""
-
 
 class AddressAnonymizer(ElementAnonymizer):
-    """\
-    Anonymizes addresses.
-    """
+    """AD anonymizer."""
 
     def __init__(self, randomizer: Randomizer):
-        """\
+        """
         Create a new AddressAnonymizer.
 
         Parameters
@@ -41,9 +36,8 @@ class AddressAnonymizer(ElementAnonymizer):
         dataset: pydicom.dataset.Dataset,  # noqa: ARG002
         data_element: pydicom.DataElement,
     ) -> bool:
-        """\
-        Potentially anonymize a single DataElement, replacing its
-        value with something that obscures the patient's identity.
+        """
+        Replace an AD with something that obscures the patient's identity.
 
         Parameters
         ----------
@@ -69,12 +63,14 @@ class AddressAnonymizer(ElementAnonymizer):
         return True
 
     def describe_actions(self) -> Iterator[str]:
+        """Describe the actions this anonymizer performs."""
         yield from (
             f"Replace {keyword} with anonymized values"
             for keyword in map(pydicom.datadict.keyword_for_tag, self._value_factories.keys())
         )
 
     def get_street_address(self, original_value: str) -> str:
+        """Generate a new street address based on an original value."""
         (street_number_index, street_index) = self.randomizer.get_ints_from_ranges(
             original_value,
             1000,
@@ -84,10 +80,12 @@ class AddressAnonymizer(ElementAnonymizer):
         return f"{street_number} {self._streets[street_index]}"
 
     def get_region(self, original_value: str) -> str:
+        """Generate a new region based on an original value."""
         (city_index,) = self.randomizer.get_ints_from_ranges(original_value, len(self._cities))
         return self._cities[city_index]
 
     def get_country(self, original_value: str) -> str:
+        """Generate a new country based on an original value."""
         (country_index,) = self.randomizer.get_ints_from_ranges(original_value, len(self._countries))
         return self._countries[country_index]
 

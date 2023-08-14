@@ -31,7 +31,7 @@ def partition(
     iterable: ValuesView[_DatasetValue],
     # pytest can't collect the tests when we subscript filterfalse and filter
 ) -> tuple[filterfalse, filter]:  # type: ignore[type-arg]
-    "Use a predicate to partition entries into false entries and true entries"
+    """Use a predicate to partition entries into false entries and true entries."""
     # partition(is_odd, range(10)) --> 0 2 4 6 8   and  1 3 5 7 9
     t1, t2 = tee(iterable)
     return filterfalse(predicate, t1), filter(predicate, t2)

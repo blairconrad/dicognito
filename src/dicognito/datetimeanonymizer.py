@@ -1,3 +1,5 @@
+"""Replace date-based values with something that obscures the patient's identity."""
+
 import datetime
 from itertools import zip_longest
 from typing import Iterator, MutableSequence
@@ -8,8 +10,10 @@ from dicognito.element_anonymizer import ElementAnonymizer
 
 
 class DateTimeAnonymizer(ElementAnonymizer):
+    """Date/time anonymizers."""
+
     def __init__(self, offset_hours: int) -> None:
-        """\
+        """
         Create a new DateTimeAnonymizer.
 
         Parameters
@@ -21,9 +25,8 @@ class DateTimeAnonymizer(ElementAnonymizer):
         self.offset = datetime.timedelta(hours=offset_hours)
 
     def __call__(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> bool:
-        """\
-        Potentially anonymize one or two elements, replacing their
-        value(s) with something that obscures the patient's identity.
+        """
+        Replace DT or DA (and TM) values with something that obscures patient identity.
 
         Parameters
         ----------
@@ -51,6 +54,7 @@ class DateTimeAnonymizer(ElementAnonymizer):
         return True
 
     def describe_actions(self) -> Iterator[str]:
+        """Describe the actions this anonymizer performs."""
         yield "Replace all DA attributes with anonymized values that precede the originals"
         yield "Replace all DT attributes with anonymized values that precede the originals"
         yield "Replace all TM attributes with anonymized values that precede the originals"

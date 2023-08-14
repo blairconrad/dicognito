@@ -51,20 +51,8 @@ select = ["ALL"]
 
 ignore = [
   "ANN101",   # choosing not to type-annotate self at this time.
-  "D100",
-  "D101",
-  "D102",
-  "D103",
-  "D107",
-  "D202",
   "D203",     # can either force a blank line before docstring or forbid.
-  "D205",
   "D212",     # can either force multi-line docstring to start on first or second line.
-  "D213",
-  "D300",
-  "D400",
-  "D415",
-  "D417",
   "PTH100",
   "PTH103",
   "PTH110",

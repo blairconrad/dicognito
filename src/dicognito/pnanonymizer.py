@@ -1,3 +1,4 @@
+"""Replace PN values with something that obscures the patient's identity."""
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Iterator
@@ -11,8 +12,10 @@ if TYPE_CHECKING:
 
 
 class PNAnonymizer(ElementAnonymizer):
+    """PN anonymizer."""
+
     def __init__(self, randomizer: Randomizer):
-        """\
+        """
         Create a new PNAnonymizer.
 
         Parameters
@@ -23,9 +26,8 @@ class PNAnonymizer(ElementAnonymizer):
         self.randomizer = randomizer
 
     def __call__(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> bool:
-        """\
-        Potentially anonymize a single DataElement, replacing its
-        value with something that obscures the patient's identity.
+        """
+        Replace a PN value with something that obscures the patient's identity.
 
         Parameters
         ----------
@@ -52,6 +54,7 @@ class PNAnonymizer(ElementAnonymizer):
         return True
 
     def describe_actions(self) -> Iterator[str]:
+        """Describe the actions this anonymizer performs."""
         yield "Replace all PN attributes with anonymized values"
 
     def _new_pn(self, sex: str | None, original_value: str) -> str:
