@@ -143,5 +143,4 @@ def parse_arguments(main_args: Sequence[str]) -> argparse.Namespace:
     )
     parser.add_argument("--version", action=VersionAction)
 
-    args = parser.parse_args(main_args)
-    return args
+    return parser.parse_args(main_args)

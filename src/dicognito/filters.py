@@ -89,8 +89,7 @@ class BurnedInAnnotationGuard(Filter):
         burned_in_annotation_message = "Burned In Annotation is " + burned_in_annotation_value + " in " + filename
         if self.if_found == "fail":
             raise Exception(burned_in_annotation_message)
-        else:
-            logging.warning(burned_in_annotation_message)
+        logging.warning(burned_in_annotation_message)
 
 
 class SaveInPlace(Filter):

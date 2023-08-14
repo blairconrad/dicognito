@@ -97,5 +97,4 @@ class DateTimeAnonymizer(ElementAnonymizer):
     def _get_value_as_sequence(self, data_element: pydicom.DataElement) -> MutableSequence[str]:
         if isinstance(data_element.value, pydicom.multival.MultiValue):
             return data_element.value
-        else:
-            return [data_element.value]
+        return [data_element.value]

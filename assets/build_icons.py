@@ -30,8 +30,7 @@ def paste_icon_part(icon, part, vertical_position):
 
 def prepare_xray(final_width, xray):
     xray_bounds = get_xray_bounds(final_width)
-    xray = xray.crop(xray_bounds)
-    return xray
+    return xray.crop(xray_bounds)
 
 
 def get_xray_bounds(final_width):
@@ -56,8 +55,7 @@ def prepare_incognito(incognito):
     new_width = 262
     new_height = int(1.0 * incognito.height / incognito.width * new_width)
 
-    incognito = incognito.resize((new_width, new_height), Image.BICUBIC)
-    return incognito
+    return incognito.resize((new_width, new_height), Image.BICUBIC)
 
 
 def get_logo_size(incognito, xray, xray_border_size):
