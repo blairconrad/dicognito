@@ -34,7 +34,8 @@ def prepare_xray(final_width, xray):
 
 
 def get_xray_bounds(final_width):
-    if final_width > 100:
+    widest_small_logo = 100
+    if final_width > widest_small_logo:
         xray_left = 112
         xray_top = 253
         xray_height = 298

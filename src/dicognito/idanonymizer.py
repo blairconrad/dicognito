@@ -83,9 +83,17 @@ class IDAnonymizer(ElementAnonymizer):
         dataset: pydicom.dataset.Dataset,
         data_element: pydicom.DataElement,
     ) -> bool:
-        if data_element.tag.group == 0x0031 and data_element.tag.element % 0x0020 == 0:
+        mitra_linked_attributes_group = 0x0031
+        mitra_global_patient_id_element = 0x0020
+        if (
+            data_element.tag.group == mitra_linked_attributes_group
+            and data_element.tag.element % mitra_global_patient_id_element == 0
+        ):
             private_tag_group = data_element.tag.element >> 8
-            if dataset[(0x0031 << 16) + private_tag_group].value == "MITRA LINKED ATTRIBUTES 1.0":
+            if (
+                dataset[(mitra_linked_attributes_group << 16) + private_tag_group].value
+                == "MITRA LINKED ATTRIBUTES 1.0"
+            ):
                 # For pydicom 2.2.0 and above (at least to 2.2.2) the Mitra global patient ID tag
                 # can be misidentified as VR IS, instead of its proper LO. This causes
                 # the anonymize action to fail because most values can't be converted.

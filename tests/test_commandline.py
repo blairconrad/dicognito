@@ -256,7 +256,7 @@ def test_retains_existing_files_in_output_directory():
     run_dicognito(path_to("p01_s01_s01_i01.dcm"), "--output-dir", path_to())
 
     all_output_files = os.listdir(path_to())
-    assert len(all_output_files) == 2
+    assert len(all_output_files) == 2  # noqa: PLR2004
     assert "p01_s01_s01_i01.dcm" in all_output_files
 
 
