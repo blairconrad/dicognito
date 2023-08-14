@@ -88,7 +88,7 @@ class BurnedInAnnotationGuard(Filter):
         burned_in_annotation_value = "BurnedInAnnotation" in dataset and dataset.BurnedInAnnotation or "not specified"
         burned_in_annotation_message = "Burned In Annotation is " + burned_in_annotation_value + " in " + filename
         if self.if_found == "fail":
-            raise Exception(burned_in_annotation_message)
+            raise ValueError(burned_in_annotation_message)
         logging.warning(burned_in_annotation_message)
 
 

@@ -52,7 +52,7 @@ def main(main_args: Sequence[str] | None = None) -> None:
 
     numeric_level = getattr(logging, args.log_level.upper(), None)
     if not isinstance(numeric_level, int):
-        raise ValueError("Invalid log level: %s" % args.log_level)
+        raise ValueError("Invalid log level: %s" % args.log_level)  # noqa: TRY004
     logging.basicConfig(format="", level=numeric_level)
 
     if not args.in_place and not args.output_directory:
