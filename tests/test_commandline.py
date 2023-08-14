@@ -16,7 +16,7 @@ def setup_module():
     base_dir = os.path.dirname(__file__)
     orig_dir = os.path.join(base_dir, "orig_data")
 
-    global data_dir
+    global data_dir  # noqa: PLW0603
     data_dir = os.path.join(base_dir, "..", "build", "data")
     if os.path.isdir(data_dir):
         shutil.rmtree(data_dir)
