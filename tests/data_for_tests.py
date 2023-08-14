@@ -24,7 +24,7 @@ def load_minimal_instance() -> pydicom.dataset.Dataset:
     return load_dcm(get_testdata_files("MR_small.dcm")[0])
 
 
-def load_test_instance() -> pydicom.dataset.Dataset:
+def load_test_instance() -> pydicom.dataset.Dataset:  # noqa: PLR0915
     dataset = load_minimal_instance()
     source_image_dataset = pydicom.dataset.Dataset()
     source_image_dataset.ReferencedSOPClassUID = ["1.2.3.0.1"]
