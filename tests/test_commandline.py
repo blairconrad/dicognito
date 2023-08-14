@@ -292,7 +292,7 @@ def path_to(*end_of_path: str) -> str:
 
 
 def run_dicognito(*extra_args: str) -> None:
-    dicognito.__main__.main(("--seed", "") + extra_args)
+    dicognito.__main__.main(("--seed", "", *extra_args))
 
 
 def read_file(*directory_parts: str) -> pydicom.dataset.Dataset:
