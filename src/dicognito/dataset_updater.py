@@ -5,10 +5,10 @@ import pydicom
 
 class DatasetUpdater:
     def __call__(self, dataset: pydicom.dataset.Dataset) -> None:
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def describe_actions(self) -> Iterator[str]:
-        raise NotImplementedError()
+        raise NotImplementedError
 
 
 class DeidentificationMethodUpdater(DatasetUpdater):

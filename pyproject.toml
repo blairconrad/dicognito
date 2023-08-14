@@ -81,7 +81,6 @@ ignore = [
   "PTH120",
   "PTH123",
   "PTH207",
-  "RSE102",
   "RUF005",
   "RUF012",
   "RUF015",
