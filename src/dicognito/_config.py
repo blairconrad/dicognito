@@ -19,7 +19,7 @@ class VersionAction(argparse.Action):
         default: str = argparse.SUPPRESS,
         help_message: str = "show program's version information and exit",
     ):
-        super(VersionAction, self).__init__(
+        super().__init__(
             option_strings=option_strings,
             dest=dest,
             default=default,
