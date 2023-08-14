@@ -23,7 +23,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url=url,
-    download_url="%(url)s/releases/%(version)s" % vars(),
+    download_url="{url}/releases/{version}".format(**vars()),
     package_dir={"": "src"},
     packages=setuptools.find_packages("src"),
     include_package_data=True,
