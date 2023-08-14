@@ -26,7 +26,7 @@ def setup_module():
 def test_implicit_in_place_warns_but_anonymizes(caplog):
     test_name = get_test_name()
     orig_dataset = read_original_file(test_name, "p01_s01_s01_i01.dcm")
-    assert "CompressedSamples^MR1" == orig_dataset.PatientName
+    assert orig_dataset.PatientName == "CompressedSamples^MR1"
 
     run_dicognito(path_to(""))
 
@@ -45,7 +45,7 @@ def test_implicit_in_place_warns_but_anonymizes(caplog):
 def test_in_place_overwrites_files():
     test_name = get_test_name()
     orig_dataset = read_original_file(test_name, "p01_s01_s01_i01.dcm")
-    assert "CompressedSamples^MR1" == orig_dataset.PatientName
+    assert orig_dataset.PatientName == "CompressedSamples^MR1"
 
     run_dicognito(path_to("p*"), "--in-place")
 
@@ -56,7 +56,7 @@ def test_in_place_overwrites_files():
 def test_in_place_short_form_overwrites_files():
     test_name = get_test_name()
     orig_dataset = read_original_file(test_name, "p01_s01_s01_i01.dcm")
-    assert "CompressedSamples^MR1" == orig_dataset.PatientName
+    assert orig_dataset.PatientName == "CompressedSamples^MR1"
 
     run_dicognito(path_to("p*"), "-i")
 
@@ -67,7 +67,7 @@ def test_in_place_short_form_overwrites_files():
 def test_ignores_file_that_do_not_match_glob():
     test_name = get_test_name()
     orig_dataset = read_original_file(test_name, "np01_s01_s01_i01.dcm")
-    assert "CompressedSamples^MR1" == orig_dataset.PatientName
+    assert orig_dataset.PatientName == "CompressedSamples^MR1"
 
     run_dicognito(path_to("p*"))
 
@@ -114,8 +114,8 @@ def test_directory_is_recursed():
     test_name = get_test_name()
     orig_dataset1 = read_original_file(test_name, "p01_s01_s01_i01.dcm")
     orig_dataset2 = read_original_file(test_name, "a", "b", "p01_s02_s01_i01.dcm")
-    assert "CompressedSamples^MR1" == orig_dataset1.PatientName
-    assert "CompressedSamples^MR1" == orig_dataset2.PatientName
+    assert orig_dataset1.PatientName == "CompressedSamples^MR1"
+    assert orig_dataset2.PatientName == "CompressedSamples^MR1"
 
     run_dicognito(path_to(""))
 
@@ -130,7 +130,7 @@ def test_non_dicom_files_ignored(capsys):
 
     test_name = get_test_name()
     orig_dataset = read_original_file(test_name, "p01_s01_s01_i01.dcm")
-    assert "CompressedSamples^MR1" == orig_dataset.PatientName
+    assert orig_dataset.PatientName == "CompressedSamples^MR1"
 
     run_dicognito(path_to(""))
     (actual_output, actual_error) = capsys.readouterr()
@@ -145,7 +145,7 @@ def test_non_dicom_files_logged_at_info(caplog):
 
     test_name = get_test_name()
     orig_dataset = read_original_file(test_name, "p01_s01_s01_i01.dcm")
-    assert "CompressedSamples^MR1" == orig_dataset.PatientName
+    assert orig_dataset.PatientName == "CompressedSamples^MR1"
 
     set_log_level(caplog, logging.INFO)
     run_dicognito("--in-place", path_to(""))
