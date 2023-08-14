@@ -62,7 +62,7 @@ def test_identifying_uis_are_updated(element_path):
 
 
 @pytest.mark.parametrize(
-    "one_element_path,another_element_path",
+    ("one_element_path", "another_element_path"),
     [("file_meta.MediaStorageSOPInstanceUID", "SOPInstanceUID")],
 )
 def test_repeated_identifying_uis_get_same_values(one_element_path, another_element_path):
@@ -609,7 +609,7 @@ def test_no_sex_still_changes_patient_name():
 
 
 @pytest.mark.parametrize(
-    "initial,expected",
+    ("initial", "expected"),
     [
         (None, "DICOGNITO"),
         ("DICOGNITO", "DICOGNITO"),
@@ -629,7 +629,7 @@ def test_deidentification_method_set_properly(initial, expected):
 
 
 @pytest.mark.parametrize(
-    "initial_patient_identity_removed,burned_in_annotation,expected_patient_identity_removed",
+    ("initial_patient_identity_removed", "burned_in_annotation", "expected_patient_identity_removed"),
     [
         (None, None, None),
         (None, "YES", None),

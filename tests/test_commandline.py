@@ -221,10 +221,12 @@ def test_burned_in_annotation_fail(caplog):
     assert expected_message in str(log_record.exc_info[1])
 
 
-def test_in_place_and_output_directory_are_exclusive():
-    with pytest.raises(SystemExit) as e:
+def test_in_place_and_output_directory_are_exclusive(capsys):
+    with pytest.raises(SystemExit):
         run_dicognito(path_to(""), "--output-dir", "some_output_dir", "--in-place")
-        assert "argument --in-place: not allowed with argument --output-directory/-o" in str(e.value)
+
+    (_, actual_error) = capsys.readouterr()
+    assert "argument --in-place/-i: not allowed with argument --output-directory/-o" in actual_error
 
 
 def test_creates_output_directory_when_missing():
