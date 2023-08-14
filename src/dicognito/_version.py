@@ -3,7 +3,7 @@ import re
 from os.path import abspath, dirname, join
 
 DATA_ROOT = abspath(dirname(__file__))
-with open(join(DATA_ROOT, "release_notes.md"), "r") as notes:
+with open(join(DATA_ROOT, "release_notes.md")) as notes:
     for line in notes:
         if line.startswith("## "):
             __version__ = line[3:].strip()

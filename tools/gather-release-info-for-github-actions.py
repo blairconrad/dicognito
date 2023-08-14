@@ -1,6 +1,6 @@
 import re
 
-with open("src/dicognito/release_notes.md", "r") as release_notes:
+with open("src/dicognito/release_notes.md") as release_notes:
     first_line = release_notes.readline()
     if first_line.startswith("## "):
         release_name = first_line[3:].strip()

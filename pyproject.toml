@@ -85,7 +85,6 @@ ignore = [
   "RUF012",
   "RUF015",
   "T201",     # print calls are intentional.
-  "UP015",
   "UP019",
   "UP027",
   "UP031",

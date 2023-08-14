@@ -16,7 +16,7 @@ def test_anonymized_attributes_described():
         return islice(iterable, 1, None)
 
     data_root = abspath(join(__file__, "..", ".."))
-    with open(join(data_root, "README.md"), "r") as readme:
+    with open(join(data_root, "README.md")) as readme:
         anonymizer = Anonymizer()
 
         readme_description = "".join(
