@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import argparse
 import sys
-from typing import Any, Sequence, Text
+from typing import Any, Sequence
 
 import pydicom
 
@@ -32,8 +32,8 @@ class VersionAction(argparse.Action):
         self,
         parser: argparse.ArgumentParser,
         namespace: argparse.Namespace,  # noqa: ARG002
-        values: Text | Sequence[Any] | None,  # noqa: ARG002
-        option_string: Text | None = None,  # noqa: ARG002
+        values: str | Sequence[Any] | None,  # noqa: ARG002
+        option_string: str | None = None,  # noqa: ARG002
     ) -> None:
         import platform
 
