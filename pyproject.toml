@@ -53,15 +53,7 @@ ignore = [
   "ANN101",   # choosing not to type-annotate self at this time.
   "D203",     # can either force a blank line before docstring or forbid.
   "D212",     # can either force multi-line docstring to start on first or second line.
-  "PTH100",
-  "PTH103",
-  "PTH110",
-  "PTH112",
-  "PTH113",
-  "PTH118",
-  "PTH120",
-  "PTH123",
-  "PTH207",
+  "PTH",      # choosing not to swith to pathlib at this time.
   "T201",     # print calls are intentional.
 ]
 
