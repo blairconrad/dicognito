@@ -6,7 +6,8 @@ from typing import Sequence
 
 def main(args: Sequence[str]) -> None:
     if len(args) != 1:
-        raise Exception(f"Usage: {sys.argv[0]} new-version")
+        message = f"Usage: {sys.argv[0]} new-version"
+        raise Exception(message)
 
     new_version = args[0]
 

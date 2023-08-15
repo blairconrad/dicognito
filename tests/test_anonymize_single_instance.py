@@ -1,15 +1,13 @@
+from __future__ import annotations
+
 import datetime
+
 import pydicom
 import pytest
-
-from typing import Any, Optional
-
 from dicognito.anonymizer import Anonymizer
 from dicognito.pnanonymizer import PNAnonymizer
 
-from .data_for_tests import load_dcm
-from .data_for_tests import load_minimal_instance
-from .data_for_tests import load_test_instance
+from .data_for_tests import load_dcm, load_minimal_instance, load_test_instance
 
 
 def test_minimal_instance_anonymizes_safely():
@@ -64,7 +62,8 @@ def test_identifying_uis_are_updated(element_path):
 
 
 @pytest.mark.parametrize(
-    "one_element_path,another_element_path", [("file_meta.MediaStorageSOPInstanceUID", "SOPInstanceUID")]
+    ("one_element_path", "another_element_path"),
+    [("file_meta.MediaStorageSOPInstanceUID", "SOPInstanceUID")],
 )
 def test_repeated_identifying_uis_get_same_values(one_element_path, another_element_path):
     with load_test_instance() as dataset:
@@ -114,16 +113,15 @@ def test_ids_are_anonymized(element_path):
 
 def test_single_other_patient_ids_anonymized_to_single_id():
     with load_test_instance() as dataset:
-        original = ["ID1"]
-        dataset.OtherPatientIDs = original
+        dataset.OtherPatientIDs = ["ID1"]
 
         anonymizer = Anonymizer()
         anonymizer.anonymize(dataset)
 
-        actual = dataset.OtherPatientIDs
+        actual: str = dataset.OtherPatientIDs  # type: ignore[assignment]
 
-        assert actual != original
-        assert type(actual) is str  # type: ignore[comparison-overlap, unreachable]
+        assert actual != "ID1"
+        assert isinstance(actual, str)
 
 
 @pytest.mark.parametrize("number_of_ids", [2, 3])
@@ -137,8 +135,10 @@ def test_other_patient_ids_anonymized_to_same_number_of_ids(number_of_ids):
 
         actual = dataset.OtherPatientIDs
 
-        assert actual != original
-        assert len(set(actual)) == number_of_ids
+        assert len(actual) == number_of_ids
+        for actual_id, original_id in zip(actual, original):
+            assert isinstance(actual_id, str)
+            assert actual_id != original_id
 
 
 def test_issuer_of_patient_id_changed_if_not_empty():
@@ -389,7 +389,7 @@ def test_current_patient_location_gets_anonymized():
 def test_dates_and_times_get_anonymized_when_both_are_present(date_name):
     time_name = date_name[:-4] + "Time"
 
-    original_datetime = datetime.datetime(1974, 11, 3, 12, 15, 58)
+    original_datetime = datetime.datetime(1974, 11, 3, 12, 15, 58)  # noqa: DTZ001
     original_date_string = original_datetime.strftime("%Y%m%d")
     original_time_string = original_datetime.strftime("%H%M%S")
 
@@ -508,7 +508,7 @@ def test_multivalued_date_and_time_pair_gets_anonymized_same_with_same_seed():
 
 
 def test_issue_date_of_imaging_service_request_gets_anonymized():
-    original_datetime = datetime.datetime(1974, 11, 3, 12, 15, 58)
+    original_datetime = datetime.datetime(1974, 11, 3, 12, 15, 58)  # noqa: DTZ001
     original_date_string = original_datetime.strftime("%Y%m%d")
     original_time_string = original_datetime.strftime("%H%M%S")
 
@@ -537,7 +537,7 @@ def test_issue_date_of_imaging_service_request_gets_anonymized():
     ],
 )
 def test_datetime_gets_anonymized(datetime_name):
-    original_datetime = datetime.datetime(1974, 11, 3, 12, 15, 58)
+    original_datetime = datetime.datetime(1974, 11, 3, 12, 15, 58)  # noqa: DTZ001
     original_datetime_string = original_datetime.strftime("%Y%m%d%H%M%S")
 
     with load_test_instance() as dataset:
@@ -609,7 +609,7 @@ def test_no_sex_still_changes_patient_name():
 
 
 @pytest.mark.parametrize(
-    "initial,expected",
+    ("initial", "expected"),
     [
         (None, "DICOGNITO"),
         ("DICOGNITO", "DICOGNITO"),
@@ -629,7 +629,7 @@ def test_deidentification_method_set_properly(initial, expected):
 
 
 @pytest.mark.parametrize(
-    "initial_patient_identity_removed,burned_in_annotation,expected_patient_identity_removed",
+    ("initial_patient_identity_removed", "burned_in_annotation", "expected_patient_identity_removed"),
     [
         (None, None, None),
         (None, "YES", None),
@@ -643,7 +643,9 @@ def test_deidentification_method_set_properly(initial, expected):
     ],
 )
 def test_patient_identity_removed(
-    initial_patient_identity_removed, burned_in_annotation, expected_patient_identity_removed
+    initial_patient_identity_removed,
+    burned_in_annotation,
+    expected_patient_identity_removed,
 ):
     with load_test_instance() as dataset:
         ensure_attribute_is(dataset, "PatientIdentityRemoved", initial_patient_identity_removed)
@@ -657,20 +659,22 @@ def test_patient_identity_removed(
 
 def test_pixel_data_with_embedded_sequence_delimiter():
     with load_dcm(
-        "orig_data", "test_pixel_data_with_embedded_sequence_delimiter", "JPEG2000-embedded-sequence-delimiter.dcm"
+        "orig_data",
+        "test_pixel_data_with_embedded_sequence_delimiter",
+        "JPEG2000-embedded-sequence-delimiter.dcm",
     ) as dataset:
         anonymizer = Anonymizer()
         anonymizer.anonymize(dataset)
 
 
-def ensure_attribute_is(dataset: pydicom.dataset.Dataset, attribute_name: str, value: Optional[Any]) -> None:
+def ensure_attribute_is(dataset: pydicom.dataset.Dataset, attribute_name: str, value: str | None) -> None:
     if value is None:
         assert attribute_name not in dataset
     else:
         setattr(dataset, attribute_name, value)
 
 
-def assert_attribute_is(dataset: pydicom.dataset.Dataset, attribute_name: str, expected: Optional[Any]) -> None:
+def assert_attribute_is(dataset: pydicom.dataset.Dataset, attribute_name: str, expected: str | None) -> None:
     if expected is None:
         assert attribute_name not in dataset
     else:

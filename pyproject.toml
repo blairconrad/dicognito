@@ -41,13 +41,76 @@ ignore_missing_imports = true
 module="tests.*"
 allow_untyped_defs = true
 
-[tool.pylama]
-linters = "mccabe,pycodestyle,pyflakes"
-skip = ".tox/*"
-
-[tool.pylama.linter.pycodestyle]
-ignore = "E203,W503"
-max_line_length = 120
-
 [tool.pytest.ini_options]
 xfail_strict=true
+
+[tool.ruff]
+target-version = "py38"
+line-length = 120
+select = ["ALL"]
+
+ignore = [
+  "ANN101",   # choosing not to type-annotate self at this time.
+  "D203",     # can either force a blank line before docstring or forbid.
+  "D212",     # can either force multi-line docstring to start on first or second line.
+  "PTH",      # choosing not to swith to pathlib at this time.
+  "T201",     # print calls are intentional.
+]
+
+[tool.ruff.flake8-annotations]
+mypy-init-return = true
+
+[tool.ruff.per-file-ignores]
+"assets/**" = [
+  "ANN001",   # not public code. No type annotations needed.
+  "ANN201",   # not public code. No type annotations needed.
+  "D100",     # not public code. No docstrings needed.
+  "D103",     # not public code. No docstrings needed.
+  "INP001",   # assets isn't a namespace package.
+  "TRY002",   # I don't care that much about custom exceptions.
+]
+
+"setup.py" = [
+  "D100",     # setup doesn't count as public code. No docstrings needed.
+]
+
+"smoketest/**" = [
+  "ANN201",   # not public code. No type annotations needed.
+  "D100",     # not public code. No docstrings needed.
+  "D103",     # not public code. No docstrings needed.
+  "INP001",   # smoketests isn't a namespace package.
+]
+
+"tasks.py" = [
+  "ANN001",   # not public code. No type annotations needed.
+  "ANN201",   # not public code. No type annotations needed.
+  "ANN202",   # not public code. No type annotations needed.
+  "D100",     # not public code. No docstrings needed.
+  "D103",     # not public code. No docstrings needed.
+]
+
+"tests/**" = [
+  "ANN001",   # not public code. No type annotations needed.
+  "ANN201",   # not public code. No type annotations needed.
+  "D100",     # not public code. No docstrings needed.
+  "D101",     # not public code. No docstrings needed.
+  "D102",     # not public code. No docstrings needed.
+  "D103",     # not public code. No docstrings needed.
+  "D104",     # not public code. No docstrings needed.
+  "PGH001",   # eval is worth it in tests.
+  "S101",     # assert is a key feature of tests.
+  "S307",     # eval is worth it in tests.
+  "SLF001",   # sometimes we just want to test privates.
+]
+
+"tools/**" = [
+  "D100",     # tools don't count as public code. No docstrings needed.
+  "D103",     # tools don't count as public code. No docstrings needed.
+  "INP001",   # tools isn't a namespace package.
+  "TRY002",   # I don't care that much about custom exceptions.
+]
+
+"tools/release-version.py" = [
+  "S603",     # subprocess calls in release-version have been checked
+  "S607",     # release-version is assumed to be running on trusted machine
+]

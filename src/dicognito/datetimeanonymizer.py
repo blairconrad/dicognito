@@ -1,14 +1,19 @@
+"""Replace date-based values with something that obscures the patient's identity."""
+
 import datetime
 from itertools import zip_longest
 from typing import Iterator, MutableSequence
+
 import pydicom
 
 from dicognito.element_anonymizer import ElementAnonymizer
 
 
 class DateTimeAnonymizer(ElementAnonymizer):
+    """Date/time anonymizers."""
+
     def __init__(self, offset_hours: int) -> None:
-        """\
+        """
         Create a new DateTimeAnonymizer.
 
         Parameters
@@ -20,9 +25,8 @@ class DateTimeAnonymizer(ElementAnonymizer):
         self.offset = datetime.timedelta(hours=offset_hours)
 
     def __call__(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> bool:
-        """\
-        Potentially anonymize one or two elements, replacing their
-        value(s) with something that obscures the patient's identity.
+        """
+        Replace DT or DA (and TM) values with something that obscures patient identity.
 
         Parameters
         ----------
@@ -38,7 +42,7 @@ class DateTimeAnonymizer(ElementAnonymizer):
         -------
         True if an element (or two) was anonymized, or False if not.
         """
-        if data_element.VR != "DA" and data_element.VR != "DT":
+        if data_element.VR not in ("DA", "DT"):
             return False
         if not data_element.value:
             return True
@@ -46,10 +50,11 @@ class DateTimeAnonymizer(ElementAnonymizer):
         if data_element.VR == "DA":
             self._anonymize_date_and_time(dataset, data_element)
         else:
-            self._anonymize_datetime(dataset, data_element)
+            self._anonymize_datetime(data_element)
         return True
 
     def describe_actions(self) -> Iterator[str]:
+        """Describe the actions this anonymizer performs."""
         yield "Replace all DA attributes with anonymized values that precede the originals"
         yield "Replace all DT attributes with anonymized values that precede the originals"
         yield "Replace all TM attributes with anonymized values that precede the originals"
@@ -78,14 +83,14 @@ class DateTimeAnonymizer(ElementAnonymizer):
         if times:
             time_element.value = new_times  # type: ignore[union-attr]
 
-    def _anonymize_datetime(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> None:
+    def _anonymize_datetime(self, data_element: pydicom.DataElement) -> None:
         datetimes = self._get_value_as_sequence(data_element)
         data_element.value = [self._shift_datetime(datetime_value) for datetime_value in datetimes]
 
     def _shift_datetime(self, datetime_value: str) -> str:
         datetime_format = "%Y%m%d%H"[: len(datetime_value) - 2]
 
-        old_datetime = datetime.datetime.strptime(datetime_value[:10], datetime_format)
+        old_datetime = datetime.datetime.strptime(datetime_value[:10], datetime_format)  # noqa: DTZ007
         new_datetime = old_datetime + self.offset
 
         new_datetime_value = new_datetime.strftime(datetime_format)
@@ -96,5 +101,4 @@ class DateTimeAnonymizer(ElementAnonymizer):
     def _get_value_as_sequence(self, data_element: pydicom.DataElement) -> MutableSequence[str]:
         if isinstance(data_element.value, pydicom.multival.MultiValue):
             return data_element.value
-        else:
-            return [data_element.value]
+        return [data_element.value]

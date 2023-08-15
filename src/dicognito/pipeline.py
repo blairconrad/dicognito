@@ -1,8 +1,6 @@
-from typing import List
-import pydicom
+"""
+Run additional tasks around dataset anonymization.
 
-
-"""\
 A framework for running additional tasks using the datasets that will be
 anonymized. Like Unix commands, a pipeline consists of a list of Filters.
 A Filter is a single part of the pipeline that has an opportunity to act
@@ -40,44 +38,83 @@ And run as an anonymization session on two datasets, the following calls would b
 * Filter1.after_all()
 """
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import pydicom
+
 
 class Filter:
+    """Actions to run around dataset anonymization."""
+
     def before_any(self) -> None:
-        """Run before any datasets are anonymized"""
-        pass
+        """Run before any datasets are anonymized."""
 
     def before_each(self, dataset: pydicom.dataset.Dataset) -> None:
-        """Run on each dataset before it is anonymized"""
-        pass
+        """Run on each dataset before it is anonymized."""
 
     def after_each(self, dataset: pydicom.dataset.Dataset) -> None:
-        """Run on each dataset after it has been anonymized"""
-        pass
+        """Run on each dataset after it has been anonymized."""
 
     def after_all(self) -> None:
-        """Run after all datasets have been anonymized"""
-        pass
+        """Run after all datasets have been anonymized."""
 
 
 class Pipeline:
-    def __init__(self) -> None:
-        self.filters: List[Filter] = []
+    """A collection of actions to run around dataset anonymization."""
 
-    def add(self, filter: Filter) -> None:
-        self.filters.append(filter)
+    def __init__(self) -> None:
+        """Create an empty Pipeline."""
+        self.filters: list[Filter] = []
+
+    def add(self, new_filter: Filter) -> None:
+        """
+        Add a new filter to the pipeline.
+
+        The new filter's before_each and before methods will be run
+        after previously-added filters. Its after and after_each methods
+        will be run before previously-added filters.
+        """
+        self.filters.append(new_filter)
 
     def before_any(self) -> None:
-        for filter in self.filters:
-            filter.before_any()
+        """
+        Run before any datasets are anonymized.
+
+        Each filter's before_any method will be run in the order the
+        filter was added to the pipeline.
+        """
+        for a_filter in self.filters:
+            a_filter.before_any()
 
     def before_each(self, dataset: pydicom.dataset.Dataset) -> None:
-        for filter in self.filters:
-            filter.before_each(dataset)
+        """
+        Run on each dataset before it is anonymized.
+
+        Each filter's before_each method will be run in the order the
+        filter was added to the pipeline.
+        """
+        for a_filter in self.filters:
+            a_filter.before_each(dataset)
 
     def after_each(self, dataset: pydicom.dataset.Dataset) -> None:
-        for filter in self.filters[::-1]:
-            filter.after_each(dataset)
+        """
+        Run on each dataset after it is anonymized.
+
+        Each filter's after_each method will be run in the opposite order
+        that the filter was added to the pipeline.
+        """
+        for a_filter in self.filters[::-1]:
+            a_filter.after_each(dataset)
 
     def after_all(self) -> None:
-        for filter in self.filters[::-1]:
-            filter.after_all()
+        """
+        Run after all datasets have been anonymized.
+
+        Each filter's after_all method will be run in the opposite order
+        that the filter was added to the pipeline.
+        """
+        for a_filter in self.filters[::-1]:
+            a_filter.after_all()

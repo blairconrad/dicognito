@@ -1,22 +1,17 @@
+"""Replace AD values with something that obscures the patient's identity."""
+from typing import Iterator
+
 import pydicom
 
-
-from typing import Any, Iterator
 from dicognito.element_anonymizer import ElementAnonymizer
 from dicognito.randomizer import Randomizer
 
-"""\
-Defines AddressAnonymizer, responsible for anonymizing addresses
-"""
-
 
 class AddressAnonymizer(ElementAnonymizer):
-    """\
-    Anonymizes addresses.
-    """
+    """AD anonymizer."""
 
     def __init__(self, randomizer: Randomizer):
-        """\
+        """
         Create a new AddressAnonymizer.
 
         Parameters
@@ -36,10 +31,13 @@ class AddressAnonymizer(ElementAnonymizer):
             country_tag: self.get_country,
         }
 
-    def __call__(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> bool:
-        """\
-        Potentially anonymize a single DataElement, replacing its
-        value with something that obscures the patient's identity.
+    def __call__(
+        self,
+        dataset: pydicom.dataset.Dataset,  # noqa: ARG002
+        data_element: pydicom.DataElement,
+    ) -> bool:
+        """
+        Replace an AD with something that obscures the patient's identity.
 
         Parameters
         ----------
@@ -65,28 +63,34 @@ class AddressAnonymizer(ElementAnonymizer):
         return True
 
     def describe_actions(self) -> Iterator[str]:
-        yield from map(
-            lambda keyword: f"Replace {keyword} with anonymized values",
-            map(pydicom.datadict.keyword_for_tag, self._value_factories.keys()),
+        """Describe the actions this anonymizer performs."""
+        yield from (
+            f"Replace {keyword} with anonymized values"
+            for keyword in map(pydicom.datadict.keyword_for_tag, self._value_factories.keys())
         )
 
-    def get_street_address(self, original_value: Any) -> str:
+    def get_street_address(self, original_value: str) -> str:
+        """Generate a new street address based on an original value."""
         (street_number_index, street_index) = self.randomizer.get_ints_from_ranges(
-            original_value, 1000, len(self._streets)
+            original_value,
+            1000,
+            len(self._streets),
         )
         street_number = street_number_index + 1
         return f"{street_number} {self._streets[street_index]}"
 
-    def get_region(self, original_value: Any) -> str:
+    def get_region(self, original_value: str) -> str:
+        """Generate a new region based on an original value."""
         (city_index,) = self.randomizer.get_ints_from_ranges(original_value, len(self._cities))
         return self._cities[city_index]
 
-    def get_country(self, original_value: Any) -> str:
+    def get_country(self, original_value: str) -> str:
+        """Generate a new country based on an original value."""
         (country_index,) = self.randomizer.get_ints_from_ranges(original_value, len(self._countries))
         return self._countries[country_index]
 
     # from https://www.randomlists.com/random-street-names?qty=100&dup=false, mostly
-    _streets = [
+    _streets = (
         "JACKSON STREET",
         "ROUTE 41",
         "HILLCREST AVENUE",
@@ -187,10 +191,10 @@ class AddressAnonymizer(ElementAnonymizer):
         "PEARL STREET",
         "11TH STREET",
         "ROUTE 1",
-    ]
+    )
 
     # from https://www.randomlists.com/random-world-cities?qty=50&dup=false
-    _cities = [
+    _cities = (
         "MADRID",
         "BENGALURU",
         "AHMEDABAD",
@@ -241,10 +245,10 @@ class AddressAnonymizer(ElementAnonymizer):
         "AHVAZ",
         "TEHRAN",
         "HEFEI",
-    ]
+    )
 
     # from https://www.randomlists.com/random-country?qty=40&dup=false
-    _countries = [
+    _countries = (
         "UKRAINE",
         "DJIBOUTI",
         "COLOMBIA",
@@ -285,4 +289,4 @@ class AddressAnonymizer(ElementAnonymizer):
         "CHAD",
         "SRI LANKA",
         "LATVIA",
-    ]
+    )

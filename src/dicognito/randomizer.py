@@ -1,11 +1,16 @@
+"""Utilities for transforming values into hard-to-predict integers."""
+from __future__ import annotations
+
 import hashlib
 import os
-from typing import Any, Optional, Sequence
+from typing import Sequence
 
 
 class Randomizer:
-    def __init__(self, seed: Optional[str]):
-        """\
+    """Source of hard-to-predict numbers."""
+
+    def __init__(self, seed: str | None):
+        """
         Create a new Randomizer.
 
         Parameters
@@ -20,29 +25,29 @@ class Randomizer:
         else:
             self.seed = str(seed)
 
-    def to_int(self, original_value: Any) -> int:
-        """\
-        Convert an original data element value into a large integer,
-        which can be used to select or construct a replacement value.
+    def to_int(self, original_value: str) -> int:
+        """
+        Convert an original data element value into a large integer.
 
         Parameters
         ----------
         original_value
             The original value that will ultimately be replaced.
         """
-        message = self.seed + str(original_value)
+        message = self.seed + original_value
         encoded = message.encode("utf8")
-        hash = hashlib.md5(encoded).digest()
+        digest = hashlib.md5(encoded).digest()  # noqa: S324
         result = 0
-        for c in hash:
+        for c in digest:
             result *= 0x100
             result += c
         return result
 
-    def get_ints_from_ranges(self, original_value: Any, *suprema: int) -> Sequence[int]:
-        """\
-        Convert an original data element value into a series of
-        integers, each between 0 (inclusive) and one of the suprema
+    def get_ints_from_ranges(self, original_value: str, *suprema: int) -> Sequence[int]:
+        """
+        Convert an original value into a series of integers.
+
+        Each value will be between 0 (inclusive) and one of the suprema
         (exclusive) passed in.
 
         Parameters
@@ -50,7 +55,7 @@ class Randomizer:
         original_value
             The original value that will ultimately be replaced.
 
-        suprenums : sequence of int
+        suprema : sequence of int
             The upper bounds for each of the desired integer ranges.
         """
         big_int = self.to_int(original_value)

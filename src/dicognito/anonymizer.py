@@ -1,25 +1,29 @@
-"""\
-Defines Anonymizer, the principle class used to anonymize DICOM objects.
-"""
-from typing import Iterator, Optional, Sequence
+"""Defines Anonymizer, the principle class used to anonymize DICOM objects."""
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Iterator, Sequence
+
 from dicognito.addressanonymizer import AddressAnonymizer
 from dicognito.dataset_updater import DatasetUpdater, DeidentificationMethodUpdater, PatientIdentityRemovedUpdater
-from dicognito.element_anonymizer import ElementAnonymizer
+from dicognito.datetimeanonymizer import DateTimeAnonymizer
 from dicognito.equipmentanonymizer import EquipmentAnonymizer
 from dicognito.fixedvalueanonymizer import FixedValueAnonymizer
 from dicognito.idanonymizer import IDAnonymizer
 from dicognito.pnanonymizer import PNAnonymizer
-from dicognito.datetimeanonymizer import DateTimeAnonymizer
+from dicognito.randomizer import Randomizer
 from dicognito.uianonymizer import UIAnonymizer
 from dicognito.unwantedelements import UnwantedElementsStripper
-from dicognito.randomizer import Randomizer
 
-import pydicom
+if TYPE_CHECKING:
+    import pydicom
+
+    from dicognito.element_anonymizer import ElementAnonymizer
 
 
 class Anonymizer:
-    """\
+    """
     The main class responsible for anonymizing pydicom datasets.
+
     New instances will anonymize instances differently, so when
     anonymizing instances from the same series, study, or patient,
     reuse an Anonymizer.
@@ -42,8 +46,8 @@ class Anonymizer:
     >>>         dataset.save_as("new-" + filename)
     """
 
-    def __init__(self, id_prefix: str = "", id_suffix: str = "", seed: Optional[str] = None) -> None:
-        """\
+    def __init__(self, id_prefix: str = "", id_suffix: str = "", seed: str | None = None) -> None:
+        """
         Create a new Anonymizer.
 
         Parameters
@@ -115,9 +119,11 @@ class Anonymizer:
         ]
 
     def anonymize(self, dataset: pydicom.dataset.Dataset) -> None:
-        """\
-        Anonymize a dataset in place. Replaces all PNs, UIs, dates and times, and
-        known identifiying attributes with other vlaues.
+        """
+        Anonymize a dataset in place.
+
+        Replaces all PNs, UIs, dates and times, and
+        known identifying attributes with other values.
 
         Parameters
         ----------
@@ -130,6 +136,8 @@ class Anonymizer:
             updater(dataset)
 
     def describe_actions(self) -> str:
+        """Describe all the actions this anonymizer performs."""
+
         def actions() -> Iterator[str]:
             for handler in self._element_handlers:
                 yield from handler.describe_actions()

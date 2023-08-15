@@ -1,13 +1,12 @@
-"""\
-Anonymize one or more DICOM files' headers (not pixel data).
-"""
-from __future__ import print_function
+"""Anonymize one or more DICOM files' headers (not pixel data)."""
+
+from __future__ import annotations
 
 import glob
 import logging
 import os.path
 import sys
-from typing import Iterable, Optional, Sequence
+from typing import Iterable, Sequence
 
 import pydicom
 
@@ -21,7 +20,7 @@ def _get_filenames_from_source(source: str) -> Iterable[str]:
     if os.path.isfile(source):
         yield source
     elif os.path.isdir(source):
-        for dirpath, dirnames, filenames in os.walk(source):
+        for dirpath, _, filenames in os.walk(source):
             for filename in filenames:
                 yield os.path.join(dirpath, filename)
     else:
@@ -40,11 +39,12 @@ def _get_datasets_from_sources(sources: Iterable[str]) -> Iterable[pydicom.datas
         try:
             with pydicom.dcmread(filename, force=False) as dataset:
                 yield dataset
-        except pydicom.errors.InvalidDicomError:
+        except pydicom.errors.InvalidDicomError:  # noqa: PERF203
             logging.info("File %s appears not to be DICOM. Skipping.", filename)
 
 
-def main(main_args: Optional[Sequence[str]] = None) -> None:
+def main(main_args: Sequence[str] | None = None) -> None:
+    """Run the anonymizer."""
     if main_args is None:
         main_args = sys.argv[1:]
 
@@ -52,12 +52,12 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:
 
     numeric_level = getattr(logging, args.log_level.upper(), None)
     if not isinstance(numeric_level, int):
-        raise ValueError("Invalid log level: %s" % args.log_level)
+        raise ValueError("Invalid log level: %s" % args.log_level)  # noqa: TRY004
     logging.basicConfig(format="", level=numeric_level)
 
     if not args.in_place and not args.output_directory:
         logging.warning(
-            "Neither --output-directory/-o nor --in-place/-i were specified. This will be an error in the future."
+            "Neither --output-directory/-o nor --in-place/-i were specified. This will be an error in the future.",
         )
 
     anonymizer = Anonymizer(id_prefix=args.id_prefix, id_suffix=args.id_suffix, seed=args.seed)
@@ -75,8 +75,8 @@ def main(main_args: Optional[Sequence[str]] = None) -> None:
             pipeline.before_each(dataset)
             anonymizer.anonymize(dataset)
             pipeline.after_each(dataset)
-        except Exception:
-            logging.error("Error occurred while converting %s. Aborting.\nError was:", dataset.filename, exc_info=True)
+        except Exception:  # noqa: PERF203
+            logging.exception("Error occurred while converting %s. Aborting.", dataset.filename)
             sys.exit(1)
 
     pipeline.after_all()

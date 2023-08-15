@@ -9,7 +9,7 @@ def add_source_to_sys_path():
 
 
 @task(iterable=["like"])
-def test(context, like, loop=False):
+def test(context, like, *, loop=False):
     add_source_to_sys_path()
 
     args = ["pytest"]
@@ -32,7 +32,7 @@ def smoketest(context):
 
 
 @task
-def clean(context):
+def clean(context):  # noqa: ARG001
     def rm(path):
         if os.path.exists(path):
             shutil.rmtree(path)

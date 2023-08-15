@@ -1,5 +1,5 @@
-from os.path import abspath, join
 from itertools import dropwhile, islice, takewhile
+from os.path import abspath, join
 from typing import Iterator
 
 from dicognito.anonymizer import Anonymizer
@@ -16,11 +16,11 @@ def test_anonymized_attributes_described():
         return islice(iterable, 1, None)
 
     data_root = abspath(join(__file__, "..", ".."))
-    with open(join(data_root, "README.md"), "r") as readme:
+    with open(join(data_root, "README.md")) as readme:
         anonymizer = Anonymizer()
 
         readme_description = "".join(
-            takewhile(still_description, drop_header(dropwhile(before_description, readme)))
+            takewhile(still_description, drop_header(dropwhile(before_description, readme))),
         ).strip()
         anonymizer_description = anonymizer.describe_actions()
 

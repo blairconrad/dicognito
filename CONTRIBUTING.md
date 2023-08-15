@@ -22,7 +22,7 @@ updated tests.
 
 ## Style
 
-We use [pylama](https://github.com/klen/pylama/) as a linter and [black](https://black.readthedocs.io/en/stable/)
+We use [Ruff](https://ruff.rs/) as a linter and [black](https://black.readthedocs.io/en/stable/)
 as a formatter. Please follow existing conventions. Any deviations will cause the build to fail.
 
 ## Making Changes

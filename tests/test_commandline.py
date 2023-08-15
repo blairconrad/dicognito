@@ -1,21 +1,22 @@
-import sys
-import os.path
-import pytest
-import shutil
 import logging
+import os.path
+import shutil
+import sys
 
-import pydicom
 import dicognito.__main__
+import pydicom
+import pytest
+
 from .data_for_tests import load_dcm
 
 data_dir = ""
 
 
-def setup_module(module):
+def setup_module():
     base_dir = os.path.dirname(__file__)
     orig_dir = os.path.join(base_dir, "orig_data")
 
-    global data_dir
+    global data_dir  # noqa: PLW0603
     data_dir = os.path.join(base_dir, "..", "build", "data")
     if os.path.isdir(data_dir):
         shutil.rmtree(data_dir)
@@ -25,11 +26,11 @@ def setup_module(module):
 def test_implicit_in_place_warns_but_anonymizes(caplog):
     test_name = get_test_name()
     orig_dataset = read_original_file(test_name, "p01_s01_s01_i01.dcm")
-    assert "CompressedSamples^MR1" == orig_dataset.PatientName
+    assert orig_dataset.PatientName == "CompressedSamples^MR1"
 
     run_dicognito(path_to(""))
 
-    log_record = [log for log in caplog.records if log.levelname == "WARNING"][0]
+    log_record = next(log for log in caplog.records if log.levelname == "WARNING")
     assert (
         "Neither --output-directory/-o nor --in-place/-i were specified. This will be an error in the future."
         in log_record.getMessage()
@@ -44,7 +45,7 @@ def test_implicit_in_place_warns_but_anonymizes(caplog):
 def test_in_place_overwrites_files():
     test_name = get_test_name()
     orig_dataset = read_original_file(test_name, "p01_s01_s01_i01.dcm")
-    assert "CompressedSamples^MR1" == orig_dataset.PatientName
+    assert orig_dataset.PatientName == "CompressedSamples^MR1"
 
     run_dicognito(path_to("p*"), "--in-place")
 
@@ -55,7 +56,7 @@ def test_in_place_overwrites_files():
 def test_in_place_short_form_overwrites_files():
     test_name = get_test_name()
     orig_dataset = read_original_file(test_name, "p01_s01_s01_i01.dcm")
-    assert "CompressedSamples^MR1" == orig_dataset.PatientName
+    assert orig_dataset.PatientName == "CompressedSamples^MR1"
 
     run_dicognito(path_to("p*"), "-i")
 
@@ -66,7 +67,7 @@ def test_in_place_short_form_overwrites_files():
 def test_ignores_file_that_do_not_match_glob():
     test_name = get_test_name()
     orig_dataset = read_original_file(test_name, "np01_s01_s01_i01.dcm")
-    assert "CompressedSamples^MR1" == orig_dataset.PatientName
+    assert orig_dataset.PatientName == "CompressedSamples^MR1"
 
     run_dicognito(path_to("p*"))
 
@@ -113,8 +114,8 @@ def test_directory_is_recursed():
     test_name = get_test_name()
     orig_dataset1 = read_original_file(test_name, "p01_s01_s01_i01.dcm")
     orig_dataset2 = read_original_file(test_name, "a", "b", "p01_s02_s01_i01.dcm")
-    assert "CompressedSamples^MR1" == orig_dataset1.PatientName
-    assert "CompressedSamples^MR1" == orig_dataset2.PatientName
+    assert orig_dataset1.PatientName == "CompressedSamples^MR1"
+    assert orig_dataset2.PatientName == "CompressedSamples^MR1"
 
     run_dicognito(path_to(""))
 
@@ -129,7 +130,7 @@ def test_non_dicom_files_ignored(capsys):
 
     test_name = get_test_name()
     orig_dataset = read_original_file(test_name, "p01_s01_s01_i01.dcm")
-    assert "CompressedSamples^MR1" == orig_dataset.PatientName
+    assert orig_dataset.PatientName == "CompressedSamples^MR1"
 
     run_dicognito(path_to(""))
     (actual_output, actual_error) = capsys.readouterr()
@@ -144,7 +145,7 @@ def test_non_dicom_files_logged_at_info(caplog):
 
     test_name = get_test_name()
     orig_dataset = read_original_file(test_name, "p01_s01_s01_i01.dcm")
-    assert "CompressedSamples^MR1" == orig_dataset.PatientName
+    assert orig_dataset.PatientName == "CompressedSamples^MR1"
 
     set_log_level(caplog, logging.INFO)
     run_dicognito("--in-place", path_to(""))
@@ -215,15 +216,17 @@ def test_burned_in_annotation_fail(caplog):
     with pytest.raises(SystemExit):
         run_dicognito("--in-place", path_to(""), "--on-burned-in-annotation", "fail")
 
-    log_record = [log for log in caplog.records if log.levelname == "ERROR"][0]
-    assert f"Error occurred while converting {input_file_name}. Aborting.\nError was:" in log_record.getMessage()
+    log_record = next(log for log in caplog.records if log.levelname == "ERROR")
+    assert f"Error occurred while converting {input_file_name}. Aborting." in log_record.getMessage()
     assert expected_message in str(log_record.exc_info[1])
 
 
-def test_in_place_and_output_directory_are_exclusive():
-    with pytest.raises(SystemExit) as e:
+def test_in_place_and_output_directory_are_exclusive(capsys):
+    with pytest.raises(SystemExit):
         run_dicognito(path_to(""), "--output-dir", "some_output_dir", "--in-place")
-        assert "argument --in-place: not allowed with argument --output-directory/-o" in str(e.value)
+
+    (_, actual_error) = capsys.readouterr()
+    assert "argument --in-place/-i: not allowed with argument --output-directory/-o" in actual_error
 
 
 def test_creates_output_directory_when_missing():
@@ -253,7 +256,7 @@ def test_retains_existing_files_in_output_directory():
     run_dicognito(path_to("p01_s01_s01_i01.dcm"), "--output-dir", path_to())
 
     all_output_files = os.listdir(path_to())
-    assert len(all_output_files) == 2
+    assert len(all_output_files) == 2  # noqa: PLR2004
     assert "p01_s01_s01_i01.dcm" in all_output_files
 
 
@@ -270,8 +273,8 @@ def test_conversion_error_logs_filename_and_error_type(caplog):
     with pytest.raises(SystemExit):
         run_dicognito(input_file_name, "--output-dir", path_to("new_dir"))
 
-    log_record = [log for log in caplog.records if log.levelname == "ERROR"][0]
-    assert f"Error occurred while converting {input_file_name}. Aborting.\nError was:" in log_record.getMessage()
+    log_record = next(log for log in caplog.records if log.levelname == "ERROR")
+    assert f"Error occurred while converting {input_file_name}. Aborting." in log_record.getMessage()
     assert log_record.exc_info is not None
 
 
@@ -289,7 +292,7 @@ def path_to(*end_of_path: str) -> str:
 
 
 def run_dicognito(*extra_args: str) -> None:
-    dicognito.__main__.main(("--seed", "") + extra_args)
+    dicognito.__main__.main(("--seed", "", *extra_args))
 
 
 def read_file(*directory_parts: str) -> pydicom.dataset.Dataset:

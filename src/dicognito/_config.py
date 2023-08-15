@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 import argparse
 import sys
-from typing import Any, Optional, Sequence, Text, Tuple, Union
+from typing import Any, Sequence
 
 import pydicom
 
@@ -9,29 +11,33 @@ from dicognito.filters import BurnedInAnnotationGuard
 
 
 class VersionAction(argparse.Action):
-    def __init__(
+    def __init__(  # noqa:PLR0913
         self,
         option_strings: Sequence[str],
-        version: Optional[str] = None,
+        version: str | None = None,
         dest: str = argparse.SUPPRESS,
         default: str = argparse.SUPPRESS,
-        help: str = "show program's version information and exit",
+        help_message: str = "show program's version information and exit",
     ):
-        super(VersionAction, self).__init__(
-            option_strings=option_strings, dest=dest, default=default, nargs=0, help=help
+        super().__init__(
+            option_strings=option_strings,
+            dest=dest,
+            default=default,
+            nargs=0,
+            help=help_message,
         )
         self.version = version
 
     def __call__(
         self,
         parser: argparse.ArgumentParser,
-        namespace: argparse.Namespace,
-        values: Union[Text, Sequence[Any], None],
-        option_string: Optional[Text] = None,
+        namespace: argparse.Namespace,  # noqa: ARG002
+        values: str | Sequence[Any] | None,  # noqa: ARG002
+        option_string: str | None = None,  # noqa: ARG002
     ) -> None:
         import platform
 
-        def print_table(version_rows: Sequence[Tuple[str, str]]) -> None:
+        def print_table(version_rows: Sequence[tuple[str, str]]) -> None:
             row_format = "{:12} | {}"
             print(row_format.format("module", "version"))
             print(row_format.format("------", "-------"))
@@ -137,5 +143,4 @@ def parse_arguments(main_args: Sequence[str]) -> argparse.Namespace:
     )
     parser.add_argument("--version", action=VersionAction)
 
-    args = parser.parse_args(main_args)
-    return args
+    return parser.parse_args(main_args)

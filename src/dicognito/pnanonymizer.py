@@ -1,13 +1,21 @@
+"""Replace PN values with something that obscures the patient's identity."""
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Iterator
+
 import pydicom
 
-from typing import Any, Iterator, Optional
 from dicognito.element_anonymizer import ElementAnonymizer
-from dicognito.randomizer import Randomizer
+
+if TYPE_CHECKING:
+    from dicognito.randomizer import Randomizer
 
 
 class PNAnonymizer(ElementAnonymizer):
+    """PN anonymizer."""
+
     def __init__(self, randomizer: Randomizer):
-        """\
+        """
         Create a new PNAnonymizer.
 
         Parameters
@@ -18,9 +26,8 @@ class PNAnonymizer(ElementAnonymizer):
         self.randomizer = randomizer
 
     def __call__(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> bool:
-        """\
-        Potentially anonymize a single DataElement, replacing its
-        value with something that obscures the patient's identity.
+        """
+        Replace a PN value with something that obscures the patient's identity.
 
         Parameters
         ----------
@@ -47,11 +54,12 @@ class PNAnonymizer(ElementAnonymizer):
         return True
 
     def describe_actions(self) -> Iterator[str]:
+        """Describe the actions this anonymizer performs."""
         yield "Replace all PN attributes with anonymized values"
 
-    def _new_pn(self, sex: Optional[str], original_value: Any) -> str:
+    def _new_pn(self, sex: str | None, original_value: str) -> str:
         if sex == "F":
-            first_names = self._female_first_names
+            first_names: tuple[str, ...] = self._female_first_names
         elif sex == "M":
             first_names = self._male_first_names
         else:
@@ -60,12 +68,15 @@ class PNAnonymizer(ElementAnonymizer):
         if original_value:
             original_value = str(original_value).rstrip("^")
         indices = self.randomizer.get_ints_from_ranges(
-            original_value, len(self._last_names), len(first_names), len(self._all_first_names)
+            original_value,
+            len(self._last_names),
+            len(first_names),
+            len(self._all_first_names),
         )
 
         return self._last_names[indices[0]] + "^" + first_names[indices[1]] + "^" + self._all_first_names[indices[2]]
 
-    _female_first_names = [
+    _female_first_names = (
         "MARY",
         "PATRICIA",
         "LINDA",
@@ -1066,9 +1077,9 @@ class PNAnonymizer(ElementAnonymizer):
         "HERMINIA",
         "TERRA",
         "CELINA",
-    ]
+    )
 
-    _male_first_names = [
+    _male_first_names = (
         "JAMES",
         "JOHN",
         "ROBERT",
@@ -2069,9 +2080,9 @@ class PNAnonymizer(ElementAnonymizer):
         "TYREE",
         "JEFFEREY",
         "AHMED",
-    ]
+    )
 
-    _last_names = [
+    _last_names = (
         "SMITH",
         "JOHNSON",
         "WILLIAMS",
@@ -3072,6 +3083,6 @@ class PNAnonymizer(ElementAnonymizer):
         "WHITLEY",
         "NOEL",
         "VANG",
-    ]
+    )
 
     _all_first_names = _female_first_names + _male_first_names

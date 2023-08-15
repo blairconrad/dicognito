@@ -1,4 +1,5 @@
-from typing import Any, Iterator
+"""Replace certain values to obscure patient's identity."""
+from typing import Iterator
 
 import pydicom
 
@@ -6,8 +7,10 @@ from dicognito.element_anonymizer import ElementAnonymizer
 
 
 class FixedValueAnonymizer(ElementAnonymizer):
-    def __init__(self, keyword: str, value: Any) -> None:
-        """\
+    """Fixed-value anonymizer."""
+
+    def __init__(self, keyword: str, value: str) -> None:
+        """
         Create a new FixedValueAnonymizer.
 
         Parameters
@@ -21,10 +24,13 @@ class FixedValueAnonymizer(ElementAnonymizer):
         self.tag: int = pydicom.datadict.keyword_dict[keyword]
         self.value = value
 
-    def __call__(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> bool:
-        """\
-        Potentially anonymize a single DataElement, replacing its
-        value with self.value.
+    def __call__(
+        self,
+        dataset: pydicom.dataset.Dataset,  # noqa: ARG002
+        data_element: pydicom.DataElement,
+    ) -> bool:
+        """
+        Replace a given value.
 
         Parameters
         ----------
@@ -46,4 +52,5 @@ class FixedValueAnonymizer(ElementAnonymizer):
         return False
 
     def describe_actions(self) -> Iterator[str]:
+        """Describe the actions this anonymizer performs."""
         yield f'Replace {pydicom.datadict.keyword_for_tag(self.tag)} with "{self.value}"'

@@ -1,10 +1,11 @@
 try:
     import Image
-except:  # NOQA - fallback, no matter the cause
+except ImportError:
     try:
         from PIL import Image
-    except:  # NOQA - we'll raise a better exception
-        raise Exception("Can't import PIL or PILLOW. Install one.")
+    except ImportError as exc:
+        message = "Can't import PIL or PILLOW. Install one."
+        raise Exception(message) from exc
 
 
 def build_icon(final_width, xray, incognito):
@@ -29,12 +30,12 @@ def paste_icon_part(icon, part, vertical_position):
 
 def prepare_xray(final_width, xray):
     xray_bounds = get_xray_bounds(final_width)
-    xray = xray.crop(xray_bounds)
-    return xray
+    return xray.crop(xray_bounds)
 
 
 def get_xray_bounds(final_width):
-    if final_width > 100:
+    widest_small_logo = 100
+    if final_width > widest_small_logo:
         xray_left = 112
         xray_top = 253
         xray_height = 298
@@ -55,8 +56,7 @@ def prepare_incognito(incognito):
     new_width = 262
     new_height = int(1.0 * incognito.height / incognito.width * new_width)
 
-    incognito = incognito.resize((new_width, new_height), Image.BICUBIC)
-    return incognito
+    return incognito.resize((new_width, new_height), Image.BICUBIC)
 
 
 def get_logo_size(incognito, xray, xray_border_size):

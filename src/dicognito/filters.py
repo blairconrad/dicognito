@@ -1,24 +1,33 @@
+"""Filters to apply before and after dataset anonymization."""
+from __future__ import annotations
+
 import itertools
 import logging
 import operator
 import os
-from typing import List, Sequence
-
-import pydicom
+from typing import TYPE_CHECKING, Sequence
 
 from dicognito.pipeline import Filter
 
+if TYPE_CHECKING:
+    import pydicom
+
 
 class Summarize(Filter):
-    def __init__(self, *attributes: Sequence[str]):
-        self.rows: List[Sequence[str]] = []
+    """Summarizes newly-anonymized instances."""
+
+    def __init__(self) -> None:
+        """Create a new Summarize."""
+        self.rows: list[Sequence[str]] = []
 
     def after_each(self, dataset: pydicom.dataset.Dataset) -> None:
+        """Remember attributes identifying anonymized instance."""
         self.rows.append(
-            (dataset.get("AccessionNumber", ""), dataset.get("PatientID", ""), str(dataset.get("PatientName", "")))
+            (dataset.get("AccessionNumber", ""), dataset.get("PatientID", ""), str(dataset.get("PatientName", ""))),
         )
 
     def after_all(self) -> None:
+        """Output attributes identifying anonymized instance."""
         attributes = ("Accession Number", "Patient ID", "Patient Name")
         widths = [len(a) for a in attributes]
 
@@ -41,11 +50,13 @@ class Summarize(Filter):
 
 
 class BurnedInAnnotationGuard(Filter):
-    ASSUME_IF_CHOICES = ["if-yes", "unless-no", "never"]
-    IF_FOUND_CHOICES = ["warn", "fail"]
+    """Guards against burned-in annotation foiling anonymization."""
+
+    ASSUME_IF_CHOICES = ("if-yes", "unless-no", "never")
+    IF_FOUND_CHOICES = ("warn", "fail")
 
     def __init__(self, assume_if: str, if_found: str):
-        """\
+        """
         Create a new BurnedInAnnotationGuard.
 
         Parameters
@@ -62,16 +73,16 @@ class BurnedInAnnotationGuard(Filter):
         self.if_found = if_found
 
     def before_each(self, dataset: pydicom.dataset.Dataset) -> None:
-        """\
-        Guards against an undesired burned-in annotation situation, performing
-        the preferred action if there's a violation.
+        """
+        Guard against an undesired burned-in annotation situation.
+
+        Perform the preferred action if there's a violation.
 
         Parameters
         ----------
         dataset : pydicom.dataset.Dataset
             The dataset to examine.
         """
-
         if self._should_assume_annotation(dataset):
             self._perform_annotation_action(dataset, dataset.filename)
 
@@ -85,27 +96,35 @@ class BurnedInAnnotationGuard(Filter):
         burned_in_annotation_value = "BurnedInAnnotation" in dataset and dataset.BurnedInAnnotation or "not specified"
         burned_in_annotation_message = "Burned In Annotation is " + burned_in_annotation_value + " in " + filename
         if self.if_found == "fail":
-            raise Exception(burned_in_annotation_message)
-        else:
-            logging.warning(burned_in_annotation_message)
+            raise ValueError(burned_in_annotation_message)
+        logging.warning(burned_in_annotation_message)
 
 
 class SaveInPlace(Filter):
+    """Saves anonymized instances into original files."""
+
     def before_each(self, dataset: pydicom.dataset.Dataset) -> None:
+        """Remember original filename."""
         self.output_filename = dataset.filename
 
     def after_each(self, dataset: pydicom.dataset.Dataset) -> None:
+        """Save to original filename."""
         dataset.save_as(self.output_filename, write_like_original=False)
 
 
 class SaveToSOPInstanceUID(Filter):
+    """Saves anonymized instances to files named by new SOP Instance UID."""
+
     def __init__(self, output_directory: str):
+        """Create a new SaveToSOPInstanceUID."""
         self.output_directory = output_directory
 
     def before_any(self) -> None:
+        """Ensure output directory exists."""
         if not os.path.isdir(self.output_directory):
             os.makedirs(self.output_directory)
 
     def after_each(self, dataset: pydicom.dataset.Dataset) -> None:
+        """Save anonymized instance to file named by new SOP Instance UID."""
         output_filename = os.path.join(self.output_directory, dataset.SOPInstanceUID + ".dcm")
         dataset.save_as(output_filename, write_like_original=False)

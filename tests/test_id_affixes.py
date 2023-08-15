@@ -1,5 +1,4 @@
 import pytest
-
 from dicognito.anonymizer import Anonymizer
 
 from .data_for_tests import load_instance
@@ -69,4 +68,5 @@ def test_id_prefix_and_suffix_are_both_added_to_id():
 
         actual = dataset.PatientID
 
-        assert actual.startswith("C3") and actual.endswith("3C")
+        assert actual.startswith("C3")
+        assert actual.endswith("3C")
