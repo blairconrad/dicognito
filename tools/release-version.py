@@ -19,9 +19,9 @@ def main(args: Sequence[str]) -> None:
     release_notes_filename = "src/dicognito/release_notes.md"
     branch_name = "release/" + new_version
 
-    subprocess.run(["git", "switch", main_branch])
-    subprocess.run(["git", "pull", "--ff-only", "origin", main_branch])
-    subprocess.run(["git", "switch", "--create", branch_name])
+    git("switch", main_branch)
+    git("pull", "--ff-only", "origin", main_branch)
+    git("switch", "--create", branch_name)
 
     with open(release_notes_filename, newline="\n") as release_notes_file:
         release_notes = release_notes_file.read()
@@ -31,7 +31,7 @@ def main(args: Sequence[str]) -> None:
         release_notes_file.write(release_notes)
 
     print(f"\nReleasing version {new_version}. Changing {release_notes_filename} like so:\n")
-    subprocess.run(["git", "diff", release_notes_filename])
+    git("diff", release_notes_filename)
     response = input("\n  Proceed (y/N)? ").lower() or "n"
 
     if response == "y":
@@ -43,12 +43,16 @@ def main(args: Sequence[str]) -> None:
         print(f"Unknown response '{response}'. Aborting.")
         return
 
-    subprocess.run(["git", "commit", "--quiet", "--message", f"Set version to {new_version}", release_notes_filename])
-    subprocess.run(["git", "switch", "--quiet", main_branch])
-    subprocess.run(["git", "merge", "--quiet", "--no-ff", branch_name])
-    subprocess.run(["git", "branch", "--delete", "--force", branch_name])
-    subprocess.run(["git", "tag", new_version])
-    subprocess.run(["git", "push", "origin", new_version, main_branch])
+    git("commit", "--quiet", "--message", f"Set version to {new_version}", release_notes_filename)
+    git("switch", "--quiet", main_branch)
+    git("merge", "--quiet", "--no-ff", branch_name)
+    git("branch", "--delete", "--force", branch_name)
+    git("tag", new_version)
+    git("push", "origin", new_version, main_branch)
+
+
+def git(*args: str) -> None:
+    subprocess.run(("git", *args), check=True)
 
 
 if __name__ == "__main__":
