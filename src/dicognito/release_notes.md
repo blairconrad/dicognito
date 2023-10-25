@@ -1,3 +1,6 @@
+### Additional Items
+- Format code using [Ruff](https://ruff.rs/) ([#156](https://github.com/blairconrad/dicognito/issues/156))
+
 ## 0.16.0
 
 ### Changed
@@ -11,6 +14,9 @@
 ### Fixed
 - Version table format has bad separator ([#147](https://github.com/blairconrad/dicognito/issues/147))
 - Private creator 0031,0020 breaks anonymization ([#157](https://github.com/blairconrad/dicognito/issues/157))
+
+### Additional Items
+- Lint code using [Ruff](https://ruff.rs/) ([#153](https://github.com/blairconrad/dicognito/issues/153))
 
 ## 0.15.0
 
