@@ -3,6 +3,7 @@
 
 ### Fixed
 - Version table format has bad separator ([#147](https://github.com/blairconrad/dicognito/issues/147))
+- Private creator 0031,0020 breaks anonymization ([#157](https://github.com/blairconrad/dicognito/issues/157))
 
 ## 0.16.0a1
 
