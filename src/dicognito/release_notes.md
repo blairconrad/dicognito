@@ -1,20 +1,14 @@
 ### Changed
 - Drop support for Python 3.7 ([#151](https://github.com/blairconrad/dicognito/issues/151))
+- Require pydicom 2.3.1 or higher ([#136](https://github.com/blairconrad/dicognito/issues/136))
+
+### New
+- Officially support Python 3.11 ([#136](https://github.com/blairconrad/dicognito/issues/136))
+- Complete list of attribute changes now listed in README ([#140](https://github.com/blairconrad/dicognito/issues/140))
 
 ### Fixed
 - Version table format has bad separator ([#147](https://github.com/blairconrad/dicognito/issues/147))
 - Private creator 0031,0020 breaks anonymization ([#157](https://github.com/blairconrad/dicognito/issues/157))
-
-## 0.16.0a1
-
-### Changed
-
-- Require pydicom 2.3.1 or higher ([#136](https://github.com/blairconrad/dicognito/issues/136))
-
-### New
-
-- Officially support Python 3.11 ([#136](https://github.com/blairconrad/dicognito/issues/136))
-- Complete list of attribute changes now listed in README ([#140](https://github.com/blairconrad/dicognito/issues/140))
 
 ## 0.15.0
 
