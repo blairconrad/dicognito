@@ -80,7 +80,7 @@ def parse_arguments(main_args: Sequence[str]) -> argparse.Namespace:
         "-i",
         action="store_true",
         help="Anonymize files in place, replacing original files. Note that repeatedly "
-        "anonymizing the same files will cause date attributes to move farther into "
+        "anonymizing the same files will cause date elements to move farther into "
         "the past.",
     )
     parser.add_argument(
@@ -110,7 +110,7 @@ def parse_arguments(main_args: Sequence[str]) -> argparse.Namespace:
         default=BurnedInAnnotationGuard.ASSUME_IF_CHOICES[0],
         choices=BurnedInAnnotationGuard.ASSUME_IF_CHOICES,
         help="How to assume the presence of burned-in annotations, considering "
-        "the value of the Burned In Annotation attribute",
+        "the value of the Burned In Annotation element",
     )
     parser.add_argument(
         "--on-burned-in-annotation",
@@ -135,7 +135,7 @@ def parse_arguments(main_args: Sequence[str]) -> argparse.Namespace:
     )
     parser.add_argument(
         "--seed",
-        help="The seed to use when generating anonymized attribute values. "
+        help="The seed to use when generating anonymized element values. "
         "If the same value is supplied for subsequent dicognito invocations, then "
         "the same input objects will result in consistent anonymized results. "
         "Omitting this value allows dicognito to generate its own random seed, which "

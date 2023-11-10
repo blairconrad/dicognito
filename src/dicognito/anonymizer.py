@@ -123,7 +123,7 @@ class Anonymizer:
         Anonymize a dataset in place.
 
         Replaces all PNs, UIs, dates and times, and
-        known identifying attributes with other values.
+        known identifying elements with other values.
 
         Parameters
         ----------

@@ -13,10 +13,10 @@ def load_instance(
     instance_number: int = 1,
 ) -> pydicom.dataset.Dataset:
     dataset = load_minimal_instance()
-    _set_patient_attributes(dataset, patient_number)
-    _set_study_attributes(dataset, patient_number, study_number)
-    _set_series_attributes(dataset, patient_number, study_number, series_number)
-    _set_instance_attributes(dataset, patient_number, study_number, series_number, instance_number)
+    _set_patient_elements(dataset, patient_number)
+    _set_study_elements(dataset, patient_number, study_number)
+    _set_series_elements(dataset, patient_number, study_number, series_number)
+    _set_instance_elements(dataset, patient_number, study_number, series_number, instance_number)
     return dataset
 
 
@@ -118,7 +118,7 @@ def load_dcm(*directory_parts: str) -> pydicom.dataset.Dataset:
     return pydicom.dcmread(os.path.join(script_dir, *directory_parts))
 
 
-def _set_patient_attributes(dataset: pydicom.dataset.Dataset, patient_number: int) -> None:
+def _set_patient_elements(dataset: pydicom.dataset.Dataset, patient_number: int) -> None:
     dataset.PatientAddress = str(123 + patient_number) + " Fake Street"
     dataset.PatientBirthDate = str(19830213 + patient_number)
     dataset.PatientBirthTime = "13140" + str(patient_number)
@@ -134,7 +134,7 @@ def _set_patient_attributes(dataset: pydicom.dataset.Dataset, patient_number: in
     dataset.ResponsiblePerson = "Responsible" + str(dataset.PatientName)
 
 
-def _set_study_attributes(dataset: pydicom.dataset.Dataset, patient_number: int, study_number: int) -> None:
+def _set_study_elements(dataset: pydicom.dataset.Dataset, patient_number: int, study_number: int) -> None:
     dataset.StudyID = "FOR4MR" + str(patient_number) + "." + str(study_number)
     dataset.AccessionNumber = "ACC" + dataset.StudyID
     dataset.StudyDate = datetime.date(2004, patient_number, study_number).strftime("%Y%m%d")
@@ -145,7 +145,7 @@ def _set_study_attributes(dataset: pydicom.dataset.Dataset, patient_number: int,
     dataset.ReferringPhysicianName = "REFERRING1^FIRST^" + dataset.StudyID
 
 
-def _set_series_attributes(
+def _set_series_elements(
     dataset: pydicom.dataset.Dataset,
     patient_number: int,
     study_number: int,
@@ -175,7 +175,7 @@ def _set_series_attributes(
     dataset.StationName = "STATIONNAME" + series_suffix
 
 
-def _set_instance_attributes(
+def _set_instance_elements(
     dataset: pydicom.dataset.Dataset,
     patient_number: int,
     study_number: int,

@@ -6,7 +6,7 @@ Dicognito is a [Python](https://www.python.org/) module and command-line utility
 Use it to anonymize one or more DICOM files belonging to one or any number of patients. Objects will remain grouped
 in their original patients, studies, and series.
 
-Anonymization causes significant attributes, such as identifiers, names, and
+Anonymization causes significant elements, such as identifiers, names, and
 addresses, to be replaced by new values. Dates and times will be shifted into the
 past, but their order will remain consistent within and across the files.
 
@@ -33,7 +33,7 @@ dicognito -o out-dir *.dcm
 
 # Anonymize all files in the current directory with the dcm extension
 # but overwrite the original files.
-# Note: repeatedly anonymizing the same files will cause date attributes
+# Note: repeatedly anonymizing the same files will cause date elements
 # to  move farther into the past.
 dicognito --in-place *.dcm
 ```
@@ -94,12 +94,12 @@ consistent across objects.
 * Replace ScheduledProcedureStepID with anonymized values
 * Replace StationName with anonymized values
 * Replace StudyID with anonymized values
-* Replace all DA attributes with anonymized values that precede the originals
-* Replace all DT attributes with anonymized values that precede the originals
-* Replace all PN attributes with anonymized values
-* Replace all TM attributes with anonymized values that precede the originals
-* Replace all UI attributes with anonymized values
-* Replace private "MITRA LINKED ATTRIBUTES 1.0" attribute "Global Patient ID" with anonymized values
+* Replace all DA elements with anonymized values that precede the originals
+* Replace all DT elements with anonymized values that precede the originals
+* Replace all PN elements with anonymized values
+* Replace all TM elements with anonymized values that precede the originals
+* Replace all UI elements with anonymized values
+* Replace private "MITRA LINKED ATTRIBUTES 1.0" element "Global Patient ID" with anonymized values
 * Set PatientIdentityRemoved to "YES" if BurnedInAnnotation is "NO"
 ----
 Logo: Remixed from [Radiology](https://thenounproject.com/search/?q=x-ray&i=1777366)

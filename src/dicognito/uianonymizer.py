@@ -57,7 +57,7 @@ class UIAnonymizer(ElementAnonymizer):
 
     def describe_actions(self) -> Iterator[str]:
         """Describe the actions this anonymizer performs."""
-        yield "Replace all UI attributes with anonymized values"
+        yield "Replace all UI elements with anonymized values"
 
     def _new_ui(self, ui: str) -> str:
         return "2." + str(10**39 + self._randomizer.to_int(ui))

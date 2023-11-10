@@ -55,7 +55,7 @@ class PNAnonymizer(ElementAnonymizer):
 
     def describe_actions(self) -> Iterator[str]:
         """Describe the actions this anonymizer performs."""
-        yield "Replace all PN attributes with anonymized values"
+        yield "Replace all PN elements with anonymized values"
 
     def _new_pn(self, sex: str | None, original_value: str) -> str:
         if sex == "F":

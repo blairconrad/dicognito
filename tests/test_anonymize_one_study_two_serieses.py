@@ -50,7 +50,7 @@ class TestOneStudyTwoSerieses:
             "StudyTime",
         ],
     )
-    def test_anonymize_patient_and_study_attributes_are_same(self, element_path):
+    def test_anonymize_patient_and_study_elements_are_same(self, element_path):
         value1 = eval("TestOneStudyTwoSerieses.dataset1." + element_path)
         value2 = eval("TestOneStudyTwoSerieses.dataset2." + element_path)
         assert value1 == value2
@@ -77,7 +77,7 @@ class TestOneStudyTwoSerieses:
             "InstanceCreationDate,InstanceCreationTime",
         ],
     )
-    def test_anonymize_series_and_instance_attributes_are_different(self, element_paths):
+    def test_anonymize_series_and_instance_elements_are_different(self, element_paths):
         value1 = [eval("TestOneStudyTwoSerieses.dataset1." + path) for path in element_paths.split(",")]
         value2 = [eval("TestOneStudyTwoSerieses.dataset2." + path) for path in element_paths.split(",")]
         assert value1 != value2
