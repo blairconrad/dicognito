@@ -121,6 +121,15 @@ def parse_arguments(main_args: Sequence[str]) -> argparse.Namespace:
         help="What to do when an object with assumed burned-in annotations is found",
     )
     parser.add_argument(
+        "--keep",
+        action="append",
+        dest="keep_elements",
+        metavar="ELEM",
+        type=str,
+        help="""Retain value of elements with given name (e.g. "PatientName") or DICOM tag (e.g. "0020,000E").
+             May be specified more than once to retain multiple elements' values.""",
+    )
+    parser.add_argument(
         "--quiet",
         "-q",
         action="store_true",

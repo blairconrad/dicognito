@@ -6,6 +6,7 @@ import pydicom
 import pytest
 from dicognito.anonymizer import Anonymizer
 from dicognito.pnanonymizer import PNAnonymizer
+from dicognito.value_keeper import ValueKeeper
 
 from .data_for_tests import load_dcm, load_minimal_instance, load_test_instance
 
@@ -665,6 +666,26 @@ def test_pixel_data_with_embedded_sequence_delimiter():
     ) as dataset:
         anonymizer = Anonymizer()
         anonymizer.anonymize(dataset)
+
+
+def test_keeping_date_also_keeps_time():
+    with load_test_instance() as dataset:
+        anonymizer = Anonymizer()
+        anonymizer.add_element_handler(ValueKeeper("StudyDate"))
+        anonymizer.anonymize(dataset)
+
+        assert dataset.StudyDate == "20040826"
+        assert dataset.StudyTime == "185059"
+
+
+def test_keeping_institutionname_also_keeps_institutionaddress():
+    with load_test_instance() as dataset:
+        anonymizer = Anonymizer()
+        anonymizer.add_element_handler(ValueKeeper("InstitutionName"))
+        anonymizer.anonymize(dataset)
+
+        assert dataset.InstitutionName == "INSTITUTIONNAME"
+        assert dataset.InstitutionAddress == "INSTITUTIONADDRESS"
 
 
 def ensure_element_is(dataset: pydicom.dataset.Dataset, element_name: str, value: str | None) -> None:

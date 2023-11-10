@@ -59,7 +59,11 @@ for original_filename in ("original1.dcm", "original2.dcm"):
 Use a single `Anonymizer` on datasets that might be part of the same series, or the identifiers will not be
 consistent across objects.
 
+Additional (even custom) element handlers can be added to the `Anonymizer` via `add_element_handler` to augment
+or override builtin behavior.
+
 ## Exactly what does dicognito do?
+Using the default settings, dicognito will
 * Add "DICOGNITO" to DeidentificationMethod
 * Remove BranchOfService
 * Remove MedicalRecordLocator

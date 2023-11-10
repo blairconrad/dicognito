@@ -12,8 +12,10 @@ import pydicom
 
 from dicognito._config import parse_arguments
 from dicognito.anonymizer import Anonymizer
+from dicognito.exceptions import TagError
 from dicognito.filters import BurnedInAnnotationGuard, SaveInPlace, SaveToSOPInstanceUID, Summarize
 from dicognito.pipeline import Pipeline
+from dicognito.value_keeper import ValueKeeper
 
 
 def _get_filenames_from_source(source: str) -> Iterable[str]:
@@ -61,6 +63,13 @@ def main(main_args: Sequence[str] | None = None) -> None:
         )
 
     anonymizer = Anonymizer(id_prefix=args.id_prefix, id_suffix=args.id_suffix, seed=args.seed)
+    if args.keep_elements:
+        try:
+            for keep_element in args.keep_elements:
+                anonymizer.add_element_handler(ValueKeeper(keep_element))
+        except TagError as e:
+            print(f"Error when attempting to keep element value: {e}", file=sys.stderr)
+            sys.exit(1)
 
     pipeline = Pipeline()
     pipeline.add(BurnedInAnnotationGuard(args.assume_burned_in_annotation, args.on_burned_in_annotation))

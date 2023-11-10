@@ -1,3 +1,13 @@
+### New
+- Retain selected elements' original values using `--keep <tag_name>`.
+  The argument may be repeated to retain multiple elements' values.
+  Elements are identified by name (e.g. "PatientName", "StudyDate") or by
+  hexadecimal tag value (e.g. "0010,0010"). ([#155](https://github.com/blairconrad/dicognito/issues/155))
+- `Anonymizer.add_element_handler` allows addition of new element handlers (even custom ones)
+  to override existing behavior. ([#155](https://github.com/blairconrad/dicognito/issues/155))
+- New element handler type `dicognito.value_keeper.ValueKeeper` that will
+  keep element values as-is. ([#155](https://github.com/blairconrad/dicognito/issues/155))
+
 ### Additional Items
 - Format code using [Ruff](https://ruff.rs/) ([#156](https://github.com/blairconrad/dicognito/issues/156))
 

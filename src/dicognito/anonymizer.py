@@ -1,7 +1,7 @@
 """Defines Anonymizer, the principle class used to anonymize DICOM objects."""
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Iterator, Sequence
+from typing import TYPE_CHECKING, Iterator, MutableSequence, Sequence
 
 from dicognito.addressanonymizer import AddressAnonymizer
 from dicognito.dataset_updater import DatasetUpdater, DeidentificationMethodUpdater, PatientIdentityRemovedUpdater
@@ -72,7 +72,7 @@ class Anonymizer:
         )
         address_anonymizer = AddressAnonymizer(randomizer)
 
-        self._element_handlers: Sequence[ElementAnonymizer] = [
+        self._element_handlers: MutableSequence[ElementAnonymizer] = [
             UnwantedElementsStripper(
                 "BranchOfService",
                 "Occupation",
@@ -145,6 +145,19 @@ class Anonymizer:
                 yield from updater.describe_actions()
 
         return "* " + "\n* ".join(sorted(actions()))
+
+    def add_element_handler(self, handler: ElementAnonymizer) -> None:
+        """
+        Add a new element handler to the beginning of registered handlers.
+
+        The new handler will be invoked before any previously-added (or default) handlers.
+
+        Parameters
+        ----------
+        handler : dicognito.element_anonymizer.ElementAnonymizer
+            The new element handler.
+        """
+        self._element_handlers.insert(0, handler)
 
     def _anonymize_element(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.dataelem.DataElement) -> None:
         for handler in self._element_handlers:
