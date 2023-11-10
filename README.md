@@ -77,9 +77,9 @@ consistent across objects.
 * Replace FillerOrderNumberImagingServiceRequest with anonymized values
 * Replace FillerOrderNumberImagingServiceRequestRetired with anonymized values
 * Replace FillerOrderNumberProcedure with anonymized values
-* Replace InstitutionAddress with anonymized values
+* Replace InstitutionAddress with anonymized values (only if replacing matching InstitutionName element)
 * Replace InstitutionName with anonymized values
-* Replace InstitutionalDepartmentName with anonymized values
+* Replace InstitutionalDepartmentName with "RADIOLOGY"
 * Replace IssuerOfPatientID with "DICOGNITO"
 * Replace OtherPatientIDs with anonymized values
 * Replace PatientAddress with anonymized values
@@ -97,7 +97,7 @@ consistent across objects.
 * Replace all DA elements with anonymized values that precede the originals
 * Replace all DT elements with anonymized values that precede the originals
 * Replace all PN elements with anonymized values
-* Replace all TM elements with anonymized values that precede the originals
+* Replace all TM elements with anonymized values that precede the originals (only if replacing matching DA element)
 * Replace all UI elements with anonymized values
 * Replace private "MITRA LINKED ATTRIBUTES 1.0" element "Global Patient ID" with anonymized values
 * Set PatientIdentityRemoved to "YES" if BurnedInAnnotation is "NO"
