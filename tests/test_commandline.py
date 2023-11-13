@@ -17,7 +17,9 @@ def setup_module():
     orig_dir = os.path.join(base_dir, "orig_data")
 
     global data_dir  # noqa: PLW0603
-    data_dir = os.path.join(base_dir, "..", "build", "data")
+
+    # disambiguate output data dir by python version so we can run tests in parallel
+    data_dir = os.path.join(base_dir, "..", "build", "data", f"{sys.version_info.major}.{sys.version_info.minor}")
     if os.path.isdir(data_dir):
         shutil.rmtree(data_dir)
     shutil.copytree(orig_dir, data_dir)
