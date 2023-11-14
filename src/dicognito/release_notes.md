@@ -8,6 +8,8 @@
   to override existing behavior. ([#155](https://github.com/blairconrad/dicognito/issues/155))
 - New element handler type `dicognito.value_keeper.ValueKeeper` that will
   keep element values as-is. ([#155](https://github.com/blairconrad/dicognito/issues/155))
+- New `--what-if` flag shows intended anonymization actions (as appear in the project README)
+  ([#163](https://github.com/blairconrad/dicognito/issues/163))
 
 ### Fixed
 
@@ -89,6 +91,7 @@
 - Remove Python 2.7 shims ([#105](https://github.com/blairconrad/dicognito/issues/105))
 
 ### With special thanks for contributions to this release from:
+
 - [justineclin](https://github.com/justineclin) &#x1F947;
 
 
@@ -217,6 +220,7 @@
 ## 0.4.0
 
 ### Changed
+
 - Anonymize files in place ([#21](https://github.com/blairconrad/dicognito/issues/21))
 
 ### New
@@ -241,13 +245,16 @@
 ## 0.3.0
 
 ### New
+
 - Add option to add a prefix or suffix for some IDs ([#1](https://github.com/blairconrad/dicognito/issues/1))
 
 
 ## 0.2.1
 
 ### New
+
 - Initial release, with minimal functionality
 
 ### With special thanks for contributions to this release from:
+
 - [Paul Duncan](https://github.com/paulsbduncan) &#x1F947;

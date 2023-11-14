@@ -7,7 +7,36 @@ from typing import Any, Sequence
 import pydicom
 
 import dicognito
+from dicognito.anonymizer import Anonymizer
 from dicognito.filters import BurnedInAnnotationGuard
+
+
+class WhatIfAction(argparse.Action):
+    def __init__(  # noqa:PLR0913
+        self,
+        option_strings: Sequence[str],
+        version: str | None = None,  # noqa: ARG002
+        dest: str = argparse.SUPPRESS,
+        default: str = argparse.SUPPRESS,
+        help_message: str = "show program's intended actions and exit",
+    ):
+        super().__init__(
+            option_strings=option_strings,
+            dest=dest,
+            default=default,
+            nargs=0,
+            help=help_message,
+        )
+
+    def __call__(
+        self,
+        parser: argparse.ArgumentParser,
+        namespace: argparse.Namespace,  # noqa: ARG002
+        values: str | Sequence[Any] | None,  # noqa: ARG002
+        option_string: str | None = None,  # noqa: ARG002
+    ) -> None:
+        print(Anonymizer().describe_actions())
+        parser.exit()
 
 
 class VersionAction(argparse.Action):
@@ -150,6 +179,7 @@ def parse_arguments(main_args: Sequence[str]) -> argparse.Namespace:
         "Omitting this value allows dicognito to generate its own random seed, which "
         "may be slightly more secure, but does not support reproducible anonymization.",
     )
+    parser.add_argument("--what-if", action=WhatIfAction)
     parser.add_argument("--version", action=VersionAction)
 
     return parser.parse_args(main_args)
