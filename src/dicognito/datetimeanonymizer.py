@@ -55,9 +55,9 @@ class DateTimeAnonymizer(ElementAnonymizer):
 
     def describe_actions(self) -> Iterator[str]:
         """Describe the actions this anonymizer performs."""
-        yield "Replace all DA attributes with anonymized values that precede the originals"
-        yield "Replace all DT attributes with anonymized values that precede the originals"
-        yield "Replace all TM attributes with anonymized values that precede the originals"
+        yield "Replace all DA elements with anonymized values that precede the originals"
+        yield "Replace all DT elements with anonymized values that precede the originals"
+        yield "Replace all TM elements with anonymized values that precede the originals (only if replacing matching DA element)"
 
     def _anonymize_date_and_time(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> None:
         dates = self._get_value_as_sequence(data_element)

@@ -1,3 +1,13 @@
+### New
+- Retain selected elements' original values using `--keep <tag_name>`.
+  The argument may be repeated to retain multiple elements' values.
+  Elements are identified by name (e.g. "PatientName", "StudyDate") or by
+  hexadecimal tag value (e.g. "0010,0010"). ([#155](https://github.com/blairconrad/dicognito/issues/155))
+- `Anonymizer.add_element_handler` allows addition of new element handlers (even custom ones)
+  to override existing behavior. ([#155](https://github.com/blairconrad/dicognito/issues/155))
+- New element handler type `dicognito.value_keeper.ValueKeeper` that will
+  keep element values as-is. ([#155](https://github.com/blairconrad/dicognito/issues/155))
+
 ### Additional Items
 - Format code using [Ruff](https://ruff.rs/) ([#156](https://github.com/blairconrad/dicognito/issues/156))
 
@@ -9,7 +19,7 @@
 
 ### New
 - Officially support Python 3.11 ([#136](https://github.com/blairconrad/dicognito/issues/136))
-- Complete list of attribute changes now listed in README ([#140](https://github.com/blairconrad/dicognito/issues/140))
+- Complete list of element changes now listed in README ([#140](https://github.com/blairconrad/dicognito/issues/140))
 
 ### Fixed
 - Version table format has bad separator ([#147](https://github.com/blairconrad/dicognito/issues/147))
@@ -161,7 +171,7 @@
 
 - Provide `--version` flag and `__version__` attribute ([#47](https://github.com/blairconrad/dicognito/issues/47))
 - Add De-identification Method after anonymizing ([#42](https://github.com/blairconrad/dicognito/issues/42))
-- Add Patient Identity Removed attribute when appropriate ([#43](https://github.com/blairconrad/dicognito/issues/43))
+- Add Patient Identity Removed element when appropriate ([#43](https://github.com/blairconrad/dicognito/issues/43))
 
 ### Additional Items
 

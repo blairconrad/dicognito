@@ -21,15 +21,15 @@ class Summarize(Filter):
         self.rows: list[Sequence[str]] = []
 
     def after_each(self, dataset: pydicom.dataset.Dataset) -> None:
-        """Remember attributes identifying anonymized instance."""
+        """Remember elements identifying anonymized instance."""
         self.rows.append(
             (dataset.get("AccessionNumber", ""), dataset.get("PatientID", ""), str(dataset.get("PatientName", ""))),
         )
 
     def after_all(self) -> None:
-        """Output attributes identifying anonymized instance."""
-        attributes = ("Accession Number", "Patient ID", "Patient Name")
-        widths = [len(a) for a in attributes]
+        """Output elements identifying anonymized instance."""
+        elements = ("Accession Number", "Patient ID", "Patient Name")
+        widths = [len(el) for el in elements]
 
         sorted_rows = sorted(self.rows)  # type: ignore[type-var]
         output_rows = list(map(operator.itemgetter(0), itertools.groupby(sorted_rows)))
@@ -43,7 +43,7 @@ class Summarize(Filter):
         row_format = header_format.replace("^", "<")
         lines = tuple("-" * width for (i, width) in enumerate(widths))
 
-        print(header_format.format(*attributes))
+        print(header_format.format(*elements))
         print(header_format.format(*lines))
         for row in output_rows:
             print(row_format.format(*row))

@@ -5,9 +5,9 @@ from typing import Iterator
 from dicognito.anonymizer import Anonymizer
 
 
-def test_anonymized_attributes_described():
+def test_anonymized_elements_described():
     def before_description(line: str) -> bool:
-        return not line.startswith("## Exactly what does dicognito do?")
+        return not line.startswith("Using the default settings, dicognito will")
 
     def still_description(line: str) -> bool:
         return not line.startswith("#") and not line.startswith("----")

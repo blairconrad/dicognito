@@ -50,7 +50,7 @@ class TestTwoPatients:
             "InstanceCreationTime",
         ],
     )
-    def test_anonymize_all_attributes_are_different(self, element_path):
+    def test_anonymize_all_elements_are_different(self, element_path):
         dataset1 = load_instance(patient_number=1)
         dataset2 = load_instance(patient_number=2)
 

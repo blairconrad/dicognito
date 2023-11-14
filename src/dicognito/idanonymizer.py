@@ -41,7 +41,7 @@ class IDAnonymizer(ElementAnonymizer):
 
     def __call__(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> bool:
         """
-        Replace ID attributes with something that obscures the patient's identity.
+        Replace ID elements with something that obscures the patient's identity.
 
         Parameters
         ----------
@@ -79,7 +79,7 @@ class IDAnonymizer(ElementAnonymizer):
             for keyword in map(pydicom.datadict.keyword_for_tag, self.id_tags)
         )
         yield 'Replace IssuerOfPatientID with "DICOGNITO"'
-        yield 'Replace private "MITRA LINKED ATTRIBUTES 1.0" attribute "Global Patient ID" with anonymized values'
+        yield 'Replace private "MITRA LINKED ATTRIBUTES 1.0" element "Global Patient ID" with anonymized values'
 
     def _anonymize_mitra_global_patient_id(
         self,

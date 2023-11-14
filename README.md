@@ -6,7 +6,7 @@ Dicognito is a [Python](https://www.python.org/) module and command-line utility
 Use it to anonymize one or more DICOM files belonging to one or any number of patients. Objects will remain grouped
 in their original patients, studies, and series.
 
-Anonymization causes significant attributes, such as identifiers, names, and
+Anonymization causes significant elements, such as identifiers, names, and
 addresses, to be replaced by new values. Dates and times will be shifted into the
 past, but their order will remain consistent within and across the files.
 
@@ -33,7 +33,7 @@ dicognito -o out-dir *.dcm
 
 # Anonymize all files in the current directory with the dcm extension
 # but overwrite the original files.
-# Note: repeatedly anonymizing the same files will cause date attributes
+# Note: repeatedly anonymizing the same files will cause date elements
 # to  move farther into the past.
 dicognito --in-place *.dcm
 ```
@@ -59,7 +59,11 @@ for original_filename in ("original1.dcm", "original2.dcm"):
 Use a single `Anonymizer` on datasets that might be part of the same series, or the identifiers will not be
 consistent across objects.
 
+Additional (even custom) element handlers can be added to the `Anonymizer` via `add_element_handler` to augment
+or override builtin behavior.
+
 ## Exactly what does dicognito do?
+Using the default settings, dicognito will
 * Add "DICOGNITO" to DeidentificationMethod
 * Remove BranchOfService
 * Remove MedicalRecordLocator
@@ -77,9 +81,9 @@ consistent across objects.
 * Replace FillerOrderNumberImagingServiceRequest with anonymized values
 * Replace FillerOrderNumberImagingServiceRequestRetired with anonymized values
 * Replace FillerOrderNumberProcedure with anonymized values
-* Replace InstitutionAddress with anonymized values
+* Replace InstitutionAddress with anonymized values (only if replacing matching InstitutionName element)
 * Replace InstitutionName with anonymized values
-* Replace InstitutionalDepartmentName with anonymized values
+* Replace InstitutionalDepartmentName with "RADIOLOGY"
 * Replace IssuerOfPatientID with "DICOGNITO"
 * Replace OtherPatientIDs with anonymized values
 * Replace PatientAddress with anonymized values
@@ -94,12 +98,12 @@ consistent across objects.
 * Replace ScheduledProcedureStepID with anonymized values
 * Replace StationName with anonymized values
 * Replace StudyID with anonymized values
-* Replace all DA attributes with anonymized values that precede the originals
-* Replace all DT attributes with anonymized values that precede the originals
-* Replace all PN attributes with anonymized values
-* Replace all TM attributes with anonymized values that precede the originals
-* Replace all UI attributes with anonymized values
-* Replace private "MITRA LINKED ATTRIBUTES 1.0" attribute "Global Patient ID" with anonymized values
+* Replace all DA elements with anonymized values that precede the originals
+* Replace all DT elements with anonymized values that precede the originals
+* Replace all PN elements with anonymized values
+* Replace all TM elements with anonymized values that precede the originals (only if replacing matching DA element)
+* Replace all UI elements with anonymized values
+* Replace private "MITRA LINKED ATTRIBUTES 1.0" element "Global Patient ID" with anonymized values
 * Set PatientIdentityRemoved to "YES" if BurnedInAnnotation is "NO"
 ----
 Logo: Remixed from [Radiology](https://thenounproject.com/search/?q=x-ray&i=1777366)

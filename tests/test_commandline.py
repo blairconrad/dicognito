@@ -278,6 +278,54 @@ def test_conversion_error_logs_filename_and_error_type(caplog):
     assert log_record.exc_info is not None
 
 
+def test_keeps_single_named_element():
+    run_dicognito(path_to("p01_s01_s01_i01.dcm"), "--keep", "StudyDate", "--output-dir", path_to("new_dir"))
+
+    output_file_name = os.listdir(path_to("new_dir"))[0]
+    dataset = read_file(get_test_name(), "new_dir", output_file_name)
+
+    assert dataset.StudyDate == "20040101"
+
+
+def test_keeps_multiple_named_elements():
+    run_dicognito(
+        path_to("p01_s01_s01_i01.dcm"),
+        "--keep",
+        "StudyDate",
+        "--keep",
+        "PatientName",
+        "--output-dir",
+        path_to("new_dir"),
+    )
+
+    output_file_name = os.listdir(path_to("new_dir"))[0]
+    dataset = read_file(get_test_name(), "new_dir", output_file_name)
+
+    assert dataset.PatientName == "CompressedSamples^MR1"
+    assert dataset.StudyDate == "20040101"
+
+
+def test_keeps_elements_specified_by_tag():
+    run_dicognito(path_to("p01_s01_s01_i01.dcm"), "--keep", "0008,0018", "--output-dir", path_to("new_dir"))
+
+    output_file_name = os.listdir(path_to("new_dir"))[0]
+    dataset = read_file(get_test_name(), "new_dir", output_file_name)
+
+    assert dataset.SOPInstanceUID == "1.3.6.1.4.1.5962.20040827145012.5458.1.1.1.1"
+
+
+def test_bad_keep_element_tag_name_outputs_good_error(capsys):
+    with pytest.raises(SystemExit):
+        run_dicognito(path_to("anything"), "--keep", "BADTAG", "--output-dir", path_to("new_dir"))
+    (_, actual_error) = capsys.readouterr()
+
+    assert (
+        actual_error == "Error when attempting to keep element value: Bad tag name 'BADTAG'. "
+        "Must be a well-known DICOM element name or a string in the form "
+        "'stuv,wxyz' where each character is a hexadecimal digit.\n"
+    )
+
+
 def get_test_name() -> str:
     depth = 1
     while True:

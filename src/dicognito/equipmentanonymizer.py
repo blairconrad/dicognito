@@ -56,10 +56,9 @@ class EquipmentAnonymizer(ElementAnonymizer):
 
     def describe_actions(self) -> Iterator[str]:
         """Describe the actions this anonymizer performs."""
-        yield from (
-            f"Replace {keyword} with anonymized values"
-            for keyword in map(pydicom.datadict.keyword_for_tag, self._element_anonymizers)
-        )
+        yield "Replace InstitutionName with anonymized values"
+        yield "Replace InstitutionAddress with anonymized values (only if replacing matching InstitutionName element)"
+        yield 'Replace InstitutionalDepartmentName with "RADIOLOGY"'
 
     def _anonymize_institution_name(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> None:
         region = self.address_anonymizer.get_region(data_element.value)

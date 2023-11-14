@@ -6,6 +6,7 @@ import pydicom
 import pytest
 from dicognito.anonymizer import Anonymizer
 from dicognito.pnanonymizer import PNAnonymizer
+from dicognito.value_keeper import ValueKeeper
 
 from .data_for_tests import load_dcm, load_minimal_instance, load_test_instance
 
@@ -306,7 +307,7 @@ def test_patient_address_gets_anonymized():
         "ResponsibleOrganization",
     ],
 )
-def test_extra_patient_attributes_are_removed(element_name):
+def test_extra_patient_elements_are_removed(element_name):
     with load_test_instance() as dataset:
         assert element_name in dataset
 
@@ -620,12 +621,12 @@ def test_no_sex_still_changes_patient_name():
 )
 def test_deidentification_method_set_properly(initial, expected):
     with load_test_instance() as dataset:
-        ensure_attribute_is(dataset, "DeidentificationMethod", initial)
+        ensure_element_is(dataset, "DeidentificationMethod", initial)
 
         anonymizer = Anonymizer()
         anonymizer.anonymize(dataset)
 
-        assert_attribute_is(dataset, "DeidentificationMethod", expected)
+        assert_element_is(dataset, "DeidentificationMethod", expected)
 
 
 @pytest.mark.parametrize(
@@ -648,13 +649,13 @@ def test_patient_identity_removed(
     expected_patient_identity_removed,
 ):
     with load_test_instance() as dataset:
-        ensure_attribute_is(dataset, "PatientIdentityRemoved", initial_patient_identity_removed)
-        ensure_attribute_is(dataset, "BurnedInAnnotation", burned_in_annotation)
+        ensure_element_is(dataset, "PatientIdentityRemoved", initial_patient_identity_removed)
+        ensure_element_is(dataset, "BurnedInAnnotation", burned_in_annotation)
 
         anonymizer = Anonymizer()
         anonymizer.anonymize(dataset)
 
-        assert_attribute_is(dataset, "PatientIdentityRemoved", expected_patient_identity_removed)
+        assert_element_is(dataset, "PatientIdentityRemoved", expected_patient_identity_removed)
 
 
 def test_pixel_data_with_embedded_sequence_delimiter():
@@ -667,15 +668,35 @@ def test_pixel_data_with_embedded_sequence_delimiter():
         anonymizer.anonymize(dataset)
 
 
-def ensure_attribute_is(dataset: pydicom.dataset.Dataset, attribute_name: str, value: str | None) -> None:
+def test_keeping_date_also_keeps_time():
+    with load_test_instance() as dataset:
+        anonymizer = Anonymizer()
+        anonymizer.add_element_handler(ValueKeeper("StudyDate"))
+        anonymizer.anonymize(dataset)
+
+        assert dataset.StudyDate == "20040826"
+        assert dataset.StudyTime == "185059"
+
+
+def test_keeping_institutionname_also_keeps_institutionaddress():
+    with load_test_instance() as dataset:
+        anonymizer = Anonymizer()
+        anonymizer.add_element_handler(ValueKeeper("InstitutionName"))
+        anonymizer.anonymize(dataset)
+
+        assert dataset.InstitutionName == "INSTITUTIONNAME"
+        assert dataset.InstitutionAddress == "INSTITUTIONADDRESS"
+
+
+def ensure_element_is(dataset: pydicom.dataset.Dataset, element_name: str, value: str | None) -> None:
     if value is None:
-        assert attribute_name not in dataset
+        assert element_name not in dataset
     else:
-        setattr(dataset, attribute_name, value)
+        setattr(dataset, element_name, value)
 
 
-def assert_attribute_is(dataset: pydicom.dataset.Dataset, attribute_name: str, expected: str | None) -> None:
+def assert_element_is(dataset: pydicom.dataset.Dataset, element_name: str, expected: str | None) -> None:
     if expected is None:
-        assert attribute_name not in dataset
+        assert element_name not in dataset
     else:
-        assert expected == getattr(dataset, attribute_name)
+        assert expected == getattr(dataset, element_name)
