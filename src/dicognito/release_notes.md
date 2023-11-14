@@ -1,4 +1,5 @@
 ### New
+
 - Retain selected elements' original values using `--keep <tag_name>`.
   The argument may be repeated to retain multiple elements' values.
   Elements are identified by name (e.g. "PatientName", "StudyDate") or by
@@ -8,24 +9,33 @@
 - New element handler type `dicognito.value_keeper.ValueKeeper` that will
   keep element values as-is. ([#155](https://github.com/blairconrad/dicognito/issues/155))
 
+### Fixed
+
+- `--output-directory` may create duplicate anonymized files ([#161](https://github.com/blairconrad/dicognito/issues/161))
+
 ### Additional Items
+
 - Format code using [Ruff](https://ruff.rs/) ([#156](https://github.com/blairconrad/dicognito/issues/156))
 
 ## 0.16.0
 
 ### Changed
+
 - Drop support for Python 3.7 ([#151](https://github.com/blairconrad/dicognito/issues/151))
 - Require pydicom 2.3.1 or higher ([#136](https://github.com/blairconrad/dicognito/issues/136))
 
 ### New
+
 - Officially support Python 3.11 ([#136](https://github.com/blairconrad/dicognito/issues/136))
 - Complete list of element changes now listed in README ([#140](https://github.com/blairconrad/dicognito/issues/140))
 
 ### Fixed
+
 - Version table format has bad separator ([#147](https://github.com/blairconrad/dicognito/issues/147))
 - Private creator 0031,0020 breaks anonymization ([#157](https://github.com/blairconrad/dicognito/issues/157))
 
 ### Additional Items
+
 - Lint code using [Ruff](https://ruff.rs/) ([#153](https://github.com/blairconrad/dicognito/issues/153))
 
 ## 0.15.0

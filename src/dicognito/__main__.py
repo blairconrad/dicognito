@@ -37,7 +37,7 @@ def _get_filenames_from_sources(sources: Iterable[str]) -> Iterable[str]:
 
 
 def _get_datasets_from_sources(sources: Iterable[str]) -> Iterable[pydicom.dataset.Dataset]:
-    for filename in _get_filenames_from_sources(sources):
+    for filename in list(_get_filenames_from_sources(sources)):
         try:
             with pydicom.dcmread(filename, force=False) as dataset:
                 yield dataset

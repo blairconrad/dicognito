@@ -252,6 +252,16 @@ def test_writes_file_as_sop_instance_uid_in_output_directory():
     assert all_output_files[0] == dataset.SOPInstanceUID + ".dcm"
 
 
+def test_writing_output_under_original_directory_does_not_create_bonus_files():
+    run_dicognito(path_to(""), "--output-dir", path_to("new_dir"))
+
+    all_output_files = os.listdir(path_to("new_dir"))
+    assert len(all_output_files) == 1
+
+    dataset = read_file(get_test_name(), "new_dir", all_output_files[0])
+    assert all_output_files[0] == dataset.SOPInstanceUID + ".dcm"
+
+
 def test_retains_existing_files_in_output_directory():
     run_dicognito(path_to("p01_s01_s01_i01.dcm"), "--output-dir", path_to())
 
