@@ -1,3 +1,5 @@
+## 0.17.0
+
 ### New
 
 - Retain selected elements' original values using `--keep <tag_name>`.
