@@ -29,6 +29,7 @@ class DeidentificationMethodUpdater(DatasetUpdater):
         ----------
         dataset : pydicom.dataset.Dataset
             The dataset to operate on.
+
         """
         if "DeidentificationMethod" not in dataset:
             dataset.DeidentificationMethod = "DICOGNITO"
@@ -63,6 +64,7 @@ class PatientIdentityRemovedUpdater(DatasetUpdater):
         ----------
         dataset : pydicom.dataset.Dataset
             The dataset to operate on.
+
         """
         if dataset.get("BurnedInAnnotation", "YES") == "NO":
             dataset.PatientIdentityRemoved = "YES"

@@ -44,6 +44,7 @@ class Anonymizer:
     >>>     with load_instance(filename) as dataset:
     >>>         anonymizer.anonymize(dataset)
     >>>         dataset.save_as("new-" + filename)
+
     """
 
     def __init__(self, id_prefix: str = "", id_suffix: str = "", seed: str | None = None) -> None:
@@ -61,6 +62,7 @@ class Anonymizer:
         seed : Optional[str]
             Seeds the data randomizer, which will produce consistent results when
             invoked with the same seed.
+
         """
         minimum_offset_hours = 62 * 24
         maximum_offset_hours = 730 * 24
@@ -129,6 +131,7 @@ class Anonymizer:
         ----------
         dataset : pydicom.dataset.Dataset
             A DICOM dataset to anonymize.
+
         """
         dataset.file_meta.walk(self._anonymize_element)
         dataset.walk(self._anonymize_element)
@@ -156,6 +159,7 @@ class Anonymizer:
         ----------
         handler : dicognito.element_anonymizer.ElementAnonymizer
             The new element handler.
+
         """
         self._element_handlers.insert(0, handler)
 

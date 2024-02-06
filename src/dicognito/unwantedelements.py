@@ -18,6 +18,7 @@ class UnwantedElementsStripper(ElementAnonymizer):
         keywords : list of str
             All of the keywords for elements to be removed from the
             dataset.
+
         """
         self.tags = [pydicom.datadict.keyword_dict[keyword] for keyword in keywords]
 
@@ -38,6 +39,7 @@ class UnwantedElementsStripper(ElementAnonymizer):
         Returns
         -------
         True if the element was anonymized, or False if not.
+
         """
         if data_element.tag in self.tags:
             del dataset[data_element.tag]

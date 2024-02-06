@@ -40,6 +40,7 @@ class UIAnonymizer(ElementAnonymizer):
         Returns
         -------
         True if the element was anonymized, or False if not.
+
         """
         if (
             data_element.VR != "UI"

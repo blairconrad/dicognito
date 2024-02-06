@@ -22,6 +22,7 @@ class PNAnonymizer(ElementAnonymizer):
         ----------
         randomizer : dicognito.randomizer.Randomizer
             Provides a source of randomness.
+
         """
         self.randomizer = randomizer
 
@@ -40,6 +41,7 @@ class PNAnonymizer(ElementAnonymizer):
         Returns
         -------
         True if the element was anonymized, or False if not.
+
         """
         if data_element.VR != "PN":
             return False

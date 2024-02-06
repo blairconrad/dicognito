@@ -68,6 +68,7 @@ class BurnedInAnnotationGuard(Filter):
         if_found : str
             What to do when an annotation is found. Can be one of
             "warn" or "fail".
+
         """
         self.assume_if = assume_if
         self.if_found = if_found
@@ -82,6 +83,7 @@ class BurnedInAnnotationGuard(Filter):
         ----------
         dataset : pydicom.dataset.Dataset
             The dataset to examine.
+
         """
         if self._should_assume_annotation(dataset):
             self._perform_annotation_action(dataset, dataset.filename)
