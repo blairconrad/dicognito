@@ -84,7 +84,7 @@ jobs:
         run: |
           echo "Tag ${{ github.ref }} does not match release name ${{ needs.package.outputs.release-name }}"
           exit 1
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4.1.7
         with:
           name: dist
           path: dist
