@@ -1,6 +1,6 @@
+from collections.abc import Iterator
 from itertools import dropwhile, islice, takewhile
 from os.path import abspath, join
-from typing import Iterator
 
 import dicognito.__main__
 import pytest

@@ -1,5 +1,5 @@
 """Replace identifier values with something that obscures the patient's identity."""
-from typing import Iterator
+from collections.abc import Iterator
 
 import pydicom
 
@@ -29,6 +29,7 @@ class IDAnonymizer(ElementAnonymizer):
         keywords : list of str
             All of the keywords for elements to be anonymized. Only
             elements with matching keywords will be updated.
+
         """
         self.randomizer = randomizer
         self.id_prefix = id_prefix
@@ -59,6 +60,7 @@ class IDAnonymizer(ElementAnonymizer):
         Returns
         -------
         True if the element was anonymized, or False if not.
+
         """
         if data_element.tag in self.id_tags:
             self._replace_id(data_element)

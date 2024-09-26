@@ -1,7 +1,8 @@
 """Defines Anonymizer, the principle class used to anonymize DICOM objects."""
+
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Iterator, MutableSequence, Sequence
+from typing import TYPE_CHECKING
 
 from dicognito.addressanonymizer import AddressAnonymizer
 from dicognito.dataset_updater import DatasetUpdater, DeidentificationMethodUpdater, PatientIdentityRemovedUpdater
@@ -15,6 +16,8 @@ from dicognito.uianonymizer import UIAnonymizer
 from dicognito.unwantedelements import UnwantedElementsStripper
 
 if TYPE_CHECKING:
+    from collections.abc import Iterator, MutableSequence, Sequence
+
     import pydicom
 
     from dicognito.element_anonymizer import ElementAnonymizer
@@ -44,6 +47,7 @@ class Anonymizer:
     >>>     with load_instance(filename) as dataset:
     >>>         anonymizer.anonymize(dataset)
     >>>         dataset.save_as("new-" + filename)
+
     """
 
     def __init__(self, id_prefix: str = "", id_suffix: str = "", seed: str | None = None) -> None:
@@ -61,6 +65,7 @@ class Anonymizer:
         seed : Optional[str]
             Seeds the data randomizer, which will produce consistent results when
             invoked with the same seed.
+
         """
         minimum_offset_hours = 62 * 24
         maximum_offset_hours = 730 * 24
@@ -129,6 +134,7 @@ class Anonymizer:
         ----------
         dataset : pydicom.dataset.Dataset
             A DICOM dataset to anonymize.
+
         """
         dataset.file_meta.walk(self._anonymize_element)
         dataset.walk(self._anonymize_element)
@@ -156,6 +162,7 @@ class Anonymizer:
         ----------
         handler : dicognito.element_anonymizer.ElementAnonymizer
             The new element handler.
+
         """
         self._element_handlers.insert(0, handler)
 

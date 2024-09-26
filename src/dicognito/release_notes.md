@@ -1,3 +1,8 @@
+### Changed
+
+- Drop support for Python 3.9 ([#168](https://github.com/blairconrad/dicognito/issues/168))
+- Drop support for Python 3.8 ([#168](https://github.com/blairconrad/dicognito/issues/168))
+
 ## 0.17.0
 
 ### New

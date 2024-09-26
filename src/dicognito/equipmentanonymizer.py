@@ -1,5 +1,5 @@
 """Replace equipment-related values with something that obscures the patient's identity."""
-from typing import Iterator
+from collections.abc import Iterator
 
 import pydicom
 
@@ -18,6 +18,7 @@ class EquipmentAnonymizer(ElementAnonymizer):
         ----------
         address_anonymizer : dicognito.addressanonymizer.AddressAnonymizer
             Provides anonymized address components.
+
         """
         self.address_anonymizer = address_anonymizer
 
@@ -46,6 +47,7 @@ class EquipmentAnonymizer(ElementAnonymizer):
         Returns
         -------
         True if the element was anonymized, or False if not.
+
         """
         element_anonymizer = self._element_anonymizers.get(data_element.tag, None)
         if not element_anonymizer:
