@@ -1,7 +1,12 @@
 ### Changed
 
+- Require pydicom 3.0.1 or higher ([#168](https://github.com/blairconrad/dicognito/issues/168))
 - Drop support for Python 3.9 ([#168](https://github.com/blairconrad/dicognito/issues/168))
 - Drop support for Python 3.8 ([#168](https://github.com/blairconrad/dicognito/issues/168))
+
+### New
+
+- Support Python 3.12 ([#168](https://github.com/blairconrad/dicognito/issues/168))
 
 ## 0.17.0
 
