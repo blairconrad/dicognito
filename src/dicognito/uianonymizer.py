@@ -1,5 +1,5 @@
 """Replace UIs with a new value."""
-from typing import Iterator
+from collections.abc import Iterator
 
 import pydicom
 import pydicom.dataelem
@@ -40,6 +40,7 @@ class UIAnonymizer(ElementAnonymizer):
         Returns
         -------
         True if the element was anonymized, or False if not.
+
         """
         if (
             data_element.VR != "UI"

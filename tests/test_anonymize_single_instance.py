@@ -137,7 +137,7 @@ def test_other_patient_ids_anonymized_to_same_number_of_ids(number_of_ids):
         actual = dataset.OtherPatientIDs
 
         assert len(actual) == number_of_ids
-        for actual_id, original_id in zip(actual, original):
+        for actual_id, original_id in zip(actual, original, strict=False):
             assert isinstance(actual_id, str)
             assert actual_id != original_id
 

@@ -1,5 +1,6 @@
 """Replace AD values with something that obscures the patient's identity."""
-from typing import Iterator
+
+from collections.abc import Iterator
 
 import pydicom
 
@@ -18,6 +19,7 @@ class AddressAnonymizer(ElementAnonymizer):
         ----------
         randomizer : dicognito.randomizer.Randomizer
             Provides a source of randomness.
+
         """
         self.randomizer = randomizer
 
@@ -52,6 +54,7 @@ class AddressAnonymizer(ElementAnonymizer):
         Returns
         -------
         True if the element was anonymized, or False if not.
+
         """
         value_factory = self._value_factories.get(data_element.tag, None)
         if not value_factory:

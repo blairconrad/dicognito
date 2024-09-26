@@ -29,8 +29,10 @@ allow_untyped_defs = true
 xfail_strict=true
 
 [tool.ruff]
-target-version = "py38"
+target-version = "py310"
 line-length = 120
+
+[tool.ruff.lint]
 select = ["ALL"]
 
 ignore = [
@@ -51,10 +53,10 @@ ignore = [
   "W191",     # may cause conflicts when used with the formatter.
 ]
 
-[tool.ruff.flake8-annotations]
+[tool.ruff.lint.flake8-annotations]
 mypy-init-return = true
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "assets/**" = [
   "ANN001",   # not public code. No type annotations needed.
   "ANN201",   # not public code. No type annotations needed.

@@ -1,9 +1,13 @@
 """Actions that contribute to anonymization of a dataset."""
+
 from __future__ import annotations
 
-from typing import Iterator
+from typing import TYPE_CHECKING
 
 import pydicom
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
 
 
 class DatasetUpdater:
@@ -29,6 +33,7 @@ class DeidentificationMethodUpdater(DatasetUpdater):
         ----------
         dataset : pydicom.dataset.Dataset
             The dataset to operate on.
+
         """
         if "DeidentificationMethod" not in dataset:
             dataset.DeidentificationMethod = "DICOGNITO"
@@ -63,6 +68,7 @@ class PatientIdentityRemovedUpdater(DatasetUpdater):
         ----------
         dataset : pydicom.dataset.Dataset
             The dataset to operate on.
+
         """
         if dataset.get("BurnedInAnnotation", "YES") == "NO":
             dataset.PatientIdentityRemoved = "YES"

@@ -6,7 +6,7 @@ import glob
 import logging
 import os.path
 import sys
-from typing import Iterable, Sequence
+from typing import TYPE_CHECKING
 
 import pydicom
 
@@ -16,6 +16,9 @@ from dicognito.exceptions import TagError
 from dicognito.filters import BurnedInAnnotationGuard, SaveInPlace, SaveToSOPInstanceUID, Summarize
 from dicognito.pipeline import Pipeline
 from dicognito.value_keeper import ValueKeeper
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable, Sequence
 
 
 def _get_filenames_from_source(source: str) -> Iterable[str]:
