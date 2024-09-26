@@ -36,6 +36,6 @@ setuptools.setup(
         "Environment :: Console",
         "Intended Audience :: Healthcare Industry",
     ],
-    install_requires=["pydicom >= 2.3.1, < 3.0.0"],  # sync with tox.ini
+    install_requires=["pydicom >= 3.0.1"],  # sync with tox.ini
     entry_points={"console_scripts": ["dicognito=dicognito.__main__:main"]},
 )

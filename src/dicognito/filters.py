@@ -114,7 +114,7 @@ class SaveInPlace(Filter):
 
     def after_each(self, dataset: pydicom.dataset.Dataset) -> None:
         """Save to original filename."""
-        dataset.save_as(self.output_filename, write_like_original=False)
+        dataset.save_as(self.output_filename, enforce_file_format=True)
 
 
 class SaveToSOPInstanceUID(Filter):
@@ -132,4 +132,4 @@ class SaveToSOPInstanceUID(Filter):
     def after_each(self, dataset: pydicom.dataset.Dataset) -> None:
         """Save anonymized instance to file named by new SOP Instance UID."""
         output_filename = os.path.join(self.output_directory, dataset.SOPInstanceUID + ".dcm")
-        dataset.save_as(output_filename, write_like_original=False)
+        dataset.save_as(output_filename, enforce_file_format=True)
