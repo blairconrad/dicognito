@@ -1,3 +1,5 @@
+## 0.18.0
+
 ### Changed
 
 - Require pydicom 3.0.1 or higher ([#168](https://github.com/blairconrad/dicognito/issues/168))
