@@ -1,8 +1,8 @@
 """Replace date-based values with something that obscures the patient's identity."""
 
 import datetime
+from collections.abc import Iterator, MutableSequence
 from itertools import zip_longest
-from typing import Iterator, MutableSequence
 
 import pydicom
 
@@ -21,6 +21,7 @@ class DateTimeAnonymizer(ElementAnonymizer):
         offset_hours : int
             The number of hours to shift dates and times by. May be
             negative or zero.
+
         """
         self.offset = datetime.timedelta(hours=offset_hours)
 
@@ -41,6 +42,7 @@ class DateTimeAnonymizer(ElementAnonymizer):
         Returns
         -------
         True if an element (or two) was anonymized, or False if not.
+
         """
         if data_element.VR not in ("DA", "DT"):
             return False

@@ -1,5 +1,5 @@
 """Replace certain values to obscure patient's identity."""
-from typing import Iterator
+from collections.abc import Iterator
 
 import pydicom
 
@@ -20,6 +20,7 @@ class FixedValueAnonymizer(ElementAnonymizer):
             elements with exactly this keyword will be changed.
         value
             The new value to assign to the element.
+
         """
         self.tag: int = pydicom.datadict.keyword_dict[keyword]
         self.value = value
@@ -45,6 +46,7 @@ class FixedValueAnonymizer(ElementAnonymizer):
         Returns
         -------
         True if the element was anonymized, or False if not.
+
         """
         if data_element.tag == self.tag:
             data_element.value = self.value

@@ -1,7 +1,7 @@
 import os
 import subprocess
 import sys
-from typing import Sequence
+from collections.abc import Sequence
 
 
 def main(args: Sequence[str]) -> None:

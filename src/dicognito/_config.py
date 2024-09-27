@@ -2,13 +2,17 @@ from __future__ import annotations
 
 import argparse
 import sys
-from typing import Any, Sequence
+from typing import TYPE_CHECKING
 
 import pydicom
 
 import dicognito
 from dicognito.anonymizer import Anonymizer
 from dicognito.filters import BurnedInAnnotationGuard
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
+    from typing import Any
 
 
 class WhatIfAction(argparse.Action):

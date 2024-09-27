@@ -28,16 +28,15 @@ setuptools.setup(
     packages=setuptools.find_packages("src"),
     include_package_data=True,
     classifiers=[
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Development Status :: 3 - Alpha",
         "Environment :: Console",
         "Intended Audience :: Healthcare Industry",
     ],
-    install_requires=["pydicom>=2.3.1"],  # sync with tox.ini
+    install_requires=["pydicom >= 3.0.1"],  # sync with tox.ini
     entry_points={"console_scripts": ["dicognito=dicognito.__main__:main"]},
 )

@@ -12,6 +12,7 @@ class TagError(ValueError):
         ----------
         tag : str
             The malformed DICOM tag name.
+
         """
         message = f"Bad tag name '{tag}'. Must be a well-known DICOM element name or a string in the form 'stuv,wxyz' where each character is a hexadecimal digit."
         super().__init__(message)

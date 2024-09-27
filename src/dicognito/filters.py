@@ -1,15 +1,18 @@
 """Filters to apply before and after dataset anonymization."""
+
 from __future__ import annotations
 
 import itertools
 import logging
 import operator
 import os
-from typing import TYPE_CHECKING, Sequence
+from typing import TYPE_CHECKING
 
 from dicognito.pipeline import Filter
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
+
     import pydicom
 
 
@@ -68,6 +71,7 @@ class BurnedInAnnotationGuard(Filter):
         if_found : str
             What to do when an annotation is found. Can be one of
             "warn" or "fail".
+
         """
         self.assume_if = assume_if
         self.if_found = if_found
@@ -82,6 +86,7 @@ class BurnedInAnnotationGuard(Filter):
         ----------
         dataset : pydicom.dataset.Dataset
             The dataset to examine.
+
         """
         if self._should_assume_annotation(dataset):
             self._perform_annotation_action(dataset, dataset.filename)
@@ -109,7 +114,7 @@ class SaveInPlace(Filter):
 
     def after_each(self, dataset: pydicom.dataset.Dataset) -> None:
         """Save to original filename."""
-        dataset.save_as(self.output_filename, write_like_original=False)
+        dataset.save_as(self.output_filename, enforce_file_format=True)
 
 
 class SaveToSOPInstanceUID(Filter):
@@ -127,4 +132,4 @@ class SaveToSOPInstanceUID(Filter):
     def after_each(self, dataset: pydicom.dataset.Dataset) -> None:
         """Save anonymized instance to file named by new SOP Instance UID."""
         output_filename = os.path.join(self.output_directory, dataset.SOPInstanceUID + ".dcm")
-        dataset.save_as(output_filename, write_like_original=False)
+        dataset.save_as(output_filename, enforce_file_format=True)

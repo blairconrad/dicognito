@@ -1,9 +1,13 @@
 """Utilities for transforming values into hard-to-predict integers."""
+
 from __future__ import annotations
 
 import hashlib
 import os
-from typing import Sequence
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 
 class Randomizer:
@@ -19,6 +23,7 @@ class Randomizer:
             Used to convert input values into large integers.
             The results are completely determined by the
             given seed and the input value.
+
         """
         if seed is None:
             self.seed = str(os.urandom(20))
@@ -33,6 +38,7 @@ class Randomizer:
         ----------
         original_value
             The original value that will ultimately be replaced.
+
         """
         message = self.seed + original_value
         encoded = message.encode("utf8")
@@ -57,6 +63,7 @@ class Randomizer:
 
         suprema : sequence of int
             The upper bounds for each of the desired integer ranges.
+
         """
         big_int = self.to_int(original_value)
         result = []

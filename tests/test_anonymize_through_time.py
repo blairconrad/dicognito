@@ -1,12 +1,15 @@
 from __future__ import annotations
 
 from itertools import filterfalse, tee
-from typing import Callable, Union, ValuesView
+from typing import TYPE_CHECKING
 
 import pydicom
 from dicognito.anonymizer import Anonymizer
 
 from .data_for_tests import load_minimal_instance
+
+if TYPE_CHECKING:
+    from collections.abc import Callable, ValuesView
 
 
 def test_dataset_anonymizes_same_with_same_seed():
@@ -23,7 +26,7 @@ def test_dataset_anonymizes_same_with_same_seed():
         assert not [value.name for value in mismatches]
 
 
-_DatasetValue = Union[pydicom.DataElement, pydicom.dataelem.RawDataElement]
+_DatasetValue = pydicom.DataElement | pydicom.dataelem.RawDataElement
 
 
 def partition(

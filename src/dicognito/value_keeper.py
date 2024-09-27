@@ -1,6 +1,6 @@
 """Retains an element's value."""
 import re
-from typing import Iterator
+from collections.abc import Iterator
 
 import pydicom
 
@@ -22,6 +22,7 @@ class ValueKeeper(ElementAnonymizer):
             Must be the well-known name of a DICOM element or must represent
             a numeric DICOM tag and be in the form "stuv,wxyz" where each
             of the characters is a hexadecimal digit.
+
         """
         self._tag: int = self._tag_from_name(tag_name)
 
@@ -46,6 +47,7 @@ class ValueKeeper(ElementAnonymizer):
         Returns
         -------
         True if the element was preserved, or False if not.
+
         """
         return data_element.tag == self._tag and True or False
 
