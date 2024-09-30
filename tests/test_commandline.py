@@ -3,9 +3,10 @@ import os.path
 import shutil
 import sys
 
-import dicognito.__main__
 import pydicom
 import pytest
+
+import dicognito.__main__
 
 from .data_for_tests import load_dcm
 

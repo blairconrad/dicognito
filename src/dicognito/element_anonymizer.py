@@ -1,4 +1,5 @@
 """Base class for element anonymizers."""
+
 from collections.abc import Iterator
 
 from pydicom import DataElement

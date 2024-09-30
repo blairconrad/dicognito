@@ -1,5 +1,6 @@
-from dicognito.anonymizer import Anonymizer
 from pydicom import Dataset
+
+from dicognito.anonymizer import Anonymizer
 
 from .data_for_tests import load_dcm
 

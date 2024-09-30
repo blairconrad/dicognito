@@ -2,8 +2,9 @@ from collections.abc import Iterator
 from itertools import dropwhile, islice, takewhile
 from os.path import abspath, join
 
-import dicognito.__main__
 import pytest
+
+import dicognito.__main__
 
 
 def test_anonymized_elements_described(capsys):

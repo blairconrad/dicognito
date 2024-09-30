@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import pytest
+
 from dicognito.anonymizer import Anonymizer
 
 from .data_for_tests import load_instance

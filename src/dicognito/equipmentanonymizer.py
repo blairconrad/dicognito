@@ -1,4 +1,5 @@
 """Replace equipment-related values with something that obscures the patient's identity."""
+
 from collections.abc import Iterator
 
 import pydicom

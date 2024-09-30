@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 
 
 class WhatIfAction(argparse.Action):
-    def __init__(  # noqa:PLR0913
+    def __init__(
         self,
         option_strings: Sequence[str],
         version: str | None = None,  # noqa: ARG002
@@ -44,7 +44,7 @@ class WhatIfAction(argparse.Action):
 
 
 class VersionAction(argparse.Action):
-    def __init__(  # noqa:PLR0913
+    def __init__(
         self,
         option_strings: Sequence[str],
         version: str | None = None,
