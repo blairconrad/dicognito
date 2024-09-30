@@ -4,26 +4,21 @@
 
 Ensure that the following are installed:
 
-* a recent [tox](https://tox.readthedocs.io/en/latest/)
+* [uv](https://docs.astral.sh/uv/#uv)
 
 ## Building
 
 From a command prompt in the root of the repo, run
 
 ```powershell
-tox run
+uv run test.py
 ```
 
-This will build a source distribution and run tests in all supported environments. This replicates the
-testing done on the continuous integration server, and is the best way to ensure that any changes you make
-will work on the server. If you lack any environments and cannot install them, use the `-e` flag to limit
-your test run to those that you do have.
+This will build a source distribution and run tests as is done on the continuous integration server.
+It's the best way to ensure that any changes you make will work on the server.
+The tests will be run on the lowest supported python version.
+If you wish to run with a particular Python version, use uv's `--python` flag to select it:
 
-## Extras
-
-The `tasks.py` file in the root of the repository contains some convenience [invoke](http://www.pyinvoke.org/)
-tasks that can be used to do a quick (quicker than the full test run) check that your changes are working.
-The supplied commands may change at any time, without notice. 
-
-`invoke --list` will list the available targets, which may require that certain additional prerequisites
-(e.g. [pytest](https://docs.pytest.org/en/latest/)) be installed.
+```powershell
+uv run --python 3.12 test.py
+```

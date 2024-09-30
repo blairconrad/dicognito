@@ -123,21 +123,6 @@ mypy-init-return = true
   "TRY002",   # I don't care that much about custom exceptions.
 ]
 
-"smoketest/**" = [
-  "ANN201",   # not public code. No type annotations needed.
-  "D100",     # not public code. No docstrings needed.
-  "D103",     # not public code. No docstrings needed.
-  "INP001",   # smoketests isn't a namespace package.
-]
-
-"tasks.py" = [
-  "ANN001",   # not public code. No type annotations needed.
-  "ANN201",   # not public code. No type annotations needed.
-  "ANN202",   # not public code. No type annotations needed.
-  "D100",     # not public code. No docstrings needed.
-  "D103",     # not public code. No docstrings needed.
-]
-
 "tests/**" = [
   "ANN001",   # not public code. No type annotations needed.
   "ANN201",   # not public code. No type annotations needed.
