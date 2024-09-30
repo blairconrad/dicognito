@@ -1,4 +1,5 @@
 """dicognito - anonymize DICOM datasets."""
+
 import re
 from os.path import abspath, dirname, join
 

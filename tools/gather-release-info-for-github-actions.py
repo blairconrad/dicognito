@@ -25,7 +25,7 @@ with open("src/dicognito/release_notes.md") as release_notes:
         is_prerelease = "true" if re.search(prerelease_regex, release_name) else "false"
 
         release_body = ""
-        for line in release_notes.readlines():
+        for line in release_notes:
             if line.startswith("## "):
                 break
             release_body += line

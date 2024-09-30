@@ -1,4 +1,5 @@
 """Replace UIs with a new value."""
+
 from collections.abc import Iterator
 
 import pydicom

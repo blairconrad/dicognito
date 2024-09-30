@@ -1,4 +1,5 @@
 """Retains an element's value."""
+
 import re
 from collections.abc import Iterator
 

@@ -1,4 +1,5 @@
 """Remove unwanted values from the data_element."""
+
 from collections.abc import Iterator
 
 import pydicom

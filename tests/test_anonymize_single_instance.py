@@ -4,6 +4,7 @@ import datetime
 
 import pydicom
 import pytest
+
 from dicognito.anonymizer import Anonymizer
 from dicognito.pnanonymizer import PNAnonymizer
 from dicognito.value_keeper import ValueKeeper
