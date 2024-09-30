@@ -1,3 +1,60 @@
+[project]
+authors = [
+  {name = "Blair Conrad", email = "blair@blairconrad.com"},
+]
+classifiers=[
+    "License :: OSI Approved :: MIT License",
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Healthcare Industry",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+    "Topic :: Software Development :: Libraries",
+    "Typing :: Typed",
+]
+dependencies = [
+    "pydicom>=3.0.1",
+]
+description="A tool for anonymizing DICOM files"
+dynamic = ["version"]
+keywords = [
+  "anonymize", 
+  "deidentify",
+  "dicom",
+]
+name = "dicognito"
+readme = "README.md"
+requires-python = ">=3.10"
+
+[project.scripts]
+dicognito = "dicognito.__main__:main"
+
+[project.urls]
+Changelog = "https://github.com/blairconrad/dicognito/blob/main/src/dicognito/release_notes.md"
+Documentation = "https://github.com/blairconrad/dicognito/blob/main/README.md"
+Homepage = "https://github.com/blairconrad/dicognito"
+Issues = "https://github.com/blairconrad/dicognito/issues"
+Repository = "https://github.com/blairconrad/dicognito"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+dev-dependencies = [
+    "mypy",
+    "pytest",
+    "ruff",
+]
+
+[tool.hatch.version]
+path = "src/dicognito/release_notes.md"
+pattern = "^## (?P<version>.+)$"
+
 [tool.mypy]
 show_error_codes=true
 show_error_context=true
@@ -64,10 +121,6 @@ mypy-init-return = true
   "D103",     # not public code. No docstrings needed.
   "INP001",   # assets isn't a namespace package.
   "TRY002",   # I don't care that much about custom exceptions.
-]
-
-"setup.py" = [
-  "D100",     # setup doesn't count as public code. No docstrings needed.
 ]
 
 "smoketest/**" = [
