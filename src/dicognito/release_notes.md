@@ -1,3 +1,7 @@
+### New
+
+- Support Python 3.13 ([#172](https://github.com/blairconrad/dicognito/issues/172))
+
 ## 0.18.0
 
 ### Changed
