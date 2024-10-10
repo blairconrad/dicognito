@@ -10,6 +10,10 @@
 
 - Support Python 3.12 ([#168](https://github.com/blairconrad/dicognito/issues/168))
 
+### Fixed
+
+- Anonymization failure cites BytesIO object instead of input filename ([#159](https://github.com/blairconrad/dicognito/issues/159))
+
 ## 0.17.0
 
 ### New
