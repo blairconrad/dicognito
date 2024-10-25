@@ -11,7 +11,7 @@ Ensure that the following are installed:
 From a command prompt in the root of the repo, run
 
 ```powershell
-uv run test.py
+uv run duty ci
 ```
 
 This will build a source distribution and run tests as is done on the continuous integration server.
@@ -20,5 +20,5 @@ The tests will be run on the lowest supported python version.
 If you wish to run with a particular Python version, use uv's `--python` flag to select it:
 
 ```powershell
-uv run --python 3.12 test.py
+uv run --python 3.12 duty ci
 ```
