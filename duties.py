@@ -18,6 +18,12 @@ def test(ctx: Context) -> None:
 
 
 @duty
+def format(ctx: Context) -> None:
+    """Format files."""
+    ctx.run(["ruff", "format"], title=_title())
+
+
+@duty
 def check_format(ctx: Context) -> None:
     """Check format."""
     ctx.run(["ruff", "format", "--check", "."], title=_title())
