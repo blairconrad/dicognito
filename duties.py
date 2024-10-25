@@ -1,6 +1,7 @@
 """Duties for testing, formatting, linting, and type checking."""
 
 from inspect import currentframe, getdoc, getframeinfo
+from os import environ
 
 from duty import duty
 from duty.context import Context
@@ -13,7 +14,7 @@ def _title() -> str:
 @duty
 def test(ctx: Context) -> None:
     """Run the tests."""
-    ctx.run(["pytest", "--color", "yes"], title=_title())
+    ctx.run(["pytest", "--color", "auto" if environ.get("CI") == "true" else "yes"], title=_title())
 
 
 @duty
