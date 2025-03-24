@@ -1,6 +1,13 @@
+<<<<<<< HEAD
 ### New
 
 - Support Python 3.13 ([#172](https://github.com/blairconrad/dicognito/issues/172))
+||||||| parent of 54259e5 (Handle binary Mitra Global Patient IDs)
+=======
+### Fixed
+
+- Fails to anonymize instances when Mitra Global Patient ID VR is OB ([#175](https://github.com/blairconrad/dicognito/issues/175))
+>>>>>>> 54259e5 (Handle binary Mitra Global Patient IDs)
 
 ## 0.18.0
 

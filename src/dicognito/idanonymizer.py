@@ -102,6 +102,10 @@ class IDAnonymizer(ElementAnonymizer):
                 # can be misidentified as VR IS, instead of its proper LO. This causes
                 # the anonymize action to fail because most values can't be converted.
                 data_element.VR = "LO"
+                # Some DICOM objects have the Mitra Global Patient ID as a binary value
+                # which will break the anonymization. Assume it's ASCII and convert to a string.
+                if isinstance(data_element.value, bytes):
+                    data_element.value = data_element.value.decode("ascii")
                 self._replace_id(data_element)
                 return True
         return False
