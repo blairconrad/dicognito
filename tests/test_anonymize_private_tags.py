@@ -1,4 +1,3 @@
-import pytest
 from pydicom import Dataset
 
 from dicognito.anonymizer import Anonymizer
@@ -47,7 +46,6 @@ def test_private_creator_0031_0020_is_not_updated():
         assert actual == expected
 
 
-@pytest.mark.xfail
 def test_binary_mitra_global_patient_id_is_updated():
     with Dataset() as dataset:
         dataset.ensure_file_meta()
