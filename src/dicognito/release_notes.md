@@ -2,6 +2,10 @@
 
 - Support Python 3.13 ([#172](https://github.com/blairconrad/dicognito/issues/172))
 
+### Fixed
+
+- Fails to anonymize instances when Mitra Global Patient ID VR is OB ([#175](https://github.com/blairconrad/dicognito/issues/175))
+
 ## 0.18.0
 
 ### Changed
