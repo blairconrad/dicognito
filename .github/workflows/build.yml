@@ -14,7 +14,7 @@ jobs:
   test:
 
     continue-on-error: ${{ contains(matrix.job-prefix, 'experimental') }}
-    name: ${{ matrix.job-prefix }} test ${{ matrix.os }} Python ${{ matrix.python-version }}
+    name: ${{ matrix.job-prefix }}test ${{ matrix.os }} Python ${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
