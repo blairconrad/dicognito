@@ -45,8 +45,8 @@ Repository = "https://github.com/blairconrad/dicognito"
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-[tool.uv]
-dev-dependencies = [
+[dependency-groups]
+dev = [
     "mypy",
     "pytest",
     "ruff",
