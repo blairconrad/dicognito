@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import platform
 import sys
 from typing import TYPE_CHECKING
 
@@ -68,8 +69,6 @@ class VersionAction(argparse.Action):
         values: str | Sequence[Any] | None,  # noqa: ARG002
         option_string: str | None = None,  # noqa: ARG002
     ) -> None:
-        import platform
-
         def print_table(version_rows: Sequence[tuple[str, str]]) -> None:
             row_format = "{:12} | {}"
             print(row_format.format("module", "version"))
