@@ -81,7 +81,7 @@ def main(main_args: Sequence[str] | None = None) -> None:
     pipeline.add(BurnedInAnnotationGuard(args.assume_burned_in_annotation, args.on_burned_in_annotation))
     if not args.quiet:
         pipeline.add(Summarize())
-    pipeline.add(args.output_directory and SaveToSOPInstanceUID(args.output_directory) or SaveInPlace())
+    pipeline.add((args.output_directory and SaveToSOPInstanceUID(args.output_directory)) or SaveInPlace())
 
     pipeline.before_any()
 
