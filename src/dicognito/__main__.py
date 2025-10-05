@@ -50,11 +50,8 @@ def _get_datasets_from_sources(sources: Iterable[str]) -> Iterable[pydicom.datas
             logger.info("File %s appears not to be DICOM. Skipping.", filename)
 
 
-def main(main_args: Sequence[str] | None = None) -> None:
+def main(main_args: Sequence[str]) -> None:
     """Run the anonymizer."""
-    if main_args is None:
-        main_args = sys.argv[1:]
-
     args = parse_arguments(main_args)
 
     numeric_level = getattr(logging, args.log_level.upper(), None)
@@ -98,4 +95,4 @@ def main(main_args: Sequence[str] | None = None) -> None:
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])
