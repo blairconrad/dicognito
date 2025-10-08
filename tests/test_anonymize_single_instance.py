@@ -120,7 +120,7 @@ def test_single_other_patient_ids_anonymized_to_single_id():
         anonymizer = Anonymizer()
         anonymizer.anonymize(dataset)
 
-        actual: str = dataset.OtherPatientIDs  # type: ignore[assignment]
+        actual: str = dataset.OtherPatientIDs
 
         assert actual != "ID1"
         assert isinstance(actual, str)
@@ -232,7 +232,7 @@ def test_single_other_patient_names_anonymized_to_single_name():
         actual = dataset.OtherPatientNames
 
         assert actual != original
-        assert type(actual) is pydicom.valuerep.PersonName  # type: ignore[comparison-overlap, unreachable]
+        assert type(actual) is pydicom.valuerep.PersonName
 
 
 @pytest.mark.parametrize("number_of_names", [2, 3])

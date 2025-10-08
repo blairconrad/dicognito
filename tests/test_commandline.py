@@ -87,7 +87,7 @@ def test_summary_mixed_files_reports_on_each_study(capsys):
 | PYDV44HEDN1E     | LXO0DMOPN7PV | BUCHANAN^ALBA^MADGE   |
 """
     run_dicognito(path_to("p*"))
-    (actual_output, actual_error) = capsys.readouterr()
+    (actual_output, _actual_error) = capsys.readouterr()
 
     assert expected_output == actual_output
 
@@ -96,7 +96,7 @@ def test_summary_with_quiet_no_report(capsys):
     expected_output = ""
 
     run_dicognito(path_to("p*"), "--quiet")
-    (actual_output, actual_error) = capsys.readouterr()
+    (actual_output, _actual_error) = capsys.readouterr()
 
     assert expected_output == actual_output
 
@@ -108,7 +108,7 @@ def test_summary_no_accession_number(capsys):
 |                  | LXO0DMOPN7PV | BUCHANAN^ALBA^MADGE |
 """
     run_dicognito(path_to("p*"))
-    (actual_output, actual_error) = capsys.readouterr()
+    (actual_output, _actual_error) = capsys.readouterr()
 
     assert expected_output == actual_output
 
@@ -136,7 +136,7 @@ def test_non_dicom_files_ignored(capsys):
     assert orig_dataset.PatientName == "CompressedSamples^MR1"
 
     run_dicognito(path_to(""))
-    (actual_output, actual_error) = capsys.readouterr()
+    (_actual_output, actual_error) = capsys.readouterr()
 
     anon_dataset = read_file(test_name, "p01_s01_s01_i01.dcm")
     assert orig_dataset.PatientName != anon_dataset.PatientName

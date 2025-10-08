@@ -50,7 +50,7 @@ class ValueKeeper(ElementAnonymizer):
         True if the element was preserved, or False if not.
 
         """
-        return data_element.tag == self._tag and True or False
+        return (data_element.tag == self._tag and True) or False
 
     def describe_actions(self) -> Iterator[str]:
         """Describe the actions this anonymizer performs."""

@@ -15,6 +15,8 @@ if TYPE_CHECKING:
 
     import pydicom
 
+logger = logging.getLogger(__name__)
+
 
 class Summarize(Filter):
     """Summarizes newly-anonymized instances."""
@@ -98,11 +100,11 @@ class BurnedInAnnotationGuard(Filter):
         )
 
     def _perform_annotation_action(self, dataset: pydicom.dataset.Dataset, filename: str) -> None:
-        burned_in_annotation_value = "BurnedInAnnotation" in dataset and dataset.BurnedInAnnotation or "not specified"
+        burned_in_annotation_value = ("BurnedInAnnotation" in dataset and dataset.BurnedInAnnotation) or "not specified"
         burned_in_annotation_message = "Burned In Annotation is " + burned_in_annotation_value + " in " + filename
         if self.if_found == "fail":
             raise ValueError(burned_in_annotation_message)
-        logging.warning(burned_in_annotation_message)
+        logger.warning(burned_in_annotation_message)
 
 
 class SaveInPlace(Filter):

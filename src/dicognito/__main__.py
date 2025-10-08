@@ -20,6 +20,8 @@ from dicognito.value_keeper import ValueKeeper
 if TYPE_CHECKING:
     from collections.abc import Iterable, Sequence
 
+logger = logging.getLogger(__name__)
+
 
 def _get_filenames_from_source(source: str) -> Iterable[str]:
     if os.path.isfile(source):
@@ -45,14 +47,11 @@ def _get_datasets_from_sources(sources: Iterable[str]) -> Iterable[pydicom.datas
             with pydicom.dcmread(filename, force=False) as dataset:
                 yield dataset
         except pydicom.errors.InvalidDicomError:  # noqa: PERF203
-            logging.info("File %s appears not to be DICOM. Skipping.", filename)
+            logger.info("File %s appears not to be DICOM. Skipping.", filename)
 
 
-def main(main_args: Sequence[str] | None = None) -> None:
+def main(main_args: Sequence[str]) -> None:
     """Run the anonymizer."""
-    if main_args is None:
-        main_args = sys.argv[1:]
-
     args = parse_arguments(main_args)
 
     numeric_level = getattr(logging, args.log_level.upper(), None)
@@ -62,7 +61,7 @@ def main(main_args: Sequence[str] | None = None) -> None:
     logging.basicConfig(format="", level=numeric_level)
 
     if not args.in_place and not args.output_directory:
-        logging.warning(
+        logger.warning(
             "Neither --output-directory/-o nor --in-place/-i were specified. This will be an error in the future.",
         )
 
@@ -79,7 +78,7 @@ def main(main_args: Sequence[str] | None = None) -> None:
     pipeline.add(BurnedInAnnotationGuard(args.assume_burned_in_annotation, args.on_burned_in_annotation))
     if not args.quiet:
         pipeline.add(Summarize())
-    pipeline.add(args.output_directory and SaveToSOPInstanceUID(args.output_directory) or SaveInPlace())
+    pipeline.add((args.output_directory and SaveToSOPInstanceUID(args.output_directory)) or SaveInPlace())
 
     pipeline.before_any()
 
@@ -89,11 +88,11 @@ def main(main_args: Sequence[str] | None = None) -> None:
             anonymizer.anonymize(dataset)
             pipeline.after_each(dataset)
         except Exception:  # noqa: PERF203
-            logging.exception("Error occurred while converting %s. Aborting.", dataset.filename)
+            logger.exception("Error occurred while converting %s. Aborting.", dataset.filename)
             sys.exit(1)
 
     pipeline.after_all()
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])

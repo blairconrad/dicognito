@@ -45,8 +45,8 @@ Repository = "https://github.com/blairconrad/dicognito"
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-[tool.uv]
-dev-dependencies = [
+[dependency-groups]
+dev = [
     "mypy",
     "pytest",
     "ruff",
@@ -94,7 +94,6 @@ line-length = 120
 select = ["ALL"]
 
 ignore = [
-  "ANN101",   # choosing not to type-annotate self at this time.
   "COM812",   # may cause conflicts when used with the formatter.
   "COM819",   # may cause conflicts when used with the formatter.
   "D203",     # can either force a blank line before docstring or forbid.

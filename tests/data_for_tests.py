@@ -151,7 +151,7 @@ def _set_series_elements(
     study_number: int,
     series_number: int,
 ) -> None:
-    series_suffix = "%(patient_number)-d%(study_number)-d%(series_number)d" % vars()
+    series_suffix = f"{patient_number:0d}{study_number:0d}{series_number:d}"
     dataset.SeriesInstanceUID = dataset.StudyInstanceUID + "." + str(series_number)
     dataset.FrameOfReferenceUID = dataset.SeriesInstanceUID + ".0." + str(series_number)
     dataset.PerformedProcedureStepID = "PERFSTEP" + series_suffix
@@ -197,4 +197,4 @@ if __name__ == "__main__":
         int(x) for x in (sys.argv[1:] + ["1"] * (5 - len(sys.argv)))
     )
     dataset = load_instance(patient_number, study_number, series_number, object_number)
-    dataset.save_as("p%02d_s%02d_s%02d_i%02d.dcm" % (patient_number, study_number, series_number, object_number))
+    dataset.save_as(f"p{patient_number:02d}_s{study_number:02d}_s{series_number:02d}_i{object_number:02d}.dcm")
