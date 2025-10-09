@@ -25,6 +25,7 @@ jobs:
           - '3.11'
           - '3.12'
           - '3.13'
+          - '3.14'
         # Uncomment the following lines to test with a not-yet supported Python version
         # include:
         #   - job-prefix: 'experimental '
