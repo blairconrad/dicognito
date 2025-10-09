@@ -1,3 +1,9 @@
+### Changed
+
+- Relax DA and TM parsing to accept ACR-NEMA Standard 300-style values with "." in DAs and ":" in TMs.  
+  Converted values will be written without these characters ([#182](https://github.com/blairconrad/dicognito/issues/182))
+
+
 ### New
 
 - Support Python 3.13 ([#172](https://github.com/blairconrad/dicognito/issues/172))

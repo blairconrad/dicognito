@@ -596,6 +596,38 @@ def test_multivalued_datetime_gets_anonymized():
     assert len(new_datetime) == len(original_datetime)
 
 
+def test_date_with_dots_gets_anonymized():
+    original_date = "1974.11.03"
+    with load_test_instance() as dataset:
+        with pytest.warns(expected_warning=UserWarning, match="Invalid value for VR DA:"):
+            dataset[0x0008, 0x0022].value = original_date
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        new_date = dataset.AcquisitionDate
+
+    assert new_date != original_date
+    assert new_date != "19741103"
+
+
+def test_time_with_colons_gets_anonymized():
+    original_date = "19751203"
+    original_time = "12:15:58.123456"
+    with load_test_instance() as dataset:
+        dataset.AcquisitionDate = original_date
+        with pytest.warns(expected_warning=UserWarning, match="Invalid value for VR TM:"):
+            dataset[0x0008, 0x0032].value = original_time
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        new_time = dataset.AcquisitionTime
+
+    assert new_time != original_time
+    assert new_time != "121558.123456"
+
+
 def test_no_sex_still_changes_patient_name():
     with load_test_instance() as dataset:
         del dataset.PatientSex
