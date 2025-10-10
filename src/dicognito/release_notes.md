@@ -1,3 +1,5 @@
+## 0.19.0
+
 ### Changed
 
 - Relax DA and TM parsing to accept ACR-NEMA Standard 300-style values with "." in DAs and ":" in TMs.  
