@@ -76,7 +76,11 @@ class DateTimeAnonymizer(ElementAnonymizer):
         new_times = []
 
         for date, time in zip_longest(dates, times, fillvalue=""):
-            new_datetime = self._shift_datetime(date + time)
+            # The ACR-NEMA Standard 300 (predecessor to DICOM) supported formats
+            # YYYY.MM.DD and HH:MM:SS.frac. Accept them.
+            clean_date = date.replace(".", "")
+            clean_time = time.replace(":", "")
+            new_datetime = self._shift_datetime(clean_date + clean_time)
 
             new_dates.append(new_datetime[:8])
             new_times.append(new_datetime[8:])
