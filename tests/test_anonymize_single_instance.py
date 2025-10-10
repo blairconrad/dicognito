@@ -624,7 +624,7 @@ def test_time_with_colons_gets_anonymized():
 
         new_time = dataset.AcquisitionTime
 
-    assert new_time != original_time
+    assert len(new_time) == len("121558.123456")
     assert new_time != "121558.123456"
 
 
