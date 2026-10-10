@@ -8,7 +8,6 @@ classifiers=[
     "Environment :: Console",
     "Intended Audience :: Healthcare Industry",
     "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
@@ -30,7 +29,7 @@ keywords = [
 ]
 name = "dicognito"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 
 [project.scripts]
 dicognito = "dicognito.__main__:main"
@@ -88,7 +87,7 @@ allow_untyped_defs = true
 xfail_strict=true
 
 [tool.ruff]
-target-version = "py310"
+target-version = "py311"
 line-length = 120
 
 [tool.ruff.lint]

@@ -46,7 +46,7 @@ def _get_datasets_from_sources(sources: Iterable[str]) -> Iterable[pydicom.datas
         try:
             with pydicom.dcmread(filename, force=False) as dataset:
                 yield dataset
-        except pydicom.errors.InvalidDicomError:  # noqa: PERF203
+        except pydicom.errors.InvalidDicomError:
             logger.info("File %s appears not to be DICOM. Skipping.", filename)
 
 
@@ -87,7 +87,7 @@ def main(main_args: Sequence[str]) -> None:
             pipeline.before_each(dataset)
             anonymizer.anonymize(dataset)
             pipeline.after_each(dataset)
-        except Exception:  # noqa: PERF203
+        except Exception:
             logger.exception("Error occurred while converting %s. Aborting.", dataset.filename)
             sys.exit(1)
 
