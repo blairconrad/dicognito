@@ -1,4 +1,4 @@
-import datetime
+import datetime as dt
 import os
 import sys
 
@@ -137,8 +137,8 @@ def _set_patient_elements(dataset: pydicom.dataset.Dataset, patient_number: int)
 def _set_study_elements(dataset: pydicom.dataset.Dataset, patient_number: int, study_number: int) -> None:
     dataset.StudyID = "FOR4MR" + str(patient_number) + "." + str(study_number)
     dataset.AccessionNumber = "ACC" + dataset.StudyID
-    dataset.StudyDate = datetime.date(2004, patient_number, study_number).strftime("%Y%m%d")
-    dataset.StudyTime = datetime.time(patient_number * 5 + study_number, 0, 0).strftime("%H%M%S")
+    dataset.StudyDate = dt.date(2004, patient_number, study_number).strftime("%Y%m%d")
+    dataset.StudyTime = dt.time(patient_number * 5 + study_number, 0, 0).strftime("%H%M%S")
     dataset.StudyInstanceUID = "1.3.6.1.4.1.5962.20040827145012.5458." + str(patient_number) + "." + str(study_number)
     dataset.NameOfPhysiciansReadingStudy = "READING^FIRST^" + dataset.StudyID
     dataset.RequestingPhysician = "REQUESTING1^FIRST^" + dataset.StudyID
@@ -159,7 +159,7 @@ def _set_series_elements(
     dataset.ScheduledProcedureStepID = "SCHEDSTEP" + series_suffix
 
     dataset.SeriesDate = dataset.StudyDate
-    dataset.SeriesTime = datetime.time(patient_number, study_number, series_number).strftime("%H%M%S")
+    dataset.SeriesTime = dt.time(patient_number, study_number, series_number).strftime("%H%M%S")
     dataset.StationName = "STATIONNAME" + str(patient_number) + "." + str(study_number) + "." + str(series_number)
     dataset.OperatorsName = "OPERATOR^FIRST^" + series_suffix
     dataset.PerformingPhysicianName = "PERFORMING1^FIRST^" + series_suffix
@@ -185,7 +185,7 @@ def _set_instance_elements(
     dataset.SOPInstanceUID = dataset.SeriesInstanceUID + "." + str(instance_number)
     dataset.file_meta.MediaStorageSOPInstanceUID = dataset.SOPInstanceUID
     dataset.InstanceCreationDate = dataset.SeriesDate
-    dataset.InstanceCreationTime = datetime.time(
+    dataset.InstanceCreationTime = dt.time(
         patient_number,
         study_number,
         7 * series_number + instance_number,

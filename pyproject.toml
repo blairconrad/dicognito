@@ -94,6 +94,7 @@ line-length = 120
 select = ["ALL"]
 
 ignore = [
+  "CPY001",   # copyright notices aren't used in this project.
   "COM812",   # may cause conflicts when used with the formatter.
   "COM819",   # may cause conflicts when used with the formatter.
   "D203",     # can either force a blank line before docstring or forbid.
@@ -121,6 +122,10 @@ mypy-init-return = true
   "D103",     # not public code. No docstrings needed.
   "INP001",   # assets isn't a namespace package.
   "TRY002",   # I don't care that much about custom exceptions.
+]
+
+"test.py" = [
+  "S603",     # subprocess calls use trusted, fixed commands.
 ]
 
 "tests/**" = [

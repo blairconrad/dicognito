@@ -1,6 +1,6 @@
 """Replace date-based values with something that obscures the patient's identity."""
 
-import datetime
+import datetime as dt
 from collections.abc import Iterator, MutableSequence
 from itertools import zip_longest
 
@@ -23,7 +23,7 @@ class DateTimeAnonymizer(ElementAnonymizer):
             negative or zero.
 
         """
-        self.offset = datetime.timedelta(hours=offset_hours)
+        self.offset = dt.timedelta(hours=offset_hours)
 
     def __call__(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> bool:
         """
@@ -96,7 +96,7 @@ class DateTimeAnonymizer(ElementAnonymizer):
     def _shift_datetime(self, datetime_value: str) -> str:
         datetime_format = "%Y%m%d%H"[: len(datetime_value) - 2]
 
-        old_datetime = datetime.datetime.strptime(datetime_value[:10], datetime_format)  # noqa: DTZ007
+        old_datetime = dt.datetime.strptime(datetime_value[:10], datetime_format)  # noqa: DTZ007
         new_datetime = old_datetime + self.offset
 
         new_datetime_value = new_datetime.strftime(datetime_format)
