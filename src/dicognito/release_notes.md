@@ -2,6 +2,10 @@
 
 - Drop support for Python 3.10 ([#185](https://github.com/blairconrad/dicognito/issues/185))
 
+### New
+
+- Support Python 3.15
+
 ## 0.19.0
 
 ### Changed
