@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import datetime as dt
+import uuid
 
 import pydicom
 import pytest
@@ -76,6 +77,58 @@ def test_repeated_identifying_uis_get_same_values(one_element_path, another_elem
         another_uid = eval("dataset." + another_element_path)
 
         assert one_uid == another_uid
+
+
+@pytest.mark.parametrize(
+    "element_path",
+    [
+        "file_meta.MediaStorageSOPInstanceUID",
+        "SOPInstanceUID",
+        "StudyInstanceUID",
+        "SeriesInstanceUID",
+        "FrameOfReferenceUID",
+    ],
+)
+def test_identifying_uis_are_conformant_uuid_derived_uids(element_path):
+    with load_test_instance() as dataset:
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        actual = eval("dataset." + element_path)
+
+        assert_is_uuid5_derived_uid(actual)
+
+
+def test_multivalued_identifying_ui_gets_conformant_values():
+    with load_test_instance() as dataset:
+        original = ["1.2.3.1.1", "1.2.3.1.2"]
+        dataset.SourceImageSequence[0].ReferencedSOPInstanceUID = original
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        actual = dataset.SourceImageSequence[0].ReferencedSOPInstanceUID
+
+        assert len(set(actual)) == len(original)
+        for value in actual:
+            assert_is_uuid5_derived_uid(value)
+
+
+def test_identifying_uis_are_the_same_with_the_same_seed():
+    with load_test_instance() as dataset1, load_test_instance() as dataset2:
+        Anonymizer(seed="some seed").anonymize(dataset1)
+        Anonymizer(seed="some seed").anonymize(dataset2)
+
+        assert dataset1.SOPInstanceUID == dataset2.SOPInstanceUID
+        assert dataset1.StudyInstanceUID == dataset2.StudyInstanceUID
+
+
+def test_identifying_uis_differ_with_a_different_seed():
+    with load_test_instance() as dataset1, load_test_instance() as dataset2:
+        Anonymizer(seed="some seed").anonymize(dataset1)
+        Anonymizer(seed="another seed").anonymize(dataset2)
+
+        assert dataset1.SOPInstanceUID != dataset2.SOPInstanceUID
 
 
 @pytest.mark.parametrize(
@@ -773,3 +826,13 @@ def assert_element_is(dataset: pydicom.dataset.Dataset, element_name: str, expec
         assert element_name not in dataset
     else:
         assert expected == getattr(dataset, element_name)
+
+
+def assert_is_uuid5_derived_uid(uid: str) -> None:
+    assert uid.startswith("2.25.")
+    remainder = uid.removeprefix("2.25.")
+    assert remainder.isdigit()
+    assert remainder == "0" or not remainder.startswith("0")
+    derived_uuid = uuid.UUID(int=int(remainder))
+    assert derived_uuid.version == 5  # noqa: PLR2004
+    assert derived_uuid.variant == uuid.RFC_4122
