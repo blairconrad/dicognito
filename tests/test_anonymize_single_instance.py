@@ -619,12 +619,15 @@ def test_time_with_colons_gets_anonymized():
         with pytest.warns(expected_warning=UserWarning, match="Invalid value for VR TM:"):
             dataset[0x0008, 0x0032].value = original_time
 
-        anonymizer = Anonymizer()
+        # A fixed seed, because the date offset is a whole number of hours and with a
+        # random seed it is sometimes a whole number of days, leaving the time as is.
+        anonymizer = Anonymizer(seed="")
         anonymizer.anonymize(dataset)
 
         new_time = dataset.AcquisitionTime
 
     assert len(new_time) == len("121558.123456")
+    assert new_time[2:] == "1558.123456"
     assert new_time != "121558.123456"
 
 
