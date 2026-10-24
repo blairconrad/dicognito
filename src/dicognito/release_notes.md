@@ -2,6 +2,10 @@
 
 - Drop support for Python 3.10 ([#185](https://github.com/blairconrad/dicognito/issues/185))
 
+### Fixed
+
+- Anonymized UIs are not conformant DICOM UIDs. They now use the UUID-derived "2.25." form ([#189](https://github.com/blairconrad/dicognito/issues/189))
+
 ## 0.19.0
 
 ### Changed
