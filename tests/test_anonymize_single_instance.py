@@ -11,6 +11,8 @@ from dicognito.value_keeper import ValueKeeper
 
 from .data_for_tests import load_dcm, load_minimal_instance, load_test_instance
 
+MAX_UI_LENGTH = 64
+
 
 def test_minimal_instance_anonymizes_safely():
     with load_minimal_instance() as dataset:
@@ -76,6 +78,61 @@ def test_repeated_identifying_uis_get_same_values(one_element_path, another_elem
         another_uid = eval("dataset." + another_element_path)
 
         assert one_uid == another_uid
+
+
+@pytest.mark.parametrize(
+    "element_path",
+    [
+        "file_meta.MediaStorageSOPInstanceUID",
+        "SOPInstanceUID",
+        "StudyInstanceUID",
+        "SeriesInstanceUID",
+        "FrameOfReferenceUID",
+    ],
+)
+def test_identifying_uis_are_conformant_uuid_derived_uids(element_path):
+    with load_test_instance() as dataset:
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        actual = eval("dataset." + element_path)
+
+        assert actual.startswith("2.25.")
+        assert len(actual) <= MAX_UI_LENGTH
+        assert pydicom.uid.UID(actual).is_valid
+
+
+def test_multivalued_identifying_ui_gets_conformant_values():
+    with load_test_instance() as dataset:
+        original = ["1.2.3.1.1", "1.2.3.1.2"]
+        dataset.SourceImageSequence[0].ReferencedSOPInstanceUID = original
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        actual = dataset.SourceImageSequence[0].ReferencedSOPInstanceUID
+
+        assert len(set(actual)) == len(original)
+        for value in actual:
+            assert value.startswith("2.25.")
+            assert pydicom.uid.UID(value).is_valid
+
+
+def test_identifying_uis_are_the_same_with_the_same_seed():
+    with load_test_instance() as dataset1, load_test_instance() as dataset2:
+        Anonymizer(seed="some seed").anonymize(dataset1)
+        Anonymizer(seed="some seed").anonymize(dataset2)
+
+        assert dataset1.SOPInstanceUID == dataset2.SOPInstanceUID
+        assert dataset1.StudyInstanceUID == dataset2.StudyInstanceUID
+
+
+def test_identifying_uis_differ_with_a_different_seed():
+    with load_test_instance() as dataset1, load_test_instance() as dataset2:
+        Anonymizer(seed="some seed").anonymize(dataset1)
+        Anonymizer(seed="another seed").anonymize(dataset2)
+
+        assert dataset1.SOPInstanceUID != dataset2.SOPInstanceUID
 
 
 @pytest.mark.parametrize(
