@@ -76,6 +76,7 @@ Using the default settings, dicognito will
 * Remove ReferencedPatientPhotoSequence
 * Remove ResponsibleOrganization
 * Replace AccessionNumber with anonymized values
+* Replace AdmissionID with anonymized values
 * Replace CountryOfResidence with anonymized values
 * Replace CurrentPatientLocation with ""
 * Replace FillerOrderNumberImagingServiceRequest with anonymized values
@@ -96,6 +97,7 @@ Using the default settings, dicognito will
 * Replace RequestedProcedureID with anonymized values
 * Replace RequestingService with ""
 * Replace ScheduledProcedureStepID with anonymized values
+* Replace ServiceEpisodeID with anonymized values
 * Replace StationName with anonymized values
 * Replace StudyID with anonymized values
 * Replace all DA elements with anonymized values that precede the originals

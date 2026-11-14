@@ -2,6 +2,10 @@
 
 - Drop support for Python 3.10 ([#185](https://github.com/blairconrad/dicognito/issues/185))
 
+### New
+
+- Anonymize AdmissionID and ServiceEpisodeID ([#192](https://github.com/blairconrad/dicognito/issues/192))
+
 ## 0.19.0
 
 ### Changed

@@ -82,6 +82,7 @@ def test_repeated_identifying_uis_get_same_values(one_element_path, another_elem
     "element_path",
     [
         "AccessionNumber",
+        "AdmissionID",
         "FillerOrderNumberImagingServiceRequest",
         "FillerOrderNumberImagingServiceRequestRetired",
         "FillerOrderNumberProcedure",
@@ -99,6 +100,7 @@ def test_repeated_identifying_uis_get_same_values(one_element_path, another_elem
         "RequestAttributesSequence[0].RequestedProcedureID",
         "RequestAttributesSequence[0].ScheduledProcedureStepID",
         "ScheduledProcedureStepID",
+        "ServiceEpisodeID",
         "StudyID",
     ],
 )
