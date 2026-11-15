@@ -74,6 +74,7 @@ Using the default settings, dicognito will
 * Remove PatientTelecomInformation
 * Remove PatientTelephoneNumbers
 * Remove ReferencedPatientPhotoSequence
+* Remove ReferringPhysicianTelephoneNumbers
 * Remove ResponsibleOrganization
 * Replace AccessionNumber with anonymized values
 * Replace AdmissionID with anonymized values
@@ -93,6 +94,7 @@ Using the default settings, dicognito will
 * Replace PlacerOrderNumberImagingServiceRequest with anonymized values
 * Replace PlacerOrderNumberImagingServiceRequestRetired with anonymized values
 * Replace PlacerOrderNumberProcedure with anonymized values
+* Replace ReferringPhysicianAddress with anonymized values
 * Replace RegionOfResidence with anonymized values
 * Replace RequestedProcedureID with anonymized values
 * Replace RequestingService with ""

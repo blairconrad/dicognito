@@ -26,11 +26,13 @@ class AddressAnonymizer(ElementAnonymizer):
         address_tag = pydicom.datadict.keyword_dict["PatientAddress"]
         region_tag = pydicom.datadict.keyword_dict["RegionOfResidence"]
         country_tag = pydicom.datadict.keyword_dict["CountryOfResidence"]
+        referring_physician_address_tag = pydicom.datadict.keyword_dict["ReferringPhysicianAddress"]
 
         self._value_factories = {
             address_tag: self.get_street_address,
             region_tag: self.get_region,
             country_tag: self.get_country,
+            referring_physician_address_tag: self.get_street_address,
         }
 
     def __call__(
@@ -49,7 +51,7 @@ class AddressAnonymizer(ElementAnonymizer):
         data_element : pydicom.dataset.DataElement
             The current element. Will be anonymized if it has a value
             and if its keyword is one of PatientAddress, RegionOfResidence,
-            or CountryOfResidences.
+            CountryOfResidence, or ReferringPhysicianAddress.
 
         Returns
         -------

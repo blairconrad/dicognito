@@ -295,6 +295,26 @@ def test_patient_address_gets_anonymized():
         assert new_country != original_country
 
 
+def test_referring_physician_address_gets_anonymized():
+    with load_test_instance() as dataset:
+        original_address = dataset.ReferringPhysicianAddress
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        assert dataset.ReferringPhysicianAddress != original_address
+
+
+def test_referring_physician_telephone_numbers_are_removed():
+    with load_test_instance() as dataset:
+        assert "ReferringPhysicianTelephoneNumbers" in dataset
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        assert "ReferringPhysicianTelephoneNumbers" not in dataset
+
+
 @pytest.mark.parametrize(
     "element_name",
     [

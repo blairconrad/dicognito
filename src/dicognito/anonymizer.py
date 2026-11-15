@@ -88,6 +88,7 @@ class Anonymizer:
                 "PatientTelecomInformation",
                 "PatientTelephoneNumbers",
                 "ReferencedPatientPhotoSequence",
+                "ReferringPhysicianTelephoneNumbers",
                 "ResponsibleOrganization",
             ),
             UIAnonymizer(randomizer),
