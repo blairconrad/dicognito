@@ -302,7 +302,10 @@ def test_referring_physician_address_gets_anonymized():
         anonymizer = Anonymizer()
         anonymizer.anonymize(dataset)
 
-        assert dataset.ReferringPhysicianAddress != original_address
+        new_address = dataset.ReferringPhysicianAddress
+        assert new_address != original_address
+        # one free-text address with street, region and country, like InstitutionAddress
+        assert len(new_address.split(", ")) == len(dataset.InstitutionAddress.split(", "))
 
 
 def test_referring_physician_telephone_numbers_are_removed():
@@ -359,6 +362,18 @@ def test_equipment_gets_anonymized():
         assert new_institution_address != original_institution_address
         assert new_institutional_department_name != original_institutional_department_name
         assert new_station_name != original_station_name
+
+
+def test_institution_address_gets_anonymized_without_institution_name():
+    with load_test_instance() as dataset:
+        del dataset.InstitutionName
+        original_institution_address = dataset.InstitutionAddress
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        assert "InstitutionName" not in dataset
+        assert dataset.InstitutionAddress != original_institution_address
 
 
 def test_station_gets_anonymized_when_no_modality():

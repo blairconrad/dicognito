@@ -83,7 +83,7 @@ Using the default settings, dicognito will
 * Replace FillerOrderNumberImagingServiceRequest with anonymized values
 * Replace FillerOrderNumberImagingServiceRequestRetired with anonymized values
 * Replace FillerOrderNumberProcedure with anonymized values
-* Replace InstitutionAddress with anonymized values (only if replacing matching InstitutionName element)
+* Replace InstitutionAddress with anonymized values (unless keeping matching InstitutionName element)
 * Replace InstitutionName with anonymized values
 * Replace InstitutionalDepartmentName with "RADIOLOGY"
 * Replace IssuerOfPatientID with "DICOGNITO"

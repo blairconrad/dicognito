@@ -32,7 +32,7 @@ class AddressAnonymizer(ElementAnonymizer):
             address_tag: self.get_street_address,
             region_tag: self.get_region,
             country_tag: self.get_country,
-            referring_physician_address_tag: self.get_street_address,
+            referring_physician_address_tag: self.get_full_address,
         }
 
     def __call__(
@@ -83,6 +83,16 @@ class AddressAnonymizer(ElementAnonymizer):
         )
         street_number = street_number_index + 1
         return f"{street_number} {self._streets[street_index]}"
+
+    def get_full_address(self, original_value: str) -> str:
+        """Generate a new one-line address (street, region and country) based on an original value."""
+        return ", ".join(
+            [
+                self.get_street_address(original_value),
+                self.get_region(original_value),
+                self.get_country(original_value),
+            ],
+        )
 
     def get_region(self, original_value: str) -> str:
         """Generate a new region based on an original value."""
