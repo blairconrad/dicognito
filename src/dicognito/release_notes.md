@@ -15,6 +15,7 @@
 ### With special thanks for contributions to this release from:
 
 - [Vamsi](https://github.com/vamsibvv) &#x1F947;
+- [Pradeep Peddineni](https://github.com/pradeeppeddineni) &#x1F947;
 
 ## 0.19.0
 
