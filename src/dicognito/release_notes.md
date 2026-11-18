@@ -11,6 +11,10 @@
 
 - Anonymize InstitutionAddress when there is no InstitutionName ([#192](https://github.com/blairconrad/dicognito/issues/192))
 
+### With special thanks for contributions to this release from:
+
+- [Vamsi](https://github.com/vamsibvv) &#x1F947;
+
 ## 0.19.0
 
 ### Changed
