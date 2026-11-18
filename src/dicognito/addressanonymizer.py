@@ -26,11 +26,13 @@ class AddressAnonymizer(ElementAnonymizer):
         address_tag = pydicom.datadict.keyword_dict["PatientAddress"]
         region_tag = pydicom.datadict.keyword_dict["RegionOfResidence"]
         country_tag = pydicom.datadict.keyword_dict["CountryOfResidence"]
+        referring_physician_address_tag = pydicom.datadict.keyword_dict["ReferringPhysicianAddress"]
 
         self._value_factories = {
             address_tag: self.get_street_address,
             region_tag: self.get_region,
             country_tag: self.get_country,
+            referring_physician_address_tag: self.get_full_address,
         }
 
     def __call__(
@@ -49,7 +51,7 @@ class AddressAnonymizer(ElementAnonymizer):
         data_element : pydicom.dataset.DataElement
             The current element. Will be anonymized if it has a value
             and if its keyword is one of PatientAddress, RegionOfResidence,
-            or CountryOfResidences.
+            CountryOfResidence, or ReferringPhysicianAddress.
 
         Returns
         -------
@@ -81,6 +83,16 @@ class AddressAnonymizer(ElementAnonymizer):
         )
         street_number = street_number_index + 1
         return f"{street_number} {self._streets[street_index]}"
+
+    def get_full_address(self, original_value: str) -> str:
+        """Generate a new one-line address (street, region and country) based on an original value."""
+        return ", ".join(
+            [
+                self.get_street_address(original_value),
+                self.get_region(original_value),
+                self.get_country(original_value),
+            ],
+        )
 
     def get_region(self, original_value: str) -> str:
         """Generate a new region based on an original value."""

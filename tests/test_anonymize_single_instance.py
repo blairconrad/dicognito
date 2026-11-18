@@ -82,6 +82,7 @@ def test_repeated_identifying_uis_get_same_values(one_element_path, another_elem
     "element_path",
     [
         "AccessionNumber",
+        "AdmissionID",
         "FillerOrderNumberImagingServiceRequest",
         "FillerOrderNumberImagingServiceRequestRetired",
         "FillerOrderNumberProcedure",
@@ -99,6 +100,7 @@ def test_repeated_identifying_uis_get_same_values(one_element_path, another_elem
         "RequestAttributesSequence[0].RequestedProcedureID",
         "RequestAttributesSequence[0].ScheduledProcedureStepID",
         "ScheduledProcedureStepID",
+        "ServiceEpisodeID",
         "StudyID",
     ],
 )
@@ -293,6 +295,29 @@ def test_patient_address_gets_anonymized():
         assert new_country != original_country
 
 
+def test_referring_physician_address_gets_anonymized():
+    with load_test_instance() as dataset:
+        original_address = dataset.ReferringPhysicianAddress
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        new_address = dataset.ReferringPhysicianAddress
+        assert new_address != original_address
+        # one free-text address with street, region and country, like InstitutionAddress
+        assert len(new_address.split(", ")) == len(dataset.InstitutionAddress.split(", "))
+
+
+def test_referring_physician_telephone_numbers_are_removed():
+    with load_test_instance() as dataset:
+        assert "ReferringPhysicianTelephoneNumbers" in dataset
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        assert "ReferringPhysicianTelephoneNumbers" not in dataset
+
+
 @pytest.mark.parametrize(
     "element_name",
     [
@@ -337,6 +362,18 @@ def test_equipment_gets_anonymized():
         assert new_institution_address != original_institution_address
         assert new_institutional_department_name != original_institutional_department_name
         assert new_station_name != original_station_name
+
+
+def test_institution_address_gets_anonymized_without_institution_name():
+    with load_test_instance() as dataset:
+        del dataset.InstitutionName
+        original_institution_address = dataset.InstitutionAddress
+
+        anonymizer = Anonymizer()
+        anonymizer.anonymize(dataset)
+
+        assert "InstitutionName" not in dataset
+        assert dataset.InstitutionAddress != original_institution_address
 
 
 def test_station_gets_anonymized_when_no_modality():

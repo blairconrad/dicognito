@@ -44,6 +44,8 @@ class EquipmentAnonymizer(ElementAnonymizer):
             InstitutionAddress, or InstitutionalDepartmentName.
             Additionally, if its keyword is InstitutionName,
             then InstitutionAddress will also be anonymized.
+            InstitutionAddress is anonymized on its own only if
+            there is no InstitutionName.
 
         Returns
         -------
@@ -60,16 +62,13 @@ class EquipmentAnonymizer(ElementAnonymizer):
     def describe_actions(self) -> Iterator[str]:
         """Describe the actions this anonymizer performs."""
         yield "Replace InstitutionName with anonymized values"
-        yield "Replace InstitutionAddress with anonymized values (only if replacing matching InstitutionName element)"
+        yield "Replace InstitutionAddress with anonymized values (unless keeping matching InstitutionName element)"
         yield 'Replace InstitutionalDepartmentName with "RADIOLOGY"'
 
     def _anonymize_institution_name(self, dataset: pydicom.dataset.Dataset, data_element: pydicom.DataElement) -> None:
         region = self.address_anonymizer.get_region(data_element.value)
-        street_address = self.address_anonymizer.get_street_address(data_element.value)
-        street = street_address.split(" ", 1)[1]
-        dataset.InstitutionAddress = ", ".join(
-            [street_address, region, self.address_anonymizer.get_country(data_element.value)],
-        )
+        street = self.address_anonymizer.get_street_address(data_element.value).split(" ", 1)[1]
+        dataset.InstitutionAddress = self.address_anonymizer.get_full_address(data_element.value)
         data_element.value = region + "'S " + street + " CLINIC"
 
     def _anonymize_institution_address(
@@ -77,8 +76,10 @@ class EquipmentAnonymizer(ElementAnonymizer):
         dataset: pydicom.dataset.Dataset,
         data_element: pydicom.DataElement,
     ) -> None:
-        # handled by _anonymize_institution_name
-        pass
+        # with an InstitutionName, the address is set by _anonymize_institution_name
+        if "InstitutionName" in dataset or not data_element.value:
+            return
+        data_element.value = self.address_anonymizer.get_full_address(data_element.value)
 
     def _anonymize_department_name(
         self,

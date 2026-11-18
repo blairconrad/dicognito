@@ -2,6 +2,19 @@
 
 - Drop support for Python 3.10 ([#185](https://github.com/blairconrad/dicognito/issues/185))
 
+### New
+
+- Anonymize AdmissionID and ServiceEpisodeID ([#192](https://github.com/blairconrad/dicognito/issues/192))
+- Anonymize ReferringPhysicianAddress and remove ReferringPhysicianTelephoneNumbers ([#192](https://github.com/blairconrad/dicognito/issues/192))
+
+### Fixed
+
+- Anonymize InstitutionAddress when there is no InstitutionName ([#192](https://github.com/blairconrad/dicognito/issues/192))
+
+### With special thanks for contributions to this release from:
+
+- [Vamsi](https://github.com/vamsibvv) &#x1F947;
+
 ## 0.19.0
 
 ### Changed

@@ -35,6 +35,8 @@ def load_test_instance() -> pydicom.dataset.Dataset:  # noqa: PLR0915
     dataset.NameOfPhysiciansReadingStudy = "READING^FIRST^MIDDLE"
     dataset.PerformingPhysicianName = "PERFORMING^FIRST^MIDDLE"
     dataset.ReferringPhysicianName = "REFERRING^FIRST^MIDDLE"
+    dataset.ReferringPhysicianAddress = "20 REFERRING STREET, BROAD COVE"
+    dataset.ReferringPhysicianTelephoneNumbers = "555-0100"
     dataset.RequestingPhysician = "REQUESTING^FIRST^MIDDLE"
     dataset.ResponsiblePerson = "RESPONSIBLE^FIRST^MIDDLE"
     dataset.PatientBirthName = "PBN"
@@ -66,6 +68,8 @@ def load_test_instance() -> pydicom.dataset.Dataset:  # noqa: PLR0915
     dataset.MedicalRecordLocator = "FILING CABINET 1"
     dataset.ReferencedPatientPhotoSequence = [referenced_photo_item()]
     dataset.ResponsibleOrganization = "RESPONSIBLE ORGANIZATION"
+    dataset.AdmissionID = "ADMISSION-ID"
+    dataset.ServiceEpisodeID = "SERVICE-EPISODE-ID"
 
     other_patient_id_item0 = pydicom.dataset.Dataset()
     other_patient_id_item0.PatientID = "opi-0-ID"
