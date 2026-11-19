@@ -1,0 +1,624 @@
+id,keyword,name,vr,basicProfile,rtnLongFullDatesOpt,rtnLongModifDatesOpt,rtnPatCharsOpt,rtnDevIdOpt,rtnInstIdOpt,rtnUIDsOpt,rtnSafePrivOpt,cleanDescOpt,cleanStructContOpt,cleanGraphOpt,stdCompIOD,retired,populated,empty,added
+00080050,AccessionNumber,Accession Number,SH,Z,,,,,,,,,,,Y,,changed -> 'NP7A2NZRYP67',changed -> 'VENLPRZ6TMV1',DeidentificationMethod
+00184000,AcquisitionComments,Acquisition Comments,LT,X,,,,,,,,C,,,N,,unchanged,unchanged,DeidentificationMethod
+00400555,AcquisitionContextSequence,Acquisition Context Sequence,SQ,X/Z,,,,,,,,,C,,Y,,kept (items walked),kept,DeidentificationMethod
+00080022,AcquisitionDate,Acquisition Date,DA,X/Z,K,C,,,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+0008002a,AcquisitionDateTime,Acquisition DateTime,DT,X/Z/D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00181400,AcquisitionDeviceProcessingDescription,Acquisition Device Processing Description,LO,X/D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+001811bb,AcquisitionFieldOfViewLabel,Acquisition Field Of View Label,LO,D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00189424,AcquisitionProtocolDescription,Acquisition Protocol Description,LT,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00080032,AcquisitionTime,Acquisition Time,TM,X/Z,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00080017,AcquisitionUID,Acquisition UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00404035,ActualHumanPerformersSequence,Actual Human Performers Sequence,SQ,X,,,,,,,,,,,N,,kept (items walked),kept,DeidentificationMethod
+001021b0,AdditionalPatientHistory,Additional Patient History,LT,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+0040a353,AddressTrial,Address (Trial),ST,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00380010,AdmissionID,Admission ID,LO,X,,,,,,,,,,,Y,,changed -> '2YRIT4IT5XSO',changed -> 'VENLPRZ6TMV1',DeidentificationMethod
+00380020,AdmittingDate,Admitting Date,DA,X,K,C,,,,,,,,,N,,changed -> '20180313',unchanged,DeidentificationMethod
+00081084,AdmittingDiagnosesCodeSequence,Admitting Diagnoses Code Sequence,SQ,X,,,,,,,,C,,,Y,,kept (items walked),kept,DeidentificationMethod
+00081080,AdmittingDiagnosesDescription,Admitting Diagnoses Description,LO,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00380021,AdmittingTime,Admitting Time,TM,X,K,C,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00001000,AffectedSOPInstanceUID,Affected SOP Instance UID,UI,X,,,,,,K,,,,,N,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00102110,Allergies,Allergies,LO,X,,,C,,,,,C,,,N,,unchanged,unchanged,DeidentificationMethod
+006a0006,AnnotationGroupDescription,Annotation Group Description,UT,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+006a0005,AnnotationGroupLabel,Annotation Group Label,LO,D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+006a0003,AnnotationGroupUID,Annotation Group UID,UI,D,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00440004,ApprovalStatusDateTime,Approval Status DateTime,DT,X,K,C,,,,,,,,,N,,changed -> '20180314063456',unchanged,DeidentificationMethod
+40000010,Arbitrary,Arbitrary,LT,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00440104,AssertionDateTime,Assertion DateTime,DT,D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00440105,AssertionExpirationDateTime,Assertion Expiration DateTime,DT,X,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+04000562,AttributeModificationDateTime,Attribute Modification DateTime,DT,D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+0040a078,AuthorObserverSequence,Author Observer Sequence,SQ,X,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+22000005,BarcodeValue,Barcode Value,LT,X/Z,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+300a00c3,BeamDescription,Beam Description,ST,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+300c0127,BeamHoldTransitionDateTime,Beam Hold Transition DateTime,DT,D,K,C,,K,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+300a00dd,BolusDescription,Bolus Description,ST,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00101081,BranchOfService,Branch of Service,LO,X,,,,,,,,,,,N,,removed,removed,DeidentificationMethod
+0014407e,CalibrationDate,Calibration Date,DA,X,K,C,,K,,,,,,,N,,changed -> '20180313',unchanged,DeidentificationMethod
+00181203,CalibrationDateTime,Calibration DateTime,DT,Z,K,C,,K,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+0014407c,CalibrationTime,Calibration Time,TM,X,K,C,,K,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+0016004d,CameraOwnerName,Camera Owner Name,UT,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00181007,CassetteID,Cassette ID,LO,X,,,,K,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+04000115,CertificateOfSigner,Certificate of Signer,OB,D,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+04000310,CertifiedTimestamp,Certified Timestamp,OB,X,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00120060,ClinicalTrialCoordinatingCenterName,Clinical Trial Coordinating Center Name,LO,Z,,,,,K,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00120082,ClinicalTrialProtocolEthicsCommitteeApprovalNumber,Clinical Trial Protocol Ethics Committee Approval Number,LO,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00120081,ClinicalTrialProtocolEthicsCommitteeName,Clinical Trial Protocol Ethics Committee Name,LO,D,,,,,K,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00120020,ClinicalTrialProtocolID,Clinical Trial Protocol ID,LO,D,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00120021,ClinicalTrialProtocolName,Clinical Trial Protocol Name,LO,Z,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00120072,ClinicalTrialSeriesDescription,Clinical Trial Series Description,LO,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00120071,ClinicalTrialSeriesID,Clinical Trial Series ID,LO,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00120030,ClinicalTrialSiteID,Clinical Trial Site ID,LO,Z,,,,,K,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00120031,ClinicalTrialSiteName,Clinical Trial Site Name,LO,Z,,,,,K,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00120010,ClinicalTrialSponsorName,Clinical Trial Sponsor Name,LO,D,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00120040,ClinicalTrialSubjectID,Clinical Trial Subject ID,LO,D,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00120042,ClinicalTrialSubjectReadingID,Clinical Trial Subject Reading ID,LO,D,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00120051,ClinicalTrialTimePointDescription,Clinical Trial Time Point Description,ST,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00120050,ClinicalTrialTimePointID,Clinical Trial Time Point ID,LO,Z,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00400310,CommentsOnRadiationDose,Comments on Radiation Dose,ST,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00400280,CommentsOnThePerformedProcedureStep,Comments on the Performed Procedure Step,ST,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+300a02eb,CompensatorDescription,Compensator Description,LT,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00209161,ConcatenationUID,Concatenation UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+3010000f,ConceptualVolumeCombinationDescription,Conceptual Volume Combination Description,ST,Z,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+30100017,ConceptualVolumeDescription,Conceptual Volume Description,ST,Z,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+30100006,ConceptualVolumeUID,Conceptual Volume UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00403001,ConfidentialityConstraintOnPatientDataDescription,Confidentiality Constraint on Patient Data Description,LO,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+30100013,ConstituentConceptualVolumeUID,Constituent Conceptual Volume UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+0008009c,ConsultingPhysicianName,Consulting Physician's Name,PN,Z,,,,,,,,,,,Y,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+0008009d,ConsultingPhysicianIdentificationSequence,Consulting Physician Identification Sequence,SQ,X,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+0050001b,ContainerComponentID,Container Component ID,LO,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+0040051a,ContainerDescription,Container Description,LO,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00400512,ContainerIdentifier,Container Identifier,LO,D,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00700086,ContentCreatorIdentificationCodeSequence,Content Creator's Identification Code Sequence,SQ,X,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+00700084,ContentCreatorName,Content Creator's Name,PN,Z/D,,,,,,,,,,,Y,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+00080023,ContentDate,Content Date,DA,Z/D,K,C,,,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+0040a730,ContentSequence,Content Sequence,SQ,D,,,,,,,,,C,,Y,,kept (items walked),kept,DeidentificationMethod
+00080033,ContentTime,Content Time,TM,Z/D,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00080107,ContextGroupLocalVersion,Context Group Local Version,DT,D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00080106,ContextGroupVersion,Context Group Version,DT,D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00180010,ContrastBolusAgent,Contrast/Bolus Agent,LO,Z/D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00181042,ContrastBolusStartTime,Contrast/Bolus Start Time,TM,X,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00181043,ContrastBolusStopTime,Contrast/Bolus Stop Time,TM,X,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+0018a002,ContributionDateTime,Contribution DateTime,DT,X,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+0018a003,ContributionDescription,Contribution Description,ST,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00102150,CountryOfResidence,Country of Residence,LO,X,,,,,,,,,,,N,,changed -> 'SURINAME',unchanged,DeidentificationMethod
+21000040,CreationDate,Creation Date,DA,X,K,C,,,,,,,,,N,,changed -> '20180313',unchanged,DeidentificationMethod
+21000050,CreationTime,Creation Time,TM,X,K,C,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+0040a307,CurrentObserverTrial,Current Observer (Trial),PN,X,,,,,,,,,,,N,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+00380300,CurrentPatientLocation,Current Patient Location,LO,X,,,,,,,,,,,N,,emptied,unchanged,DeidentificationMethod
+50xxxxxx,,Curve Data,,X,,,,,,,,,,C,N,,WILDCARD (not probed),,
+00080025,CurveDate,Curve Date,DA,X,K,C,,,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+00080035,CurveTime,Curve Time,TM,X,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+0040a07c,CustodialOrganizationSequence,Custodial Organization Sequence,SQ,X,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+fffcfffc,DataSetTrailingPadding,Data Set Trailing Padding,OB,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+0040a121,Date,Date,DA,D,K,C,,,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+0040a110,DateOfDocumentOrVerbalTransactionTrial,Date of Document or Verbal Transaction (Trial),DA,X,K,C,,,,,,,,,N,,changed -> '20180313',unchanged,DeidentificationMethod
+00181205,DateOfInstallation,Date of Installation,DA,X,K,C,,K,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+00181200,DateOfLastCalibration,Date of Last Calibration,DA,X,K,C,,K,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+0018700c,DateOfLastDetectorCalibration,Date of Last Detector Calibration,DA,X/D,K,C,,K,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+00181204,DateOfManufacture,Date of Manufacture,DA,X,K,C,,K,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+00181012,DateOfSecondaryCapture,Date of Secondary Capture,DA,X,K,C,,,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+0040a120,DateTime,DateTime,DT,D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00181202,DateTimeOfLastCalibration,DateTime of Last Calibration,DT,X,K,C,,K,,,,,,,N,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00189701,DecayCorrectionDateTime,Decay Correction DateTime,DT,D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+0018937f,DecompositionDescription,Decomposition Description,UT,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00082111,DerivationDescription,Derivation Description,ST,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+21000140,DestinationAE,Destination AE,AE,D,,,,C,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+0018700a,DetectorID,Detector ID,SH,X/D,,,,K,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+3010001b,DeviceAlternateIdentifier,Device Alternate Identifier,UC,Z,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00500020,DeviceDescription,Device Description,LO,X,,,,K,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+3010002d,DeviceLabel,Device Label,LO,D,,,,K,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00181000,DeviceSerialNumber,Device Serial Number,LO,X/Z/D,,,,K,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+0016004b,DeviceSettingDescription,Device Setting Description,OB,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00181002,DeviceUID,Device UID,UI,U,,,,K,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+04000105,DigitalSignatureDateTime,Digital Signature DateTime,DT,D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+fffafffa,DigitalSignaturesSequence,Digital Signatures Sequence,SQ,X,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+04000100,DigitalSignatureUID,Digital Signature UID,UI,U,,,,,,,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00209164,DimensionOrganizationUID,Dimension Organization UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00380030,DischargeDate,Discharge Date,DA,X,K,C,,,,,,,,,N,,changed -> '20180313',unchanged,DeidentificationMethod
+00380040,DischargeDiagnosisDescription,Discharge Diagnosis Description,LO,X,,,,,,,,C,,,N,,unchanged,unchanged,DeidentificationMethod
+00380032,DischargeTime,Discharge Time,TM,X,K,C,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+300a079a,DisplacementReferenceLabel,Displacement Reference Label,LO,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+4008011a,DistributionAddress,Distribution Address,LO,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+40080119,DistributionName,Distribution Name,PN,X,,,,,,,,,,,N,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+300a0016,DoseReferenceDescription,Dose Reference Description,LO,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+300a0013,DoseReferenceUID,Dose Reference UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+3010006e,DosimetricObjectiveUID,Dosimetric Objective UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00686226,EffectiveDateTime,Effective DateTime,DT,D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00420011,EncapsulatedDocument,Encapsulated Document,OB,D,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00189517,EndAcquisitionDateTime,End Acquisition DateTime,DT,X/D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+30100037,EntityDescription,Entity Description,ST,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+30100035,EntityLabel,Entity Label,SH,D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+30100038,EntityLongLabel,Entity Long Label,LO,D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+30100036,EntityName,Entity Name,LO,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+300a0676,EquipmentFrameOfReferenceDescription,Equipment Frame of Reference Description,ST,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00120087,EthicsCommitteeApprovalEffectivenessEndDate,Ethics Committee Approval Effectiveness End Date,DA,X,K,C,,,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+00120086,EthicsCommitteeApprovalEffectivenessStartDate,Ethics Committee Approval Effectiveness Start Date,DA,X,K,C,,,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+00102160,EthnicGroup,Ethnic Group,SH,X,,,K,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00189804,ExclusionStartDateTime,Exclusion Start DateTime,DT,D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00404011,ExpectedCompletionDateTime,Expected Completion DateTime,DT,X,K,C,,,,,,,,,N,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00080058,FailedSOPInstanceUIDList,Failed SOP Instance UID List,UI,U,,,,,,K,,,,,N,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+0070031a,FiducialUID,Fiducial UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00402017,FillerOrderNumberImagingServiceRequest,Filler Order Number / Imaging Service Request,LO,Z,,,,,,,,,,,Y,,changed -> '2YRIT4IT5XSO',changed -> 'VENLPRZ6TMV1',DeidentificationMethod
+003a032b,FilterLookupTableDescription,Filter Lookup Table Description,ST,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+0040a023,FindingsGroupRecordingDateTrial,Findings Group Recording Date (Trial),DA,X,K,C,,,,,,,,,N,,changed -> '20180313',unchanged,DeidentificationMethod
+0040a024,FindingsGroupRecordingTimeTrial,Findings Group Recording Time (Trial),TM,X,K,C,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+30080054,FirstTreatmentDate,First Treatment Date,DA,X/D,K,C,,,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+300a0196,FixationDeviceDescription,Fixation Device Description,ST,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00340002,FlowIdentifier,Flow Identifier,OB,D,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00340001,FlowIdentifierSequence,Flow Identifier Sequence,SQ,D,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+3010007f,FractionationNotes,Fractionation Notes,UT,Z,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+300a0072,FractionGroupDescription,Fraction Group Description,LO,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00189074,FrameAcquisitionDateTime,Frame Acquisition DateTime,DT,D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00209158,FrameComments,Frame Comments,LT,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00200052,FrameOfReferenceUID,Frame of Reference UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00340007,FrameOriginTimestamp,Frame Origin Timestamp,OB,D,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00189151,FrameReferenceDateTime,Frame Reference DateTime,DT,D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00189623,FunctionalSyncPulse,Functional Sync Pulse,DT,D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00181008,GantryID,Gantry ID,LO,X,,,,K,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00181005,GeneratorID,Generator ID,LO,X,,,,K,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00160076,GPSAltitude,GPS Altitude,DS,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00160075,GPSAltitudeRef,GPS Altitude Ref,US,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+0016008c,GPSAreaInformation,GPS Area Information,OB,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+0016008d,GPSDateStamp,GPS Date Stamp,DT,X,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00160088,GPSDestBearing,GPS Dest Bearing,DS,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00160087,GPSDestBearingRef,GPS Dest Bearing Ref,CS,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+0016008a,GPSDestDistance,GPS Dest Distance,DS,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00160089,GPSDestDistanceRef,GPS Dest Distance Ref,CS,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00160084,GPSDestLatitude,GPS Dest Latitude,DS,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00160083,GPSDestLatitudeRef,GPS Dest Latitude Ref,CS,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00160086,GPSDestLongitude,GPS Dest Longitude,DS,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00160085,GPSDestLongitudeRef,GPS Dest Longitude Ref,CS,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+0016008e,GPSDifferential,GPS Differential,IS,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+0016007b,GPSDOP,GPS DOP,DS,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00160081,GPSImgDirection,GPS Img Direction,DS,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00160080,GPSImgDirectionRef,GPS Img Direction Ref,CS,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00160072,GPSLatitude,GPS Latitude,DS,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00160071,GPSLatitudeRef,GPS Latitude Ref,CS,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00160074,GPSLongitude,GPS Longitude,DS,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00160073,GPSLongitudeRef,GPS Longitude Ref,CS,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00160082,GPSMapDatum,GPS Map Datum,UT,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+0016007a,GPSMeasureMode,GPS Measure Mode,CS,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+0016008b,GPSProcessingMethod,GPS Processing Method,OB,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00160078,GPSSatellites,GPS Satellites,UT,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+0016007d,GPSSpeed,GPS Speed,DS,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+0016007c,GPSSpeedRef,GPS Speed Ref,CS,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00160079,GPSStatus,GPS Status,CS,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00160077,GPSTimeStamp,GPS Time Stamp,DT,X,,,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+0016007f,GPSTrack,GPS Track,DS,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+0016007e,GPSTrackRef,GPS Track Ref,CS,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00160070,GPSVersionID,GPS Version ID,OB,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00700001,GraphicAnnotationSequence,Graphic Annotation Sequence,SQ,D,,,,,,,,,,C,Y,,kept (items walked),kept,DeidentificationMethod
+0072000a,HangingProtocolCreationDateTime,Hanging Protocol Creation DateTime,DT,D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+0040e004,HL7DocumentEffectiveTime,HL7 Document Effective Time,DT,X,K,C,,,,,,,,,N,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00404037,HumanPerformerName,Human Performer's Name,PN,X,,,,,,,,,,,N,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+00404036,HumanPerformerOrganization,Human Performer's Organization,LO,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00880200,IconImageSequence,"Icon Image Sequence
+
+(see Note 11)",SQ,X,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+00084000,IdentifyingComments,Identifying Comments,LT,X,,,,,,,,C,,,N,,unchanged,unchanged,DeidentificationMethod
+00204000,ImageComments,Image Comments,LT,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00284000,ImagePresentationComments,Image Presentation Comments,LT,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00402400,ImagingServiceRequestComments,Imaging Service Request Comments,LT,X,,,,,,,,C,,,N,,unchanged,unchanged,DeidentificationMethod
+003a0314,ImpedanceMeasurementDateTime,Impedance Measurement DateTime,DT,D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+40080300,Impressions,Impressions,ST,X,,,,,,,,C,,,N,,unchanged,unchanged,DeidentificationMethod
+00686270,InformationIssueDateTime,Information Issue DateTime,DT,D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00080015,InstanceCoercionDateTime,Instance Coercion DateTime,DT,X,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00080012,InstanceCreationDate,Instance Creation Date,DA,X/D,K,C,,,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+00080013,InstanceCreationTime,Instance Creation Time,TM,X/Z/D,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00080014,InstanceCreatorUID,Instance Creator UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+04000600,InstanceOriginStatus,Instance Origin Status,CS,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00080081,InstitutionAddress,Institution Address,ST,X,,,,,K,,,,,,Y,,"changed -> '96 RIVER ROAD, MONTEVIDEO, JERSEY'",unchanged,DeidentificationMethod
+00081040,InstitutionalDepartmentName,Institutional Department Name,LO,X,,,,,K,,,,,,Y,,changed -> 'RADIOLOGY',changed -> 'RADIOLOGY',DeidentificationMethod
+00081041,InstitutionalDepartmentTypeCodeSequence,Institutional Department Type Code Sequence,SQ,X,,,,,K,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+00080082,InstitutionCodeSequence,Institution Code Sequence,SQ,X/Z/D,,,,,K,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+00080080,InstitutionName,Institution Name,LO,X/Z/D,,,,,K,,,,,,Y,,"changed -> ""AHMEDABAD'S INVERNESS DRIVE CLINIC""","changed -> ""SHIJIAZHUANG'S HILLTOP ROAD CLINIC""",DeidentificationMethod;InstitutionAddress
+00189919,InstructionPerformedDateTime,Instruction Performed DateTime,DT,Z/D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00101050,InsurancePlanIdentification,Insurance Plan Identification,LO,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+30100085,IntendedFractionStartTime,Intended Fraction Start Time,TM,X,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+3010004d,IntendedPhaseEndDate,Intended Phase End Date,DA,X/D,K,C,,,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+3010004c,IntendedPhaseStartDate,Intended Phase Start Date,DA,X/D,K,C,,,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+00401011,IntendedRecipientsOfResultsIdentificationSequence,Intended Recipients of Results Identification Sequence,SQ,X,,,,,,,,,,,N,,kept (items walked),kept,DeidentificationMethod
+300a0741,InterlockDateTime,Interlock DateTime,DT,D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+300a0742,InterlockDescription,Interlock Description,ST,D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+300a0783,InterlockOriginDescription,Interlock Origin Description,ST,D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+40080112,InterpretationApprovalDate,Interpretation Approval Date,DA,X,K,C,,,,,,,,,N,,changed -> '20180313',unchanged,DeidentificationMethod
+40080113,InterpretationApprovalTime,Interpretation Approval Time,TM,X,K,C,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+40080111,InterpretationApproverSequence,Interpretation Approver Sequence,SQ,X,,,,,,,,,,,N,,kept (items walked),kept,DeidentificationMethod
+4008010c,InterpretationAuthor,Interpretation Author,PN,X,,,,,,,,,,,N,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+40080115,InterpretationDiagnosisDescription,Interpretation Diagnosis Description,LT,X,,,,,,,,C,,,N,,unchanged,unchanged,DeidentificationMethod
+40080200,InterpretationID,Interpretation ID,SH,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+40080202,InterpretationIDIssuer,Interpretation ID Issuer,LO,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+40080100,InterpretationRecordedDate,Interpretation Recorded Date,DA,X,K,C,,,,,,,,,N,,changed -> '20180313',unchanged,DeidentificationMethod
+40080101,InterpretationRecordedTime,Interpretation Recorded Time,TM,X,K,C,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+40080102,InterpretationRecorder,Interpretation Recorder,PN,X,,,,,,,,,,,N,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+4008010b,InterpretationText,Interpretation Text,ST,X,,,,,,,,C,,,N,,unchanged,unchanged,DeidentificationMethod
+4008010a,InterpretationTranscriber,Interpretation Transcriber,PN,X,,,,,,,,,,,N,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+40080108,InterpretationTranscriptionDate,Interpretation Transcription Date,DA,X,K,C,,,,,,,,,N,,changed -> '20180313',unchanged,DeidentificationMethod
+40080109,InterpretationTranscriptionTime,Interpretation Transcription Time,TM,X,K,C,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00180035,InterventionDrugStartTime,Intervention Drug Start Time,TM,X,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00180027,InterventionDrugStopTime,Intervention Drug Stop Time,TM,X,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00083010,IrradiationEventUID,Irradiation Event UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00402004,IssueDateOfImagingServiceRequest,Issue Date of Imaging Service Request,DA,X,K,C,,,,,,,,,N,,changed -> '20180313',unchanged,DeidentificationMethod
+00380011,IssuerOfAdmissionID,Issuer of Admission ID,LO,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00380014,IssuerOfAdmissionIDSequence,Issuer of Admission ID Sequence,SQ,X,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+00120022,IssuerOfClinicalTrialProtocolID,Issuer of Clinical Trial Protocol ID,LO,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00120073,IssuerOfClinicalTrialSeriesID,Issuer of Clinical Trial Series ID,LO,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00120032,IssuerOfClinicalTrialSiteID,Issuer of Clinical Trial Site ID,LO,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00120041,IssuerOfClinicalTrialSubjectID,Issuer of Clinical Trial Subject ID,LO,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00120043,IssuerOfClinicalTrialSubjectReadingID,Issuer of Clinical Trial Subject Reading ID,LO,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00120055,IssuerOfClinicalTrialTimePointID,Issuer of Clinical Trial Time Point ID,LO,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00100021,IssuerOfPatientID,Issuer of Patient ID,LO,X,,,,,,,,,,,Y,,changed -> 'DICOGNITO',unchanged,DeidentificationMethod
+00380061,IssuerOfServiceEpisodeID,Issuer of Service Episode ID,LO,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00380064,IssuerOfServiceEpisodeIDSequence,Issuer of Service Episode ID Sequence,SQ,X,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+00400513,IssuerOfTheContainerIdentifierSequence,Issuer of the Container Identifier Sequence,SQ,Z,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+00400562,IssuerOfTheSpecimenIdentifierSequence,Issuer of the Specimen Identifier Sequence,SQ,Z,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+00402005,IssueTimeOfImagingServiceRequest,Issue Time of Imaging Service Request,TM,X,K,C,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+22000002,LabelText,Label Text,UT,X/Z,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00281214,LargePaletteColorLookupTableUID,Large Palette Color Lookup Table UID,UI,U,,,,,,K,,,,,N,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+001021d0,LastMenstrualDate,Last Menstrual Date,DA,X,K,C,,,,,,,,,N,,changed -> '20180313',unchanged,DeidentificationMethod
+0016004f,LensMake,Lens Make,UT,X,,,,K,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00160050,LensModel,Lens Model,UT,X,,,,K,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00160051,LensSerialNumber,Lens Serial Number,UT,X,,,,K,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+0016004e,LensSpecification,Lens Specification,DS,X,,,,K,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00500021,LongDeviceDescription,Long Device Description,ST,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+04000404,MAC,MAC,OB,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+0016002b,MakerNote,Maker Note,OB,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+0018100b,ManufacturerDeviceClassUID,Manufacturer's Device Class UID,UI,U,,,,K,,K,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+30100043,ManufacturerDeviceIdentifier,Manufacturer's Device Identifier,ST,Z,,,,K,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00020003,MediaStorageSOPInstanceUID,Media Storage SOP Instance UID,UI,U,,,,,,K,,,,,N,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00102000,MedicalAlerts,Medical Alerts,LO,X,,,,,,,,C,,,N,,unchanged,unchanged,DeidentificationMethod
+00101090,MedicalRecordLocator,Medical Record Locator,LO,X,,,,,,,,,,,N,,removed,removed,DeidentificationMethod
+00101080,MilitaryRank,Military Rank,LO,X,,,,,,,,,,,N,,removed,removed,DeidentificationMethod
+04000550,ModifiedAttributesSequence,Modified Attributes Sequence,SQ,X,,,,,,,,,,,N,,kept (items walked),kept,DeidentificationMethod
+00203403,ModifiedImageDate,Modified Image Date,DA,X,K,C,,,,,,,,,N,,changed -> '20180313',unchanged,DeidentificationMethod
+00203406,ModifiedImageDescription,Modified Image Description,LO,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00203405,ModifiedImageTime,Modified Image Time,TM,X,K,C,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00203401,ModifyingDeviceID,Modifying Device ID,CS,X,,,,K,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+04000563,ModifyingSystem,Modifying System,LO,D,,,,K,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+30080056,MostRecentTreatmentDate,Most Recent Treatment Date,DA,X/D,K,C,,,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+0018937b,MultienergyAcquisitionDescription,Multi-energy Acquisition Description,UT,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+003a0310,MultiplexGroupUID,Multiplex Group UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00081060,NameOfPhysiciansReadingStudy,Name of Physician(s) Reading Study,PN,X,,,,,,,,,,,Y,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+00401010,NamesOfIntendedRecipientsOfResults,Names of Intended Recipients of Results,PN,X,,,,,,,,,,,N,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+00081000,NetworkID,Network ID,AE,X,,,,C,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+04000552,NonconformingDataElementValue,Nonconforming Data Element Value,OB,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+04000551,NonconformingModifiedAttributesSequence,Nonconforming Modified Attributes Sequence,SQ,X,,,,,,,,,,,N,,kept (items walked),kept,DeidentificationMethod
+0040a192,ObservationDateTrial,Observation Date (Trial),DA,X,K,C,,,,,,,,,N,,changed -> '20180313',unchanged,DeidentificationMethod
+0040a032,ObservationDateTime,Observation DateTime,DT,X/D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+0040a033,ObservationStartDateTime,Observation Start DateTime,DT,X,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+0040a402,ObservationSubjectUIDTrial,Observation Subject UID (Trial),UI,U,,,,,,K,,,,,N,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+0040a193,ObservationTimeTrial,Observation Time (Trial),TM,X,K,C,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+0040a171,ObservationUID,Observation UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00102180,Occupation,Occupation,SH,X,,,,,,,,C,,,Y,,removed,removed,DeidentificationMethod
+00081072,OperatorIdentificationSequence,Operator Identification Sequence,SQ,X/D,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+00081070,OperatorsName,Operators' Name,PN,X/Z/D,,,,,,,,,,,Y,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+00402010,OrderCallbackPhoneNumber,Order Callback Phone Number,SH,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00402011,OrderCallbackTelecomInformation,Order Callback Telecom Information,LT,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00402008,OrderEnteredBy,Order Entered By,PN,X,,,,,,,,,,,N,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+00402009,OrderEntererLocation,Order Enterer's Location,SH,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+04000561,OriginalAttributesSequence,Original Attributes Sequence,SQ,X,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+21000070,Originator,Originator,AE,X,,,,C,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00120023,OtherClinicalTrialProtocolIDsSequence,Other Clinical Trial Protocol IDs Sequence,SQ,X,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+00101000,OtherPatientIDs,Other Patient IDs,LO,X,,,,,,,,,,,Y,,changed -> '2YRIT4IT5XSO',changed -> 'VENLPRZ6TMV1',DeidentificationMethod
+00101002,OtherPatientIDsSequence,Other Patient IDs Sequence,SQ,X,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+00101001,OtherPatientNames,Other Patient Names,PN,X,,,,,,,,,,,Y,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+60xx4000,,Overlay Comments,,X,,,,,,,,,,C,N,,WILDCARD (not probed),,
+60xx3000,,Overlay Data,,X,,,,,,,,,,C,Y,,WILDCARD (not probed),,
+00080024,OverlayDate,Overlay Date,DA,X,K,C,,,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+00080034,OverlayTime,Overlay Time,TM,X,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+300a0760,OverrideDateTime,Override DateTime,DT,D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00281199,PaletteColorLookupTableUID,Palette Color Lookup Table UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+0040a07a,ParticipantSequence,Participant Sequence,SQ,X,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+0040a082,ParticipationDateTime,Participation DateTime,DT,Z,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00101040,PatientAddress,Patient's Address,LO,X,,,,,,,,,,,N,,changed -> '653 INVERNESS DRIVE',unchanged,DeidentificationMethod
+00101010,PatientAge,Patient's Age,AS,X,,,K,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00100030,PatientBirthDate,Patient's Birth Date,DA,Z,,,,,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+00101005,PatientBirthName,Patient's Birth Name,PN,X,,,,,,,,,,,N,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+00100032,PatientBirthTime,Patient's Birth Time,TM,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00380400,PatientInstitutionResidence,Patient's Institution Residence,LO,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00100050,PatientInsurancePlanCodeSequence,Patient's Insurance Plan Code Sequence,SQ,X,,,,,,,,,,,Y,,removed,removed,DeidentificationMethod
+00101060,PatientMotherBirthName,Patient's Mother's Birth Name,PN,X,,,,,,,,,,,N,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+00100010,PatientName,Patient's Name,PN,Z,,,,,,,,,,,Y,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+00100101,PatientPrimaryLanguageCodeSequence,Patient's Primary Language Code Sequence,SQ,X,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+00100102,PatientPrimaryLanguageModifierCodeSequence,Patient's Primary Language Modifier Code Sequence,SQ,X,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+001021f0,PatientReligiousPreference,Patient's Religious Preference,LO,X,,,,,,,,,,,N,,removed,removed,DeidentificationMethod
+00100040,PatientSex,Patient's Sex,CS,Z,,,K,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00102203,PatientSexNeutered,Patient's Sex Neutered,CS,X/Z,,,K,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00101020,PatientSize,Patient's Size,DS,X,,,K,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00102155,PatientTelecomInformation,Patient's Telecom Information,LT,X,,,,,,,,,,,N,,removed,removed,DeidentificationMethod
+00102154,PatientTelephoneNumbers,Patient's Telephone Numbers,SH,X,,,,,,,,,,,N,,removed,removed,DeidentificationMethod
+00101030,PatientWeight,Patient's Weight,DS,X,,,K,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00104000,PatientComments,Patient Comments,LT,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00100020,PatientID,Patient ID,LO,Z/D,,,,,,,,,,,Y,,changed -> '2YRIT4IT5XSO',changed -> 'VENLPRZ6TMV1',DeidentificationMethod
+300a0794,PatientSetupPhotoDescription,Patient Setup Photo Description,LT,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+300a0650,PatientSetupUID,Patient Setup UID,UI,U,,,,,,K,,,,,N,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00380500,PatientState,Patient State,LO,X,,,C,,,,,C,,,N,,unchanged,unchanged,DeidentificationMethod
+00401004,PatientTransportArrangements,Patient Transport Arrangements,LO,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+300a0792,PatientTreatmentPreparationMethodDescription,Patient Treatment Preparation Method Description,LT,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+300a078e,PatientTreatmentPreparationProcedureParameterDescription,Patient Treatment Preparation Procedure Parameter Description,LT,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00400243,PerformedLocation,Performed Location,SH,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00400254,PerformedProcedureStepDescription,Performed Procedure Step Description,LO,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00400250,PerformedProcedureStepEndDate,Performed Procedure Step End Date,DA,X,K,C,,,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+00404051,PerformedProcedureStepEndDateTime,Performed Procedure Step End DateTime,DT,X,K,C,,,,,,,,,N,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00400251,PerformedProcedureStepEndTime,Performed Procedure Step End Time,TM,X,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00400253,PerformedProcedureStepID,Performed Procedure Step ID,SH,X,,,,,,,,,,,Y,,changed -> 'NP7A2NZRYP67',changed -> 'VENLPRZ6TMV1',DeidentificationMethod
+00400244,PerformedProcedureStepStartDate,Performed Procedure Step Start Date,DA,X,K,C,,,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+00404050,PerformedProcedureStepStartDateTime,Performed Procedure Step Start DateTime,DT,X,K,C,,,,,,,,,N,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00400245,PerformedProcedureStepStartTime,Performed Procedure Step Start Time,TM,X,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00400241,PerformedStationAETitle,Performed Station AE Title,AE,X,,,,C,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00404030,PerformedStationGeographicLocationCodeSequence,Performed Station Geographic Location Code Sequence,SQ,X,,,,K,,,,,,,N,,kept (items walked),kept,DeidentificationMethod
+00400242,PerformedStationName,Performed Station Name,SH,X,,,,K,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00404028,PerformedStationNameCodeSequence,Performed Station Name Code Sequence,SQ,X,,,,K,,,,,,,N,,kept (items walked),kept,DeidentificationMethod
+00081050,PerformingPhysicianName,Performing Physician's Name,PN,X,,,,,,,,,,,Y,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+00081052,PerformingPhysicianIdentificationSequence,Performing Physician Identification Sequence,SQ,X,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+00401102,PersonAddress,Person's Address,ST,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00401104,PersonTelecomInformation,Person's Telecom Information,LT,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00401103,PersonTelephoneNumbers,Person's Telephone Numbers,LO,X,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00401101,PersonIdentificationCodeSequence,Person Identification Code Sequence,SQ,D,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+0040a123,PersonName,Person Name,PN,D,,,,,,,,,,,Y,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+00081048,PhysiciansOfRecord,Physician(s) of Record,PN,X,,,,,,,,,,,Y,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+00081049,PhysiciansOfRecordIdentificationSequence,Physician(s) of Record Identification Sequence,SQ,X,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+00081062,PhysiciansReadingStudyIdentificationSequence,Physician(s) Reading Study Identification Sequence,SQ,X,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+40080114,PhysicianApprovingInterpretation,Physician Approving Interpretation,PN,X,,,,,,,,,,,N,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+00402016,PlacerOrderNumberImagingServiceRequest,Placer Order Number / Imaging Service Request,LO,Z,,,,,,,,,,,Y,,changed -> '2YRIT4IT5XSO',changed -> 'VENLPRZ6TMV1',DeidentificationMethod
+00181004,PlateID,Plate ID,LO,X,,,,K,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+30020123,PositionAcquisitionTemplateDescription,Position Acquisition Template Description,LT,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+30020121,PositionAcquisitionTemplateName,Position Acquisition Template Name,LO,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+001021c0,PregnancyStatus,Pregnancy Status,US,X,,,K,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00400012,PreMedication,Pre-Medication,LO,X,,,C,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+300a000e,PrescriptionDescription,Prescription Description,ST,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+3010007b,PrescriptionNotes,Prescription Notes,UT,Z,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+30100081,PrescriptionNotesSequence,Prescription Notes Sequence,SQ,Z,,,,,,,,C,,,Y,,kept (items walked),kept,DeidentificationMethod
+00700082,PresentationCreationDate,Presentation Creation Date,DA,X,K,C,,,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+00700083,PresentationCreationTime,Presentation Creation Time,TM,X,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00701101,PresentationDisplayCollectionUID,Presentation Display Collection UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00701102,PresentationSequenceCollectionUID,Presentation Sequence Collection UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+30100061,PriorTreatmentDoseDescription,Prior Treatment Dose Description,UT,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+ggggeeee-where-gggg-is-odd,,Private Attributes,,X,,,,,,,C,,,,N,,WILDCARD (not probed),,
+00404052,ProcedureStepCancellationDateTime,Procedure Step Cancellation DateTime,DT,X,K,C,,,,,,,,,N,,changed -> '20180314063456',unchanged,DeidentificationMethod
+0044000b,ProductExpirationDateTime,Product Expiration DateTime,DT,X,K,C,,,,,,,,,N,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00181030,ProtocolName,Protocol Name,LO,X/D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00081088,PyramidDescription,Pyramid Description,LO,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00200027,PyramidLabel,Pyramid Label,LO,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00080019,PyramidUID,Pyramid UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+300a0619,RadiationDoseIdentificationLabel,Radiation Dose Identification Label,LO,D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+300a0623,RadiationDoseInVivoMeasurementLabel,Radiation Dose In-Vivo Measurement Label,LO,D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+300a067d,RadiationGenerationModeDescription,Radiation Generation Mode Description,ST,Z,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+300a067c,RadiationGenerationModeLabel,Radiation Generation Mode Label,SH,D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00181078,RadiopharmaceuticalStartDateTime,Radiopharmaceutical Start DateTime,DT,X,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00181072,RadiopharmaceuticalStartTime,Radiopharmaceutical Start Time,TM,X,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00181079,RadiopharmaceuticalStopDateTime,Radiopharmaceutical Stop DateTime,DT,X,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00181073,RadiopharmaceuticalStopTime,Radiopharmaceutical Stop Time,TM,X,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+300c0113,ReasonForOmissionDescription,Reason for Omission Description,LO,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+0040100a,ReasonForRequestedProcedureCodeSequence,Reason for Requested Procedure Code Sequence,SQ,X,,,,,,,,C,,,Y,,kept (items walked),kept,DeidentificationMethod
+00321030,ReasonForStudy,Reason for Study,LO,X,,,,,,,,C,,,N,,unchanged,unchanged,DeidentificationMethod
+3010005c,ReasonForSuperseding,Reason for Superseding,ST,Z,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+04000565,ReasonForTheAttributeModification,Reason for the Attribute Modification,CS,D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00402001,ReasonForTheImagingServiceRequest,Reason for the Imaging Service Request,LO,X,,,,,,,,C,,,N,,unchanged,unchanged,DeidentificationMethod
+00401002,ReasonForTheRequestedProcedure,Reason for the Requested Procedure,LO,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00321066,ReasonForVisit,Reason for Visit,UT,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00321067,ReasonForVisitCodeSequence,Reason for Visit Code Sequence,SQ,X,,,,,,,,C,,,Y,,kept (items walked),kept,DeidentificationMethod
+00741234,ReceivingAE,Receiving AE,AE,X,,,,C,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+300a073a,RecordedRTControlPointDateTime,Recorded RT Control Point DateTime,DT,D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+3010000b,ReferencedConceptualVolumeUID,Referenced Conceptual Volume UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+0040a13a,ReferencedDateTime,Referenced DateTime,DT,D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+04000402,ReferencedDigitalSignatureSequence,Referenced Digital Signature Sequence,SQ,X,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+300a0083,ReferencedDoseReferenceUID,Referenced Dose Reference UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+3010006f,ReferencedDosimetricObjectiveUID,Referenced Dosimetric Objective UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+30100031,ReferencedFiducialsUID,Referenced Fiducials UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+30060024,ReferencedFrameOfReferenceUID,Referenced Frame of Reference UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00404023,ReferencedGeneralPurposeScheduledProcedureStepTransactionUID,Referenced General Purpose Scheduled Procedure Step Transaction UID,UI,U,,,,,,K,,,,,N,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00081140,ReferencedImageSequence,Referenced Image Sequence,SQ,X/Z/U*,,,,,,K,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+0040a172,ReferencedObservationUIDTrial,Referenced Observation UID (Trial),UI,U,,,,,,K,,,,,N,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00380004,ReferencedPatientAliasSequence,Referenced Patient Alias Sequence,SQ,X,,,,,,,,,,,N,,kept (items walked),kept,DeidentificationMethod
+00101100,ReferencedPatientPhotoSequence,Referenced Patient Photo Sequence,SQ,X,,,,,,,,,,,Y,,removed,removed,DeidentificationMethod
+00081120,ReferencedPatientSequence,Referenced Patient Sequence,SQ,X,,,,,,K,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+00081111,ReferencedPerformedProcedureStepSequence,Referenced Performed Procedure Step Sequence,SQ,X/Z/D,,,,,,K,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+04000403,ReferencedSOPInstanceMACSequence,Referenced SOP Instance MAC Sequence,SQ,X,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+00081155,ReferencedSOPInstanceUID,Referenced SOP Instance UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00041511,ReferencedSOPInstanceUIDInFile,Referenced SOP Instance UID in File,UI,U,,,,,,K,,,,,N,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00081110,ReferencedStudySequence,Referenced Study Sequence,SQ,X/Z,,,,,,K,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+300a0785,ReferencedTreatmentPositionGroupUID,Referenced Treatment Position Group UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00080092,ReferringPhysicianAddress,Referring Physician's Address,ST,X,,,,,,,,,,,N,,"changed -> '96 RIVER ROAD, MONTEVIDEO, JERSEY'",unchanged,DeidentificationMethod
+00080090,ReferringPhysicianName,Referring Physician's Name,PN,Z,,,,,,,,,,,Y,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+00080094,ReferringPhysicianTelephoneNumbers,Referring Physician's Telephone Numbers,SH,X,,,,,,,,,,,N,,removed,removed,DeidentificationMethod
+00080096,ReferringPhysicianIdentificationSequence,Referring Physician Identification Sequence,SQ,X,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+00102152,RegionOfResidence,Region of Residence,LO,X,,,,,,,,,,,N,,changed -> 'AHMEDABAD',unchanged,DeidentificationMethod
+300600c2,RelatedFrameOfReferenceUID,Related Frame of Reference UID,UI,U,,,,,,K,,,,,N,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00400275,RequestAttributesSequence,Request Attributes Sequence,SQ,X,,,,,,,,C,,,Y,,kept (items walked),kept,DeidentificationMethod
+00321070,RequestedContrastAgent,Requested Contrast Agent,LO,X,,,,,,,,C,,,N,,unchanged,unchanged,DeidentificationMethod
+00401400,RequestedProcedureComments,Requested Procedure Comments,LT,X,,,,,,,,C,,,N,,unchanged,unchanged,DeidentificationMethod
+00321060,RequestedProcedureDescription,Requested Procedure Description,LO,X/Z,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00401001,RequestedProcedureID,Requested Procedure ID,SH,X,,,,,,,,,,,N,,changed -> 'NP7A2NZRYP67',changed -> 'VENLPRZ6TMV1',DeidentificationMethod
+00401005,RequestedProcedureLocation,Requested Procedure Location,LO,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00189937,RequestedSeriesDescription,Requested Series Description,LO,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00001001,RequestedSOPInstanceUID,Requested SOP Instance UID,UI,U,,,,,,K,,,,,N,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00741236,RequestingAE,Requesting AE,AE,X,,,,C,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00321032,RequestingPhysician,Requesting Physician,PN,X,,,,,,,,,,,N,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+00321033,RequestingService,Requesting Service,LO,X,,,,,,,,,,,N,,emptied,unchanged,DeidentificationMethod
+00189185,RespiratoryMotionCompensationTechniqueDescription,Respiratory Motion Compensation Technique Description,ST,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00102299,ResponsibleOrganization,Responsible Organization,LO,X,,,,,,,,,,,Y,,removed,removed,DeidentificationMethod
+00102297,ResponsiblePerson,Responsible Person,PN,X,,,,,,,,,,,Y,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+40084000,ResultsComments,Results Comments,ST,X,,,,,,,,C,,,N,,unchanged,unchanged,DeidentificationMethod
+40080118,ResultsDistributionListSequence,Results Distribution List Sequence,SQ,X,,,,,,,,,,,N,,kept (items walked),kept,DeidentificationMethod
+40080040,ResultsID,Results ID,SH,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+40080042,ResultsIDIssuer,Results ID Issuer,LO,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00080054,RetrieveAETitle,Retrieve AE Title,AE,X,,,,C,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+300e0004,ReviewDate,Review Date,DA,Z,K,C,,,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+300e0008,ReviewerName,Reviewer Name,PN,X/Z,,,,,,,,,,,Y,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+300e0005,ReviewTime,Review Time,TM,Z,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+3006004d,ROICreatorSequence,ROI Creator Sequence,SQ,X,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+3006002d,ROIDateTime,ROI DateTime,DT,X,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+30060028,ROIDescription,ROI Description,ST,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+30060038,ROIGenerationDescription,ROI Generation Description,LO,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+300600a6,ROIInterpreter,ROI Interpreter,PN,Z,,,,,,,,,,,Y,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+3006004e,ROIInterpreterSequence,ROI Interpreter Sequence,SQ,X,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+30060026,ROIName,ROI Name,LO,Z,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+3006002e,ROIObservationDateTime,ROI Observation DateTime,DT,X,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+30060088,ROIObservationDescription,ROI Observation Description,ST,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+30060085,ROIObservationLabel,ROI Observation Label,SH,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+300a0615,RTAccessoryDeviceSlotID,RT Accessory Device Slot ID,LO,Z,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+300a0611,RTAccessoryHolderSlotID,RT Accessory Holder Slot ID,LO,Z,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+3010005a,RTPhysicianIntentNarrative,RT Physician Intent Narrative,UT,Z,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+300a0006,RTPlanDate,RT Plan Date,DA,X/D,K,C,,,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+300a0004,RTPlanDescription,RT Plan Description,ST,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+300a0002,RTPlanLabel,RT Plan Label,SH,D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+300a0003,RTPlanName,RT Plan Name,LO,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+300a0007,RTPlanTime,RT Plan Time,TM,X/D,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+30100054,RTPrescriptionLabel,RT Prescription Label,LO,D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+300a062a,RTToleranceSetLabel,RT Tolerance Set Label,LO,D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+30100056,RTTreatmentApproachLabel,RT Treatment Approach Label,LO,X/D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+3010003b,RTTreatmentPhaseUID,RT Treatment Phase UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+30080162,SafePositionExitDate,Safe Position Exit Date,DA,D,K,C,,,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+30080164,SafePositionExitTime,Safe Position Exit Time,TM,D,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+30080166,SafePositionReturnDate,Safe Position Return Date,DA,D,K,C,,,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+30080168,SafePositionReturnTime,Safe Position Return Time,TM,D,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+0038001a,ScheduledAdmissionDate,Scheduled Admission Date,DA,X,K,C,,,,,,,,,N,,changed -> '20180313',unchanged,DeidentificationMethod
+0038001b,ScheduledAdmissionTime,Scheduled Admission Time,TM,X,K,C,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+0038001c,ScheduledDischargeDate,Scheduled Discharge Date,DA,X,K,C,,,,,,,,,N,,changed -> '20180313',unchanged,DeidentificationMethod
+0038001d,ScheduledDischargeTime,Scheduled Discharge Time,TM,X,K,C,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00404034,ScheduledHumanPerformersSequence,Scheduled Human Performers Sequence,SQ,X,,,,,,,,,,,N,,kept (items walked),kept,DeidentificationMethod
+0038001e,ScheduledPatientInstitutionResidence,Scheduled Patient Institution Residence,LO,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00400006,ScheduledPerformingPhysicianName,Scheduled Performing Physician's Name,PN,X,,,,,,,,,,,N,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+0040000b,ScheduledPerformingPhysicianIdentificationSequence,Scheduled Performing Physician Identification Sequence,SQ,X,,,,,,,,,,,N,,kept (items walked),kept,DeidentificationMethod
+00400007,ScheduledProcedureStepDescription,Scheduled Procedure Step Description,LO,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00400004,ScheduledProcedureStepEndDate,Scheduled Procedure Step End Date,DA,X,K,C,,,,,,,,,N,,changed -> '20180313',unchanged,DeidentificationMethod
+00400005,ScheduledProcedureStepEndTime,Scheduled Procedure Step End Time,TM,X,K,C,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00404008,ScheduledProcedureStepExpirationDateTime,Scheduled Procedure Step Expiration DateTime,DT,X,K,C,,,,,,,,,N,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00400009,ScheduledProcedureStepID,Scheduled Procedure Step ID,SH,X,,,,,,,,,,,Y,,changed -> 'NP7A2NZRYP67',changed -> 'VENLPRZ6TMV1',DeidentificationMethod
+00400011,ScheduledProcedureStepLocation,Scheduled Procedure Step Location,SH,X,,,,K,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00404010,ScheduledProcedureStepModificationDateTime,Scheduled Procedure Step Modification DateTime,DT,X,K,C,,,,,,,,,N,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00400002,ScheduledProcedureStepStartDate,Scheduled Procedure Step Start Date,DA,X,K,C,,,,,,,,,N,,changed -> '20180313',unchanged,DeidentificationMethod
+00404005,ScheduledProcedureStepStartDateTime,Scheduled Procedure Step Start DateTime,DT,X,K,C,,,,,,,,,N,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00400003,ScheduledProcedureStepStartTime,Scheduled Procedure Step Start Time,TM,X,K,C,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00400001,ScheduledStationAETitle,Scheduled Station AE Title,AE,X,,,,C,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00404027,ScheduledStationGeographicLocationCodeSequence,Scheduled Station Geographic Location Code Sequence,SQ,X,,,,K,,,,,,,N,,kept (items walked),kept,DeidentificationMethod
+00400010,ScheduledStationName,Scheduled Station Name,SH,X,,,,K,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00404025,ScheduledStationNameCodeSequence,Scheduled Station Name Code Sequence,SQ,X,,,,K,,,,,,,N,,kept (items walked),kept,DeidentificationMethod
+00321020,ScheduledStudyLocation,Scheduled Study Location,LO,X,,,,K,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00321021,ScheduledStudyLocationAETitle,Scheduled Study Location AE Title,AE,X,,,,C,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00321000,ScheduledStudyStartDate,Scheduled Study Start Date,DA,X,K,C,,,,,,,,,N,,changed -> '20180313',unchanged,DeidentificationMethod
+00321001,ScheduledStudyStartTime,Scheduled Study Start Time,TM,X,K,C,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00321010,ScheduledStudyStopDate,Scheduled Study Stop Date,DA,X,K,C,,,,,,,,,N,,changed -> '20180313',unchanged,DeidentificationMethod
+00321011,ScheduledStudyStopTime,Scheduled Study Stop Time,TM,X,K,C,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+0072005e,SelectorAEValue,Selector AE Value,AE,D,,,,C,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+0072005f,SelectorASValue,Selector AS Value,AS,D,,,K,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00720061,SelectorDAValue,Selector DA Value,DA,D,K,C,,,,,,,,,Y,,changed -> '14200102',unchanged,DeidentificationMethod
+00720063,SelectorDTValue,Selector DT Value,DT,D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00720066,SelectorLOValue,Selector LO Value,LO,D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00720068,SelectorLTValue,Selector LT Value,LT,D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00720065,SelectorOBValue,Selector OB Value,OB,D,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+0072006a,SelectorPNValue,Selector PN Value,PN,D,,,,,,,,,,,Y,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+0072006c,SelectorSHValue,Selector SH Value,SH,D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+0072006e,SelectorSTValue,Selector ST Value,ST,D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+0072006b,SelectorTMValue,Selector TM Value,TM,D,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+0072006d,SelectorUNValue,Selector UN Value,UN,D,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00720071,SelectorURValue,Selector UR Value,UR,D,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00720070,SelectorUTValue,Selector UT Value,UT,D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00080021,SeriesDate,Series Date,DA,X/D,K,C,,,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+0008103e,SeriesDescription,Series Description,LO,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+0020000e,SeriesInstanceUID,Series Instance UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00080031,SeriesTime,Series Time,TM,X/D,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00380062,ServiceEpisodeDescription,Service Episode Description,LO,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00380060,ServiceEpisodeID,Service Episode ID,LO,X,,,,,,,,,,,Y,,changed -> '2YRIT4IT5XSO',changed -> 'VENLPRZ6TMV1',DeidentificationMethod
+300a01b2,SetupTechniqueDescription,Setup Technique Description,ST,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+300a01a6,ShieldingDeviceDescription,Shielding Device Description,ST,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+004006fa,SlideIdentifier,Slide Identifier,LO,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+001021a0,SmokingStatus,Smoking Status,CS,X,,,K,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+01000420,SOPAuthorizationDateTime,SOP Authorization DateTime,DT,X,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00080018,SOPInstanceUID,SOP Instance UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+30100015,SourceConceptualVolumeUID,Source Conceptual Volume UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+0018936a,SourceEndDateTime,Source End DateTime,DT,D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00640003,SourceFrameOfReferenceUID,Source Frame of Reference UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00340005,SourceIdentifier,Source Identifier,OB,D,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00082112,SourceImageSequence,Source Image Sequence,SQ,X/Z/U*,,,,,,K,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+300a0216,SourceManufacturer,Source Manufacturer,LO,X,,,,K,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+04000564,SourceOfPreviousValues,Source of Previous Values,LO,Z,,,,,K,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+30080105,SourceSerialNumber,Source Serial Number,LO,X/Z,,,,K,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00189369,SourceStartDateTime,Source Start DateTime,DT,D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+300a022c,SourceStrengthReferenceDate,Source Strength Reference Date,DA,D,K,C,,,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+300a022e,SourceStrengthReferenceTime,Source Strength Reference Time,TM,D,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00380050,SpecialNeeds,Special Needs,LO,X,,,C,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+0040050a,SpecimenAccessionNumber,Specimen Accession Number,LO,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00400602,SpecimenDetailedDescription,Specimen Detailed Description,UT,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00400551,SpecimenIdentifier,Specimen Identifier,LO,D,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00400610,SpecimenPreparationSequence,Specimen Preparation Sequence,SQ,Z,,,,,,,,,C,,Y,,kept (items walked),kept,DeidentificationMethod
+00400600,SpecimenShortDescription,Specimen Short Description,LO,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00400554,SpecimenUID,Specimen UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00189516,StartAcquisitionDateTime,Start Acquisition DateTime,DT,X/D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00080055,StationAETitle,Station AE Title,AE,X,,,,C,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00081010,StationName,Station Name,SH,X/Z/D,,,,K,,,,,,,Y,,changed -> 'NP7A2NZRYP67',changed -> 'VENLPRZ6TMV1',DeidentificationMethod
+00880140,StorageMediaFileSetUID,Storage Media File-set UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+30060008,StructureSetDate,Structure Set Date,DA,Z,K,C,,,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+30060006,StructureSetDescription,Structure Set Description,ST,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+30060002,StructureSetLabel,Structure Set Label,SH,D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+30060004,StructureSetName,Structure Set Name,LO,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+30060009,StructureSetTime,Structure Set Time,TM,Z,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00321040,StudyArrivalDate,Study Arrival Date,DA,X,K,C,,,,,,,,,N,,changed -> '20180313',unchanged,DeidentificationMethod
+00321041,StudyArrivalTime,Study Arrival Time,TM,X,K,C,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00324000,StudyComments,Study Comments,LT,X,,,,,,,,C,,,N,,unchanged,unchanged,DeidentificationMethod
+00321050,StudyCompletionDate,Study Completion Date,DA,X,K,C,,,,,,,,,N,,changed -> '20180313',unchanged,DeidentificationMethod
+00321051,StudyCompletionTime,Study Completion Time,TM,X,K,C,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00080020,StudyDate,Study Date,DA,Z,K,C,,,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+00081030,StudyDescription,Study Description,LO,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00200010,StudyID,Study ID,SH,Z,,,,,,,,,,,Y,,changed -> 'NP7A2NZRYP67',changed -> 'VENLPRZ6TMV1',DeidentificationMethod
+00320012,StudyIDIssuer,Study ID Issuer,LO,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+0020000d,StudyInstanceUID,Study Instance UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00320034,StudyReadDate,Study Read Date,DA,X,K,C,,,,,,,,,N,,changed -> '20180313',unchanged,DeidentificationMethod
+00320035,StudyReadTime,Study Read Time,TM,X,K,C,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00080030,StudyTime,Study Time,TM,Z,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00320032,StudyVerifiedDate,Study Verified Date,DA,X,K,C,,,,,,,,,N,,changed -> '20180313',unchanged,DeidentificationMethod
+00320033,StudyVerifiedTime,Study Verified Time,TM,X,K,C,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00440010,SubstanceAdministrationDateTime,Substance Administration DateTime,DT,X,K,C,,,,,,,,,N,,changed -> '20180314063456',unchanged,DeidentificationMethod
+00200200,SynchronizationFrameOfReferenceUID,Synchronization Frame of Reference UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00182042,TargetUID,Target UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+0040a354,TelephoneNumberTrial,Telephone Number (Trial),LO,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+0040db0d,TemplateExtensionCreatorUID,Template Extension Creator UID,UI,U,,,,,,K,,,,,N,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+0040db0c,TemplateExtensionOrganizationUID,Template Extension Organization UID,UI,U,,,,,,K,,,,,N,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+0040db07,TemplateLocalVersion,Template Local Version,DT,X,K,C,,,,,,,,,N,,changed -> '20180314063456',unchanged,DeidentificationMethod
+0040db06,TemplateVersion,Template Version,DT,X,K,C,,,,,,,,,N,,changed -> '20180314063456',unchanged,DeidentificationMethod
+40004000,TextComments,Text Comments,LT,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+20300020,TextString,Text String,LO,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+0040a122,Time,Time,TM,D,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+0040a112,TimeOfDocumentCreationOrVerbalTransactionTrial,Time of Document Creation or Verbal Transaction (Trial),TM,X,K,C,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00181201,TimeOfLastCalibration,Time of Last Calibration,TM,X,K,C,,K,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+0018700e,TimeOfLastDetectorCalibration,Time of Last Detector Calibration,TM,X/D,K,C,,K,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00181014,TimeOfSecondaryCapture,Time of Secondary Capture,TM,X,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00080201,TimezoneOffsetFromUTC,Timezone Offset From UTC,SH,X,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00880910,TopicAuthor,Topic Author,LO,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00880912,TopicKeywords,Topic Keywords,LO,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00880906,TopicSubject,Topic Subject,ST,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00880904,TopicTitle,Topic Title,LO,X,,,,,,,,,,,N,,unchanged,unchanged,DeidentificationMethod
+00620021,TrackingUID,Tracking UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00081195,TransactionUID,Transaction UID,UI,U,,,,,,K,,,,,N,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00185011,TransducerIdentificationSequence,Transducer Identification Sequence,SQ,X,,,,K,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+30080024,TreatmentControlPointDate,Treatment Control Point Date,DA,D,K,C,,,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+30080025,TreatmentControlPointTime,Treatment Control Point Time,TM,D,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+30080250,TreatmentDate,Treatment Date,DA,X/D,K,C,,,,,,,,,Y,,changed -> '20180313',unchanged,DeidentificationMethod
+300a00b2,TreatmentMachineName,Treatment Machine Name,SH,X/Z,,,,K,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+300a0608,TreatmentPositionGroupLabel,Treatment Position Group Label,LO,D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+300a0609,TreatmentPositionGroupUID,Treatment Position Group UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+300a0700,TreatmentSessionUID,Treatment Session UID,UI,U,,,,,,K,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+30100077,TreatmentSite,Treatment Site,LO,X/D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+300a000b,TreatmentSites,Treatment Sites,LO,X,,,,,,,,C,,,N,,unchanged,unchanged,DeidentificationMethod
+3010007a,TreatmentTechniqueNotes,Treatment Technique Notes,UT,Z,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+30080251,TreatmentTime,Treatment Time,TM,X/D,K,C,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+300a0736,TreatmentToleranceViolationDateTime,Treatment Tolerance Violation DateTime,DT,D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+300a0734,TreatmentToleranceViolationDescription,Treatment Tolerance Violation Description,ST,D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+0018100a,UDISequence,UDI Sequence,SQ,X,,,,K,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+0040a124,UID,UID,UI,U,,,,,,,,,,,Y,,changed -> '2.25.146919246624179749636126803990121723792',unchanged,DeidentificationMethod
+00181009,UniqueDeviceIdentifier,Unique Device Identifier,UT,X,,,,K,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+30100033,UserContentLabel,User Content Label,SH,D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+30100034,UserContentLongLabel,User Content Long Label,LO,D,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+0040a352,VerbalSourceTrial,Verbal Source (Trial),PN,X,,,,,,,,,,,N,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+0040a358,VerbalSourceIdentifierCodeSequenceTrial,Verbal Source Identifier Code Sequence (Trial),SQ,X,,,,,,,,,,,N,,kept (items walked),kept,DeidentificationMethod
+0040a030,VerificationDateTime,Verification DateTime,DT,D,K,C,,,,,,,,,Y,,changed -> '20180314063456',unchanged,DeidentificationMethod
+0040a088,VerifyingObserverIdentificationCodeSequence,Verifying Observer Identification Code Sequence,SQ,Z,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+0040a075,VerifyingObserverName,Verifying Observer Name,PN,D,,,,,,,,,,,Y,,changed -> 'GOOD^ZELMA^EVE',unchanged,DeidentificationMethod
+0040a073,VerifyingObserverSequence,Verifying Observer Sequence,SQ,D,,,,,,,,,,,Y,,kept (items walked),kept,DeidentificationMethod
+0040a027,VerifyingOrganization,Verifying Organization,LO,D,,,,,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00384000,VisitComments,Visit Comments,LT,X,,,,,,,,C,,,N,,unchanged,unchanged,DeidentificationMethod
+003a0329,WaveformFilterDescription,Waveform Filter Description,ST,X,,,,,,,,C,,,Y,,unchanged,unchanged,DeidentificationMethod
+00189371,XRayDetectorID,X-Ray Detector ID,UC,D,,,,K,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00189373,XRayDetectorLabel,X-Ray Detector Label,ST,X,,,,K,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
+00189367,XRaySourceID,X-Ray Source ID,UC,D,,,,K,,,,,,,Y,,unchanged,unchanged,DeidentificationMethod
