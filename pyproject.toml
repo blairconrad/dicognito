@@ -89,6 +89,7 @@ xfail_strict=true
 [tool.ruff]
 target-version = "py311"
 line-length = 120
+extend-exclude = ["planning"]
 
 [tool.ruff.lint]
 select = ["ALL"]
