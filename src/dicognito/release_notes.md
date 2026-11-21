@@ -6,6 +6,7 @@
 
 ### New
 
+- Support Python 3.15
 - Anonymize AdmissionID and ServiceEpisodeID ([#192](https://github.com/blairconrad/dicognito/issues/192))
 - Anonymize ReferringPhysicianAddress and remove ReferringPhysicianTelephoneNumbers ([#192](https://github.com/blairconrad/dicognito/issues/192))
 
