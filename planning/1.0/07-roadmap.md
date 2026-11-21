@@ -4,7 +4,7 @@
 
 | Quality | Concretely |
 |---|---|
-| **Stable** | A documented public API and CLI. Semantic versioning. A written output-stability promise: within a major version, the same input, seed and options produce the same output. Deprecations announced one minor release before removal |
+| **Stable** | A documented public API and CLI. A declared versioning scheme (Q10, [08-versioning.md](08-versioning.md)) with a written output-stability policy: which kinds of release may change which output, for the same input, seed and options. Deprecations announced one release before removal |
 | **Safe** | No crash on malformed or empty input. Defaults that do not silently keep obviously identifying data (private attributes, overlay comments, AE titles, `RetrieveURL`, device serial numbers). Status attributes that do not over-claim. Clear statement of what is and is not covered |
 | **Mature** | Behaviour described attribute by attribute, generated from the code. A conformance-style statement against PS3.15. CI that tests the installed command. Golden-output tests. "Development Status :: 5 - Production/Stable" |
 
@@ -23,6 +23,7 @@ These are the questions where the answer changes the plan. Recommendations are g
 | Q7 | Public API surface | Everything importable; minimal (`Anonymizer`, `ElementAnonymizer`, `ValueKeeper`, profile types) | Minimal. Rename internals with a leading underscore or move under `dicognito._internal`, keeping deprecated aliases for one minor release |
 | Q8 | Pixel data in 1.0? | No; guard only; redaction | Guard only (see below) |
 | Q9 | Mapping export (#124) | No; `--save-map` opt-in | Not for 1.0. Revisit with the ID lookup-table idea in 1.x; both need careful wording about the file being a re-identification key |
+| Q10 | Versioning scheme | SemVer with a declared output contract; EffVer (Macro.Meso.Micro by upgrade effort) | EffVer, with an output-stability policy: linking values (identifiers, UIDs, patient names, dates) change only in macro releases; newly modified attributes ship as meso. See [08-versioning.md](08-versioning.md) |
 
 ## Release plan
 
@@ -43,10 +44,11 @@ Each bullet is intended as one small PR.
 - `--what-if` honours the other options (I-14).
 - Reject over-long ID affixes (I-9).
 - Merge `fix/conformant-uis` (UID output change already in flight; release-note it).
+- Versioning policy (Q10): README section "Versioning and output stability", an "Output changes" heading in the release notes, and `micro`/`meso`/`macro` PR labels. Documentation only.
 
 ### 0.21: consistency (the output-change batch)
 
-Announce in 0.20's release notes that 0.21 changes seeded output.
+Announce in 0.20's release notes that 0.21 changes seeded output. Under EffVer this is a macro release, numbered 0.21.0 because of the `0.Macro.Micro` rule.
 
 - Empty in, empty out (I-6, #194).
 - Person-name pseudonym independent of context (I-1).
@@ -55,7 +57,7 @@ Announce in 0.20's release notes that 0.21 changes seeded output.
 - Registry-UID rule (I-7).
 - Name normalization (I-12), full `PatientAddress` (I-11), no added `InstitutionAddress` (I-13).
 - Optional: HMAC-SHA-256 (Q6).
-- After this release, the golden file is frozen until 2.0.
+- After this release, the golden file changes only as the output-stability policy allows (Q10).
 
 ### 0.22: profile engine
 
