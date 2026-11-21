@@ -50,18 +50,29 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - name: Install uv
         uses: astral-sh/setup-uv@v5
         with:
           version: '0.6.9'
+
       - name: Set up Python
         run: uv python install
+
       - name: Build Package
         run: uv build
+
+      - name: Smoke test wheel
+        shell: bash
+        run: |
+          WHEEL=$(ls dist/*.whl)
+          uv tool run --from "$WHEEL" dicognito --version
+
       - uses: actions/upload-artifact@v4
         with:
           path: dist/
           name: dist
+
       - name: Gather release info
         id: gather-release-info
         run: python tools/gather-release-info-for-github-actions.py
