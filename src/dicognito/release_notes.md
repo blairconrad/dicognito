@@ -1,5 +1,7 @@
 ### Changed
 
+- Anonymized UIs are now conformant DICOM UIDs using the UUID-derived "2.25." form ([#189](https://github.com/blairconrad/dicognito/issues/189)) (previously "2." plus a whole lot of digits)  
+  The same seed now produces different UIDs than in earlier versions.
 - Drop support for Python 3.10 ([#185](https://github.com/blairconrad/dicognito/issues/185))
 
 ### New
@@ -10,10 +12,10 @@
 ### Fixed
 
 - Anonymize InstitutionAddress when there is no InstitutionName ([#192](https://github.com/blairconrad/dicognito/issues/192))
-
 ### With special thanks for contributions to this release from:
 
 - [Vamsi](https://github.com/vamsibvv) &#x1F947;
+- [Pradeep Peddineni](https://github.com/pradeeppeddineni) &#x1F947;
 
 ## 0.19.0
 

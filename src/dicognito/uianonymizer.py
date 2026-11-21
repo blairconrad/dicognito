@@ -1,5 +1,6 @@
 """Replace UIs with a new value."""
 
+import uuid
 from collections.abc import Iterator
 
 import pydicom
@@ -7,6 +8,10 @@ import pydicom.dataelem
 
 from dicognito.element_anonymizer import ElementAnonymizer
 from dicognito.randomizer import Randomizer
+
+# Fixed namespace for dicognito's name-based UUIDs. Never change it, or the same
+# seed will stop producing the same UIs.
+DICOGNITO_NAMESPACE = uuid.UUID("220d81d1-0385-470f-9194-f7c213aa7490")
 
 
 class UIAnonymizer(ElementAnonymizer):
@@ -19,6 +24,7 @@ class UIAnonymizer(ElementAnonymizer):
     def __init__(self, randomizer: Randomizer) -> None:
         """Create a new UIAnonymizer."""
         self._randomizer = randomizer
+        self._seed_namespace = uuid.uuid5(DICOGNITO_NAMESPACE, randomizer.seed)
 
     def __call__(
         self,
@@ -62,4 +68,5 @@ class UIAnonymizer(ElementAnonymizer):
         yield "Replace all UI elements with anonymized values"
 
     def _new_ui(self, ui: str) -> str:
-        return "2." + str(10**39 + self._randomizer.to_int(ui))
+        # A UID made from a UUID, as described in DICOM PS3.5 section B.2.
+        return f"2.25.{uuid.uuid5(self._seed_namespace, ui).int}"
