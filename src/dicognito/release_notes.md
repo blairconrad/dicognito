@@ -1,3 +1,7 @@
+### Fixed
+
+- Console script fails with TypeError ([#196](https://github.com/blairconrad/dicognito/issues/196))
+
 ## 0.19.0
 
 ### Changed
