@@ -15,6 +15,7 @@ Findings are based on branch `fix/conformant-uis` (`main` plus conformant `2.25.
 | [05-empty-attributes.md](05-empty-attributes.md) | Empty-value behaviour and a proposed policy (extends issue #194) |
 | [06-characterization-tests.md](06-characterization-tests.md) | Tests to add, and how each one changes when the related fix lands |
 | [07-roadmap.md](07-roadmap.md) | Decisions needed, release-by-release plan, profile engine design, pixel-data position |
+| [08-versioning.md](08-versioning.md) | SemVer versus EffVer for an anonymizer whose output is its contract; proposed output-stability policy, release-note and pinning guidance |
 | [data/ps315-probe.csv](data/ps315-probe.csv) | Raw probe results, one row per Table E.1-1 attribute |
 
 ## Headline findings
@@ -35,6 +36,7 @@ Details and recommendations are in [07-roadmap.md](07-roadmap.md#decisions-neede
 - **Q2** Private attributes removed by default, with escape hatches. Recommended: yes.
 - **Q3** Whole-day date shift. Recommended: yes.
 - **Q5** Batch all seeded-output changes into one pre-1.0 release. Recommended: yes.
+- **Q10** Versioning scheme. Recommended: EffVer with a written output-stability policy ([08-versioning.md](08-versioning.md)).
 
 ## Reproducing the probes
 
