@@ -99,7 +99,9 @@ The lessons apply to dicognito under either scheme: write the output policy expl
 
 Adopt EffVer, and write an output-stability policy that defines the effort levels in dicognito's terms. The policy matters more than the scheme: the same table could back SemVer if the maintainer prefers its familiarity. EffVer is recommended because dicognito's main contract is its output, and EffVer lets privacy improvements ship as meso releases without either a misleading "minor" or a disruptive "major".
 
-EffVer can be adopted now, since `0.Macro.Micro` matches how 0.x releases have been numbered: 0.19.0 and the unreleased changes both modify output and both bump the middle number.
+EffVer can be adopted now, since `0.Macro.Micro` matches how 0.x releases have been numbered: 0.19.0 and the unreleased changes both modify output and both bump the middle number, and 0.19.1 was a fix that needs no user action.
+
+*Added 2026-11-22:* the unreleased changes on `main` include the conformant-UID change (#191), which gives every object new UIDs for the same seed. Under the policy below that is a macro change, so the next release from `main` is a macro release whatever else goes into it. Roadmap decision Q11 uses this to argue for folding the consistency batch into the same release.
 
 ## Proposed guidance
 
@@ -155,7 +157,7 @@ Output can change because of pydicom alone, for example through its private-tag 
 
 ### Correcting a wrong bump
 
-If a micro release turns out to change linking values, publish a new micro release that reverts the change and re-release the change as a meso or macro version. The version comes from `release_notes.md`, so the revert release is cut from a branch at the last good commit. Yank the mis-numbered release on PyPI if it could damage data, and say so in the release notes.
+If a micro release turns out to change linking values, publish a new micro release that reverts the change and re-release the change as a meso or macro version. The version comes from `release_notes.md`, so the revert release is cut from a branch at the last good commit. 0.19.1 already used this route: it was released from `support/0.19`, which #197 made possible. Yank the mis-numbered release on PyPI if it could damage data, and say so in the release notes.
 
 ### Preview of upcoming output changes
 
@@ -165,5 +167,6 @@ A Black-style `--preview` flag, enabling the next macro release's output changes
 
 - **"What 1.0 should mean":** "Semantic versioning" becomes "a declared versioning scheme and output-stability policy".
 - **0.20:** add the README section, the release-notes heading and the PR labels. This is a small, documentation-only PR, and it lets 0.20 itself be described in the new terms.
-- **0.21 output-change batch:** a macro event. In 0.x it is numbered 0.21.0, exactly as planned.
+- **0.21 output-change batch:** a macro event. In 0.x it is numbered 0.21.0, exactly as planned. *If roadmap Q11 is (b), it ships as part of 0.20.0 instead.*
+- **Micro releases from a support branch** (added 2026-11-22): crash fixes for input that used to fail are micro changes, so they can ship as 0.19.x from `support/0.19` while `main` carries macro changes.
 - **1.0.0:** a macro release because of the API cut (Q7), but it should change no output relative to the last 0.x release. It marks the start of the stability promise and the production-stable classifier.

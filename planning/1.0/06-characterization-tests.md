@@ -15,7 +15,7 @@ What it does not pin down: exact output for a seed (so an accidental output chan
 
 | ID | Test | Asserts today | After the planned fix | Relates to |
 |---|---|---|---|---|
-| T-0 | `test_console_script_runs`: build the wheel, install it in a temporary environment, run `dicognito --version` | `xfail` on 0.19.0 code (exit status ≠ 0) | Passes | D-1 |
+| T-0 | `test_console_script_runs`: build the wheel, install it in a temporary environment, run `dicognito --version` | `xfail` on 0.19.0 code (exit status ≠ 0) | Passes | D-1. ✅ *Done in part in 0.19.1 (#195): CI "Smoke test wheel" step runs `dicognito --version` from the wheel, plus a unit test on the `main` signature. Remaining: one anonymization through the installed command, and the change reaching `main`* |
 | T-1 | Golden output: anonymize a rich fixture (the `load_test_instance` dataset plus SR, private and multi-valued elements) with seed `"golden"`; compare every element to a committed JSON file | Current exact output | Regenerated in the one release that batches output changes; then frozen for 1.x | 1.0 stability promise |
 | T-2 | Table E.1-1 coverage snapshot: for each attribute in the generated PS3.15 table, the outcome class (removed / emptied / changed / unchanged / sequence-walked) for populated and empty values, compared to a committed CSV (the probe in [tools/probe_table.py](tools/probe_table.py) turned into a test) | Today's 617-row outcome | Updated by every coverage PR; the diff shows exactly which attributes changed | Gap analysis |
 | T-3 | Empty values, parametrized over one attribute per handler and every ID attribute, for `""`, `None`, `b""`, empty sequence, empty component | `""` stays `""` for PN, UI, DA, DT, addresses, issuer, fixed values (plain tests); IDs, `InstitutionName`, `InstitutionalDepartmentName` become populated (`xfail` desired "stays empty"); `None` ID, PN component, DA component crash (`xfail` desired "stays empty, no exception") | All plain | I-6, C-2, #194 |
@@ -50,7 +50,7 @@ What it does not pin down: exact output for a seed (so an accidental output chan
 
 ## Order
 
-1. T-0 with the 0.19.1 hotfix.
+1. T-0 with the 0.19.1 hotfix. ✅ *Done in part (see T-0).*
 2. T-1 and T-2 before any behaviour change, so every later PR shows its effect as a diff.
 3. T-3 to T-6 (empties and crashes) together with their fixes, since those fixes are safe.
 4. The remaining `xfail` tests in one PR, so the list of known defects is visible in the suite, then removed one fix at a time.

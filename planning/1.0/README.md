@@ -2,7 +2,19 @@
 
 Working documents for taking dicognito to a stable, safe, mature 1.0. They are meant to be iterated on; nothing here is a commitment yet.
 
-Findings are based on branch `fix/conformant-uis` (`main` plus conformant `2.25.` UIDs) as of 2026-11-18, read from the source and confirmed with the probe scripts in [tools/](tools/).
+Findings were first gathered on branch `fix/conformant-uis` (`main` plus conformant `2.25.` UIDs) on 2026-11-18, read from the source and confirmed with the probe scripts in [tools/](tools/). On 2026-11-22 they were re-checked against `main` at `b9b77ac` (see "Status updates" below).
+
+## Status updates
+
+### 2026-11-22, against `main` at `b9b77ac`
+
+| Change | Where | Effect on this plan |
+|---|---|---|
+| Conformant `2.25.` UIDs merged (#191, from `fix/conformant-uis`) | `main`, unreleased | ✅ Roadmap item "Merge `fix/conformant-uis`" done. `uianonymizer.py` on `main` is identical to the branch the findings were based on, so no finding changes. The UID change alters seeded output for every object, which affects release sequencing (roadmap, 0.20) |
+| Console-script fix (#195, issue #196) and release-from-any-branch tooling (#197), released as 0.19.1 | `support/0.19` (tag `0.19.1`, on PyPI). **Not yet on `main`** | ✅ D-1 fixed in the released package. ✅ T-0 done in part: CI runs `dicognito --version` from the built wheel; it does not run an anonymization. ⏳ `main` still has `def main(main_args: Sequence[str])`, so the next release from `main` would bring the defect back unless `support/0.19` is merged forward |
+| Python 3.15 supported (#187) | `main`, unreleased | Background updated (Python 3.11 to 3.15). No plan change |
+
+Re-check results on `main` at `b9b77ac`: 341 tests pass; `probe_table.py` reproduces [data/ps315-probe.csv](data/ps315-probe.csv) byte for byte (changed 216, emptied 2, removed 11, sequences walked 61, unchanged 327); `probe_edges.py` and `probe_more.py` reproduce every crash and inconsistency recorded in [04-inconsistencies.md](04-inconsistencies.md).
 
 ## Documents
 
@@ -20,7 +32,7 @@ Findings are based on branch `fix/conformant-uis` (`main` plus conformant `2.25.
 
 ## Headline findings
 
-1. 🔴 **The `dicognito` command is broken in the released 0.19.0.** It fails at start-up with `TypeError: main() missing 1 required positional argument`. Introduced by `9ffc4bb`; `python -m dicognito` still works. Needs a 0.19.1.
+1. ✅ **The `dicognito` command is broken in the released 0.19.0.** It fails at start-up with `TypeError: main() missing 1 required positional argument`. Introduced by `9ffc4bb`; `python -m dicognito` still works. *Fixed in 0.19.1 (2026-11-21) on `support/0.19`; the fix still has to be merged into `main`.*
 2. 🔴 **Crashes on real-world values** abort a whole command-line run: dates such as `00000000` or `20200230`, empty components in multi-valued dates and names, `None`-valued IDs.
 3. 🔴 **Relationships break in two ways the tool exists to prevent:** a physician's pseudonym depends on the sex of the patient and on whether the name is inside a sequence; and patients with the same ID from different issuers merge, because every issuer becomes `DICOGNITO`.
 4. 🟡 **Empty values become shared fake values** for IDs, so unrelated studies with no accession number end up sharing one.
@@ -37,6 +49,7 @@ Details and recommendations are in [07-roadmap.md](07-roadmap.md#decisions-neede
 - **Q3** Whole-day date shift. Recommended: yes.
 - **Q5** Batch all seeded-output changes into one pre-1.0 release. Recommended: yes.
 - **Q10** Versioning scheme. Recommended: EffVer with a written output-stability policy ([08-versioning.md](08-versioning.md)).
+- **Q11** (added 2026-11-22) `main` already changes every UID: release it soon, or hold it so the consistency batch lands in the same release? Recommended: hold, and ship crash fixes as 0.19.x from `support/0.19`.
 
 ## Reproducing the probes
 

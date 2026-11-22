@@ -24,31 +24,48 @@ These are the questions where the answer changes the plan. Recommendations are g
 | Q8 | Pixel data in 1.0? | No; guard only; redaction | Guard only (see below) |
 | Q9 | Mapping export (#124) | No; `--save-map` opt-in | Not for 1.0. Revisit with the ID lookup-table idea in 1.x; both need careful wording about the file being a re-identification key |
 | Q10 | Versioning scheme | SemVer with a declared output contract; EffVer (Macro.Meso.Micro by upgrade effort) | EffVer, with an output-stability policy: linking values (identifiers, UIDs, patient names, dates) change only in macro releases; newly modified attributes ship as meso. See [08-versioning.md](08-versioning.md) |
+| Q11 | `main` already changes every UID (#191). Release it soon, or hold it for the consistency batch? (added 2026-11-22) | (a) Release `main` as 0.20 after hardening, consistency batch as 0.21: incremental users re-anonymize twice. (b) Hold `main`'s next release until the consistency batch is in, and release both as 0.20: one re-anonymization. Meanwhile ship crash fixes (C-1, C-2, C-3), which change no output for valid input, as 0.19.x micro releases from `support/0.19` | (b). The release tooling now allows releases from `support/0.19` (#197), so holding `main` does not block crash fixes. The cost is that #187, #191, #192 and the Python 3.10 drop wait longer; if any of them is urgent, choose (a) and say so in the 0.20 notes |
 
 ## Release plan
 
 Each bullet is intended as one small PR.
 
-### 0.19.1: hotfix
+### 0.19.1: hotfix ✅ released 2026-11-21
 
-- Restore `main(main_args=None)` (D-1).
-- CI: build the wheel, install it, run `dicognito --version` and one anonymization (T-0).
+Released from `support/0.19` (tag `0.19.1`), not from `main`.
 
-### 0.20: characterize and harden (no intended output change for valid input)
+- ✅ Restore `main(main_args=None)` (D-1): #195, issue #196.
+- ✅ Release from a branch other than `main`: #197 (not in the original plan).
+- ✅ *In part:* CI builds the wheel and runs `dicognito --version` from it (T-0). Still to do: run one anonymization through the installed command.
+- ⏳ Merge `support/0.19` into `main`. `main` at `b9b77ac` still has the defect. This is the first PR of the next stage.
 
-- Golden-output test (T-1) and Table E.1-1 coverage snapshot (T-2), with a script to regenerate them.
-- Commit the `xfail` tests for known defects (06-characterization-tests.md).
+### 0.19.x: crash fixes from `support/0.19` (added 2026-11-22, if Q11 is (b))
+
+Micro releases: no output change for input that anonymized before. Each fix is made on `support/0.19` and merged forward to `main`.
+
 - Unparseable DA/DT/TM no longer raise (C-1).
-- Empty components and `None` no longer raise (C-2) without yet changing what empty IDs become.
+- Empty components and `None` no longer raise (C-2), without changing what empty IDs become.
 - CLI continues past failures and reports them (C-3).
+- T-0 completed: one anonymization through the installed command.
+
+If Q11 is (a), these items stay in 0.20 as originally planned.
+
+### 0.20: characterize and harden
+
+*Changed 2026-11-22:* the original heading said "no intended output change for valid input". That no longer holds: `main` already carries output changes (conformant UIDs #191; `AdmissionID`, `ServiceEpisodeID`, `ReferringPhysicianAddress`, `ReferringPhysicianTelephoneNumbers` and `InstitutionAddress` without `InstitutionName` #192) and drops Python 3.10 (#185). Under Q10 this is already a macro release. Q11 decides whether 0.21's consistency batch joins it.
+
+- ⏳ Merge `support/0.19` into `main` (D-1 fix and release tooling).
+- Golden-output test (T-1) and Table E.1-1 coverage snapshot (T-2), with a script to regenerate them. Pin the golden file to `main` *after* #191, so the UID change is not mistaken for a regression.
+- Commit the `xfail` tests for known defects (06-characterization-tests.md).
+- C-1, C-2, C-3 crash fixes: in 0.19.x if Q11 is (b) (merged forward to `main`), otherwise here.
 - `--what-if` honours the other options (I-14).
 - Reject over-long ID affixes (I-9).
-- Merge `fix/conformant-uis` (UID output change already in flight; release-note it).
+- ✅ Merge `fix/conformant-uis`: merged as #191 on 2026-11-21 and release-noted under Changed ("The same seed now produces different UIDs than in earlier versions").
 - Versioning policy (Q10): README section "Versioning and output stability", an "Output changes" heading in the release notes, and `micro`/`meso`/`macro` PR labels. Documentation only.
 
 ### 0.21: consistency (the output-change batch)
 
-Announce in 0.20's release notes that 0.21 changes seeded output. Under EffVer this is a macro release, numbered 0.21.0 because of the `0.Macro.Micro` rule.
+Announce in 0.20's release notes that 0.21 changes seeded output. Under EffVer this is a macro release, numbered 0.21.0 because of the `0.Macro.Micro` rule. *If Q11 is (b), this batch is released together with 0.20 as one 0.20.0, and the later version numbers shift down by one.*
 
 - Empty in, empty out (I-6, #194).
 - Person-name pseudonym independent of context (I-1).

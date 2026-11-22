@@ -37,10 +37,10 @@ Dicognito turns real DICOM data into realistic, internally consistent, de-identi
 - **Pseudonymization instead of blanking.** Most de-identification approaches remove or blank names, IDs and dates by default. Dicognito replaces them with consistent, realistic values, which is what test-data and integration workflows need.
 - **Relationships survive without a state file.** Replacement values are a keyed hash of the original value (seed plus value), so equal inputs always produce equal outputs within a run, and across runs with the same seed. No mapping table is written to disk, so there is nothing extra to secure.
 - **Coverage by value representation, not only by name.** Every PN, UI, DA and DT element is handled wherever it appears: top-level, inside any sequence (including SR content items and `OtherPatientIDsSequence`), and in private elements whose VR is known. New attributes added to the standard are covered automatically.
-- **Conformant, consistent UIDs.** Replacement UIDs are UUID-derived `2.25.` UIDs (PS3.5 B.2) once the `fix/conformant-uis` work ships; well-known class and transfer-syntax UIDs are left alone.
+- **Conformant, consistent UIDs.** Replacement UIDs are UUID-derived `2.25.` UIDs (PS3.5 B.2), merged to `main` in #191 and due in the next release from `main`; well-known class and transfer-syntax UIDs are left alone.
 - **Interval-preserving dates.** One offset (62 to 730 days into the past) applies to all dates in a run, so ages, intervals between priors and study ordering are preserved. Partial dates and date-times with time-zone suffixes are handled.
 - **Simple extension.** `Anonymizer.add_element_handler` lets callers override or add behaviour per element; `--keep` exposes the common case on the command line.
-- **Small and dependable footprint.** One dependency, typed, fast enough for directory trees, Python 3.11 to 3.14.
+- **Small and dependable footprint.** One dependency, typed, fast enough for directory trees, Python 3.11 to 3.15 (3.15 added on `main` in #187, unreleased).
 
 ## Weaknesses (honest)
 
@@ -66,7 +66,7 @@ Several of dicognito's actions are already conformant ways of performing the sta
 | Standard action | Dicognito today | Conformant? |
 |---|---|---|
 | D (dummy value consistent with the VR) | Realistic pseudonym for PN, IDs, institution, address | Yes: a realistic fake is a dummy value |
-| U (new, internally consistent UID) | `2.25.` UUID-derived UID, consistent within a run | Yes (after `fix/conformant-uis`) |
+| U (new, internally consistent UID) | `2.25.` UUID-derived UID, consistent within a run | Yes (on `main` since #191; released versions up to 0.19.1 use `2.` plus 40 digits) |
 | Retain Longitudinal Temporal Information, Modified Dates | Shift all DA/DT (and paired TM) by one offset | Yes in spirit; the option also requires `LongitudinalTemporalInformationModified = MODIFIED`, which is not set |
 | X (remove) | 11 attributes removed | Yes, for those 11 |
 | Z (zero-length) | `RequestingService`, `CurrentPatientLocation` emptied | Yes |

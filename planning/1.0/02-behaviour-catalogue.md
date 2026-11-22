@@ -1,6 +1,6 @@
 # Dicognito behaviour catalogue
 
-Current behaviour of dicognito, read from the source on branch `fix/conformant-uis` (which is `main` plus the conformant-UID change) and confirmed with probe scripts in [tools/](tools/). Where a statement comes from reading the code and was not probed, it says so.
+Current behaviour of dicognito, read from the source on branch `fix/conformant-uis` (which was `main` plus the conformant-UID change) and confirmed with probe scripts in [tools/](tools/). Re-checked on 2026-11-22 against `main` at `b9b77ac`, which now contains that change (#191): the probes give identical results. Where a statement comes from reading the code and was not probed, it says so.
 
 ## Processing model
 
@@ -16,7 +16,7 @@ Current behaviour of dicognito, read from the source on branch `fix/conformant-u
 - A value maps to `md5(seed + original_value)` as a big integer, which is then split into indices. The seed and value are concatenated with no separator.
 - All handlers share one randomizer, so equal original strings in different attributes produce related output. For IDs, an equal value in `PatientID`, `AccessionNumber`, `StudyID` and `StationName` maps to the same new ID (probed).
 - Date offset: `-(to_int("date_offset") % (730*24 − 62*24) + 62*24)` hours, so 62 to 730 days into the past, in whole hours (probed over 2,000 seeds: 63 to 730 whole days of date shift).
-- UIDs: `2.25.<uuid5(uuid5(DICOGNITO_NAMESPACE, seed), original_uid).int>`. On `main` before the fix: `"2." + str(10**39 + md5int)`.
+- UIDs: `2.25.<uuid5(uuid5(DICOGNITO_NAMESPACE, seed), original_uid).int>`. Released versions up to 0.19.1, and `main` before #191: `"2." + str(10**39 + md5int)`.
 
 ## Default element handlers, in order
 
@@ -73,7 +73,7 @@ Not written: `DeidentificationMethodCodeSequence`, `LongitudinalTemporalInformat
 
 Error handling: any exception while anonymizing or saving one file logs the file name and exits with status 1, leaving earlier files written (or overwritten, with `--in-place`) and later files untouched.
 
-Release defect: the `dicognito` console command in 0.19.0 fails at start-up with `TypeError: main() missing 1 required positional argument: 'main_args'` (confirmed with `uvx --from dicognito==0.19.0 dicognito --version`; 0.18.0 works). Commit `9ffc4bb` ("Fix new type-checking errors") removed the default argument. `python -m dicognito` still works. The tests call `main(args)` directly, so they did not catch it.
+Release defect: the `dicognito` console command in 0.19.0 fails at start-up with `TypeError: main() missing 1 required positional argument: 'main_args'` (confirmed with `uvx --from dicognito==0.19.0 dicognito --version`; 0.18.0 works). Commit `9ffc4bb` ("Fix new type-checking errors") removed the default argument. `python -m dicognito` still works. The tests call `main(args)` directly, so they did not catch it. *Status 2026-11-22: fixed in 0.19.1 on `support/0.19` (#195, issue #196); not yet merged into `main`.*
 
 ## Behaviour by value representation (summary)
 
