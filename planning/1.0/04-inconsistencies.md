@@ -8,7 +8,7 @@ Probe scripts: [tools/probe_edges.py](tools/probe_edges.py) (items not otherwise
 
 ### ✅ D-1 The `dicognito` command is broken in 0.19.0
 
-**Status 2026-11-22: released fix, not yet on `main`.** 0.19.1 (tag `0.19.1`, branch `support/0.19`, on PyPI) restores `main(main_args: Sequence[str] | None = None)`, adds a unit test that the parameter defaults to `None`, and adds a CI step that runs `dicognito --version` from the built wheel (#195, issue #196). `main` at `b9b77ac` still has the defect; merge `support/0.19` into `main` before the next release from `main`.
+**Status 2026-11-22: released fix, not yet on `main`.** 0.19.1 (tag `0.19.1`, branch `support/0.19`, on PyPI) restores `main(main_args: Sequence[str] | None = None)`, adds a unit test that the parameter defaults to `None`, and adds a CI step that runs `dicognito --version` from the built wheel (#195, issue #196). `main` at `b9b77ac` still has the defect; merge `support/0.19` into `main` before the next release from `main`. *2026-11-23: merged by #203; fixed on `main`.*
 
 `uvx --from dicognito==0.19.0 dicognito --version` fails with `TypeError: main() missing 1 required positional argument: 'main_args'`; 0.18.0 works. Commit `9ffc4bb` removed the default from `main(main_args=None)`; the console-script entry point calls `main()` with no arguments. `python -m dicognito` still works. Tests call `main(args)` directly, and the `smoketest` folder present in 0.18.0 no longer exists.
 

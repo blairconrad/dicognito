@@ -37,7 +37,7 @@ Released from `support/0.19` (tag `0.19.1`), not from `main`.
 - ✅ Restore `main(main_args=None)` (D-1): #195, issue #196.
 - ✅ Release from a branch other than `main`: #197 (not in the original plan).
 - ✅ *In part:* CI builds the wheel and runs `dicognito --version` from it (T-0). Still to do: run one anonymization through the installed command.
-- ⏳ Merge `support/0.19` into `main`. `main` at `b9b77ac` still has the defect. This is the first PR of the next stage.
+- ✅ Merge `support/0.19` into `main`: #203, merged 2026-11-23 (`main` at `dc343d4`).
 
 ### 0.19.x: crash fixes from `support/0.19`, only if needed (added 2026-11-22)
 
@@ -55,7 +55,7 @@ Released from `support/0.19` (tag `0.19.1`), not from `main`.
 
 #### Characterize (before any behaviour change)
 
-1. ⏳ Merge `support/0.19` into `main` (D-1 fix and release tooling). Required before any release from `main`.
+1. ✅ Merge `support/0.19` into `main` (D-1 fix and release tooling): #203, merged 2026-11-23.
 2. Complete T-0: run one anonymization through the installed command in the wheel smoke test. Issue #198.
 3. Golden-output test (T-1), with a script to regenerate the golden file. Issue #199. Generated from `main` *after* #191, so the UID change is not mistaken for a regression.
 4. Table E.1-1 coverage snapshot (T-2), with a script to regenerate it. The probe already exists. Issue #200.

@@ -6,6 +6,10 @@ Findings were first gathered on branch `fix/conformant-uis` (`main` plus conform
 
 ## Status updates
 
+### 2026-11-23, 0.19.1 merged into `main`
+
+- `support/0.19` (tag `0.19.1`) merged into `main` by #203 (`main` at `dc343d4`). `main` now has the D-1 fix, the wheel smoke test (`dicognito --version`) and the release-from-any-branch tooling. Roadmap step 1 of 0.20 is done.
+
 ### 2026-11-23, decisions
 
 - Q10 decided: EffVer with the output-stability policy.
@@ -37,7 +41,7 @@ Re-check results on `main` at `b9b77ac`: 341 tests pass; `probe_table.py` reprod
 
 ## Headline findings
 
-1. ✅ **The `dicognito` command is broken in the released 0.19.0.** It fails at start-up with `TypeError: main() missing 1 required positional argument`. Introduced by `9ffc4bb`; `python -m dicognito` still works. *Fixed in 0.19.1 (2026-11-21) on `support/0.19`; the fix still has to be merged into `main`.*
+1. ✅ **The `dicognito` command is broken in the released 0.19.0.** It fails at start-up with `TypeError: main() missing 1 required positional argument`. Introduced by `9ffc4bb`; `python -m dicognito` still works. *Fixed in 0.19.1 (2026-11-21) on `support/0.19`; merged into `main` by #203 (2026-11-23).*
 2. 🔴 **Crashes on real-world values** abort a whole command-line run: dates such as `00000000` or `20200230`, empty components in multi-valued dates and names, `None`-valued IDs.
 3. 🔴 **Relationships break in two ways the tool exists to prevent:** a physician's pseudonym depends on the sex of the patient and on whether the name is inside a sequence; and patients with the same ID from different issuers merge, because every issuer becomes `DICOGNITO`.
 4. 🟡 **Empty values become shared fake values** for IDs, so unrelated studies with no accession number end up sharing one.
