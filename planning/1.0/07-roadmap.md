@@ -56,11 +56,11 @@ Released from `support/0.19` (tag `0.19.1`), not from `main`.
 #### Characterize (before any behaviour change)
 
 1. ⏳ Merge `support/0.19` into `main` (D-1 fix and release tooling). Required before any release from `main`.
-2. Complete T-0: run one anonymization through the installed command in the wheel smoke test.
-3. Golden-output test (T-1), with a script to regenerate the golden file. Generated from `main` *after* #191, so the UID change is not mistaken for a regression.
-4. Table E.1-1 coverage snapshot (T-2), with a script to regenerate it. The probe already exists.
-5. Known-defect `xfail` tests: the subset listed in [06-characterization-tests.md](06-characterization-tests.md#selection-before-behaviour-changes), as many as is practical.
-6. Versioning policy (Q10): README section "Versioning and output stability" with the pinning guidance, and `micro`/`meso`/`macro` PR labels. Documentation only.
+2. Complete T-0: run one anonymization through the installed command in the wheel smoke test. Issue #198.
+3. Golden-output test (T-1), with a script to regenerate the golden file. Issue #199. Generated from `main` *after* #191, so the UID change is not mistaken for a regression.
+4. Table E.1-1 coverage snapshot (T-2), with a script to regenerate it. The probe already exists. Issue #200.
+5. Known-defect `xfail` tests: the subset listed in [06-characterization-tests.md](06-characterization-tests.md#selection-before-behaviour-changes), as many as is practical. Issue #201.
+6. Versioning policy (Q10): README section "Versioning and output stability" with the pinning guidance, and `micro`/`meso`/`macro` PR labels. Documentation only. Issue #202.
 
 #### Harden (no output change for input that anonymized before)
 
