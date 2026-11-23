@@ -51,7 +51,7 @@ Released from `support/0.19` (tag `0.19.1`), not from `main`.
 
 *Changed 2026-11-22:* the original heading said "no intended output change for valid input". That no longer holds: `main` already carries output changes (conformant UIDs #191; `AdmissionID`, `ServiceEpisodeID`, `ReferringPhysicianAddress`, `ReferringPhysicianTelephoneNumbers` and `InstitutionAddress` without `InstitutionName` #192) and drops Python 3.10 (#185). Under Q10 this is already a macro release.
 
-*Changed 2026-11-23 (Q11 decided as (b)):* `main` is not released until the consistency batch is in. The former 0.20 ("characterize and harden") and 0.21 ("consistency") stages are now one release, 0.20.0, the first under EffVer. Incremental users re-anonymize once, for UIDs and the consistency changes together. The PRs keep their original order, so the safety net is in place before any behaviour changes.
+*Changed 2026-11-23 (Q11 decided as (b)):* `main` is not released until the consistency batch is in. The former 0.20 ("characterize and harden") and 0.21 ("consistency") stages are now one release, 0.20.0, the first under EffVer. Incremental users re-anonymize once for the UID and consistency changes together. Later stages are also expected to change linking values (for example patient names and institution names under the profile engine), so further re-anonymizations before 1.0 are expected and accepted (decided 2026-11-23); each such release is a macro release, announced in the release before it. The PRs keep their original order, so the safety net is in place before any behaviour changes.
 
 #### Characterize (before any behaviour change)
 
