@@ -18,13 +18,13 @@ These are the questions where the answer changes the plan. Recommendations are g
 | Q2 | Private attributes by default? | Keep (today), remove, remove with a safe-private allow-list | Remove by default; `--keep-private` for everything; `--keep-private-creator "SIEMENS CSA HEADER"` for an allow-list. Test-data users who need vendor tags opt in. This is the largest safety improvement available |
 | Q3 | Dates: hours or days? | Keep the hour offset (fix orphan times by pairing better) or switch to whole days and leave times | Whole days (fixes I-3, I-4, I-5 at once) |
 | Q4 | Descriptors under the default profile | Keep verbatim; remove; "clean" | Clean by echo detection: after anonymizing, search retained text attributes for the original values of names, IDs, dates and addresses dicognito replaced in that object (and tokens of them); replace any hit with the pseudonym or remove it; log it. This is cheap, deterministic, specific to dicognito's design (it knows the originals), and a defensible "C" for common leaks. It is not a guarantee and must be documented as heuristic |
-| Q5 | Batch all output changes into one release? | Spread across releases; one batch | One batch (0.21), announced in advance, then the stability promise starts at 1.0 |
+| Q5 | Batch all output changes into one release? | Spread across releases; one batch | One batch (0.21), announced in advance, then the stability promise starts at 1.0. *Changed 2026-11-23: the batch is now part of 0.20 (Q11)* |
 | Q6 | Hash construction | Keep MD5(seed + value); switch to HMAC-SHA-256(seed, value) | Switch in the output-change batch, if at all; it costs nothing extra then. Not needed for correctness |
 | Q7 | Public API surface | Everything importable; minimal (`Anonymizer`, `ElementAnonymizer`, `ValueKeeper`, profile types) | Minimal. Rename internals with a leading underscore or move under `dicognito._internal`, keeping deprecated aliases for one minor release |
 | Q8 | Pixel data in 1.0? | No; guard only; redaction | Guard only (see below) |
 | Q9 | Mapping export (#124) | No; `--save-map` opt-in | Not for 1.0. Revisit with the ID lookup-table idea in 1.x; both need careful wording about the file being a re-identification key |
-| Q10 | Versioning scheme | SemVer with a declared output contract; EffVer (Macro.Meso.Micro by upgrade effort) | EffVer, with an output-stability policy: linking values (identifiers, UIDs, patient names, dates) change only in macro releases; newly modified attributes ship as meso. See [08-versioning.md](08-versioning.md) |
-| Q11 | `main` already changes every UID (#191). Release it soon, or hold it for the consistency batch? (added 2026-11-22) | (a) Release `main` as 0.20 after hardening, consistency batch as 0.21: incremental users re-anonymize twice. (b) Hold `main`'s next release until the consistency batch is in, and release both as 0.20: one re-anonymization. Meanwhile ship crash fixes (C-1, C-2, C-3), which change no output for valid input, as 0.19.x micro releases from `support/0.19` | (b). The release tooling now allows releases from `support/0.19` (#197), so holding `main` does not block crash fixes. The cost is that #187, #191, #192 and the Python 3.10 drop wait longer; if any of them is urgent, choose (a) and say so in the 0.20 notes |
+| Q10 | Versioning scheme | SemVer with a declared output contract; EffVer (Macro.Meso.Micro by upgrade effort) | EffVer, with an output-stability policy: linking values (identifiers, UIDs, patient names, dates) change only in macro releases; newly modified attributes ship as meso. See [08-versioning.md](08-versioning.md). ✅ **Decided 2026-11-23: EffVer, with the output-stability policy** |
+| Q11 | `main` already changes every UID (#191). Release it soon, or hold it for the consistency batch? (added 2026-11-22) | (a) Release `main` as 0.20 after hardening, consistency batch as 0.21: incremental users re-anonymize twice. (b) Hold `main`'s next release until the consistency batch is in, and release both as 0.20: one re-anonymization. Meanwhile ship crash fixes (C-1, C-2, C-3), which change no output for valid input, as 0.19.x micro releases from `support/0.19` | (b). The release tooling now allows releases from `support/0.19` (#197), so holding `main` does not block crash fixes. The cost is that #187, #191, #192 and the Python 3.10 drop wait longer; if any of them is urgent, choose (a) and say so in the 0.20 notes. ✅ **Decided 2026-11-23: (b), hold `main` and release after the consistency batch.** Characterization tests first (T-0 completed, T-1, and as many others as is practical), then crash fixes, then the consistency batch, all on `main`, released together as 0.20.0. Incremental users re-anonymize once. 0.19.x releases from `support/0.19` only if someone needs a crash fix before then |
 
 ## Release plan
 
@@ -39,33 +39,40 @@ Released from `support/0.19` (tag `0.19.1`), not from `main`.
 - ✅ *In part:* CI builds the wheel and runs `dicognito --version` from it (T-0). Still to do: run one anonymization through the installed command.
 - ⏳ Merge `support/0.19` into `main`. `main` at `b9b77ac` still has the defect. This is the first PR of the next stage.
 
-### 0.19.x: crash fixes from `support/0.19` (added 2026-11-22, if Q11 is (b))
+### 0.19.x: crash fixes from `support/0.19`, only if needed (added 2026-11-22)
 
-Micro releases: no output change for input that anonymized before. Each fix is made on `support/0.19` and merged forward to `main`.
+*Changed 2026-11-23 (Q11 decided as (b)):* not planned. The crash fixes are made on `main` and released in 0.20.0. Cut a 0.19.x micro release from `support/0.19` only if a user hits one of these crashes before 0.20 ships:
 
 - Unparseable DA/DT/TM no longer raise (C-1).
 - Empty components and `None` no longer raise (C-2), without changing what empty IDs become.
 - CLI continues past failures and reports them (C-3).
-- T-0 completed: one anonymization through the installed command.
 
-If Q11 is (a), these items stay in 0.20 as originally planned.
+### 0.20: characterize, harden and make consistent (one macro release)
 
-### 0.20: characterize and harden
+*Changed 2026-11-22:* the original heading said "no intended output change for valid input". That no longer holds: `main` already carries output changes (conformant UIDs #191; `AdmissionID`, `ServiceEpisodeID`, `ReferringPhysicianAddress`, `ReferringPhysicianTelephoneNumbers` and `InstitutionAddress` without `InstitutionName` #192) and drops Python 3.10 (#185). Under Q10 this is already a macro release.
 
-*Changed 2026-11-22:* the original heading said "no intended output change for valid input". That no longer holds: `main` already carries output changes (conformant UIDs #191; `AdmissionID`, `ServiceEpisodeID`, `ReferringPhysicianAddress`, `ReferringPhysicianTelephoneNumbers` and `InstitutionAddress` without `InstitutionName` #192) and drops Python 3.10 (#185). Under Q10 this is already a macro release. Q11 decides whether 0.21's consistency batch joins it.
+*Changed 2026-11-23 (Q11 decided as (b)):* `main` is not released until the consistency batch is in. The former 0.20 ("characterize and harden") and 0.21 ("consistency") stages are now one release, 0.20.0, the first under EffVer. Incremental users re-anonymize once, for UIDs and the consistency changes together. The PRs keep their original order, so the safety net is in place before any behaviour changes.
 
-- ⏳ Merge `support/0.19` into `main` (D-1 fix and release tooling).
-- Golden-output test (T-1) and Table E.1-1 coverage snapshot (T-2), with a script to regenerate them. Pin the golden file to `main` *after* #191, so the UID change is not mistaken for a regression.
-- Commit the `xfail` tests for known defects (06-characterization-tests.md).
-- C-1, C-2, C-3 crash fixes: in 0.19.x if Q11 is (b) (merged forward to `main`), otherwise here.
-- `--what-if` honours the other options (I-14).
-- Reject over-long ID affixes (I-9).
-- ✅ Merge `fix/conformant-uis`: merged as #191 on 2026-11-21 and release-noted under Changed ("The same seed now produces different UIDs than in earlier versions").
-- Versioning policy (Q10): README section "Versioning and output stability", an "Output changes" heading in the release notes, and `micro`/`meso`/`macro` PR labels. Documentation only.
+#### Characterize (before any behaviour change)
 
-### 0.21: consistency (the output-change batch)
+1. ⏳ Merge `support/0.19` into `main` (D-1 fix and release tooling). Required before any release from `main`.
+2. Complete T-0: run one anonymization through the installed command in the wheel smoke test.
+3. Golden-output test (T-1), with a script to regenerate the golden file. Generated from `main` *after* #191, so the UID change is not mistaken for a regression.
+4. Table E.1-1 coverage snapshot (T-2), with a script to regenerate it. The probe already exists.
+5. Known-defect `xfail` tests: the subset listed in [06-characterization-tests.md](06-characterization-tests.md#selection-before-behaviour-changes), as many as is practical.
+6. Versioning policy (Q10): README section "Versioning and output stability" with the pinning guidance, and `micro`/`meso`/`macro` PR labels. Documentation only.
 
-Announce in 0.20's release notes that 0.21 changes seeded output. Under EffVer this is a macro release, numbered 0.21.0 because of the `0.Macro.Micro` rule. *If Q11 is (b), this batch is released together with 0.20 as one 0.20.0, and the later version numbers shift down by one.*
+#### Harden (no output change for input that anonymized before)
+
+- Unparseable DA/DT/TM no longer raise (C-1, T-5).
+- Empty components and `None` no longer raise (C-2, T-3 in part), without yet changing what empty IDs become.
+- CLI continues past failures and reports them (C-3, T-6).
+- `--what-if` honours the other options (I-14, T-24).
+- Reject over-long ID affixes (I-9, T-23).
+
+#### Consistency (the output-change batch; formerly 0.21)
+
+Each PR regenerates the golden file (T-1) and removes the `xfail` marker from its test.
 
 - Empty in, empty out (I-6, #194).
 - Person-name pseudonym independent of context (I-1).
@@ -74,9 +81,21 @@ Announce in 0.20's release notes that 0.21 changes seeded output. Under EffVer t
 - Registry-UID rule (I-7).
 - Name normalization (I-12), full `PatientAddress` (I-11), no added `InstitutionAddress` (I-13).
 - Optional: HMAC-SHA-256 (Q6).
+
+#### Release
+
+- Release notes for 0.20.0 under an "Output changes" heading: UIDs (#191), the #192 attributes and every consistency change. State that the same seed gives different output than 0.19.x.
 - After this release, the golden file changes only as the output-stability policy allows (Q10).
 
-### 0.22: profile engine
+Done:
+
+- ✅ Merge `fix/conformant-uis`: merged as #191 on 2026-11-21 and release-noted under Changed ("The same seed now produces different UIDs than in earlier versions").
+
+### ~~0.21: consistency (the output-change batch)~~ (merged into 0.20 on 2026-11-23)
+
+*Changed 2026-11-23 (Q11 decided as (b)):* this stage's items are now the "Consistency" part of 0.20 above. The version numbers of the later stages move down by one.
+
+### 0.21: profile engine (formerly 0.22)
 
 - `tools/generate_ps315_table.py`: reads the innolitics JSON (or NEMA's part15 DocBook XML), pinned to a recorded DICOM edition, writes `src/dicognito/_ps315_table.py` (a committed, generated module of `{tag: {column: action}}`, plus the repeating-group and private rules). Regenerating is a deliberate PR whose diff shows the standard's changes.
 - An action model: `Remove`, `Empty`, `Keep`, `Dummy(generator)`, `NewUID`, `ShiftDate`, `Clean(cleaner)`; compound codes resolved by a fixed, documented rule.
@@ -86,7 +105,7 @@ Announce in 0.20's release notes that 0.21 changes seeded output. Under EffVer t
 - `--what-if` prints the effective action per attribute, with the PS3.15 code, as a Markdown table; the README section "Exactly what does dicognito do?" is generated from it.
 - Bite-sized order: generator script and table (no behaviour change, tested against T-2) → action model behind the existing handlers → switch one attribute group at a time (device identity, then contact and location, then identifiers, then descriptors) with T-2 diffs reviewed in each PR.
 
-### 0.23: safety defaults and operations
+### 0.22: safety defaults and operations (formerly 0.23)
 
 - Private attributes removed by default, with escape hatches (Q2).
 - Overlay comments and curve data removed; overlay bitmap data: follow the chosen profile (Basic removes it; a `--keep-overlays` escape hatch for viewer testing).

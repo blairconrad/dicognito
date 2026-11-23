@@ -6,6 +6,11 @@ Findings were first gathered on branch `fix/conformant-uis` (`main` plus conform
 
 ## Status updates
 
+### 2026-11-23, decisions
+
+- Q10 decided: EffVer with the output-stability policy.
+- Q11 decided: hold `main` and release it as 0.20.0 after the consistency batch. Order: complete T-0, add T-1 and as many other characterization tests as is practical, then crash fixes, then the consistency batch. The roadmap's former 0.20 and 0.21 stages are merged into one 0.20 (0.21 is struck through, not deleted), and the later stages move down one number. The 0.19.x support-branch stage is kept for need only. [06-characterization-tests.md](06-characterization-tests.md#selection-before-behaviour-changes) lists which tests are required, practical or later.
+
 ### 2026-11-22, against `main` at `b9b77ac`
 
 | Change | Where | Effect on this plan |
@@ -48,8 +53,8 @@ Details and recommendations are in [07-roadmap.md](07-roadmap.md#decisions-neede
 - **Q2** Private attributes removed by default, with escape hatches. Recommended: yes.
 - **Q3** Whole-day date shift. Recommended: yes.
 - **Q5** Batch all seeded-output changes into one pre-1.0 release. Recommended: yes.
-- **Q10** Versioning scheme. Recommended: EffVer with a written output-stability policy ([08-versioning.md](08-versioning.md)).
-- **Q11** (added 2026-11-22) `main` already changes every UID: release it soon, or hold it so the consistency batch lands in the same release? Recommended: hold, and ship crash fixes as 0.19.x from `support/0.19`.
+- ✅ **Q10** Versioning scheme. Recommended: EffVer with a written output-stability policy ([08-versioning.md](08-versioning.md)). *Decided 2026-11-23: EffVer with the output-stability policy.*
+- ✅ **Q11** (added 2026-11-22) `main` already changes every UID: release it soon, or hold it so the consistency batch lands in the same release? Recommended: hold, and ship crash fixes as 0.19.x from `support/0.19`. *Decided 2026-11-23: hold `main` and release it as 0.20.0 after the consistency batch, with characterization tests (T-0, T-1 and as many others as is practical) first.*
 
 ## Reproducing the probes
 

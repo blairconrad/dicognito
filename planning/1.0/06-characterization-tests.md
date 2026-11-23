@@ -54,3 +54,20 @@ What it does not pin down: exact output for a seed (so an accidental output chan
 2. T-1 and T-2 before any behaviour change, so every later PR shows its effect as a diff.
 3. T-3 to T-6 (empties and crashes) together with their fixes, since those fixes are safe.
 4. The remaining `xfail` tests in one PR, so the list of known defects is visible in the suite, then removed one fix at a time.
+
+*Changed 2026-11-23:* roadmap Q11 was decided as "hold `main` until the consistency batch is in, with T-0, T-1 and as many other characterization tests as is practical first". All of this happens before 0.20.0. In step 3, each test lands first as `xfail` and its fix follows in a separate PR, so the test is seen to fail before the fix.
+
+## Selection before behaviour changes
+
+Decided 2026-11-23. "Required" must be in before the first behaviour-changing PR; "practical" means the test needs only small in-memory datasets or existing fixtures, so it goes in if ready; "later" needs a fixture or a decision that does not exist yet.
+
+| Group | Tests | Status |
+|---|---|---|
+| Smoke and golden output | T-0 (complete it), T-1 | Required |
+| Coverage snapshot | T-2 | Practical: the probe exists and becomes the test |
+| Crashes and empties, as `xfail` | T-3, T-4, T-5, T-6 | Practical |
+| Relationships and dates, as `xfail` or plain | T-7, T-8, T-10, T-11, T-12, T-13, T-14, T-15 | Practical |
+| UID rules, as `xfail` or plain | T-16, T-17, T-19 | Practical |
+| Remaining behaviour, as `xfail` or plain | T-21, T-22, T-23, T-24, T-25, T-26, T-28, T-29 | Practical |
+| Needs a new fixture | T-18 (DICOMDIR with referenced instances), T-20 (same dataset written explicit and implicit VR) | Later, unless the fixture turns out to be cheap |
+| Needs a decision first | T-9 (keep gendered patient names?), T-27 (name normalization), T-30 (warn on re-anonymization), T-31 (output-directory collisions) | Later: these assert behaviour that has not been decided, so an `xfail` would encode a guess |

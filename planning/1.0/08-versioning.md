@@ -97,11 +97,13 @@ The lessons apply to dicognito under either scheme: write the output policy expl
 
 ## Recommendation
 
+✅ **Decided 2026-11-23: EffVer, with the output-stability policy below** (roadmap Q10). The first release under it is 0.20.0.
+
 Adopt EffVer, and write an output-stability policy that defines the effort levels in dicognito's terms. The policy matters more than the scheme: the same table could back SemVer if the maintainer prefers its familiarity. EffVer is recommended because dicognito's main contract is its output, and EffVer lets privacy improvements ship as meso releases without either a misleading "minor" or a disruptive "major".
 
 EffVer can be adopted now, since `0.Macro.Micro` matches how 0.x releases have been numbered: 0.19.0 and the unreleased changes both modify output and both bump the middle number, and 0.19.1 was a fix that needs no user action.
 
-*Added 2026-11-22:* the unreleased changes on `main` include the conformant-UID change (#191), which gives every object new UIDs for the same seed. Under the policy below that is a macro change, so the next release from `main` is a macro release whatever else goes into it. Roadmap decision Q11 uses this to argue for folding the consistency batch into the same release.
+*Added 2026-11-22:* the unreleased changes on `main` include the conformant-UID change (#191), which gives every object new UIDs for the same seed. Under the policy below that is a macro change, so the next release from `main` is a macro release whatever else goes into it. Roadmap decision Q11 uses this to argue for folding the consistency batch into the same release. *Q11 was decided that way on 2026-11-23: 0.20.0 carries the UID change and the consistency batch together, so incremental users meet one macro release.*
 
 ## Proposed guidance
 
@@ -161,12 +163,12 @@ If a micro release turns out to change linking values, publish a new micro relea
 
 ### Preview of upcoming output changes
 
-A Black-style `--preview` flag, enabling the next macro release's output changes ahead of time, would let incremental users test them. It costs a code path per change and is not needed while macro changes are rare and batched. Revisit after 1.0 if users ask for it. The profile engine's options (0.22) may be a better place for such switches than a separate flag.
+A Black-style `--preview` flag, enabling the next macro release's output changes ahead of time, would let incremental users test them. It costs a code path per change and is not needed while macro changes are rare and batched. Revisit after 1.0 if users ask for it. The profile engine's options (0.21, formerly 0.22) may be a better place for such switches than a separate flag.
 
 ## Effect on the rest of the plan
 
 - **"What 1.0 should mean":** "Semantic versioning" becomes "a declared versioning scheme and output-stability policy".
 - **0.20:** add the README section, the release-notes heading and the PR labels. This is a small, documentation-only PR, and it lets 0.20 itself be described in the new terms.
-- **0.21 output-change batch:** a macro event. In 0.x it is numbered 0.21.0, exactly as planned. *If roadmap Q11 is (b), it ships as part of 0.20.0 instead.*
-- **Micro releases from a support branch** (added 2026-11-22): crash fixes for input that used to fail are micro changes, so they can ship as 0.19.x from `support/0.19` while `main` carries macro changes.
+- **0.21 output-change batch:** a macro event. In 0.x it is numbered 0.21.0, exactly as planned. *Changed 2026-11-23 (roadmap Q11 decided as (b)): it ships as part of 0.20.0 instead, the one macro release before the profile engine.*
+- **Micro releases from a support branch** (added 2026-11-22): crash fixes for input that used to fail are micro changes, so they can ship as 0.19.x from `support/0.19` while `main` carries macro changes. *2026-11-23: kept for need only; the crash fixes are planned on `main` for 0.20.0, with a 0.19.x release only if a user needs one sooner.*
 - **1.0.0:** a macro release because of the API cut (Q7), but it should change no output relative to the last 0.x release. It marks the start of the stability promise and the production-stable classifier.
