@@ -1,3 +1,4 @@
+import inspect
 import logging
 import os.path
 import shutil
@@ -24,6 +25,12 @@ def setup_module():
     if os.path.isdir(data_dir):
         shutil.rmtree(data_dir)
     shutil.copytree(orig_dir, data_dir)
+
+
+def test_main_argument_defaults_to_none():
+    """Console-script entry points invoke main() with no arguments."""
+    parameter = inspect.signature(dicognito.__main__.main).parameters["main_args"]
+    assert parameter.default is None
 
 
 def test_implicit_in_place_warns_but_anonymizes(caplog):
