@@ -71,6 +71,24 @@ jobs:
           WHEEL=$(ls dist/*.whl)
           uv tool run --from "$WHEEL" dicognito --version
 
+          INPUT_DIR=$(mktemp -d)
+          OUTPUT_DIR=$(mktemp -d)
+          cp tests/orig_data/test_in_place_overwrites_files/p01_s01_s01_i01.dcm "$INPUT_DIR/"
+          uv tool run --from "$WHEEL" dicognito --seed smoke-test --output-directory "$OUTPUT_DIR" "$INPUT_DIR"
+
+          OUTPUT_FILES=("$OUTPUT_DIR"/*.dcm)
+          if [ "${#OUTPUT_FILES[@]}" -ne 1 ] || [ ! -f "${OUTPUT_FILES[0]}" ]; then
+            echo "Expected exactly one .dcm file in $OUTPUT_DIR, found: ${OUTPUT_FILES[*]}"
+            exit 1
+          fi
+          uv run --no-project --with pydicom python -c '
+          import sys
+          import pydicom
+          original = pydicom.dcmread(sys.argv[1]).PatientName
+          anonymized = pydicom.dcmread(sys.argv[2]).PatientName
+          assert original != anonymized, f"PatientName was not anonymized: {original}"
+          ' "$INPUT_DIR/p01_s01_s01_i01.dcm" "${OUTPUT_FILES[0]}"
+
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           path: dist/
