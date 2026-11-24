@@ -76,6 +76,8 @@ So one calendar day in the source becomes two days in the output, study and seri
 
 `SeriesTime` without `SeriesDate`, `AcquisitionTime` without `AcquisitionDate`, SR `TIME` content items, and every TM whose date partner is absent or named irregularly are kept while their siblings are shifted by up to 23 hours. In the probe, `StudyTime 100000 → 040000` while `SeriesTime 100200` and `AcquisitionTime 100500` stayed, so the series appears to start six hours after the study.
 
+*Added 2026-11-23:* the partner time is found by guessing its keyword, `data_element.keyword.replace("Date", "Time")` (`datetimeanonymizer.py`, `_anonymize_date_and_time`), then testing `time_name in dataset`. When the guessed keyword is not in the DICOM dictionary (for example `LastMenstrualTime`, `EthicsCommitteeApprovalEffectivenessStartTime`), the test returns False but pydicom 3 emits `UserWarning: Invalid value '<keyword>' used with the 'in' operator`. The PS3.15 expected-output test (#200) triggers 10 such warnings; real files with those dates do the same on the command line. No output change. If the whole-day shift below is adopted (Q3), the partner-time lookup is removed and the warning goes with it; if not, check the guessed keyword against pydicom's dictionary before the `in` test, as a micro fix in the 0.20 hardening list.
+
 ### 🟡 I-5 `--keep` on a time does not keep it
 
 `--keep StudyTime` keeps nothing: the `StudyDate` handler rewrites `StudyTime`. (`--keep StudyDate` keeps both, which is tested.)
