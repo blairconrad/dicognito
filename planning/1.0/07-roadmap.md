@@ -97,7 +97,9 @@ Done:
 
 ### 0.21: profile engine (formerly 0.22)
 
-- `tools/generate_ps315_table.py`: reads the innolitics JSON (or NEMA's part15 DocBook XML), pinned to a recorded DICOM edition, writes `src/dicognito/_ps315_table.py` (a committed, generated module of `{tag: {column: action}}`, plus the repeating-group and private rules). Regenerating is a deliberate PR whose diff shows the standard's changes.
+- `tools/generate_ps315_table.py`: reads NEMA's part15 DocBook XML, pinned to a recorded DICOM edition, writes `src/dicognito/_ps315_table.py` (a committed, generated module of `{tag: {column: action}}`, plus the repeating-group and private rules). Regenerating is a deliberate PR whose diff shows the standard's changes.
+  - *Changed 2026-11-24:* NEMA's XML is the primary source, not innolitics. Innolitics' `standard/` folder was last regenerated at 2024b (commit `8670abd`, 2024-04-18); their update workflow was being fixed in April 2026 but nothing newer had been published by 2026-11-24, so a table built from it would start 1.0 more than two years behind. Use innolitics as a cross-check instead: the generator's output at 2024b should match their `confidentiality_profile_attributes.json` at `8670abd`.
+  - The #200 test (`tests/test_ps315_output.py`) then takes its attribute list from the generated table, and `tests/ps315_table_2024b.json`, a one-off hand-made copy of the innolitics table with no refresh script, is deleted. The test and production then cannot drift onto different editions.
 - An action model: `Remove`, `Empty`, `Keep`, `Dummy(generator)`, `NewUID`, `ShiftDate`, `Clean(cleaner)`; compound codes resolved by a fixed, documented rule.
 - `Profile` = base table + options + overrides. Options mirror PS3.15 names. Dicognito's existing generators become the `Dummy` implementations for PN, IDs, addresses, institution; a generic VR-appropriate dummy for everything else.
 - The VR-based handlers remain as a fallback for attributes outside the table (new or private-with-known-VR), so coverage never regresses.
