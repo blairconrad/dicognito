@@ -10,7 +10,7 @@ from dicognito.anonymizer import Anonymizer
 from .expected_output import assert_matches_expected_file, describe_actions, format_entries
 
 TABLE_PATH = os.path.join(os.path.dirname(__file__), "ps315_table_2024b.json")
-EXPECTED_OUTPUT_FILE_NAME = "expected_ps315_output.json"
+SUBJECT = "ps315_output"
 
 SAMPLE_VALUES: dict[str, object] = {
     "AE": "SAMPLEAE",
@@ -55,7 +55,7 @@ def test_ps315_anonymization_matches_expected_output():
 
     actual = format_entries([describe_attribute(attribute) for attribute in sorted(attributes, key=lambda a: a["id"])])
 
-    assert_matches_expected_file(actual, EXPECTED_OUTPUT_FILE_NAME, "PS3.15 Table E.1-1 anonymization output")
+    assert_matches_expected_file(actual, SUBJECT, "PS3.15 Table E.1-1 anonymization output")
 
 
 def describe_attribute(attribute: dict[str, str]) -> dict[str, object]:

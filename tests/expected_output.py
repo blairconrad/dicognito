@@ -8,22 +8,28 @@ import pydicom
 import pytest
 from pydicom.dataset import Dataset
 
-UPDATE_VARIABLE = "DICOGNITO_UPDATE_EXPECTED_OUTPUT"
 
+def assert_matches_expected_file(actual: str, subject: str, description: str) -> None:
+    """
+    Compare actual with tests/<subject>.expected.json.
 
-def assert_matches_expected_file(actual: str, expected_file_name: str, description: str) -> None:
-    """Compare actual with the named file in tests/, or rewrite the file and fail on purpose when updating."""
-    expected_path = os.path.join(os.path.dirname(__file__), expected_file_name)
-
-    if os.environ.get(UPDATE_VARIABLE):
-        with open(expected_path, mode="w", encoding="utf-8", newline="\n") as expected_file:
-            expected_file.write(actual)
-        pytest.fail(f"Updated {expected_path}. Review the diff, then rerun without {UPDATE_VARIABLE}.")
+    On a mismatch, write actual to tests/<subject>.actual.json for comparison and fail; on a match, delete that file.
+    """
+    tests_dir = os.path.dirname(__file__)
+    expected_path = os.path.join(tests_dir, f"{subject}.expected.json")
+    actual_path = os.path.join(tests_dir, f"{subject}.actual.json")
 
     with open(expected_path, encoding="utf-8") as expected_file:
         expected = expected_file.read()
 
-    assert actual == expected, describe_differences(expected, actual, expected_file_name, description)
+    if actual == expected:
+        if os.path.exists(actual_path):
+            os.remove(actual_path)
+        return
+
+    with open(actual_path, mode="w", encoding="utf-8", newline="\n") as actual_file:
+        actual_file.write(actual)
+    pytest.fail(describe_differences(expected, actual, subject, description))
 
 
 def format_entries(entries: list[dict[str, object]]) -> str:
@@ -91,9 +97,14 @@ def serialize_scalar(value: object) -> object:
     return str(value)
 
 
-def describe_differences(expected: str, actual: str, expected_file_name: str, description: str) -> str:
-    diff = difflib.unified_diff(expected.splitlines(), actual.splitlines(), "expected", "actual", lineterm="", n=0)
+def describe_differences(expected: str, actual: str, subject: str, description: str) -> str:
+    expected_name = f"tests/{subject}.expected.json"
+    actual_name = f"tests/{subject}.actual.json"
+    diff = difflib.unified_diff(
+        expected.splitlines(), actual.splitlines(), expected_name, actual_name, lineterm="", n=0
+    )
     return (
-        f"{description} differs from tests/{expected_file_name}. "
-        "If the change is intentional, update the file (see how_to_build.md) and commit the diff.\n" + "\n".join(diff)
+        f"{description} differs from {expected_name}; the actual output is in {actual_name}. "
+        f"Compare them (for example `code --diff {expected_name} {actual_name}`) and copy intentional changes "
+        "into the expected file (see how_to_build.md).\n" + "\n".join(diff)
     )

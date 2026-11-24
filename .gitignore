@@ -5,6 +5,7 @@
 /dist/
 /src/dicognito.egg-info/
 /tests/data
+/tests/*.actual.*
 
 .pytest_cache/
 

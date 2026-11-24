@@ -6,7 +6,7 @@ from dicognito.anonymizer import Anonymizer
 from .data_for_tests import code, load_test_instance
 from .expected_output import assert_matches_expected_file, describe_actions, format_entries
 
-EXPECTED_OUTPUT_FILE_NAME = "expected_seeded_output.json"
+SUBJECT = "seeded_output"
 
 
 def test_seeded_anonymization_matches_expected_output():
@@ -14,7 +14,7 @@ def test_seeded_anonymization_matches_expected_output():
     Anonymizer(seed="golden").anonymize(anonymized)
     actual = format_entries(describe_actions(build_input(), anonymized))
 
-    assert_matches_expected_file(actual, EXPECTED_OUTPUT_FILE_NAME, "Seeded anonymization output")
+    assert_matches_expected_file(actual, SUBJECT, "Seeded anonymization output")
 
 
 def build_input() -> Dataset:
