@@ -8,16 +8,16 @@ What it does not pin down: exact output for a seed (so an accidental output chan
 
 - **Behaviour to keep:** a plain test asserting current behaviour.
 - **Known defect:** a test asserting the *desired* behaviour, marked `@pytest.mark.xfail(strict=True, reason="<item id> <short reason>")`. The project sets `xfail_strict = true`, so the test fails the build the moment the defect is fixed, which forces removing the marker in the fixing PR. This avoids characterization tests that assert a wrong value and would have to be rewritten.
-- **Output to freeze:** golden files (see T-1, T-2), regenerated only deliberately with a helper script, so output changes show up as reviewable diffs.
+- **Output to freeze:** golden files (see T-1, T-2), changed only deliberately, so output changes show up as reviewable diffs. *As built:* on a mismatch the test writes a git-ignored `.actual.json` beside the `.expected.json`, and the intended changes are copied across by hand (`how_to_build.md`).
 - A characterization test that asserts empty, absent or `None` must give a different result once the related fix lands. Each such test below says how it would change.
 
 ## Proposed tests
 
 | ID | Test | Asserts today | After the planned fix | Relates to |
 |---|---|---|---|---|
-| T-0 | `test_console_script_runs`: build the wheel, install it in a temporary environment, run `dicognito --version` | `xfail` on 0.19.0 code (exit status ≠ 0) | Passes | D-1. ✅ *Done in part in 0.19.1 (#195): CI "Smoke test wheel" step runs `dicognito --version` from the wheel, plus a unit test on the `main` signature. Remaining: one anonymization through the installed command, and the change reaching `main`* |
-| T-1 | Golden output: anonymize a rich fixture (the `load_test_instance` dataset plus SR, private and multi-valued elements) with seed `"golden"`; compare every element to a committed JSON file | Current exact output | Regenerated in the one release that batches output changes; then frozen for 1.x | 1.0 stability promise |
-| T-2 | Table E.1-1 coverage snapshot: for each attribute in the generated PS3.15 table, the outcome class (removed / emptied / changed / unchanged / sequence-walked) for populated and empty values, compared to a committed CSV (the probe in [tools/probe_table.py](tools/probe_table.py) turned into a test) | Today's 617-row outcome | Updated by every coverage PR; the diff shows exactly which attributes changed | Gap analysis |
+| T-0 | `test_console_script_runs`: build the wheel, install it in a temporary environment, run `dicognito --version` | `xfail` on 0.19.0 code (exit status ≠ 0) | Passes | D-1. ✅ *Done in part in 0.19.1 (#195): CI "Smoke test wheel" step runs `dicognito --version` from the wheel, plus a unit test on the `main` signature. Remaining: one anonymization through the installed command, and the change reaching `main`* ✅ *Completed: #203 brought it to `main`; #204 (2026-11-23) runs one anonymization through the installed command* |
+| T-1 | Golden output: anonymize a rich fixture (the `load_test_instance` dataset plus SR, private and multi-valued elements) with seed `"golden"`; compare every element to a committed JSON file | Current exact output | Regenerated in the one release that batches output changes; then frozen for 1.x | 1.0 stability promise. ✅ *Done in #205 (2026-11-23): `tests/test_seeded_output.py` against `tests/seeded_output.expected.json`, recording an action (changed, emptied, removed, added, kept) and value per element* |
+| T-2 | Table E.1-1 coverage snapshot: for each attribute in the generated PS3.15 table, the outcome class (removed / emptied / changed / unchanged / sequence-walked) for populated and empty values, compared to a committed CSV (the probe in [tools/probe_table.py](tools/probe_table.py) turned into a test) | Today's 617-row outcome | Updated by every coverage PR; the diff shows exactly which attributes changed | Gap analysis. ✅ *Done in #206 (2026-11-25): `tests/test_ps315_output.py` against `tests/ps315_output.expected.json`, recording action and exact value per attribute instead of an outcome class, from a pinned 2024b table until the generated table exists* |
 | T-3 | Empty values, parametrized over one attribute per handler and every ID attribute, for `""`, `None`, `b""`, empty sequence, empty component | `""` stays `""` for PN, UI, DA, DT, addresses, issuer, fixed values (plain tests); IDs, `InstitutionName`, `InstitutionalDepartmentName` become populated (`xfail` desired "stays empty"); `None` ID, PN component, DA component crash (`xfail` desired "stays empty, no exception") | All plain | I-6, C-2, #194 |
 | T-4 | Two empty `AccessionNumber` values in two objects stay distinct from each other (both empty) | `xfail` (both become `VENLPRZ6TMV1`) | Passes | I-6 |
 | T-5 | Unparseable dates: `UNKNOWN`, `00000000`, `20200230`, `20200102-20200105`, `["20200102", ""]` do not raise, and the original value is not retained | `xfail` (raise) | Passes | C-1 |
@@ -50,7 +50,7 @@ What it does not pin down: exact output for a seed (so an accidental output chan
 
 ## Order
 
-1. T-0 with the 0.19.1 hotfix. ✅ *Done in part (see T-0).*
+1. T-0 with the 0.19.1 hotfix. ✅ *Done in part in 0.19.1, completed in #204.*
 2. T-1 and T-2 before any behaviour change, so every later PR shows its effect as a diff. ✅ *T-1 in #205, T-2 in #206; T-0 completed in #204.*
 3. T-3 to T-6 (empties and crashes) together with their fixes, since those fixes are safe.
 4. The remaining `xfail` tests in one PR, so the list of known defects is visible in the suite, then removed one fix at a time.
@@ -63,8 +63,8 @@ Decided 2026-11-23. "Required" must be in before the first behaviour-changing PR
 
 | Group | Tests | Status |
 |---|---|---|
-| Smoke and golden output | T-0 (complete it), T-1 | Required |
-| Coverage snapshot | T-2 | Practical: the probe exists and becomes the test |
+| Smoke and golden output | T-0 (complete it), T-1 | Required. ✅ Done (#204, #205) |
+| Coverage snapshot | T-2 | Practical: the probe exists and becomes the test. ✅ Done (#206) |
 | Crashes and empties, as `xfail` | T-3, T-4, T-5, T-6 | Practical |
 | Relationships and dates, as `xfail` or plain | T-7, T-8, T-10, T-11, T-12, T-13, T-14, T-15 | Practical |
 | UID rules, as `xfail` or plain | T-16, T-17, T-19 | Practical |
