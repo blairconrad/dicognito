@@ -25,14 +25,8 @@ uv run --python 3.12 test.py
 
 ## Updating the expected anonymization output
 
-`tests/test_seeded_output.py` anonymizes a rich dataset with a fixed seed and compares the result with `tests/expected_seeded_output.json`, which lists every element of the input and output with what anonymization did to it (changed, emptied, removed, added or kept) and its resulting value. When a change is meant to alter seeded output, update that file by running the test with `DICOGNITO_UPDATE_EXPECTED_OUTPUT` set. The test rewrites the file and then fails on purpose, so the update can't pass unnoticed:
+Two tests compare anonymization output with committed expected files. `tests/test_seeded_output.py` anonymizes a rich dataset with a fixed seed and compares the result with `tests/seeded_output.expected.json`, which lists every element of the input and output with what anonymization did to it (changed, emptied, removed, added or kept) and its resulting value. `tests/test_ps315_output.py` anonymizes a minimal dataset for each attribute of DICOM PS3.15 Table E.1-1 (listed in `tests/ps315_table_2024b.json`, a pinned copy of the DICOM 2024b table that the test never downloads), once with a populated value and once with an empty one, and compares the actions and values with `tests/ps315_output.expected.json`, which has one line per attribute.
 
-```powershell
-$env:DICOGNITO_UPDATE_EXPECTED_OUTPUT = 1; uv run pytest tests/test_seeded_output.py; Remove-Item Env:DICOGNITO_UPDATE_EXPECTED_OUTPUT
-```
+When the output differs, the test writes it to a matching `.actual.json` file (for example `tests/seeded_output.actual.json`, ignored by git) and fails. Compare the two files, for example with `code --diff tests/seeded_output.expected.json tests/seeded_output.actual.json`, and copy the intended changes into the `.expected.json` file, or copy the whole `.actual.json` over it if every change is intended. The `.actual.json` file is deleted the next time the test passes.
 
-```bash
-DICOGNITO_UPDATE_EXPECTED_OUTPUT=1 uv run pytest tests/test_seeded_output.py
-```
-
-Review the diff of `tests/expected_seeded_output.json`, commit it with the change that caused it, and describe the output change in the release notes.
+Commit the updated expected files with the change that caused them, and describe the output change in the release notes.

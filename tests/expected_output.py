@@ -1,0 +1,110 @@
+import difflib
+import hashlib
+import json
+import os
+from collections.abc import Iterator
+
+import pydicom
+import pytest
+from pydicom.dataset import Dataset
+
+
+def assert_matches_expected_file(actual: str, subject: str, description: str) -> None:
+    """
+    Compare actual with tests/<subject>.expected.json.
+
+    On a mismatch, write actual to tests/<subject>.actual.json for comparison and fail; on a match, delete that file.
+    """
+    tests_dir = os.path.dirname(__file__)
+    expected_path = os.path.join(tests_dir, f"{subject}.expected.json")
+    actual_path = os.path.join(tests_dir, f"{subject}.actual.json")
+
+    with open(expected_path, encoding="utf-8") as expected_file:
+        expected = expected_file.read()
+
+    if actual == expected:
+        if os.path.exists(actual_path):
+            os.remove(actual_path)
+        return
+
+    with open(actual_path, mode="w", encoding="utf-8", newline="\n") as actual_file:
+        actual_file.write(actual)
+    pytest.fail(describe_differences(expected, actual, subject, description))
+
+
+def format_entries(entries: list[dict[str, object]]) -> str:
+    """Return a JSON array with one line per entry."""
+    return "[\n" + ",\n".join(json.dumps(entry) for entry in entries) + "\n]\n"
+
+
+def describe_actions(original: Dataset, anonymized: Dataset) -> list[dict[str, object]]:
+    """Return one entry per element of either dataset, saying what anonymization did to it."""
+    before = index_elements(original)
+    after = index_elements(anonymized)
+    return [with_action(before.get(path), after.get(path)) for path in sorted(before | after, key=path_order)]
+
+
+def index_elements(dataset: Dataset) -> dict[str, dict[str, object]]:
+    entries = (*serialize_elements(dataset.file_meta, "file_meta/"), *serialize_elements(dataset, ""))
+    return {str(entry["path"]): entry for entry in entries}
+
+
+def path_order(path: str) -> tuple[bool, list[tuple[str, int]]]:
+    components = []
+    for component in path.removeprefix("file_meta/").split("/"):
+        tag, _, index = component.partition("[")
+        components.append((tag, int(index.rstrip("]")) if index else -1))
+    return (not path.startswith("file_meta/"), components)
+
+
+def with_action(before: dict[str, object] | None, after: dict[str, object] | None) -> dict[str, object]:
+    if before is None:
+        assert after is not None
+        return {**after, "action": "added"}
+    if after is None:
+        return {"path": before["path"], "keyword": before["keyword"], "vr": before["vr"], "action": "removed"}
+    if before == after:
+        action = "kept"
+    elif after.get("value") == [] or after.get("items") == 0:
+        action = "emptied"
+    else:
+        action = "changed"
+    return {**after, "action": action}
+
+
+def serialize_elements(dataset: Dataset, path_prefix: str) -> Iterator[dict[str, object]]:
+    for element in dataset:
+        path = f"{path_prefix}{element.tag}"
+        if element.VR == "SQ":
+            yield {"path": path, "keyword": element.keyword, "vr": "SQ", "action": None, "items": len(element.value)}
+            for index, item in enumerate(element.value):
+                yield from serialize_elements(item, f"{path}[{index}]/")
+        else:
+            value = serialize_value(element)
+            yield {"path": path, "keyword": element.keyword, "vr": element.VR, "action": None, "value": value}
+
+
+def serialize_value(element: pydicom.DataElement) -> list[object]:
+    if element.VM == 0:
+        return []
+    values = list(element.value) if element.VM > 1 else [element.value]
+    return [serialize_scalar(value) for value in values]
+
+
+def serialize_scalar(value: object) -> object:
+    if isinstance(value, bytes):
+        return {"length": len(value), "sha256": hashlib.sha256(value).hexdigest()}
+    return str(value)
+
+
+def describe_differences(expected: str, actual: str, subject: str, description: str) -> str:
+    expected_name = f"tests/{subject}.expected.json"
+    actual_name = f"tests/{subject}.actual.json"
+    diff = difflib.unified_diff(
+        expected.splitlines(), actual.splitlines(), expected_name, actual_name, lineterm="", n=0
+    )
+    return (
+        f"{description} differs from {expected_name}; the actual output is in {actual_name}. "
+        f"Compare them (for example `code --diff {expected_name} {actual_name}`) and copy intentional changes "
+        "into the expected file (see how_to_build.md).\n" + "\n".join(diff)
+    )
