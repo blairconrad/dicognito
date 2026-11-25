@@ -6,6 +6,10 @@ Findings were first gathered on branch `fix/conformant-uis` (`main` plus conform
 
 ## Status updates
 
+### 2026-11-25, characterization tests T-0, T-1 and T-2 merged
+
+- #204 (T-0: the wheel smoke test anonymizes one file), #205 (T-1: seeded expected-output test) and #206 (T-2: expected output for every Table E.1-1 attribute) are on `main` at `3df9b49`. Roadmap steps 2–4 of 0.20 are done; next is step 5, the known-defect `xfail` tests (#201).
+
 ### 2026-11-23, 0.19.1 merged into `main`
 
 - `support/0.19` (tag `0.19.1`) merged into `main` by #203 (`main` at `dc343d4`). `main` now has the D-1 fix, the wheel smoke test (`dicognito --version`) and the release-from-any-branch tooling. Roadmap step 1 of 0.20 is done.

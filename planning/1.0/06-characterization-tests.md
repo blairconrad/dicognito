@@ -51,7 +51,7 @@ What it does not pin down: exact output for a seed (so an accidental output chan
 ## Order
 
 1. T-0 with the 0.19.1 hotfix. ✅ *Done in part (see T-0).*
-2. T-1 and T-2 before any behaviour change, so every later PR shows its effect as a diff.
+2. T-1 and T-2 before any behaviour change, so every later PR shows its effect as a diff. ✅ *T-1 in #205, T-2 in #206; T-0 completed in #204.*
 3. T-3 to T-6 (empties and crashes) together with their fixes, since those fixes are safe.
 4. The remaining `xfail` tests in one PR, so the list of known defects is visible in the suite, then removed one fix at a time.
 

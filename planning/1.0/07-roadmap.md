@@ -56,9 +56,9 @@ Released from `support/0.19` (tag `0.19.1`), not from `main`.
 #### Characterize (before any behaviour change)
 
 1. ✅ Merge `support/0.19` into `main` (D-1 fix and release tooling): #203, merged 2026-11-23.
-2. Complete T-0: run one anonymization through the installed command in the wheel smoke test. Issue #198.
-3. Golden-output test (T-1), with a script to regenerate the golden file. Issue #199. Generated from `main` *after* #191, so the UID change is not mistaken for a regression.
-4. Table E.1-1 coverage snapshot (T-2), with a script to regenerate it. The probe already exists. Issue #200.
+2. ✅ Complete T-0: run one anonymization through the installed command in the wheel smoke test. Issue #198. *#204, merged 2026-11-23.*
+3. ✅ Golden-output test (T-1), with a script to regenerate the golden file. Issue #199. Generated from `main` *after* #191, so the UID change is not mistaken for a regression. *#205, merged 2026-11-23: `tests/test_seeded_output.py` against `tests/seeded_output.expected.json`, recording an action (changed, emptied, removed, added, kept) and value per element.*
+4. ✅ Table E.1-1 coverage snapshot (T-2), with a script to regenerate it. The probe already exists. Issue #200. *#206, merged 2026-11-25: `tests/test_ps315_output.py` against `tests/ps315_output.expected.json`, recording action and exact value per attribute rather than only the outcome class. Neither test has a regenerate script: on a mismatch each writes a git-ignored `.actual.json` next to the expected file, to be compared and copied across (`how_to_build.md`).*
 5. Known-defect `xfail` tests: the subset listed in [06-characterization-tests.md](06-characterization-tests.md#selection-before-behaviour-changes), as many as is practical. Issue #201.
 6. Versioning policy (Q10): README section "Versioning and output stability" with the pinning guidance, and `micro`/`meso`/`macro` PR labels. Documentation only. Issue #202.
 
