@@ -42,7 +42,7 @@ What it does not pin down: exact output for a seed (so an accidental output chan
 | T-24 | `--what-if --keep PatientName` lists "Keep PatientName values" | `xfail` | Passes | I-14 |
 | T-25 | `InstitutionName` only: `InstitutionAddress` not added | `xfail` | Passes | I-13 |
 | T-26 | `PatientAddress` gets a full address, like `ReferringPhysicianAddress` | `xfail` | Passes | I-11 |
-| T-27 | Name variants `DOE^JOHN`, `doe^john`, `DOE^JOHN ` give one pseudonym | `xfail` | Passes, if decided | I-12 |
+| T-27 | Name variants `DOE^JOHN`, `doe^john`, `DOE^JOHN ` give one pseudonym | `xfail` | Passes | I-12 |
 | T-28 | `LongitudinalTemporalInformationModified` is `MODIFIED` when dates were shifted | `xfail` | Passes | I-15 |
 | T-29 | Partial and zoned DT values keep precision and suffix (`2020` → 4 characters; `…+0500` keeps `+0500`) | Plain (exists partly) | Plain | |
 | T-30 | Re-anonymizing output warns | `xfail` | Passes, if decided | I-17 |
@@ -68,6 +68,8 @@ Decided 2026-11-23. "Required" must be in before the first behaviour-changing PR
 | Crashes and empties, as `xfail` | T-3, T-4, T-5, T-6 | Practical |
 | Relationships and dates, as `xfail` or plain | T-7, T-8, T-10, T-11, T-12, T-13, T-14, T-15 | Practical |
 | UID rules, as `xfail` or plain | T-16, T-17, T-19 | Practical |
-| Remaining behaviour, as `xfail` or plain | T-21, T-22, T-23, T-24, T-25, T-26, T-28, T-29 | Practical |
-| Needs a new fixture | T-18 (DICOMDIR with referenced instances), T-20 (same dataset written explicit and implicit VR) | Later, unless the fixture turns out to be cheap |
-| Needs a decision first | T-9 (keep gendered patient names?), T-27 (name normalization), T-30 (warn on re-anonymization), T-31 (output-directory collisions) | Later: these assert behaviour that has not been decided, so an `xfail` would encode a guess |
+| Remaining behaviour, as `xfail` or plain | T-21, T-22, T-23, T-24, T-25, T-26, T-27, T-28, T-29 | Practical |
+| Needs a new fixture | T-18 (DICOMDIR with referenced instances), T-20 (same dataset written explicit and implicit VR) | Later: T-18 lands with the registry-UID fix (I-7); T-20 only if Q2 keeps private elements |
+| Needs a decision first | T-9 (Q12), T-30 (Q13), T-31 (Q14) | Later: these assert behaviour that has not been decided, so an `xfail` would encode a guess. Each is written when its question is decided |
+
+*Changed 2026-11-25:* T-27 moved from "needs a decision" to "practical": the roadmap's consistency batch already includes name normalization (I-12). The deferred tests now each have an owner in [07-roadmap.md](07-roadmap.md): a Q entry or the PR that needs them.

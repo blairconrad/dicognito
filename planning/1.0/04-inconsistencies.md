@@ -51,7 +51,7 @@ Resolution: process every file, log failures, print a failure count, exit non-ze
 
 A referring physician or operator who sees both male and female patients becomes several people, which breaks "studies by referring physician" tests and worklist filtering. The patient's own name also depends on whether `PatientSex` is present and where.
 
-Resolution: gender only the patient's own names (`PatientName`, `OtherPatientNames`, `PatientBirthName`), using the top-level `PatientSex`; use the combined list for every other PN. Alternative: drop gendering entirely. Either way, make the choice of first-name list a function of the original value and the attribute, never of the surrounding dataset.
+Resolution: gender only the patient's own names (`PatientName`, `OtherPatientNames`, `PatientBirthName`), using the top-level `PatientSex`; use the combined list for every other PN. Alternative: drop gendering entirely. Either way, make the choice of first-name list a function of the original value and the attribute, never of the surrounding dataset. *The choice is tracked as Q12 (2026-11-25).*
 
 ### 🔴 I-2 Distinct patients with the same ID from different issuers merge (**output change**)
 
@@ -132,11 +132,11 @@ It prints `Anonymizer()` defaults, so `--what-if --keep PatientName` still says 
 
 ### 💭 I-17 Re-anonymizing is not idempotent
 
-Running dicognito on its own output changes everything again and pushes dates further back. This is documented for `--in-place`. Question: should dicognito detect `DeidentificationMethod` containing `DICOGNITO` and warn? Recommendation: warn, do not skip.
+Running dicognito on its own output changes everything again and pushes dates further back. This is documented for `--in-place`. Question: should dicognito detect `DeidentificationMethod` containing `DICOGNITO` and warn? Recommendation: warn, do not skip. *Tracked as Q13 (2026-11-25).*
 
 ## Smaller observations
 
-- `--output-directory` writes a flat directory named by SOP Instance UID; a second object with the same new UID (for example duplicates in the source, or `--keep SOPInstanceUID`) silently overwrites the first.
+- `--output-directory` writes a flat directory named by SOP Instance UID; a second object with the same new UID (for example duplicates in the source, or `--keep SOPInstanceUID`) silently overwrites the first. *Tracked as Q14 (2026-11-25).*
 - Files without the `DICM` preamble marker are skipped as non-DICOM, logged only at INFO.
 - `SOPInstanceUID` cannot be kept independently of `MediaStorageSOPInstanceUID` unless both are kept (`--keep` keys on the tag, and the file meta tag differs).
 - `ValueKeeper` accepts only upper-case hex in `gggg,eeee`; `0010,001a` is rejected as an unknown keyword.

@@ -63,6 +63,9 @@ Details and recommendations are in [07-roadmap.md](07-roadmap.md#decisions-neede
 - **Q5** Batch all seeded-output changes into one pre-1.0 release. Recommended: yes.
 - ✅ **Q10** Versioning scheme. Recommended: EffVer with a written output-stability policy ([08-versioning.md](08-versioning.md)). *Decided 2026-11-23: EffVer with the output-stability policy.*
 - ✅ **Q11** (added 2026-11-22) `main` already changes every UID: release it soon, or hold it so the consistency batch lands in the same release? Recommended: hold, and ship crash fixes as 0.19.x from `support/0.19`. *Decided 2026-11-23: hold `main` and release it as 0.20.0 after the consistency batch, with characterization tests (T-0, T-1 and as many others as is practical) first.*
+- **Q12** (added 2026-11-25) Does the patient's own name stay gendered while other names stop depending on context? Recommended: yes. Blocks the I-1 fix.
+- **Q13** (added 2026-11-25) Warn when re-anonymizing dicognito output? Recommended: warn, and anonymize anyway.
+- **Q14** (added 2026-11-25) What happens when two objects would get the same output file name in `--output-directory`? Recommended: treat the second as a failed file, not overwrite.
 
 ## Reproducing the probes
 
