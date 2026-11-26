@@ -48,6 +48,7 @@ build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
+    "duty",
     "mypy",
     "pytest",
     "ruff",
