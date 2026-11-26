@@ -13,7 +13,7 @@ def make_dataset(**elements: object) -> Dataset:
     return dataset
 
 
-@pytest.mark.xfail(strict=True, raises=AssertionError, reason="I-1 a person's pseudonym depends on PatientSex")
+@pytest.mark.xfail(strict=True, raises=AssertionError, reason="a person's pseudonym depends on PatientSex")
 def test_same_referring_physician_gets_one_pseudonym_regardless_of_patient_sex():
     anonymizer = Anonymizer(seed="pseudonym consistency")
     pseudonyms = set()
@@ -32,7 +32,7 @@ def test_same_referring_physician_gets_one_pseudonym_regardless_of_patient_sex()
 @pytest.mark.xfail(
     strict=True,
     raises=AssertionError,
-    reason="I-1 a name in a sequence item does not see the top-level PatientSex",
+    reason="a name in a sequence item does not see the top-level PatientSex",
 )
 def test_same_performing_physician_gets_one_pseudonym_at_top_level_and_in_sequence_item():
     dataset = make_dataset(PatientSex="F", PerformingPhysicianName="HOUSE^GREGORY")
@@ -45,18 +45,19 @@ def test_same_performing_physician_gets_one_pseudonym_at_top_level_and_in_sequen
     assert dataset.PerformingPhysicianName == dataset.PerformedSeriesSequence[0].PerformingPhysicianName
 
 
-@pytest.mark.xfail(strict=True, raises=AssertionError, reason="I-2 every IssuerOfPatientID becomes DICOGNITO")
+@pytest.mark.xfail(strict=True, raises=AssertionError, reason="every IssuerOfPatientID becomes DICOGNITO")
 def test_same_patient_id_from_different_issuers_gives_different_patients():
     anonymizer = Anonymizer(seed="pseudonym consistency")
+    issuers = ["HOSP_A", "HOSP_B"]
     patients = set()
-    for issuer in ["HOSP_A", "HOSP_B"]:
+    for issuer in issuers:
         dataset = make_dataset(PatientID="123", IssuerOfPatientID=issuer)
 
         anonymizer.anonymize(dataset)
 
         patients.add((dataset.PatientID, dataset.IssuerOfPatientID))
 
-    assert len(patients) == 2  # noqa: PLR2004
+    assert len(patients) == len(issuers)
 
 
 def test_same_patient_id_and_issuer_gives_same_patient():
