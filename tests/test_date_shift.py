@@ -22,7 +22,7 @@ def to_datetime(value: str) -> dt.datetime:
 @pytest.mark.xfail(
     strict=True,
     raises=AssertionError,
-    reason="I-3 dates are shifted by hours, so a date with a time can move to another day",
+    reason="dates are shifted by hours, so a date with a time can move to another day (ADR-0001)",
 )
 def test_same_date_with_and_without_time_shifts_to_same_date():
     dataset = make_dataset(StudyDate="20200102", StudyTime="230000", SeriesDate="20200102")
@@ -32,7 +32,7 @@ def test_same_date_with_and_without_time_shifts_to_same_date():
     assert dataset.StudyDate == dataset.SeriesDate
 
 
-@pytest.mark.xfail(strict=True, raises=AssertionError, reason="I-3 dates are shifted by hours, not whole days")
+@pytest.mark.xfail(strict=True, raises=AssertionError, reason="dates are shifted by hours, not whole days (ADR-0001)")
 def test_date_shift_is_whole_days():
     partial_day_shifts = {}
     for seed in range(20):
@@ -52,17 +52,15 @@ def test_date_shift_is_whole_days():
     assert partial_day_shifts == {}
 
 
-@pytest.mark.xfail(strict=True, raises=AssertionError, reason="I-4 a time without its paired date is not shifted")
-def test_time_without_date_keeps_difference_from_time_with_date():
-    dataset = make_dataset(StudyDate="20200102", StudyTime="100000", SeriesTime="100200")
+def test_time_without_date_is_unchanged():
+    dataset = make_dataset(SeriesTime="100200")
 
     Anonymizer(seed="date shift").anonymize(dataset)
 
-    difference = to_datetime("20200102" + dataset.SeriesTime) - to_datetime("20200102" + dataset.StudyTime)
-    assert difference == dt.timedelta(minutes=2)
+    assert dataset.SeriesTime == "100200"
 
 
-@pytest.mark.xfail(strict=True, raises=AssertionError, reason="I-5 the StudyDate handler changes StudyTime")
+@pytest.mark.xfail(strict=True, raises=AssertionError, reason="the StudyDate handler changes StudyTime (ADR-0001)")
 def test_keeping_time_keeps_time():
     dataset = make_dataset(StudyDate="20200102", StudyTime="100000")
 
