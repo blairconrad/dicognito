@@ -22,15 +22,15 @@ What it does not pin down: exact output for a seed (so an accidental output chan
 | T-4 | Two empty `AccessionNumber` values in two objects stay distinct from each other (both empty) | `xfail` (both become `VENLPRZ6TMV1`) | Passes | I-6 |
 | T-5 | Unparseable dates: `UNKNOWN`, `00000000`, `20200230`, `20200102-20200105`, `["20200102", ""]` do not raise, and the original value is not retained | `xfail` (raise) | Passes | C-1 |
 | T-6 | CLI continues past a bad file, reports it, exits non-zero, and writes every good file | `xfail` (aborts) | Passes | C-3 |
-| T-7 | Same `ReferringPhysicianName` in a female patient's object, a male patient's object and an object without `PatientSex` gives one pseudonym | `xfail` | Passes | I-1 |
-| T-8 | Same `PerformingPhysicianName` at top level and inside a sequence item gives one pseudonym | `xfail` | Passes | I-1 |
+| T-7 | Same `ReferringPhysicianName` in a female patient's object, a male patient's object and an object without `PatientSex` gives one pseudonym | `xfail` | Passes | I-1. ✅ *Done in #208, tidied in #210.* |
+| T-8 | Same `PerformingPhysicianName` at top level and inside a sequence item gives one pseudonym | `xfail` | Passes | I-1. ✅ *Done in #208, tidied in #210.* |
 | T-9 | `PatientName` of a female patient still gets a female given name (keep gendering for the patient's own name, if that is the decision) | Passes | Passes | I-1 |
-| T-10 | Same `PatientID` with two different `IssuerOfPatientID` values gives two different (ID, issuer) pairs | `xfail` | Passes | I-2 |
-| T-11 | Same `PatientID` and issuer across objects gives the same (ID, issuer) pair | Passes | Passes | I-2 |
-| T-12 | `StudyDate` with `StudyTime` and `SeriesDate` without a time, same original date, shift to the same date | `xfail` | Passes | I-3 |
-| T-13 | Date shifts are whole days for many seeds (`(original − new).seconds == 0`) | `xfail` | Passes | I-3 |
-| T-14 | `SeriesTime` without `SeriesDate` and `StudyTime` with `StudyDate` keep their difference | `xfail` | Passes | I-4 |
-| T-15 | `--keep StudyTime` keeps `StudyTime` | `xfail` | Passes | I-5 |
+| T-10 | Same `PatientID` with two different `IssuerOfPatientID` values gives two different (ID, issuer) pairs | `xfail` | Passes | I-2. ✅ *Done in #208, tidied in #210.* |
+| T-11 | Same `PatientID` and issuer across objects gives the same (ID, issuer) pair | Passes | Passes | I-2. ✅ *Done in #208, tidied in #210.* |
+| T-12 | `StudyDate` with `StudyTime` and `SeriesDate` without a time, same original date, shift to the same date | `xfail` | Passes | I-3. ✅ *Done in #208, tidied in #210.* |
+| T-13 | Date shifts are whole days for many seeds (`(original − new).seconds == 0`) | `xfail` | Passes | I-3. ✅ *Done in #208, tidied in #210.* |
+| T-14 | A time without a date (`SeriesTime` alone) is unchanged | Passes | Passes | I-4. *Changed 2026-11-26: the original assertion, that unpaired and paired times keep their difference, is moot once dates shift by whole days and times are left alone (ADR-0001); it duplicated T-13 and T-15, and its `SeriesTime` half passes today, so it became a plain test.* ✅ *Done in #208, tidied in #210.* |
+| T-15 | `--keep StudyTime` keeps `StudyTime` | `xfail` | Passes | I-5. ✅ *Done in #208, tidied in #210.* |
 | T-16 | Registry UIDs in non-class attributes are kept (`CodingSchemeUID = 1.2.840.10008.2.16.4`, `ReferencedTransferSyntaxUIDInFile`, `ReferencedSOPClassUIDInFile`) | `xfail` | Passes | I-7 |
 | T-17 | `ManufacturerDeviceClassUID` with a non-registry value is replaced | `xfail` | Passes | I-7 |
 | T-18 | A DICOMDIR anonymized with the instances it references still resolves each `ReferencedSOPInstanceUIDInFile` to an anonymized instance, and keeps `ReferencedSOPClassUIDInFile` | `xfail` (class UID replaced) | Passes | I-7 |
@@ -66,7 +66,7 @@ Decided 2026-11-23. "Required" must be in before the first behaviour-changing PR
 | Smoke and golden output | T-0 (complete it), T-1 | Required. ✅ Done (#204, #205) |
 | Coverage snapshot | T-2 | Practical: the probe exists and becomes the test. ✅ Done (#206) |
 | Crashes and empties, as `xfail` | T-3, T-4, T-5, T-6 | Practical |
-| Relationships and dates, as `xfail` or plain | T-7, T-8, T-10, T-11, T-12, T-13, T-14, T-15 | Practical |
+| Relationships and dates, as `xfail` or plain | T-7, T-8, T-10, T-11, T-12, T-13, T-14, T-15 | Practical. ✅ Done (#208, #210; T-9 waits for Q12) |
 | UID rules, as `xfail` or plain | T-16, T-17, T-19 | Practical |
 | Remaining behaviour, as `xfail` or plain | T-21, T-22, T-23, T-24, T-25, T-26, T-27, T-28, T-29 | Practical |
 | Needs a new fixture | T-18 (DICOMDIR with referenced instances), T-20 (same dataset written explicit and implicit VR) | Later: T-18 lands with the registry-UID fix (I-7); T-20 only if Q2 keeps private elements |

@@ -6,6 +6,12 @@ Findings were first gathered on branch `fix/conformant-uis` (`main` plus conform
 
 ## Status updates
 
+### 2026-11-26, Q3 decided; relationship and date tests merged
+
+- Q3 decided: dates shift by a whole number of days and times of day are left unchanged. Recorded as ADR-0001 (#209), the first decision record in the project, under `docs/adr/` on `main`. The ADR says this follows the intent but not the letter of PS3.15 E.3.6, which says "any dates and times" shall be modified; setting `LongitudinalTemporalInformationModified` is left as a separate decision (T-28).
+- #208 (T-7, T-8, T-10 to T-15, by a contributor) and #210 (review follow-up) are on `main`. T-14 became a plain test. T-9 still waits for Q12. Issue #201 is updated.
+- Decisions from now on go in `docs/adr/` on `main`; this branch keeps the working notes.
+
 ### 2026-11-25, characterization tests T-0, T-1 and T-2 merged
 
 - #204 (T-0: the wheel smoke test anonymizes one file), #205 (T-1: seeded expected-output test) and #206 (T-2: expected output for every Table E.1-1 attribute) are on `main` at `3df9b49`. Roadmap steps 2–4 of 0.20 are done; next is step 5, the known-defect `xfail` tests (#201).
@@ -59,7 +65,7 @@ Details and recommendations are in [07-roadmap.md](07-roadmap.md#decisions-neede
 
 - **Q1** Default profile: today's behaviour documented, strict Basic, or a named profile (Basic plus options plus a short deviation list). Recommended: the named profile.
 - **Q2** Private attributes removed by default, with escape hatches. Recommended: yes.
-- **Q3** Whole-day date shift. Recommended: yes.
+- ✅ **Q3** Whole-day date shift. Recommended: yes. *Decided 2026-11-26: whole days, times of day unchanged; ADR-0001 (#209).*
 - **Q5** Batch all seeded-output changes into one pre-1.0 release. Recommended: yes.
 - ✅ **Q10** Versioning scheme. Recommended: EffVer with a written output-stability policy ([08-versioning.md](08-versioning.md)). *Decided 2026-11-23: EffVer with the output-stability policy.*
 - ✅ **Q11** (added 2026-11-22) `main` already changes every UID: release it soon, or hold it so the consistency batch lands in the same release? Recommended: hold, and ship crash fixes as 0.19.x from `support/0.19`. *Decided 2026-11-23: hold `main` and release it as 0.20.0 after the consistency batch, with characterization tests (T-0, T-1 and as many others as is practical) first.*
