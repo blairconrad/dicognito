@@ -62,6 +62,28 @@ consistent across objects.
 Additional (even custom) element handlers can be added to the `Anonymizer` via `add_element_handler` to augment
 or override builtin behavior.
 
+## Versioning and output stability
+
+Dicognito uses [Intended Effort Versioning](https://jacobtomlinson.dev/effver/) (Macro.Meso.Micro), so a release's number reflects the effort an existing user can expect to spend adopting it. While dicognito is below 1.0, versions read as `0.Macro.Micro`: a change that would be meso also bumps the middle number, so only micro releases are safe to take without reading the notes. Releases before 0.20.0 were not numbered this way. The reasoning is recorded in [ADR 2](https://github.com/blairconrad/dicognito/blob/main/docs/adr/0002-intended-effort-versioning.md).
+
+For a given input, seed and set of options, and a pydicom version within the supported range:
+
+* **Micro** releases do not change output, except for input that previously failed to anonymize. They may add support for newer Python or pydicom versions.
+* **Meso** releases may modify attributes that were previously passed through, change the values generated for attributes that are not used to link objects, and drop support for old Python or pydicom versions. They do not change identifiers, UIDs, patient names or dates.
+* **Macro** releases may change any output, including the values that link objects across runs.
+
+Each release's notes list every output change by attribute, under an "Output changes" heading. Output that changes only because pydicom changes is outside this policy.
+
+Which releases to accept depends on what you need:
+
+| You need                                                           | Pin to (example)                                                                                                                           |
+|--------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| Identical output across runs (incremental test data, golden files) | `dicognito~=0.20.0`: micro releases only. Read "Output changes" before moving to a new meso release                                        |
+| Linked output across runs, but newer privacy coverage is welcome   | From 1.0, for example `dicognito>=1.4,<2`: meso and micro releases. Linking values change only in macro releases. Not available before 1.0 |
+| The best privacy coverage, output reproducibility not needed       | No version constraint, and `pip install --upgrade dicognito`                                                                               |
+
+Dependabot and Renovate read the middle number as a SemVer minor release. If you need identical output, configure them to propose meso updates separately rather than merging them automatically.
+
 ## Exactly what does dicognito do?
 Using the default settings, dicognito will
 * Add "DICOGNITO" to DeidentificationMethod
