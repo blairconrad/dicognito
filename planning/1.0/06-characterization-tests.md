@@ -36,7 +36,7 @@ What it does not pin down: exact output for a seed (so an accidental output chan
 | T-18 | A DICOMDIR anonymized with the instances it references still resolves each `ReferencedSOPInstanceUIDInFile` to an anonymized instance, and keeps `ReferencedSOPClassUIDInFile` | `xfail` (class UID replaced) | Passes | I-7 |
 | T-19 | Cross-object references: `ReferencedSOPInstanceUID` in a presentation state or SR equals the anonymized `SOPInstanceUID` of the referenced image anonymized in the same run, including when the referencing object is processed first | Passes | Passes | Goal 1 |
 | T-20 | Private PN/UI/DA elements: explicit-VR file vs the same dataset written implicit VR give the same result | `xfail` | Passes (or moot once private elements are removed by default) | I-8 |
-| T-21 | SR content items: PNAME, UIDREF, DATE, DATETIME changed; TIME changed consistently with DATE; TEXT kept (characterize) | TEXT kept and PNAME etc. changed: plain; TIME: `xfail` | Plain | I-4 |
+| T-21 | SR content items: PNAME, UIDREF, DATE, DATETIME changed; TEXT and TIME kept (characterize) | Plain. Verify the TIME expectation when the test is written | Plain | I-4. *Changed 2026-11-26: the TIME `xfail` assumed times shift with their dates; under ADR-0001 times of day are left alone, so TIME is kept and the test is plain* |
 | T-22 | Overlay comments (60xx,4000) and curve data (50xx) are kept | Plain (characterize) | Changes when Clean Graphics or default removal lands | Gap analysis |
 | T-23 | ID affixes that leave fewer than 6 random characters are rejected (`ValueError`, CLI usage error) | `xfail` | Passes | I-9 |
 | T-24 | `--what-if --keep PatientName` lists "Keep PatientName values" | `xfail` | Passes | I-14 |
