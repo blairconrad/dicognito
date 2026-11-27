@@ -290,12 +290,32 @@ def test_writes_deflated_file_correctly():
 
 def test_conversion_error_logs_filename_and_error_type(caplog):
     input_file_name = path_to("bad.dcm")
-    with pytest.raises(SystemExit):
+    with pytest.raises(SystemExit) as exit_info:
         run_dicognito(input_file_name, "--output-dir", path_to("new_dir"))
 
+    assert exit_info.value.code != 0
     log_record = next(log for log in caplog.records if log.levelname == "ERROR")
     assert f"Error occurred while converting {input_file_name}. Aborting." in log_record.getMessage()
     assert log_record.exc_info is not None
+
+
+@pytest.mark.xfail(
+    strict=True,
+    raises=AssertionError,
+    reason="one file that fails to anonymize aborts the whole run",
+)
+def test_conversion_error_does_not_stop_other_files_from_being_written():
+    with pytest.raises(SystemExit):
+        # sources are processed in the order given, so the bad file is between the good ones
+        run_dicognito(
+            path_to("p01_s01_s01_i01.dcm"),
+            path_to("bad.dcm"),
+            path_to("p01_s01_s01_i02.dcm"),
+            "--output-dir",
+            path_to("new_dir"),
+        )
+
+    assert len(os.listdir(path_to("new_dir"))) == 2  # noqa: PLR2004
 
 
 def test_keeps_single_named_element():
