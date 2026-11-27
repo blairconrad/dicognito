@@ -1,12 +1,15 @@
 """Replace date-based values with something that obscures the patient's identity."""
 
 import datetime as dt
+import re
 from collections.abc import Iterator, MutableSequence
 from itertools import zip_longest
 
 import pydicom
 
 from dicognito.element_anonymizer import ElementAnonymizer
+
+_UTC_OFFSET_RE = re.compile(r"[+-]\d{4}$")
 
 
 class DateTimeAnonymizer(ElementAnonymizer):
@@ -91,7 +94,12 @@ class DateTimeAnonymizer(ElementAnonymizer):
 
     def _anonymize_datetime(self, data_element: pydicom.DataElement) -> None:
         datetimes = self._get_value_as_sequence(data_element)
-        data_element.value = [self._shift_datetime(datetime_value) for datetime_value in datetimes]
+        data_element.value = [self._shift_zoned_datetime(datetime_value) for datetime_value in datetimes]
+
+    def _shift_zoned_datetime(self, datetime_value: str) -> str:
+        if match := _UTC_OFFSET_RE.search(datetime_value):
+            return self._shift_datetime(datetime_value[: match.start()]) + match.group(0)
+        return self._shift_datetime(datetime_value)
 
     def _shift_datetime(self, datetime_value: str) -> str:
         datetime_format = "%Y%m%d%H"[: len(datetime_value) - 2]
