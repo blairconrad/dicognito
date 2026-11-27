@@ -48,6 +48,7 @@ build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
+    "duty",
     "mypy",
     "pytest",
     "ruff",
@@ -123,10 +124,6 @@ mypy-init-return = true
   "D103",     # not public code. No docstrings needed.
   "INP001",   # assets isn't a namespace package.
   "TRY002",   # I don't care that much about custom exceptions.
-]
-
-"test.py" = [
-  "S603",     # subprocess calls use trusted, fixed commands.
 ]
 
 "tests/**" = [

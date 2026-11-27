@@ -41,7 +41,7 @@ jobs:
           cache-suffix: ${{ matrix.python-version }}
           version: ${{ env.UV_VERSION }}
       - name: Test
-        run: uv run --python ${{ matrix.python-version }} test.py
+        run: uv run --python ${{ matrix.python-version }} duty ci
 
   package:
 
