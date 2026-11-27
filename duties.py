@@ -1,7 +1,9 @@
 """Duties for testing, formatting, linting, and type checking."""
 
+import shutil
 import sys
 from os import environ
+from pathlib import Path
 
 from duty import duty
 from duty.context import Context
@@ -42,6 +44,22 @@ def check_style(ctx: Context) -> None:
 def check_types(ctx: Context) -> None:
     """Check types."""
     ctx.run(["mypy", "src", "tests"], title="Check types.")
+
+
+@duty
+def fix(ctx: Context) -> None:
+    """Fix style problems and format files."""
+    ctx.run(["ruff", "check", "--fix"], title="Fix style.")
+    ctx.run(["ruff", "format", "."], title="Format files.")
+
+
+@duty
+def accept_output(ctx: Context) -> None:  # noqa: ARG001 - duties must accept a context
+    """Accept the output of failed expected-output tests as the new expected output."""
+    actual_files = sorted(Path("tests").glob("*.actual.json"))
+    for actual in actual_files:
+        shutil.copyfile(actual, actual.with_name(actual.name.replace(".actual.json", ".expected.json")))
+    print(f"Accepted {len(actual_files)} actual output file(s).")
 
 
 @duty(pre=[check_format, check_style, check_types])
