@@ -673,6 +673,33 @@ def test_datetime_of_various_lengths_gets_anonymized(acquisition_datetime):
     assert len(new_datetime_string) == len(acquisition_datetime)
 
 
+@pytest.mark.parametrize(
+    ("acquisition_datetime", "utc_offset"),
+    [
+        ("1947+0500", "+0500"),
+        ("194711-0430", "-0430"),
+        ("19471103+0000", "+0000"),
+        ("1947110307+0500", "+0500"),
+        ("19471103131517-0800", "-0800"),
+        ("19471103192123.123456+1400", "+1400"),
+    ],
+)
+def test_datetime_with_utc_offset_gets_anonymized_and_preserves_offset(acquisition_datetime, utc_offset):
+    base_datetime = acquisition_datetime.removesuffix(utc_offset)
+    with load_test_instance() as zoned_dataset, load_test_instance() as naive_dataset:
+        zoned_dataset.AcquisitionDateTime = acquisition_datetime
+        naive_dataset.AcquisitionDateTime = base_datetime
+
+        Anonymizer(seed="utc-offset").anonymize(zoned_dataset)
+        Anonymizer(seed="utc-offset").anonymize(naive_dataset)
+
+        new_zoned = zoned_dataset.AcquisitionDateTime
+        new_naive = naive_dataset.AcquisitionDateTime
+
+    assert new_zoned != acquisition_datetime
+    assert new_zoned == new_naive + utc_offset
+
+
 def test_multivalued_datetime_gets_anonymized():
     with load_test_instance() as dataset:
         dataset.AcquisitionDateTime = original_datetime = ["19741103121558", "19721004161558"]
